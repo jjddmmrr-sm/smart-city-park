@@ -91,7 +91,7 @@ function LiveMapPage() {
         </div>
 
         {/* Right rail */}
-        <div className="flex flex-col gap-3 min-h-0">
+        <div className="flex flex-col gap-2 min-h-0 lg:max-h-none max-h-[60vh]">
           <Panel title={selected ? "Detalle del espacio" : "Seleccione un espacio"} padded>
             {selected ? <SpaceDetail s={selected} /> : (
               <div className="text-[12px] text-muted-foreground">
@@ -100,10 +100,10 @@ function LiveMapPage() {
             )}
           </Panel>
 
-          <Panel title="Feed de alertas en vivo" className="flex-1" padded={false}>
+          <Panel title="Feed de alertas en vivo" className="flex-1 min-h-[200px]" padded={false}>
             <ul className="divide-y divide-border overflow-auto h-full">
               {feed.slice(0, 40).map((c) => (
-                <li key={c.id} className="px-3 py-2 hover:bg-surface-2 flex items-start gap-2">
+                <li key={c.id} className="px-2.5 py-1.5 hover:bg-surface-2 flex items-start gap-2">
                   <span className={"spk-dot mt-1.5 " + (c.priority === "high" ? "bg-destructive spk-pulse" : c.priority === "medium" ? "bg-warning" : "bg-muted-foreground")} />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between gap-2">
@@ -127,12 +127,12 @@ function LiveMapPage() {
 
 function KpiBare({ label, value, sub, icon }: { label: string; value: React.ReactNode; sub?: string; icon?: React.ReactNode }) {
   return (
-    <div className="bg-card px-4 py-2.5 flex items-center gap-3">
-      <div className="h-8 w-8 rounded bg-secondary grid place-items-center">{icon}</div>
+    <div className="bg-card px-2.5 py-1.5 sm:px-3 sm:py-2 flex items-center gap-2 min-w-0">
+      <div className="h-7 w-7 rounded bg-secondary grid place-items-center shrink-0">{icon}</div>
       <div className="min-w-0">
-        <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
-        <div className="text-[16px] font-semibold tabular-nums leading-tight">{value}</div>
-        {sub && <div className="text-[11px] text-muted-foreground truncate">{sub}</div>}
+        <div className="text-[9px] uppercase tracking-wider text-muted-foreground truncate">{label}</div>
+        <div className="text-[14px] sm:text-[15px] font-semibold tabular-nums leading-tight truncate">{value}</div>
+        {sub && <div className="text-[10px] text-muted-foreground truncate hidden sm:block">{sub}</div>}
       </div>
     </div>
   );
@@ -143,7 +143,7 @@ function Select({ value, onChange, options }: { value: string; onChange: (v: str
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="h-8 text-[12px] rounded-md border border-border bg-card px-2 text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+      className="h-7 text-[11px] rounded border border-border bg-card px-1.5 text-foreground focus:outline-none focus:ring-1 focus:ring-ring max-w-[140px]"
     >
       {options.map((o) => <option key={o.v} value={o.v}>{o.l}</option>)}
     </select>
