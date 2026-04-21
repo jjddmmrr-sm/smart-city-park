@@ -36,19 +36,19 @@ function LiveMapPage() {
     <div className="h-full flex flex-col">
       {/* Top KPI strip */}
       <div className="border-b border-border bg-card">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-px bg-border">
-          <KpiBare label="Ocupación" value={fmtPct(stats.occupancy, 1)} sub={`${stats.occupied}/${stats.total - stats.oos} espacios`} icon={<Activity className="h-4 w-4 text-accent" />} />
-          <KpiBare label="Disponibles" value={fmtInt(stats.available)} sub="listos para uso" icon={<MapPin className="h-4 w-4 text-success" />} />
-          <KpiBare label="Ocupados" value={fmtInt(stats.occupied)} sub="vehículos activos" icon={<Car className="h-4 w-4 text-destructive" />} />
-          <KpiBare label="Vehículos hoy" value={fmtInt(vehiclesToday)} sub="ingresos desde 06:00" icon={<Radio className="h-4 w-4 text-primary" />} />
+        <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-px bg-border">
+          <KpiBare label="Ocupación" value={fmtPct(stats.occupancy, 1)} sub={`${stats.occupied}/${stats.total - stats.oos}`} icon={<Activity className="h-4 w-4 text-accent" />} />
+          <KpiBare label="Disponibles" value={fmtInt(stats.available)} sub="listos" icon={<MapPin className="h-4 w-4 text-success" />} />
+          <KpiBare label="Ocupados" value={fmtInt(stats.occupied)} sub="activos" icon={<Car className="h-4 w-4 text-destructive" />} />
+          <KpiBare label="Vehículos hoy" value={fmtInt(vehiclesToday)} sub="desde 06:00" icon={<Radio className="h-4 w-4 text-primary" />} />
           <KpiBare label="Ingresos hoy" value={`$${fmtInt(todayRevenue)}`} sub="todas las zonas" icon={<DollarSign className="h-4 w-4 text-success" />} />
-          <KpiBare label="Alertas activas" value={fmtInt(feed.filter((f) => f.status === "pending").length)} sub="pendientes de acción" icon={<AlertTriangle className="h-4 w-4 text-warning" />} />
+          <KpiBare label="Alertas" value={fmtInt(feed.filter((f) => f.status === "pending").length)} sub="pendientes" icon={<AlertTriangle className="h-4 w-4 text-warning" />} />
         </div>
       </div>
 
-      <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-3 p-3 bg-surface">
+      <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-2 p-2 bg-surface">
         {/* MAP */}
-        <div className="relative rounded-md overflow-hidden border border-border bg-card min-h-[400px]">
+        <div className="relative rounded overflow-hidden border border-border bg-card min-h-[320px] lg:min-h-0">
           <Suspense fallback={<div className="absolute inset-0 grid place-items-center text-sm text-muted-foreground">Cargando mapa…</div>}>
             <LiveMap
               filter={{ zone, status }}
@@ -59,8 +59,8 @@ function LiveMapPage() {
           </Suspense>
 
           {/* Floating filter card */}
-          <div className="absolute top-3 left-3 z-[400] bg-card/95 backdrop-blur border border-border rounded-md shadow-sm p-2.5 flex items-center gap-2">
-            <Filter className="h-3.5 w-3.5 text-muted-foreground" />
+          <div className="absolute top-2 left-2 right-2 sm:right-auto z-[400] bg-card/95 backdrop-blur border border-border rounded shadow-sm p-1.5 flex items-center gap-1.5 flex-wrap">
+            <Filter className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
             <Select value={zone} onChange={setZone} options={[{ v: "all", l: "Todas las zonas" }, ...ZONES.map((z) => ({ v: z.zone_id, l: z.zone_name }))]} />
             <Select value={status} onChange={setStatus} options={[
               { v: "all", l: "Todos los estados" },
@@ -71,22 +71,22 @@ function LiveMapPage() {
             ]} />
             <button
               onClick={() => setHeat((h) => !h)}
-              className={"inline-flex items-center gap-1.5 px-2.5 h-8 text-[12px] rounded-md border " + (heat ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border hover:bg-secondary")}
+              className={"inline-flex items-center gap-1 px-2 h-7 text-[11px] rounded border " + (heat ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border hover:bg-secondary")}
             >
-              <Flame className="h-3.5 w-3.5" /> Mapa de calor
+              <Flame className="h-3 w-3" /> Calor
             </button>
           </div>
 
           {/* Legend */}
-          <div className="absolute bottom-3 left-3 z-[400] bg-card/95 backdrop-blur border border-border rounded-md shadow-sm px-3 py-2 flex items-center gap-3 text-[11px]">
-            <div className="flex items-center gap-1.5"><span className="spk-dot bg-success" />Disponible</div>
-            <div className="flex items-center gap-1.5"><span className="spk-dot bg-destructive" />Ocupado</div>
-            <div className="flex items-center gap-1.5"><span className="spk-dot bg-warning" />Reservado</div>
-            <div className="flex items-center gap-1.5"><span className="spk-dot bg-muted-foreground" />Fuera de servicio</div>
+          <div className="hidden sm:flex absolute bottom-2 left-2 z-[400] bg-card/95 backdrop-blur border border-border rounded shadow-sm px-2.5 py-1.5 items-center gap-2.5 text-[10px]">
+            <div className="flex items-center gap-1"><span className="spk-dot bg-success" />Disponible</div>
+            <div className="flex items-center gap-1"><span className="spk-dot bg-destructive" />Ocupado</div>
+            <div className="flex items-center gap-1"><span className="spk-dot bg-warning" />Reservado</div>
+            <div className="flex items-center gap-1"><span className="spk-dot bg-muted-foreground" />Fuera serv.</div>
           </div>
 
-          <div className="absolute top-3 right-3 z-[400] bg-card/95 backdrop-blur border border-border rounded-md shadow-sm px-2.5 py-1.5 text-[11px] text-muted-foreground inline-flex items-center gap-1.5">
-            <Layers className="h-3.5 w-3.5" /> {ZONES.length} zonas · 500 espacios
+          <div className="hidden md:inline-flex absolute bottom-2 right-2 z-[400] bg-card/95 backdrop-blur border border-border rounded shadow-sm px-2 py-1 text-[10px] text-muted-foreground items-center gap-1">
+            <Layers className="h-3 w-3" /> {ZONES.length} zonas · 500 espacios
           </div>
         </div>
 
