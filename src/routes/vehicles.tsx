@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Panel, StatusPill } from "@/components/ui-bits";
+import { FilterBar, FilterField, FilterSelect, FilterDate, FilterDivider, FilterBtn } from "@/components/FilterBar";
 import { VEHICLES, ZONES, type Vehicle } from "@/lib/data";
 import { fmtInt } from "@/lib/format";
-import { Download, Search, X } from "lucide-react";
+import { Download, Search, X, RotateCcw } from "lucide-react";
 
 export const Route = createFileRoute("/vehicles")({
   head: () => ({
@@ -21,10 +22,12 @@ function VehiclesPage() {
   const [zone, setZone] = useState("all");
   const [payment, setPayment] = useState("all");
   const [comp, setComp] = useState("all");
-  const [date, setDate] = useState("all");
+  const dates = useMemo(() => Array.from(new Set(VEHICLES.map((v) => v.date))).sort(), []);
+  const minD = dates[0] ?? "";
+  const maxD = dates[dates.length - 1] ?? "";
+  const [from, setFrom] = useState(minD);
+  const [to, setTo] = useState(maxD);
   const [selected, setSelected] = useState<Vehicle | null>(null);
-
-  const dates = useMemo(() => Array.from(new Set(VEHICLES.map((v) => v.date))).sort().reverse(), []);
 
   const rows = useMemo(() => {
     const Q = q.trim().toUpperCase();
@@ -33,11 +36,16 @@ function VehiclesPage() {
       (zone === "all" || v.zone_id === zone) &&
       (payment === "all" || v.payment === payment) &&
       (comp === "all" || v.compliance === comp) &&
-      (date === "all" || v.date === date)
+      (from === "" || v.date >= from) &&
+      (to === "" || v.date <= to)
     );
-  }, [q, zone, payment, comp, date]);
+  }, [q, zone, payment, comp, from, to]);
 
   const visible = rows.slice(0, 400);
+
+  function reset() {
+    setQ(""); setZone("all"); setPayment("all"); setComp("all"); setFrom(minD); setTo(maxD);
+  }
 
   function exportCsv() {
     const header = ["placa","marca","modelo","color","tipo","zona","calle","fecha","inicio","fin","duracion_min","pago","cumplimiento"];
@@ -53,25 +61,33 @@ function VehiclesPage() {
 
   return (
     <div className="h-full flex flex-col bg-surface">
-      <div className="px-4 py-3 border-b border-border bg-card flex items-center gap-2 flex-wrap">
-        <div className="flex-1 min-w-[220px] max-w-xs relative">
-          <Search className="h-3.5 w-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+      <FilterBar>
+        <div className="relative flex-1 min-w-[180px] max-w-xs">
+          <Search className="h-3.5 w-3.5 absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <input
             value={q} onChange={(e) => setQ(e.target.value)}
             placeholder="Buscar placa, marca, modelo…"
-            className="w-full h-8 pl-7 pr-2 text-[12px] rounded-md border border-border bg-card focus:outline-none focus:ring-2 focus:ring-ring"
+            className="w-full h-7 pl-7 pr-2 text-[12px] rounded border border-border bg-card focus:outline-none focus:ring-1 focus:ring-ring"
           />
         </div>
-        <Sel value={zone} onChange={setZone} options={[{ v: "all", l: "Todas las zonas" }, ...ZONES.map((z) => ({ v: z.zone_id, l: z.zone_name }))]} />
-        <Sel value={payment} onChange={setPayment} options={[{ v: "all", l: "Todos los pagos" }, { v: "paid", l: "Pagado" }, { v: "partial", l: "Parcial" }, { v: "unpaid", l: "No pagado" }]} />
-        <Sel value={comp} onChange={setComp} options={[{ v: "all", l: "Todo cumplimiento" }, { v: "valid", l: "Válido" }, { v: "overstay", l: "Exceso de tiempo" }, { v: "no_payment", l: "Sin pago" }]} />
-        <Sel value={date} onChange={setDate} options={[{ v: "all", l: "Todas las fechas" }, ...dates.map((d) => ({ v: d, l: d }))]} />
+        <FilterDivider />
+        <FilterField label="Desde"><FilterDate value={from} onChange={setFrom} min={minD} max={maxD} /></FilterField>
+        <FilterField label="Hasta"><FilterDate value={to} onChange={setTo} min={minD} max={maxD} /></FilterField>
+        <FilterDivider />
+        <FilterField label="Zona">
+          <FilterSelect value={zone} onChange={setZone} options={[{ v: "all", l: "Todas" }, ...ZONES.map((z) => ({ v: z.zone_id, l: z.zone_name }))]} />
+        </FilterField>
+        <FilterField label="Pago">
+          <FilterSelect value={payment} onChange={setPayment} options={[{ v: "all", l: "Todos" }, { v: "paid", l: "Pagado" }, { v: "partial", l: "Parcial" }, { v: "unpaid", l: "No pagado" }]} />
+        </FilterField>
+        <FilterField label="Cumpl.">
+          <FilterSelect value={comp} onChange={setComp} options={[{ v: "all", l: "Todo" }, { v: "valid", l: "Válido" }, { v: "overstay", l: "Exceso" }, { v: "no_payment", l: "Sin pago" }]} />
+        </FilterField>
+        <FilterBtn onClick={reset}><RotateCcw className="h-3 w-3" /> Limpiar</FilterBtn>
         <div className="flex-1" />
-        <span className="text-[12px] text-muted-foreground tabular-nums">{fmtInt(rows.length)} registros</span>
-        <button onClick={exportCsv} className="inline-flex items-center gap-1.5 h-8 px-3 text-[12px] rounded-md border border-border hover:bg-secondary">
-          <Download className="h-3.5 w-3.5" /> Exportar
-        </button>
-      </div>
+        <span className="text-[11px] text-muted-foreground tabular-nums">{fmtInt(rows.length)} registros</span>
+        <FilterBtn onClick={exportCsv} variant="primary"><Download className="h-3 w-3" /> Exportar</FilterBtn>
+      </FilterBar>
 
       <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-3 p-3">
         <Panel padded={false} className="overflow-hidden">
