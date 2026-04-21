@@ -11,8 +11,8 @@ import {
 export const Route = createFileRoute("/analytics")({
   head: () => ({
     meta: [
-      { title: "Analytics — Smart Park Chone" },
-      { name: "description", content: "Strategic analytics on parking demand, revenue and compliance over 90 days." },
+      { title: "Analítica — Smart Park Chone" },
+      { name: "description", content: "Analítica estratégica de demanda, ingresos y cumplimiento de los últimos 90 días." },
     ],
   }),
   component: AnalyticsPage,
@@ -20,6 +20,7 @@ export const Route = createFileRoute("/analytics")({
 });
 
 const ZONE_COLORS = ["#0a2540", "#00d4aa", "#f59e0b", "#ef4444", "#3b82f6"];
+const COMPLIANCE_LABEL: Record<string, string> = { valid: "Válido", overstay: "Exceso de tiempo", no_payment: "Sin pago" };
 
 function AnalyticsPage() {
   const dailyByDate = useMemo(() => {
@@ -67,7 +68,7 @@ function AnalyticsPage() {
   const compliance = useMemo(() => {
     const m: Record<string, number> = { valid: 0, overstay: 0, no_payment: 0 };
     for (const v of VEHICLES) m[v.compliance] = (m[v.compliance] ?? 0) + 1;
-    return Object.entries(m).map(([name, value]) => ({ name: name.replace("_", " "), value }));
+    return Object.entries(m).map(([name, value]) => ({ name: COMPLIANCE_LABEL[name] ?? name, value }));
   }, []);
 
   const topStreets = useMemo(() => {
@@ -80,12 +81,12 @@ function AnalyticsPage() {
     <div className="h-full overflow-auto bg-surface">
       <div className="px-4 py-4 space-y-4">
         <div>
-          <h1 className="text-[20px] font-semibold text-primary">Strategic Analytics</h1>
-          <p className="text-[12px] text-muted-foreground">90-day operational intelligence · all zones · Smart Park Chone</p>
+          <h1 className="text-[20px] font-semibold text-primary">Analítica Estratégica</h1>
+          <p className="text-[12px] text-muted-foreground">Inteligencia operativa de 90 días · todas las zonas · Smart Park Chone</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-          <Panel title="Occupancy by hour & zone" className="lg:col-span-2 h-80">
+          <Panel title="Ocupación por hora y zona" className="lg:col-span-2 h-80">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={occByZoneHour} margin={{ top: 10, right: 12, left: -10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
@@ -100,7 +101,7 @@ function AnalyticsPage() {
             </ResponsiveContainer>
           </Panel>
 
-          <Panel title="Vehicle type distribution" className="h-80">
+          <Panel title="Distribución por tipo de vehículo" className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie data={vehicleTypes} dataKey="value" nameKey="name" innerRadius={50} outerRadius={90} paddingAngle={2}>
@@ -114,7 +115,7 @@ function AnalyticsPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-          <Panel title="Daily vehicle volume by zone" className="lg:col-span-2 h-72">
+          <Panel title="Volumen diario por zona (30d)" className="lg:col-span-2 h-72">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={dailyByDate.slice(-30)} margin={{ top: 6, right: 12, left: -10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
@@ -129,7 +130,7 @@ function AnalyticsPage() {
             </ResponsiveContainer>
           </Panel>
 
-          <Panel title="Compliance vs. violations" className="h-72">
+          <Panel title="Cumplimiento vs. infracciones" className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie data={compliance} dataKey="value" nameKey="name" innerRadius={50} outerRadius={90}>
@@ -143,17 +144,17 @@ function AnalyticsPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-          <Panel title="Zone performance (90 days)" padded={false}>
+          <Panel title="Desempeño por zona (90 días)" padded={false}>
             <table className="w-full text-[12px]">
               <thead className="bg-surface-2 text-[10px] uppercase tracking-wider text-muted-foreground">
                 <tr>
-                  <th className="text-left font-medium px-3 py-2">Zone</th>
-                  <th className="text-right font-medium px-3 py-2">Spaces</th>
-                  <th className="text-right font-medium px-3 py-2">Vehicles</th>
-                  <th className="text-right font-medium px-3 py-2">Avg occ.</th>
-                  <th className="text-right font-medium px-3 py-2">Avg dur.</th>
-                  <th className="text-right font-medium px-3 py-2">Rotation</th>
-                  <th className="text-right font-medium px-3 py-2">Revenue</th>
+                  <th className="text-left font-medium px-3 py-2">Zona</th>
+                  <th className="text-right font-medium px-3 py-2">Espacios</th>
+                  <th className="text-right font-medium px-3 py-2">Vehículos</th>
+                  <th className="text-right font-medium px-3 py-2">Ocup. prom.</th>
+                  <th className="text-right font-medium px-3 py-2">Dur. prom.</th>
+                  <th className="text-right font-medium px-3 py-2">Rotación</th>
+                  <th className="text-right font-medium px-3 py-2">Ingresos</th>
                 </tr>
               </thead>
               <tbody>
@@ -164,7 +165,7 @@ function AnalyticsPage() {
                     <td className="px-3 py-2 text-right tabular-nums">{fmtInt(z.vehicles)}</td>
                     <td className="px-3 py-2 text-right tabular-nums">{z.occ}%</td>
                     <td className="px-3 py-2 text-right tabular-nums">{z.dur} min</td>
-                    <td className="px-3 py-2 text-right tabular-nums">{z.rotation}×/day</td>
+                    <td className="px-3 py-2 text-right tabular-nums">{z.rotation}×/día</td>
                     <td className="px-3 py-2 text-right tabular-nums">{fmtUSD(z.revenue)}</td>
                   </tr>
                 ))}
@@ -173,7 +174,7 @@ function AnalyticsPage() {
           </Panel>
 
           <div className="grid grid-cols-1 gap-3">
-            <Panel title="Top streets by demand (14d)" padded={false}>
+            <Panel title="Calles con mayor demanda (14d)" padded={false}>
               <table className="w-full text-[12px]">
                 <tbody>
                   {topStreets.map((s, i) => (
@@ -191,7 +192,7 @@ function AnalyticsPage() {
                 </tbody>
               </table>
             </Panel>
-            <Panel title="Revenue by payment method (14d)" className="h-56">
+            <Panel title="Ingresos por método de pago (14d)" className="h-56">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={TX_AGG.by_method} margin={{ top: 6, right: 12, left: -10, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />

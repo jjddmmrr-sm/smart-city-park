@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { STATUS_LABEL } from "@/lib/format";
 
 export function KpiTile({
   label, value, sub, accent, icon,
@@ -58,17 +59,28 @@ export function StatusPill({ status }: { status: string }) {
     high: "bg-destructive/10 text-destructive",
     medium: "bg-warning/10 text-warning",
     low: "bg-muted text-muted-foreground",
+    pagada: "bg-success/10 text-success",
+    apelada: "bg-info/10 text-info",
+    notificada: "bg-warning/10 text-warning",
+    anulada: "bg-muted text-muted-foreground",
+    pendiente: "bg-warning/10 text-warning",
+    alta: "bg-destructive/10 text-destructive",
+    media: "bg-warning/10 text-warning",
+    baja: "bg-muted text-muted-foreground",
+    activo: "bg-success/10 text-success",
+    vacaciones: "bg-warning/10 text-warning",
+    inactivo: "bg-muted text-muted-foreground",
   };
-  const label = status.replace(/_/g, " ");
+  const dotCls =
+    ["available","paid","valid","resolved","pagada","activo"].includes(status) ? "bg-success" :
+    ["occupied","unpaid","no_payment","high","alta"].includes(status) ? "bg-destructive" :
+    ["reserved","partial","overstay","pending","medium","pendiente","notificada","media","vacaciones"].includes(status) ? "bg-warning" :
+    ["reviewing","apelada"].includes(status) ? "bg-info" :
+    status === "fined" ? "bg-primary" : "bg-muted-foreground";
+  const label = STATUS_LABEL[status] ?? status.replace(/_/g, " ");
   return (
-    <span className={"inline-flex items-center gap-1.5 px-2 h-5 rounded text-[11px] font-medium capitalize " + (cfg[status] ?? "bg-muted text-muted-foreground")}>
-      <span className={"spk-dot " + (
-        status === "available" || status === "paid" || status === "valid" || status === "resolved" ? "bg-success" :
-        status === "occupied" || status === "unpaid" || status === "no_payment" || status === "high" ? "bg-destructive" :
-        status === "reserved" || status === "partial" || status === "overstay" || status === "pending" || status === "medium" ? "bg-warning" :
-        status === "reviewing" ? "bg-info" :
-        status === "fined" ? "bg-primary" : "bg-muted-foreground"
-      )} />
+    <span className={"inline-flex items-center gap-1.5 px-2 h-5 rounded text-[11px] font-medium " + (cfg[status] ?? "bg-muted text-muted-foreground")}>
+      <span className={"spk-dot " + dotCls} />
       {label}
     </span>
   );

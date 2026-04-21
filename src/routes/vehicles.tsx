@@ -8,8 +8,8 @@ import { Download, Search, X } from "lucide-react";
 export const Route = createFileRoute("/vehicles")({
   head: () => ({
     meta: [
-      { title: "Vehicles — Smart Park Chone" },
-      { name: "description", content: "Vehicle parking records, payment status and compliance." },
+      { title: "Vehículos — Smart Park Chone" },
+      { name: "description", content: "Registros de parqueo, estado de pago y cumplimiento de vehículos." },
     ],
   }),
   component: VehiclesPage,
@@ -40,14 +40,14 @@ function VehiclesPage() {
   const visible = rows.slice(0, 400);
 
   function exportCsv() {
-    const header = ["plate","brand","model","color","type","zone","street","date","start","end","duration","payment","compliance"];
+    const header = ["placa","marca","modelo","color","tipo","zona","calle","fecha","inicio","fin","duracion_min","pago","cumplimiento"];
     const csv = [header.join(",")].concat(
       rows.slice(0, 5000).map(v => [v.plate,v.brand,v.model,v.color,v.type,v.zone,v.street,v.date,v.start,v.end,v.duration,v.payment,v.compliance].join(","))
     ).join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "smartpark-vehicles.csv";
+    a.download = "smartpark-vehiculos.csv";
     a.click();
   }
 
@@ -58,18 +58,18 @@ function VehiclesPage() {
           <Search className="h-3.5 w-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <input
             value={q} onChange={(e) => setQ(e.target.value)}
-            placeholder="Search plate, brand, model…"
+            placeholder="Buscar placa, marca, modelo…"
             className="w-full h-8 pl-7 pr-2 text-[12px] rounded-md border border-border bg-card focus:outline-none focus:ring-2 focus:ring-ring"
           />
         </div>
-        <Sel value={zone} onChange={setZone} options={[{ v: "all", l: "All zones" }, ...ZONES.map((z) => ({ v: z.zone_id, l: z.zone_name }))]} />
-        <Sel value={payment} onChange={setPayment} options={[{ v: "all", l: "All payments" }, { v: "paid", l: "Paid" }, { v: "partial", l: "Partial" }, { v: "unpaid", l: "Unpaid" }]} />
-        <Sel value={comp} onChange={setComp} options={[{ v: "all", l: "All compliance" }, { v: "valid", l: "Valid" }, { v: "overstay", l: "Overstay" }, { v: "no_payment", l: "No payment" }]} />
-        <Sel value={date} onChange={setDate} options={[{ v: "all", l: "All dates" }, ...dates.map((d) => ({ v: d, l: d }))]} />
+        <Sel value={zone} onChange={setZone} options={[{ v: "all", l: "Todas las zonas" }, ...ZONES.map((z) => ({ v: z.zone_id, l: z.zone_name }))]} />
+        <Sel value={payment} onChange={setPayment} options={[{ v: "all", l: "Todos los pagos" }, { v: "paid", l: "Pagado" }, { v: "partial", l: "Parcial" }, { v: "unpaid", l: "No pagado" }]} />
+        <Sel value={comp} onChange={setComp} options={[{ v: "all", l: "Todo cumplimiento" }, { v: "valid", l: "Válido" }, { v: "overstay", l: "Exceso de tiempo" }, { v: "no_payment", l: "Sin pago" }]} />
+        <Sel value={date} onChange={setDate} options={[{ v: "all", l: "Todas las fechas" }, ...dates.map((d) => ({ v: d, l: d }))]} />
         <div className="flex-1" />
-        <span className="text-[12px] text-muted-foreground tabular-nums">{fmtInt(rows.length)} records</span>
+        <span className="text-[12px] text-muted-foreground tabular-nums">{fmtInt(rows.length)} registros</span>
         <button onClick={exportCsv} className="inline-flex items-center gap-1.5 h-8 px-3 text-[12px] rounded-md border border-border hover:bg-secondary">
-          <Download className="h-3.5 w-3.5" /> Export
+          <Download className="h-3.5 w-3.5" /> Exportar
         </button>
       </div>
 
@@ -79,9 +79,9 @@ function VehiclesPage() {
             <table className="w-full text-[12px]">
               <thead className="sticky top-0 z-10 bg-surface-2 text-[10px] uppercase tracking-wider text-muted-foreground">
                 <tr>
-                  <Th>Plate</Th><Th>Vehicle</Th><Th>Type</Th><Th>Zone</Th><Th>Street</Th>
-                  <Th>Date</Th><Th>Start</Th><Th>End</Th><Th className="text-right">Min</Th>
-                  <Th>Payment</Th><Th>Compliance</Th>
+                  <Th>Placa</Th><Th>Vehículo</Th><Th>Tipo</Th><Th>Zona</Th><Th>Calle</Th>
+                  <Th>Fecha</Th><Th>Inicio</Th><Th>Fin</Th><Th className="text-right">Min</Th>
+                  <Th>Pago</Th><Th>Cumplimiento</Th>
                 </tr>
               </thead>
               <tbody>
@@ -104,34 +104,34 @@ function VehiclesPage() {
             </table>
             {rows.length > 400 && (
               <div className="px-3 py-2 text-[11px] text-muted-foreground border-t border-border">
-                Showing first 400 of {fmtInt(rows.length)} matching records — refine filters to narrow down.
+                Mostrando los primeros 400 de {fmtInt(rows.length)} registros — refine los filtros para reducir.
               </div>
             )}
           </div>
         </Panel>
 
-        <Panel title={selected ? "Vehicle detail" : "Select a record"}>
+        <Panel title={selected ? "Detalle del vehículo" : "Seleccione un registro"}>
           {selected ? (
             <div className="space-y-2 text-[12px]">
               <div className="flex items-center justify-between">
                 <span className="text-[16px] font-mono font-semibold">{selected.plate}</span>
                 <button onClick={() => setSelected(null)} className="text-muted-foreground hover:text-foreground"><X className="h-4 w-4" /></button>
               </div>
-              <Row k="Vehicle" v={`${selected.brand} ${selected.model}`} />
+              <Row k="Vehículo" v={`${selected.brand} ${selected.model}`} />
               <Row k="Color" v={selected.color} />
-              <Row k="Type" v={selected.type} />
+              <Row k="Tipo" v={selected.type} />
               <div className="my-1 border-t border-border" />
-              <Row k="Zone" v={`${selected.zone_id} · ${selected.zone}`} />
-              <Row k="Street" v={selected.street} />
+              <Row k="Zona" v={`${selected.zone_id} · ${selected.zone}`} />
+              <Row k="Calle" v={selected.street} />
               <div className="my-1 border-t border-border" />
-              <Row k="Date" v={selected.date} />
-              <Row k="Window" v={`${selected.start} → ${selected.end}`} />
-              <Row k="Duration" v={`${selected.duration} min`} />
-              <Row k="Payment" v={<StatusPill status={selected.payment} />} />
-              <Row k="Compliance" v={<StatusPill status={selected.compliance} />} />
+              <Row k="Fecha" v={selected.date} />
+              <Row k="Ventana" v={`${selected.start} → ${selected.end}`} />
+              <Row k="Duración" v={`${selected.duration} min`} />
+              <Row k="Pago" v={<StatusPill status={selected.payment} />} />
+              <Row k="Cumplimiento" v={<StatusPill status={selected.compliance} />} />
             </div>
           ) : (
-            <div className="text-[12px] text-muted-foreground">Click a row to inspect parking record details.</div>
+            <div className="text-[12px] text-muted-foreground">Haga clic en una fila para inspeccionar el detalle del registro.</div>
           )}
         </Panel>
       </div>
