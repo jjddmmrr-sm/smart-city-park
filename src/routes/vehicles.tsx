@@ -158,13 +158,6 @@ function VehiclesPage() {
 function Th({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return <th className={"text-left font-medium px-3 py-2 " + className}>{children}</th>;
 }
-function Sel({ value, onChange, options }: { value: string; onChange: (v: string) => void; options: { v: string; l: string }[] }) {
-  return (
-    <select value={value} onChange={(e) => onChange(e.target.value)} className="h-8 text-[12px] rounded-md border border-border bg-card px-2 focus:outline-none focus:ring-2 focus:ring-ring">
-      {options.map((o) => <option key={o.v} value={o.v}>{o.l}</option>)}
-    </select>
-  );
-}
 function Row({ k, v }: { k: string; v: React.ReactNode }) {
   return <div className="flex justify-between gap-2"><span className="text-muted-foreground">{k}</span><span className="font-medium text-right truncate ml-2">{v}</span></div>;
 }

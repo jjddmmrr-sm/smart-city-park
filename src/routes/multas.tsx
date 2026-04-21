@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { KpiTile, Panel, StatusPill } from "@/components/ui-bits";
+import { FilterBar, FilterField, FilterSelect, FilterDate, FilterDivider, FilterBtn } from "@/components/FilterBar";
 import { MULTAS, MULTAS_RESUMEN, ZONES, type Multa } from "@/lib/data";
 import { fmtInt, fmtUSD, ISSUE_LABEL } from "@/lib/format";
-import { Receipt, FileWarning, AlertTriangle, CheckCircle2, X, Camera, Download } from "lucide-react";
+import { Receipt, FileWarning, AlertTriangle, CheckCircle2, X, Camera, Download, RotateCcw } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 export const Route = createFileRoute("/multas")({
@@ -32,9 +33,19 @@ function MultasPage() {
   const [q, setQ] = useState("");
   const [selected, setSelected] = useState<Multa | null>(null);
 
+  const dates = useMemo(() => Array.from(new Set(MULTAS.map((m) => m.fecha_hora.slice(0, 10)))).sort(), []);
+  const minD = dates[0] ?? "";
+  const maxD = dates[dates.length - 1] ?? "";
+  const [from, setFrom] = useState(minD);
+  const [to, setTo] = useState(maxD);
+
+  const inRange = (d: string) => (from === "" || d >= from) && (to === "" || d <= to);
+
+  const filtered = useMemo(() => MULTAS.filter((m) => inRange(m.fecha_hora.slice(0, 10))), [from, to]);
+
   const kpis = useMemo(() => {
-    const k = { total: MULTAS.length, monto: 0, pendientes: 0, pagadas: 0, apeladas: 0, alta: 0 };
-    for (const m of MULTAS) {
+    const k = { total: filtered.length, monto: 0, pendientes: 0, pagadas: 0, apeladas: 0, alta: 0 };
+    for (const m of filtered) {
       k.monto += m.valor_multa_usd;
       if (m.estado_multa === "pendiente") k.pendientes++;
       if (m.estado_multa === "pagada") k.pagadas++;
@@ -42,11 +53,11 @@ function MultasPage() {
       if (m.prioridad === "alta") k.alta++;
     }
     return k;
-  }, []);
+  }, [filtered]);
 
   const trend30 = useMemo(() => {
-    const dates = Array.from(new Set(MULTAS_RESUMEN.map(m => m.fecha))).sort().slice(-30);
-    return dates.map(d => {
+    const ds = Array.from(new Set(MULTAS_RESUMEN.filter((m) => inRange(m.fecha)).map(m => m.fecha))).sort().slice(-30);
+    return ds.map(d => {
       const day = MULTAS_RESUMEN.filter(x => x.fecha === d);
       return {
         date: d.slice(5),
@@ -56,24 +67,28 @@ function MultasPage() {
         zona_reservada: day.reduce((a, b) => a + b.multas_zona_reservada, 0),
       };
     });
-  }, []);
+  }, [from, to]);
 
   const breakdown = useMemo(() => {
     const m: Record<string, number> = { sin_pago: 0, exceso_tiempo: 0, zona_prohibida: 0, zona_reservada: 0 };
-    for (const x of MULTAS) m[x.motivo_codigo] = (m[x.motivo_codigo] ?? 0) + 1;
+    for (const x of filtered) m[x.motivo_codigo] = (m[x.motivo_codigo] ?? 0) + 1;
     return Object.entries(m).map(([k, v]) => ({ name: ISSUE_LABEL[k] ?? k, value: v, key: k }));
-  }, []);
+  }, [filtered]);
 
   const rows = useMemo(() => {
     const Q = q.trim().toUpperCase();
-    return MULTAS.filter(m =>
+    return filtered.filter(m =>
       (motivo === "all" || m.motivo_codigo === motivo) &&
       (estado === "all" || m.estado_multa === estado) &&
       (prioridad === "all" || m.prioridad === prioridad) &&
       (zona === "all" || m.zona === zona) &&
       (Q === "" || m.placa.includes(Q) || m.multa_id.includes(Q))
     );
-  }, [motivo, estado, prioridad, zona, q]);
+  }, [filtered, motivo, estado, prioridad, zona, q]);
+
+  function reset() {
+    setMotivo("all"); setEstado("all"); setPrioridad("all"); setZona("all"); setQ(""); setFrom(minD); setTo(maxD);
+  }
 
   function exportCsv() {
     const header = ["multa_id","fecha_hora","placa","zona","calle","motivo","valor_usd","controlador","evidencia","estado","prioridad"];
