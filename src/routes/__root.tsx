@@ -8,13 +8,13 @@ function NotFoundComponent() {
     <div className="flex min-h-screen items-center justify-center bg-surface px-4">
       <div className="max-w-md text-center">
         <h1 className="text-6xl font-bold text-primary tabular-nums">404</h1>
-        <h2 className="mt-3 text-base font-semibold">Página no encontrada</h2>
-        <p className="mt-1 text-sm text-muted-foreground">La página que buscas no existe.</p>
+        <h2 className="mt-3 text-base font-semibold">Page not found</h2>
+        <p className="mt-1 text-sm text-muted-foreground">The page you're looking for doesn't exist.</p>
         <Link
           to="/"
           className="mt-5 inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
         >
-          Ir al Mapa en Vivo
+          Back to Live Map
         </Link>
       </div>
     </div>
@@ -26,8 +26,16 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Smart Park Chone — Centro de Control" },
-      { name: "description", content: "Centro Inteligente de Control de Parqueo Tarifado de Chone, Ecuador. Monitoreo en tiempo real, control y analítica." },
+      { title: "Smart Park Chone — Operations Control Center" },
+      { name: "description", content: "Municipal smart parking operations control center for Chone, Ecuador. Real-time monitoring, enforcement and analytics." },
+      { property: "og:title", content: "Smart Park Chone — Operations Control Center" },
+      { name: "twitter:title", content: "Smart Park Chone — Operations Control Center" },
+      { property: "og:description", content: "Municipal smart parking operations control center for Chone, Ecuador. Real-time monitoring, enforcement and analytics." },
+      { name: "twitter:description", content: "Municipal smart parking operations control center for Chone, Ecuador. Real-time monitoring, enforcement and analytics." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/eb6edbcb-4304-4337-bf1c-8def3f5b1dee/id-preview-1804c020--cb183c80-208d-49b8-bea9-eb818b6e05fe.lovable.app-1776739443797.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/eb6edbcb-4304-4337-bf1c-8def3f5b1dee/id-preview-1804c020--cb183c80-208d-49b8-bea9-eb818b6e05fe.lovable.app-1776739443797.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:type", content: "website" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -43,7 +51,7 @@ export const Route = createRootRoute({
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
+    <html lang="en">
       <head>
         <HeadContent />
       </head>
