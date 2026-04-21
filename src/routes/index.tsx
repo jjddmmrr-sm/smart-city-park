@@ -36,19 +36,19 @@ function LiveMapPage() {
     <div className="h-full flex flex-col">
       {/* Top KPI strip */}
       <div className="border-b border-border bg-card">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-px bg-border">
-          <KpiBare label="Ocupación" value={fmtPct(stats.occupancy, 1)} sub={`${stats.occupied}/${stats.total - stats.oos} espacios`} icon={<Activity className="h-4 w-4 text-accent" />} />
-          <KpiBare label="Disponibles" value={fmtInt(stats.available)} sub="listos para uso" icon={<MapPin className="h-4 w-4 text-success" />} />
-          <KpiBare label="Ocupados" value={fmtInt(stats.occupied)} sub="vehículos activos" icon={<Car className="h-4 w-4 text-destructive" />} />
-          <KpiBare label="Vehículos hoy" value={fmtInt(vehiclesToday)} sub="ingresos desde 06:00" icon={<Radio className="h-4 w-4 text-primary" />} />
+        <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-px bg-border">
+          <KpiBare label="Ocupación" value={fmtPct(stats.occupancy, 1)} sub={`${stats.occupied}/${stats.total - stats.oos}`} icon={<Activity className="h-4 w-4 text-accent" />} />
+          <KpiBare label="Disponibles" value={fmtInt(stats.available)} sub="listos" icon={<MapPin className="h-4 w-4 text-success" />} />
+          <KpiBare label="Ocupados" value={fmtInt(stats.occupied)} sub="activos" icon={<Car className="h-4 w-4 text-destructive" />} />
+          <KpiBare label="Vehículos hoy" value={fmtInt(vehiclesToday)} sub="desde 06:00" icon={<Radio className="h-4 w-4 text-primary" />} />
           <KpiBare label="Ingresos hoy" value={`$${fmtInt(todayRevenue)}`} sub="todas las zonas" icon={<DollarSign className="h-4 w-4 text-success" />} />
-          <KpiBare label="Alertas activas" value={fmtInt(feed.filter((f) => f.status === "pending").length)} sub="pendientes de acción" icon={<AlertTriangle className="h-4 w-4 text-warning" />} />
+          <KpiBare label="Alertas" value={fmtInt(feed.filter((f) => f.status === "pending").length)} sub="pendientes" icon={<AlertTriangle className="h-4 w-4 text-warning" />} />
         </div>
       </div>
 
-      <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-3 p-3 bg-surface">
+      <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-2 p-2 bg-surface">
         {/* MAP */}
-        <div className="relative rounded-md overflow-hidden border border-border bg-card min-h-[400px]">
+        <div className="relative rounded overflow-hidden border border-border bg-card min-h-[320px] lg:min-h-0">
           <Suspense fallback={<div className="absolute inset-0 grid place-items-center text-sm text-muted-foreground">Cargando mapa…</div>}>
             <LiveMap
               filter={{ zone, status }}
@@ -59,8 +59,8 @@ function LiveMapPage() {
           </Suspense>
 
           {/* Floating filter card */}
-          <div className="absolute top-3 left-3 z-[400] bg-card/95 backdrop-blur border border-border rounded-md shadow-sm p-2.5 flex items-center gap-2">
-            <Filter className="h-3.5 w-3.5 text-muted-foreground" />
+          <div className="absolute top-2 left-2 right-2 sm:right-auto z-[400] bg-card/95 backdrop-blur border border-border rounded shadow-sm p-1.5 flex items-center gap-1.5 flex-wrap">
+            <Filter className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
             <Select value={zone} onChange={setZone} options={[{ v: "all", l: "Todas las zonas" }, ...ZONES.map((z) => ({ v: z.zone_id, l: z.zone_name }))]} />
             <Select value={status} onChange={setStatus} options={[
               { v: "all", l: "Todos los estados" },
@@ -71,27 +71,27 @@ function LiveMapPage() {
             ]} />
             <button
               onClick={() => setHeat((h) => !h)}
-              className={"inline-flex items-center gap-1.5 px-2.5 h-8 text-[12px] rounded-md border " + (heat ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border hover:bg-secondary")}
+              className={"inline-flex items-center gap-1 px-2 h-7 text-[11px] rounded border " + (heat ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border hover:bg-secondary")}
             >
-              <Flame className="h-3.5 w-3.5" /> Mapa de calor
+              <Flame className="h-3 w-3" /> Calor
             </button>
           </div>
 
           {/* Legend */}
-          <div className="absolute bottom-3 left-3 z-[400] bg-card/95 backdrop-blur border border-border rounded-md shadow-sm px-3 py-2 flex items-center gap-3 text-[11px]">
-            <div className="flex items-center gap-1.5"><span className="spk-dot bg-success" />Disponible</div>
-            <div className="flex items-center gap-1.5"><span className="spk-dot bg-destructive" />Ocupado</div>
-            <div className="flex items-center gap-1.5"><span className="spk-dot bg-warning" />Reservado</div>
-            <div className="flex items-center gap-1.5"><span className="spk-dot bg-muted-foreground" />Fuera de servicio</div>
+          <div className="hidden sm:flex absolute bottom-2 left-2 z-[400] bg-card/95 backdrop-blur border border-border rounded shadow-sm px-2.5 py-1.5 items-center gap-2.5 text-[10px]">
+            <div className="flex items-center gap-1"><span className="spk-dot bg-success" />Disponible</div>
+            <div className="flex items-center gap-1"><span className="spk-dot bg-destructive" />Ocupado</div>
+            <div className="flex items-center gap-1"><span className="spk-dot bg-warning" />Reservado</div>
+            <div className="flex items-center gap-1"><span className="spk-dot bg-muted-foreground" />Fuera serv.</div>
           </div>
 
-          <div className="absolute top-3 right-3 z-[400] bg-card/95 backdrop-blur border border-border rounded-md shadow-sm px-2.5 py-1.5 text-[11px] text-muted-foreground inline-flex items-center gap-1.5">
-            <Layers className="h-3.5 w-3.5" /> {ZONES.length} zonas · 500 espacios
+          <div className="hidden md:inline-flex absolute bottom-2 right-2 z-[400] bg-card/95 backdrop-blur border border-border rounded shadow-sm px-2 py-1 text-[10px] text-muted-foreground items-center gap-1">
+            <Layers className="h-3 w-3" /> {ZONES.length} zonas · 500 espacios
           </div>
         </div>
 
         {/* Right rail */}
-        <div className="flex flex-col gap-3 min-h-0">
+        <div className="flex flex-col gap-2 min-h-0 lg:max-h-none max-h-[60vh]">
           <Panel title={selected ? "Detalle del espacio" : "Seleccione un espacio"} padded>
             {selected ? <SpaceDetail s={selected} /> : (
               <div className="text-[12px] text-muted-foreground">
@@ -100,10 +100,10 @@ function LiveMapPage() {
             )}
           </Panel>
 
-          <Panel title="Feed de alertas en vivo" className="flex-1" padded={false}>
+          <Panel title="Feed de alertas en vivo" className="flex-1 min-h-[200px]" padded={false}>
             <ul className="divide-y divide-border overflow-auto h-full">
               {feed.slice(0, 40).map((c) => (
-                <li key={c.id} className="px-3 py-2 hover:bg-surface-2 flex items-start gap-2">
+                <li key={c.id} className="px-2.5 py-1.5 hover:bg-surface-2 flex items-start gap-2">
                   <span className={"spk-dot mt-1.5 " + (c.priority === "high" ? "bg-destructive spk-pulse" : c.priority === "medium" ? "bg-warning" : "bg-muted-foreground")} />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between gap-2">
@@ -127,12 +127,12 @@ function LiveMapPage() {
 
 function KpiBare({ label, value, sub, icon }: { label: string; value: React.ReactNode; sub?: string; icon?: React.ReactNode }) {
   return (
-    <div className="bg-card px-4 py-2.5 flex items-center gap-3">
-      <div className="h-8 w-8 rounded bg-secondary grid place-items-center">{icon}</div>
+    <div className="bg-card px-2.5 py-1.5 sm:px-3 sm:py-2 flex items-center gap-2 min-w-0">
+      <div className="h-7 w-7 rounded bg-secondary grid place-items-center shrink-0">{icon}</div>
       <div className="min-w-0">
-        <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
-        <div className="text-[16px] font-semibold tabular-nums leading-tight">{value}</div>
-        {sub && <div className="text-[11px] text-muted-foreground truncate">{sub}</div>}
+        <div className="text-[9px] uppercase tracking-wider text-muted-foreground truncate">{label}</div>
+        <div className="text-[14px] sm:text-[15px] font-semibold tabular-nums leading-tight truncate">{value}</div>
+        {sub && <div className="text-[10px] text-muted-foreground truncate hidden sm:block">{sub}</div>}
       </div>
     </div>
   );
@@ -143,7 +143,7 @@ function Select({ value, onChange, options }: { value: string; onChange: (v: str
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="h-8 text-[12px] rounded-md border border-border bg-card px-2 text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+      className="h-7 text-[11px] rounded border border-border bg-card px-1.5 text-foreground focus:outline-none focus:ring-1 focus:ring-ring max-w-[140px]"
     >
       {options.map((o) => <option key={o.v} value={o.v}>{o.l}</option>)}
     </select>

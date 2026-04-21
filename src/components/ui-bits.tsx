@@ -12,13 +12,13 @@ export function KpiTile({
     accent: "bg-accent",
   };
   return (
-    <div className="relative bg-card border border-border rounded-md px-3.5 py-2.5 flex items-center gap-3">
-      <span className={"absolute left-0 top-2 bottom-2 w-[3px] rounded-r " + (accentBar[accent ?? "primary"])} />
-      {icon && <div className="text-muted-foreground">{icon}</div>}
+    <div className="relative bg-card border border-border rounded px-2.5 py-1.5 flex items-center gap-2 min-w-0">
+      <span className={"absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r " + (accentBar[accent ?? "primary"])} />
+      {icon && <div className="text-muted-foreground shrink-0">{icon}</div>}
       <div className="min-w-0 flex-1">
-        <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">{label}</div>
-        <div className="text-[18px] font-semibold tabular-nums leading-tight text-foreground">{value}</div>
-        {sub && <div className="text-[11px] text-muted-foreground tabular-nums mt-0.5">{sub}</div>}
+        <div className="text-[9px] uppercase tracking-wider text-muted-foreground font-medium truncate">{label}</div>
+        <div className="text-[15px] sm:text-[16px] font-semibold tabular-nums leading-tight text-foreground truncate">{value}</div>
+        {sub && <div className="text-[10px] text-muted-foreground tabular-nums truncate">{sub}</div>}
       </div>
     </div>
   );
@@ -28,14 +28,14 @@ export function Panel({
   title, action, children, padded = true, className = "",
 }: { title?: ReactNode; action?: ReactNode; children: ReactNode; padded?: boolean; className?: string }) {
   return (
-    <section className={"bg-card border border-border rounded-md flex flex-col min-h-0 " + className}>
+    <section className={"bg-card border border-border rounded flex flex-col min-h-0 " + className}>
       {title && (
-        <header className="flex items-center justify-between px-3.5 h-10 border-b border-border">
-          <h3 className="text-[12px] font-semibold uppercase tracking-wider text-primary">{title}</h3>
+        <header className="flex items-center justify-between px-3 h-9 border-b border-border">
+          <h3 className="text-[11px] font-semibold uppercase tracking-wider text-primary truncate">{title}</h3>
           {action}
         </header>
       )}
-      <div className={(padded ? "p-3.5 " : "") + "flex-1 min-h-0"}>{children}</div>
+      <div className={(padded ? "p-3 " : "") + "flex-1 min-h-0"}>{children}</div>
     </section>
   );
 }

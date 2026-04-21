@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { KpiTile, Panel, StatusPill } from "@/components/ui-bits";
+import { FilterBar, FilterField, FilterSelect, FilterDate, FilterDivider, FilterBtn } from "@/components/FilterBar";
 import { MULTAS, MULTAS_RESUMEN, ZONES, type Multa } from "@/lib/data";
 import { fmtInt, fmtUSD, ISSUE_LABEL } from "@/lib/format";
-import { Receipt, FileWarning, AlertTriangle, CheckCircle2, X, Camera, Download } from "lucide-react";
+import { Receipt, FileWarning, AlertTriangle, CheckCircle2, X, Camera, Download, RotateCcw } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 export const Route = createFileRoute("/multas")({
@@ -32,9 +33,19 @@ function MultasPage() {
   const [q, setQ] = useState("");
   const [selected, setSelected] = useState<Multa | null>(null);
 
+  const dates = useMemo(() => Array.from(new Set(MULTAS.map((m) => m.fecha_hora.slice(0, 10)))).sort(), []);
+  const minD = dates[0] ?? "";
+  const maxD = dates[dates.length - 1] ?? "";
+  const [from, setFrom] = useState(minD);
+  const [to, setTo] = useState(maxD);
+
+  const inRange = (d: string) => (from === "" || d >= from) && (to === "" || d <= to);
+
+  const filtered = useMemo(() => MULTAS.filter((m) => inRange(m.fecha_hora.slice(0, 10))), [from, to]);
+
   const kpis = useMemo(() => {
-    const k = { total: MULTAS.length, monto: 0, pendientes: 0, pagadas: 0, apeladas: 0, alta: 0 };
-    for (const m of MULTAS) {
+    const k = { total: filtered.length, monto: 0, pendientes: 0, pagadas: 0, apeladas: 0, alta: 0 };
+    for (const m of filtered) {
       k.monto += m.valor_multa_usd;
       if (m.estado_multa === "pendiente") k.pendientes++;
       if (m.estado_multa === "pagada") k.pagadas++;
@@ -42,11 +53,11 @@ function MultasPage() {
       if (m.prioridad === "alta") k.alta++;
     }
     return k;
-  }, []);
+  }, [filtered]);
 
   const trend30 = useMemo(() => {
-    const dates = Array.from(new Set(MULTAS_RESUMEN.map(m => m.fecha))).sort().slice(-30);
-    return dates.map(d => {
+    const ds = Array.from(new Set(MULTAS_RESUMEN.filter((m) => inRange(m.fecha)).map(m => m.fecha))).sort().slice(-30);
+    return ds.map(d => {
       const day = MULTAS_RESUMEN.filter(x => x.fecha === d);
       return {
         date: d.slice(5),
@@ -56,24 +67,28 @@ function MultasPage() {
         zona_reservada: day.reduce((a, b) => a + b.multas_zona_reservada, 0),
       };
     });
-  }, []);
+  }, [from, to]);
 
   const breakdown = useMemo(() => {
     const m: Record<string, number> = { sin_pago: 0, exceso_tiempo: 0, zona_prohibida: 0, zona_reservada: 0 };
-    for (const x of MULTAS) m[x.motivo_codigo] = (m[x.motivo_codigo] ?? 0) + 1;
+    for (const x of filtered) m[x.motivo_codigo] = (m[x.motivo_codigo] ?? 0) + 1;
     return Object.entries(m).map(([k, v]) => ({ name: ISSUE_LABEL[k] ?? k, value: v, key: k }));
-  }, []);
+  }, [filtered]);
 
   const rows = useMemo(() => {
     const Q = q.trim().toUpperCase();
-    return MULTAS.filter(m =>
+    return filtered.filter(m =>
       (motivo === "all" || m.motivo_codigo === motivo) &&
       (estado === "all" || m.estado_multa === estado) &&
       (prioridad === "all" || m.prioridad === prioridad) &&
       (zona === "all" || m.zona === zona) &&
       (Q === "" || m.placa.includes(Q) || m.multa_id.includes(Q))
     );
-  }, [motivo, estado, prioridad, zona, q]);
+  }, [filtered, motivo, estado, prioridad, zona, q]);
+
+  function reset() {
+    setMotivo("all"); setEstado("all"); setPrioridad("all"); setZona("all"); setQ(""); setFrom(minD); setTo(maxD);
+  }
 
   function exportCsv() {
     const header = ["multa_id","fecha_hora","placa","zona","calle","motivo","valor_usd","controlador","evidencia","estado","prioridad"];
@@ -89,10 +104,19 @@ function MultasPage() {
 
   return (
     <div className="h-full flex flex-col bg-surface overflow-auto">
+      {/* Date filter bar */}
+      <FilterBar>
+        <FilterField label="Desde"><FilterDate value={from} onChange={setFrom} min={minD} max={maxD} /></FilterField>
+        <FilterField label="Hasta"><FilterDate value={to} onChange={setTo} min={minD} max={maxD} /></FilterField>
+        <FilterBtn onClick={() => { setFrom(minD); setTo(maxD); }}><RotateCcw className="h-3 w-3" /> Rango total</FilterBtn>
+        <FilterDivider />
+        <span className="text-[11px] text-muted-foreground tabular-nums">Periodo: {from || "—"} → {to || "—"}</span>
+      </FilterBar>
+
       {/* KPIs */}
-      <div className="px-4 py-3 border-b border-border bg-card">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          <KpiTile label="Multas totales (30d)" value={fmtInt(kpis.total)} sub="emitidas" icon={<Receipt className="h-4 w-4" />} accent="primary" />
+      <div className="px-3 py-2 border-b border-border bg-card">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          <KpiTile label="Multas totales" value={fmtInt(kpis.total)} sub="emitidas" icon={<Receipt className="h-4 w-4" />} accent="primary" />
           <KpiTile label="Monto recaudable" value={fmtUSD(kpis.monto)} sub="USD" icon={<FileWarning className="h-4 w-4" />} accent="accent" />
           <KpiTile label="Pendientes" value={fmtInt(kpis.pendientes)} sub="por cobrar" icon={<AlertTriangle className="h-4 w-4" />} accent="warning" />
           <KpiTile label="Pagadas" value={fmtInt(kpis.pagadas)} sub="liquidadas" icon={<CheckCircle2 className="h-4 w-4" />} accent="success" />
@@ -102,8 +126,8 @@ function MultasPage() {
       </div>
 
       {/* Charts */}
-      <div className="px-4 py-3 grid grid-cols-1 lg:grid-cols-3 gap-3">
-        <Panel title="Tendencia diaria por motivo (30d)" className="lg:col-span-2 h-64">
+      <div className="px-3 py-2 grid grid-cols-1 lg:grid-cols-3 gap-2">
+        <Panel title="Tendencia diaria por motivo" className="lg:col-span-2 h-56">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={trend30} margin={{ top: 6, right: 12, left: -10, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
@@ -119,10 +143,10 @@ function MultasPage() {
           </ResponsiveContainer>
         </Panel>
 
-        <Panel title="Distribución por motivo" className="h-64">
+        <Panel title="Distribución por motivo" className="h-56">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              <Pie data={breakdown} dataKey="value" nameKey="name" innerRadius={45} outerRadius={80} paddingAngle={2}>
+              <Pie data={breakdown} dataKey="value" nameKey="name" innerRadius={40} outerRadius={70} paddingAngle={2}>
                 {breakdown.map((b) => <Cell key={b.key} fill={MOTIVO_COLORS[b.key]} />)}
               </Pie>
               <Tooltip contentStyle={{ borderRadius: 6, fontSize: 12 }} />
@@ -133,22 +157,30 @@ function MultasPage() {
       </div>
 
       {/* Filters */}
-      <div className="px-4 py-2 border-y border-border bg-card flex items-center gap-2 flex-wrap">
+      <FilterBar>
         <input
           value={q} onChange={(e) => setQ(e.target.value)}
-          placeholder="Buscar placa o ID multa…"
-          className="h-8 px-2 text-[12px] rounded-md border border-border bg-card w-56 focus:outline-none focus:ring-2 focus:ring-ring"
+          placeholder="Buscar placa o ID…"
+          className="h-7 px-2 text-[12px] rounded border border-border bg-card w-44 focus:outline-none focus:ring-1 focus:ring-ring"
         />
-        <Sel value={motivo} onChange={setMotivo} options={[{ v: "all", l: "Todos los motivos" }, { v: "sin_pago", l: "Sin pago" }, { v: "exceso_tiempo", l: "Exceso de tiempo" }, { v: "zona_prohibida", l: "Zona prohibida" }, { v: "zona_reservada", l: "Zona reservada" }]} />
-        <Sel value={estado} onChange={setEstado} options={[{ v: "all", l: "Todos los estados" }, { v: "pendiente", l: "Pendiente" }, { v: "notificada", l: "Notificada" }, { v: "pagada", l: "Pagada" }, { v: "apelada", l: "Apelada" }, { v: "anulada", l: "Anulada" }]} />
-        <Sel value={prioridad} onChange={setPrioridad} options={[{ v: "all", l: "Todas prioridades" }, { v: "alta", l: "Alta" }, { v: "media", l: "Media" }, { v: "baja", l: "Baja" }]} />
-        <Sel value={zona} onChange={setZona} options={[{ v: "all", l: "Todas las zonas" }, ...ZONES.map(z => ({ v: z.zone_name, l: z.zone_name }))]} />
+        <FilterDivider />
+        <FilterField label="Motivo">
+          <FilterSelect value={motivo} onChange={setMotivo} options={[{ v: "all", l: "Todos" }, { v: "sin_pago", l: "Sin pago" }, { v: "exceso_tiempo", l: "Exceso tiempo" }, { v: "zona_prohibida", l: "Z. prohibida" }, { v: "zona_reservada", l: "Z. reservada" }]} />
+        </FilterField>
+        <FilterField label="Estado">
+          <FilterSelect value={estado} onChange={setEstado} options={[{ v: "all", l: "Todos" }, { v: "pendiente", l: "Pendiente" }, { v: "notificada", l: "Notificada" }, { v: "pagada", l: "Pagada" }, { v: "apelada", l: "Apelada" }, { v: "anulada", l: "Anulada" }]} />
+        </FilterField>
+        <FilterField label="Prioridad">
+          <FilterSelect value={prioridad} onChange={setPrioridad} options={[{ v: "all", l: "Todas" }, { v: "alta", l: "Alta" }, { v: "media", l: "Media" }, { v: "baja", l: "Baja" }]} />
+        </FilterField>
+        <FilterField label="Zona">
+          <FilterSelect value={zona} onChange={setZona} options={[{ v: "all", l: "Todas" }, ...ZONES.map(z => ({ v: z.zone_name, l: z.zone_name }))]} />
+        </FilterField>
+        <FilterBtn onClick={reset}><RotateCcw className="h-3 w-3" /> Limpiar</FilterBtn>
         <div className="flex-1" />
-        <span className="text-[12px] text-muted-foreground tabular-nums">{fmtInt(rows.length)} multas</span>
-        <button onClick={exportCsv} className="inline-flex items-center gap-1.5 h-8 px-3 text-[12px] rounded-md border border-border hover:bg-secondary">
-          <Download className="h-3.5 w-3.5" /> Exportar
-        </button>
-      </div>
+        <span className="text-[11px] text-muted-foreground tabular-nums">{fmtInt(rows.length)} multas</span>
+        <FilterBtn onClick={exportCsv} variant="primary"><Download className="h-3 w-3" /> Exportar</FilterBtn>
+      </FilterBar>
 
       {/* Table + detail */}
       <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-3 p-3">
@@ -226,13 +258,6 @@ function MultasPage() {
 
 function Th({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return <th className={"text-left font-medium px-3 py-2 " + className}>{children}</th>;
-}
-function Sel({ value, onChange, options }: { value: string; onChange: (v: string) => void; options: { v: string; l: string }[] }) {
-  return (
-    <select value={value} onChange={(e) => onChange(e.target.value)} className="h-8 text-[12px] rounded-md border border-border bg-card px-2">
-      {options.map(o => <option key={o.v} value={o.v}>{o.l}</option>)}
-    </select>
-  );
 }
 function Row({ k, v }: { k: string; v: React.ReactNode }) {
   return <div className="flex justify-between gap-2"><span className="text-muted-foreground">{k}</span><span className="font-medium text-right truncate ml-2">{v}</span></div>;
