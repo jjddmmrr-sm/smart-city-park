@@ -3,14 +3,14 @@ import { useMemo, useState } from "react";
 import { Panel, StatusPill, KpiTile } from "@/components/ui-bits";
 import { useSim } from "@/lib/sim";
 import { ZONES, type EnforcementCase } from "@/lib/data";
-import { fmtInt } from "@/lib/format";
+import { fmtInt, ISSUE_LABEL } from "@/lib/format";
 import { AlertTriangle, ShieldCheck, Timer, X, FileWarning } from "lucide-react";
 
 export const Route = createFileRoute("/enforcement")({
   head: () => ({
     meta: [
-      { title: "Enforcement — Smart Park Chone" },
-      { name: "description", content: "Overstay and unpaid case queue with priority and status workflows." },
+      { title: "Cumplimiento — Smart Park Chone" },
+      { name: "description", content: "Cola de casos por exceso de tiempo y sin pago con prioridad y flujo de estados." },
     ],
   }),
   component: EnforcementPage,
@@ -46,22 +46,22 @@ function EnforcementPage() {
     <div className="h-full flex flex-col bg-surface">
       <div className="px-4 py-3 border-b border-border bg-card">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          <KpiTile label="Total cases" value={fmtInt(counts.total)} sub="last 14 days" icon={<FileWarning className="h-4 w-4" />} accent="primary" />
-          <KpiTile label="Pending" value={fmtInt(counts.pending)} sub="awaiting action" icon={<AlertTriangle className="h-4 w-4" />} accent="warning" />
-          <KpiTile label="Reviewing" value={fmtInt(counts.reviewing)} sub="being processed" accent="accent" />
-          <KpiTile label="Fined" value={fmtInt(counts.fined)} sub="penalty issued" accent="primary" />
-          <KpiTile label="High priority" value={fmtInt(counts.high)} sub="immediate" icon={<Timer className="h-4 w-4" />} accent="destructive" />
-          <KpiTile label="Resolved" value={fmtInt(counts.resolved)} sub="closed" icon={<ShieldCheck className="h-4 w-4" />} accent="success" />
+          <KpiTile label="Casos totales" value={fmtInt(counts.total)} sub="últimos 14 días" icon={<FileWarning className="h-4 w-4" />} accent="primary" />
+          <KpiTile label="Pendientes" value={fmtInt(counts.pending)} sub="esperando acción" icon={<AlertTriangle className="h-4 w-4" />} accent="warning" />
+          <KpiTile label="En revisión" value={fmtInt(counts.reviewing)} sub="en proceso" accent="accent" />
+          <KpiTile label="Multados" value={fmtInt(counts.fined)} sub="penalidad emitida" accent="primary" />
+          <KpiTile label="Alta prioridad" value={fmtInt(counts.high)} sub="atención inmediata" icon={<Timer className="h-4 w-4" />} accent="destructive" />
+          <KpiTile label="Resueltos" value={fmtInt(counts.resolved)} sub="cerrados" icon={<ShieldCheck className="h-4 w-4" />} accent="success" />
         </div>
       </div>
 
       <div className="px-4 py-2 border-b border-border bg-card flex items-center gap-2 flex-wrap">
-        <Sel value={issue} onChange={setIssue} options={[{ v: "all", l: "All issues" }, { v: "overstay", l: "Overstay" }, { v: "no_payment", l: "No payment" }]} />
-        <Sel value={status} onChange={setStatus} options={[{ v: "all", l: "All statuses" }, { v: "pending", l: "Pending" }, { v: "reviewing", l: "Reviewing" }, { v: "fined", l: "Fined" }, { v: "resolved", l: "Resolved" }]} />
-        <Sel value={priority} onChange={setPriority} options={[{ v: "all", l: "All priorities" }, { v: "high", l: "High" }, { v: "medium", l: "Medium" }, { v: "low", l: "Low" }]} />
-        <Sel value={zone} onChange={setZone} options={[{ v: "all", l: "All zones" }, ...ZONES.map((z) => ({ v: z.zone_id, l: z.zone_name }))]} />
+        <Sel value={issue} onChange={setIssue} options={[{ v: "all", l: "Todos los motivos" }, { v: "overstay", l: "Exceso de tiempo" }, { v: "no_payment", l: "Sin pago" }]} />
+        <Sel value={status} onChange={setStatus} options={[{ v: "all", l: "Todos los estados" }, { v: "pending", l: "Pendiente" }, { v: "reviewing", l: "En revisión" }, { v: "fined", l: "Multado" }, { v: "resolved", l: "Resuelto" }]} />
+        <Sel value={priority} onChange={setPriority} options={[{ v: "all", l: "Todas prioridades" }, { v: "high", l: "Alta" }, { v: "medium", l: "Media" }, { v: "low", l: "Baja" }]} />
+        <Sel value={zone} onChange={setZone} options={[{ v: "all", l: "Todas las zonas" }, ...ZONES.map((z) => ({ v: z.zone_id, l: z.zone_name }))]} />
         <div className="flex-1" />
-        <span className="text-[12px] text-muted-foreground tabular-nums">{fmtInt(rows.length)} cases</span>
+        <span className="text-[12px] text-muted-foreground tabular-nums">{fmtInt(rows.length)} casos</span>
       </div>
 
       <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-3 p-3">
@@ -70,8 +70,8 @@ function EnforcementPage() {
             <table className="w-full text-[12px]">
               <thead className="sticky top-0 z-10 bg-surface-2 text-[10px] uppercase tracking-wider text-muted-foreground">
                 <tr>
-                  <Th>Case</Th><Th>Date</Th><Th>Detected</Th><Th>Plate</Th><Th>Zone</Th>
-                  <Th>Street</Th><Th>Issue</Th><Th>Priority</Th><Th>Status</Th>
+                  <Th>Caso</Th><Th>Fecha</Th><Th>Detectado</Th><Th>Placa</Th><Th>Zona</Th>
+                  <Th>Calle</Th><Th>Motivo</Th><Th>Prioridad</Th><Th>Estado</Th>
                 </tr>
               </thead>
               <tbody>
@@ -83,7 +83,7 @@ function EnforcementPage() {
                     <td className="px-3 py-1.5 font-mono font-medium">{c.plate}</td>
                     <td className="px-3 py-1.5">{c.zone}</td>
                     <td className="px-3 py-1.5 text-muted-foreground truncate max-w-[180px]">{c.street}</td>
-                    <td className="px-3 py-1.5 capitalize">{c.issue.replace("_", " ")}</td>
+                    <td className="px-3 py-1.5">{ISSUE_LABEL[c.issue] ?? c.issue}</td>
                     <td className="px-3 py-1.5"><StatusPill status={c.priority} /></td>
                     <td className="px-3 py-1.5"><StatusPill status={c.status} /></td>
                   </tr>
@@ -93,31 +93,31 @@ function EnforcementPage() {
           </div>
         </Panel>
 
-        <Panel title={selected ? "Case detail" : "Select a case"}>
+        <Panel title={selected ? "Detalle del caso" : "Seleccione un caso"}>
           {selected ? (
             <div className="space-y-2 text-[12px]">
               <div className="flex items-center justify-between">
                 <span className="text-[14px] font-mono font-semibold">{selected.id}</span>
                 <button onClick={() => setSelected(null)} className="text-muted-foreground hover:text-foreground"><X className="h-4 w-4" /></button>
               </div>
-              <Row k="Plate" v={<span className="font-mono">{selected.plate}</span>} />
-              <Row k="Zone" v={`${selected.zone_id} · ${selected.zone}`} />
-              <Row k="Street" v={selected.street} />
-              <Row k="Date" v={selected.date} />
-              <Row k="Detected" v={selected.detected} />
-              <Row k="Issue" v={<span className="capitalize">{selected.issue.replace("_", " ")}</span>} />
-              <Row k="Priority" v={<StatusPill status={selected.priority} />} />
-              <Row k="Status" v={<StatusPill status={selected.status} />} />
+              <Row k="Placa" v={<span className="font-mono">{selected.plate}</span>} />
+              <Row k="Zona" v={`${selected.zone_id} · ${selected.zone}`} />
+              <Row k="Calle" v={selected.street} />
+              <Row k="Fecha" v={selected.date} />
+              <Row k="Detectado" v={selected.detected} />
+              <Row k="Motivo" v={ISSUE_LABEL[selected.issue] ?? selected.issue} />
+              <Row k="Prioridad" v={<StatusPill status={selected.priority} />} />
+              <Row k="Estado" v={<StatusPill status={selected.status} />} />
               <div className="my-2 border-t border-border" />
               <div className="grid grid-cols-2 gap-2 pt-1">
-                <button className="h-8 text-[12px] rounded-md border border-border hover:bg-secondary">Mark reviewing</button>
-                <button className="h-8 text-[12px] rounded-md bg-primary text-primary-foreground hover:bg-primary/90">Issue fine</button>
-                <button className="h-8 text-[12px] rounded-md border border-border hover:bg-secondary">Resolve</button>
-                <button className="h-8 text-[12px] rounded-md border border-border hover:bg-secondary">Dispatch agent</button>
+                <button className="h-8 text-[12px] rounded-md border border-border hover:bg-secondary">Marcar en revisión</button>
+                <button className="h-8 text-[12px] rounded-md bg-primary text-primary-foreground hover:bg-primary/90">Emitir multa</button>
+                <button className="h-8 text-[12px] rounded-md border border-border hover:bg-secondary">Resolver</button>
+                <button className="h-8 text-[12px] rounded-md border border-border hover:bg-secondary">Despachar agente</button>
               </div>
             </div>
           ) : (
-            <div className="text-[12px] text-muted-foreground">Click any case to inspect details and trigger workflows.</div>
+            <div className="text-[12px] text-muted-foreground">Haga clic en cualquier caso para inspeccionar el detalle y disparar acciones.</div>
           )}
         </Panel>
       </div>

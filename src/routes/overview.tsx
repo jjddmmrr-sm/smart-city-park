@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Panel, KpiTile, StatusPill } from "@/components/ui-bits";
 import { useSim, useLiveStats } from "@/lib/sim";
-import { DAILY, HOURLY, ZONES, LATEST_DATE } from "@/lib/data";
-import { fmtInt, fmtUSD, fmtPct } from "@/lib/format";
+import { DAILY, HOURLY, ZONES, LATEST_DATE, MULTAS_RESUMEN } from "@/lib/data";
+import { fmtInt, fmtUSD, fmtPct, ISSUE_LABEL } from "@/lib/format";
 import {
-  Activity, AlertTriangle, Car, DollarSign, MapPin, ShieldAlert, Timer, TrendingUp,
+  Activity, AlertTriangle, Car, DollarSign, MapPin, ShieldAlert, Timer, TrendingUp, Receipt,
 } from "lucide-react";
 import {
   Area, AreaChart, Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis,
@@ -14,8 +14,8 @@ import { useMemo } from "react";
 export const Route = createFileRoute("/overview")({
   head: () => ({
     meta: [
-      { title: "Overview — Smart Park Chone" },
-      { name: "description", content: "Executive overview of Chone municipal parking operations." },
+      { title: "Resumen General — Smart Park Chone" },
+      { name: "description", content: "Resumen ejecutivo de las operaciones de parqueo municipal de Chone." },
     ],
   }),
   component: OverviewPage,
@@ -41,6 +41,13 @@ function OverviewPage() {
   );
   const avgDur = Math.round(todayTotals.dur / Math.max(todayTotals.weight, 1));
 
+  const multasHoy = useMemo(() => {
+    const dates = Array.from(new Set(MULTAS_RESUMEN.map(m => m.fecha))).sort();
+    const last = dates[dates.length - 1];
+    return MULTAS_RESUMEN.filter(m => m.fecha === last)
+      .reduce((acc, m) => { acc.total += m.total_multas; acc.monto += m.monto_total_usd; return acc; }, { total: 0, monto: 0 });
+  }, []);
+
   const hourlyAll = useMemo(() => {
     const by: Record<number, { hour: string; occupancy: number; entries: number }> = {};
     for (const h of HOURLY) {
@@ -64,33 +71,31 @@ function OverviewPage() {
   return (
     <div className="h-full overflow-auto bg-surface">
       <div className="px-4 py-4 space-y-4">
-        {/* Section header */}
         <div className="flex items-end justify-between">
           <div>
-            <h1 className="text-[20px] font-semibold text-primary">Executive Overview</h1>
-            <p className="text-[12px] text-muted-foreground">Operational summary for {LATEST_DATE} · live signal · all zones</p>
+            <h1 className="text-[20px] font-semibold text-primary">Resumen General Ejecutivo</h1>
+            <p className="text-[12px] text-muted-foreground">Resumen operativo del {LATEST_DATE} · señal en vivo · todas las zonas</p>
           </div>
           <Link to="/" className="text-[12px] inline-flex items-center gap-1.5 px-3 h-8 rounded-md bg-primary text-primary-foreground hover:bg-primary/90">
-            Open Live Map
+            Abrir Mapa en Vivo
           </Link>
         </div>
 
-        {/* KPIs */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-          <KpiTile label="Total spaces" value={fmtInt(stats.total)} sub="city-wide inventory" icon={<MapPin className="h-4 w-4" />} accent="primary" />
-          <KpiTile label="Occupied now" value={fmtInt(stats.occupied)} sub={`${fmtPct(stats.occupancy, 1)} occupancy`} icon={<Car className="h-4 w-4" />} accent="destructive" />
-          <KpiTile label="Available now" value={fmtInt(stats.available)} sub="ready to use" icon={<Activity className="h-4 w-4" />} accent="success" />
-          <KpiTile label="Vehicles today" value={fmtInt(todayTotals.vehicles)} sub={`avg ${avgDur} min stay`} icon={<TrendingUp className="h-4 w-4" />} accent="accent" />
-          <KpiTile label="Revenue today" value={fmtUSD(todayTotals.revenue)} sub="all zones" icon={<DollarSign className="h-4 w-4" />} accent="success" />
-          <KpiTile label="Active alerts" value={fmtInt(feed.filter(f => f.status === "pending").length)} sub="awaiting action" icon={<AlertTriangle className="h-4 w-4" />} accent="warning" />
-          <KpiTile label="Overstays today" value={fmtInt(todayTotals.over)} sub="time exceeded" icon={<Timer className="h-4 w-4" />} accent="warning" />
-          <KpiTile label="Unpaid cases" value={fmtInt(todayTotals.unpaid)} sub="no payment" icon={<ShieldAlert className="h-4 w-4" />} accent="destructive" />
-          <KpiTile label="Avg duration" value={`${avgDur} min`} sub="weighted" icon={<Timer className="h-4 w-4" />} accent="primary" />
-          <KpiTile label="Reserved" value={fmtInt(stats.reserved)} sub="held spaces" icon={<MapPin className="h-4 w-4" />} accent="warning" />
+          <KpiTile label="Espacios totales" value={fmtInt(stats.total)} sub="inventario ciudad" icon={<MapPin className="h-4 w-4" />} accent="primary" />
+          <KpiTile label="Ocupados ahora" value={fmtInt(stats.occupied)} sub={`${fmtPct(stats.occupancy, 1)} ocupación`} icon={<Car className="h-4 w-4" />} accent="destructive" />
+          <KpiTile label="Disponibles ahora" value={fmtInt(stats.available)} sub="listos para uso" icon={<Activity className="h-4 w-4" />} accent="success" />
+          <KpiTile label="Vehículos hoy" value={fmtInt(todayTotals.vehicles)} sub={`${avgDur} min promedio`} icon={<TrendingUp className="h-4 w-4" />} accent="accent" />
+          <KpiTile label="Ingresos hoy" value={fmtUSD(todayTotals.revenue)} sub="todas las zonas" icon={<DollarSign className="h-4 w-4" />} accent="success" />
+          <KpiTile label="Alertas activas" value={fmtInt(feed.filter(f => f.status === "pending").length)} sub="pendientes" icon={<AlertTriangle className="h-4 w-4" />} accent="warning" />
+          <KpiTile label="Excesos de tiempo" value={fmtInt(todayTotals.over)} sub="hoy" icon={<Timer className="h-4 w-4" />} accent="warning" />
+          <KpiTile label="Casos sin pago" value={fmtInt(todayTotals.unpaid)} sub="hoy" icon={<ShieldAlert className="h-4 w-4" />} accent="destructive" />
+          <KpiTile label="Multas emitidas" value={fmtInt(multasHoy.total)} sub={fmtUSD(multasHoy.monto)} icon={<Receipt className="h-4 w-4" />} accent="primary" />
+          <KpiTile label="Duración promedio" value={`${avgDur} min`} sub="ponderada" icon={<Timer className="h-4 w-4" />} accent="primary" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-          <Panel title="Hourly occupancy (city avg, 90d)" className="lg:col-span-2 h-72">
+          <Panel title="Ocupación horaria (promedio ciudad, 90d)" className="lg:col-span-2 h-72">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={hourlyAll} margin={{ top: 6, right: 12, left: -10, bottom: 0 }}>
                 <defs>
@@ -103,29 +108,29 @@ function OverviewPage() {
                 <XAxis dataKey="hour" tick={{ fontSize: 11, fill: "#64748b" }} />
                 <YAxis tick={{ fontSize: 11, fill: "#64748b" }} unit="%" />
                 <Tooltip contentStyle={{ borderRadius: 6, fontSize: 12 }} />
-                <Area type="monotone" dataKey="occupancy" stroke="#0a2540" strokeWidth={2} fill="url(#occ)" />
+                <Area type="monotone" dataKey="occupancy" stroke="#0a2540" strokeWidth={2} fill="url(#occ)" name="Ocupación" />
               </AreaChart>
             </ResponsiveContainer>
           </Panel>
 
-          <Panel title="Revenue trend (14 days)" className="h-72">
+          <Panel title="Ingresos diarios (14 días)" className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={revenue14} margin={{ top: 6, right: 8, left: -10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                 <XAxis dataKey="date" tick={{ fontSize: 10, fill: "#64748b" }} />
                 <YAxis tick={{ fontSize: 11, fill: "#64748b" }} />
                 <Tooltip contentStyle={{ borderRadius: 6, fontSize: 12 }} formatter={(v) => fmtUSD(Number(v))} />
-                <Bar dataKey="revenue" fill="#00d4aa" radius={[3, 3, 0, 0]} />
+                <Bar dataKey="revenue" fill="#00d4aa" radius={[3, 3, 0, 0]} name="Ingresos" />
               </BarChart>
             </ResponsiveContainer>
           </Panel>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-          <Panel title="Top zones today" className="lg:col-span-1">
+          <Panel title="Zonas con mayor demanda hoy" className="lg:col-span-1">
             <table className="w-full text-[12px]">
               <thead className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                <tr><th className="text-left font-medium pb-2">Zone</th><th className="text-right font-medium pb-2">Vehicles</th><th className="text-right font-medium pb-2">Occ.</th><th className="text-right font-medium pb-2">Revenue</th></tr>
+                <tr><th className="text-left font-medium pb-2">Zona</th><th className="text-right font-medium pb-2">Vehículos</th><th className="text-right font-medium pb-2">Ocup.</th><th className="text-right font-medium pb-2">Ingresos</th></tr>
               </thead>
               <tbody>
                 {topZones.map((z) => (
@@ -140,16 +145,16 @@ function OverviewPage() {
             </table>
           </Panel>
 
-          <Panel title="Recent alerts" className="lg:col-span-2" padded={false}>
+          <Panel title="Alertas recientes" className="lg:col-span-2" padded={false}>
             <table className="w-full text-[12px]">
               <thead className="text-[10px] uppercase tracking-wider text-muted-foreground bg-surface-2">
                 <tr>
-                  <th className="text-left font-medium px-3 py-2">Time</th>
-                  <th className="text-left font-medium px-3 py-2">Plate</th>
-                  <th className="text-left font-medium px-3 py-2">Zone</th>
-                  <th className="text-left font-medium px-3 py-2">Issue</th>
-                  <th className="text-left font-medium px-3 py-2">Priority</th>
-                  <th className="text-left font-medium px-3 py-2">Status</th>
+                  <th className="text-left font-medium px-3 py-2">Hora</th>
+                  <th className="text-left font-medium px-3 py-2">Placa</th>
+                  <th className="text-left font-medium px-3 py-2">Zona</th>
+                  <th className="text-left font-medium px-3 py-2">Motivo</th>
+                  <th className="text-left font-medium px-3 py-2">Prioridad</th>
+                  <th className="text-left font-medium px-3 py-2">Estado</th>
                 </tr>
               </thead>
               <tbody>
@@ -158,7 +163,7 @@ function OverviewPage() {
                     <td className="px-3 py-1.5 tabular-nums">{c.detected}</td>
                     <td className="px-3 py-1.5 font-mono">{c.plate}</td>
                     <td className="px-3 py-1.5">{c.zone}</td>
-                    <td className="px-3 py-1.5 capitalize">{c.issue.replace("_", " ")}</td>
+                    <td className="px-3 py-1.5">{ISSUE_LABEL[c.issue] ?? c.issue}</td>
                     <td className="px-3 py-1.5"><StatusPill status={c.priority} /></td>
                     <td className="px-3 py-1.5"><StatusPill status={c.status} /></td>
                   </tr>

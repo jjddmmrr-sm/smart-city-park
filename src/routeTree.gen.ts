@@ -12,7 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as VehiclesRouteImport } from './routes/vehicles'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as OverviewRouteImport } from './routes/overview'
+import { Route as MultasRouteImport } from './routes/multas'
+import { Route as MediosPagoRouteImport } from './routes/medios-pago'
 import { Route as EnforcementRouteImport } from './routes/enforcement'
+import { Route as ControladoresRouteImport } from './routes/controladores'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -31,9 +34,24 @@ const OverviewRoute = OverviewRouteImport.update({
   path: '/overview',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MultasRoute = MultasRouteImport.update({
+  id: '/multas',
+  path: '/multas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MediosPagoRoute = MediosPagoRouteImport.update({
+  id: '/medios-pago',
+  path: '/medios-pago',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EnforcementRoute = EnforcementRouteImport.update({
   id: '/enforcement',
   path: '/enforcement',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ControladoresRoute = ControladoresRouteImport.update({
+  id: '/controladores',
+  path: '/controladores',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnalyticsRoute = AnalyticsRouteImport.update({
@@ -50,7 +68,10 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/controladores': typeof ControladoresRoute
   '/enforcement': typeof EnforcementRoute
+  '/medios-pago': typeof MediosPagoRoute
+  '/multas': typeof MultasRoute
   '/overview': typeof OverviewRoute
   '/settings': typeof SettingsRoute
   '/vehicles': typeof VehiclesRoute
@@ -58,7 +79,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/controladores': typeof ControladoresRoute
   '/enforcement': typeof EnforcementRoute
+  '/medios-pago': typeof MediosPagoRoute
+  '/multas': typeof MultasRoute
   '/overview': typeof OverviewRoute
   '/settings': typeof SettingsRoute
   '/vehicles': typeof VehiclesRoute
@@ -67,7 +91,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/controladores': typeof ControladoresRoute
   '/enforcement': typeof EnforcementRoute
+  '/medios-pago': typeof MediosPagoRoute
+  '/multas': typeof MultasRoute
   '/overview': typeof OverviewRoute
   '/settings': typeof SettingsRoute
   '/vehicles': typeof VehiclesRoute
@@ -77,7 +104,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/analytics'
+    | '/controladores'
     | '/enforcement'
+    | '/medios-pago'
+    | '/multas'
     | '/overview'
     | '/settings'
     | '/vehicles'
@@ -85,7 +115,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/analytics'
+    | '/controladores'
     | '/enforcement'
+    | '/medios-pago'
+    | '/multas'
     | '/overview'
     | '/settings'
     | '/vehicles'
@@ -93,7 +126,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/analytics'
+    | '/controladores'
     | '/enforcement'
+    | '/medios-pago'
+    | '/multas'
     | '/overview'
     | '/settings'
     | '/vehicles'
@@ -102,7 +138,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
+  ControladoresRoute: typeof ControladoresRoute
   EnforcementRoute: typeof EnforcementRoute
+  MediosPagoRoute: typeof MediosPagoRoute
+  MultasRoute: typeof MultasRoute
   OverviewRoute: typeof OverviewRoute
   SettingsRoute: typeof SettingsRoute
   VehiclesRoute: typeof VehiclesRoute
@@ -131,11 +170,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OverviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/multas': {
+      id: '/multas'
+      path: '/multas'
+      fullPath: '/multas'
+      preLoaderRoute: typeof MultasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/medios-pago': {
+      id: '/medios-pago'
+      path: '/medios-pago'
+      fullPath: '/medios-pago'
+      preLoaderRoute: typeof MediosPagoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/enforcement': {
       id: '/enforcement'
       path: '/enforcement'
       fullPath: '/enforcement'
       preLoaderRoute: typeof EnforcementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/controladores': {
+      id: '/controladores'
+      path: '/controladores'
+      fullPath: '/controladores'
+      preLoaderRoute: typeof ControladoresRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/analytics': {
@@ -158,7 +218,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
+  ControladoresRoute: ControladoresRoute,
   EnforcementRoute: EnforcementRoute,
+  MediosPagoRoute: MediosPagoRoute,
+  MultasRoute: MultasRoute,
   OverviewRoute: OverviewRoute,
   SettingsRoute: SettingsRoute,
   VehiclesRoute: VehiclesRoute,
@@ -166,3 +229,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
