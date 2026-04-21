@@ -45,9 +45,9 @@ export type HourlyAvg = {
 
 export const ZONES = zones as Zone[];
 export const SPACES = spaces as Space[];
-export const LIVE_INITIAL = liveRaw as LiveSpace[];
-export const VEHICLES = vehicles as Vehicle[];
-export const ENFORCEMENT = enforcement as EnforcementCase[];
+export const LIVE_INITIAL = liveRaw as unknown as LiveSpace[];
+export const VEHICLES = vehicles as unknown as Vehicle[];
+export const ENFORCEMENT = enforcement as unknown as EnforcementCase[];
 export const DAILY = daily as DailyMetric[];
 export const HOURLY = hourly as HourlyAvg[];
 export const TX_AGG = txAgg as {

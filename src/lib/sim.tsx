@@ -49,7 +49,8 @@ export function SimProvider({ children }: { children: React.ReactNode }) {
       // Maybe push a new alert
       if (Math.random() < 0.5 && idxRef.current < ENFORCEMENT.length) {
         const fresh = ENFORCEMENT[idxRef.current++];
-        setFeed((f) => [{ ...fresh, status: "pending", detected: new Date().toTimeString().slice(0, 5) }, ...f].slice(0, 200));
+        const fresh2: EnforcementCase = { ...fresh, status: "pending", detected: new Date().toTimeString().slice(0, 5) };
+        setFeed((f) => [fresh2, ...f].slice(0, 200));
       }
       setTick((t) => t + 1);
     }, 7000);
