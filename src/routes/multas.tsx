@@ -104,10 +104,19 @@ function MultasPage() {
 
   return (
     <div className="h-full flex flex-col bg-surface overflow-auto">
+      {/* Date filter bar */}
+      <FilterBar>
+        <FilterField label="Desde"><FilterDate value={from} onChange={setFrom} min={minD} max={maxD} /></FilterField>
+        <FilterField label="Hasta"><FilterDate value={to} onChange={setTo} min={minD} max={maxD} /></FilterField>
+        <FilterBtn onClick={() => { setFrom(minD); setTo(maxD); }}><RotateCcw className="h-3 w-3" /> Rango total</FilterBtn>
+        <FilterDivider />
+        <span className="text-[11px] text-muted-foreground tabular-nums">Periodo: {from || "—"} → {to || "—"}</span>
+      </FilterBar>
+
       {/* KPIs */}
-      <div className="px-4 py-3 border-b border-border bg-card">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          <KpiTile label="Multas totales (30d)" value={fmtInt(kpis.total)} sub="emitidas" icon={<Receipt className="h-4 w-4" />} accent="primary" />
+      <div className="px-3 py-2 border-b border-border bg-card">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          <KpiTile label="Multas totales" value={fmtInt(kpis.total)} sub="emitidas" icon={<Receipt className="h-4 w-4" />} accent="primary" />
           <KpiTile label="Monto recaudable" value={fmtUSD(kpis.monto)} sub="USD" icon={<FileWarning className="h-4 w-4" />} accent="accent" />
           <KpiTile label="Pendientes" value={fmtInt(kpis.pendientes)} sub="por cobrar" icon={<AlertTriangle className="h-4 w-4" />} accent="warning" />
           <KpiTile label="Pagadas" value={fmtInt(kpis.pagadas)} sub="liquidadas" icon={<CheckCircle2 className="h-4 w-4" />} accent="success" />
@@ -117,8 +126,8 @@ function MultasPage() {
       </div>
 
       {/* Charts */}
-      <div className="px-4 py-3 grid grid-cols-1 lg:grid-cols-3 gap-3">
-        <Panel title="Tendencia diaria por motivo (30d)" className="lg:col-span-2 h-64">
+      <div className="px-3 py-2 grid grid-cols-1 lg:grid-cols-3 gap-2">
+        <Panel title="Tendencia diaria por motivo" className="lg:col-span-2 h-56">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={trend30} margin={{ top: 6, right: 12, left: -10, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
@@ -134,10 +143,10 @@ function MultasPage() {
           </ResponsiveContainer>
         </Panel>
 
-        <Panel title="Distribución por motivo" className="h-64">
+        <Panel title="Distribución por motivo" className="h-56">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              <Pie data={breakdown} dataKey="value" nameKey="name" innerRadius={45} outerRadius={80} paddingAngle={2}>
+              <Pie data={breakdown} dataKey="value" nameKey="name" innerRadius={40} outerRadius={70} paddingAngle={2}>
                 {breakdown.map((b) => <Cell key={b.key} fill={MOTIVO_COLORS[b.key]} />)}
               </Pie>
               <Tooltip contentStyle={{ borderRadius: 6, fontSize: 12 }} />
@@ -148,22 +157,30 @@ function MultasPage() {
       </div>
 
       {/* Filters */}
-      <div className="px-4 py-2 border-y border-border bg-card flex items-center gap-2 flex-wrap">
+      <FilterBar>
         <input
           value={q} onChange={(e) => setQ(e.target.value)}
-          placeholder="Buscar placa o ID multa…"
-          className="h-8 px-2 text-[12px] rounded-md border border-border bg-card w-56 focus:outline-none focus:ring-2 focus:ring-ring"
+          placeholder="Buscar placa o ID…"
+          className="h-7 px-2 text-[12px] rounded border border-border bg-card w-44 focus:outline-none focus:ring-1 focus:ring-ring"
         />
-        <Sel value={motivo} onChange={setMotivo} options={[{ v: "all", l: "Todos los motivos" }, { v: "sin_pago", l: "Sin pago" }, { v: "exceso_tiempo", l: "Exceso de tiempo" }, { v: "zona_prohibida", l: "Zona prohibida" }, { v: "zona_reservada", l: "Zona reservada" }]} />
-        <Sel value={estado} onChange={setEstado} options={[{ v: "all", l: "Todos los estados" }, { v: "pendiente", l: "Pendiente" }, { v: "notificada", l: "Notificada" }, { v: "pagada", l: "Pagada" }, { v: "apelada", l: "Apelada" }, { v: "anulada", l: "Anulada" }]} />
-        <Sel value={prioridad} onChange={setPrioridad} options={[{ v: "all", l: "Todas prioridades" }, { v: "alta", l: "Alta" }, { v: "media", l: "Media" }, { v: "baja", l: "Baja" }]} />
-        <Sel value={zona} onChange={setZona} options={[{ v: "all", l: "Todas las zonas" }, ...ZONES.map(z => ({ v: z.zone_name, l: z.zone_name }))]} />
+        <FilterDivider />
+        <FilterField label="Motivo">
+          <FilterSelect value={motivo} onChange={setMotivo} options={[{ v: "all", l: "Todos" }, { v: "sin_pago", l: "Sin pago" }, { v: "exceso_tiempo", l: "Exceso tiempo" }, { v: "zona_prohibida", l: "Z. prohibida" }, { v: "zona_reservada", l: "Z. reservada" }]} />
+        </FilterField>
+        <FilterField label="Estado">
+          <FilterSelect value={estado} onChange={setEstado} options={[{ v: "all", l: "Todos" }, { v: "pendiente", l: "Pendiente" }, { v: "notificada", l: "Notificada" }, { v: "pagada", l: "Pagada" }, { v: "apelada", l: "Apelada" }, { v: "anulada", l: "Anulada" }]} />
+        </FilterField>
+        <FilterField label="Prioridad">
+          <FilterSelect value={prioridad} onChange={setPrioridad} options={[{ v: "all", l: "Todas" }, { v: "alta", l: "Alta" }, { v: "media", l: "Media" }, { v: "baja", l: "Baja" }]} />
+        </FilterField>
+        <FilterField label="Zona">
+          <FilterSelect value={zona} onChange={setZona} options={[{ v: "all", l: "Todas" }, ...ZONES.map(z => ({ v: z.zone_name, l: z.zone_name }))]} />
+        </FilterField>
+        <FilterBtn onClick={reset}><RotateCcw className="h-3 w-3" /> Limpiar</FilterBtn>
         <div className="flex-1" />
-        <span className="text-[12px] text-muted-foreground tabular-nums">{fmtInt(rows.length)} multas</span>
-        <button onClick={exportCsv} className="inline-flex items-center gap-1.5 h-8 px-3 text-[12px] rounded-md border border-border hover:bg-secondary">
-          <Download className="h-3.5 w-3.5" /> Exportar
-        </button>
-      </div>
+        <span className="text-[11px] text-muted-foreground tabular-nums">{fmtInt(rows.length)} multas</span>
+        <FilterBtn onClick={exportCsv} variant="primary"><Download className="h-3 w-3" /> Exportar</FilterBtn>
+      </FilterBar>
 
       {/* Table + detail */}
       <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-3 p-3">
