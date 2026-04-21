@@ -1,6 +1,7 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import appCss from "../styles.css?url";
 import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 import { SimProvider } from "@/lib/sim";
 
 function NotFoundComponent() {
@@ -71,6 +72,7 @@ function RootComponent() {
         <main className="flex-1 min-h-0 overflow-hidden">
           <Outlet />
         </main>
+        <Footer />
       </div>
     </SimProvider>
   );
