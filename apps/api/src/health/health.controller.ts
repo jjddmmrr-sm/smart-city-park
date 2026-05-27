@@ -9,4 +9,9 @@ export class HealthController {
   getHealth() {
     return this.healthService.getStatus();
   }
+
+  @Get('database')
+  getDatabaseHealth() {
+    return this.healthService.getDatabaseStatus();
+  }
 }
