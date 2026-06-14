@@ -7,7 +7,7 @@ import { apiGet } from "@/lib/api";
 import { fmtInt } from "@/lib/format";
 import { Download, Search, X, RotateCcw } from "lucide-react";
 
-export const Route = createFileRoute("/vehicles")({
+export const Route = createFileRoute("/vehicles/backup/final/20260611041949")({
   head: () => ({
     meta: [
       { title: "Vehículos — Smart Park Chone" },
@@ -17,17 +17,6 @@ export const Route = createFileRoute("/vehicles")({
   component: VehiclesPage,
   ssr: false,
 });
-
-function fmtDateOnly(value: string) {
-  if (!value) return "—";
-  const d = new Date(value);
-  if (Number.isNaN(d.getTime())) return value;
-  return d.toLocaleDateString("es-EC", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
-}
 
 function fmtDateTime(value: string) {
   if (!value) return "—";
@@ -197,7 +186,7 @@ function VehiclesPage() {
               <Row k="Zona" v={selected.zone} />
               <Row k="Calle" v={selected.street} />
               <div className="my-1 border-t border-border" />
-              <Row k="Fecha" v={fmtDateOnly(selected.date)} />
+              <Row k="Fecha" v={selected.date} />
               <Row k="Ventana" v={`${fmtDateTime(selected.start)} → ${fmtDateTime(selected.end)}`} />
               <Row k="Duración" v={`${selected.duration} min`} />
               <Row k="Pago" v={<StatusPill status={selected.payment} />} />

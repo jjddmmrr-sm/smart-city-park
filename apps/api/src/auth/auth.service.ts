@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -10,10 +11,12 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(email: string, password: string) {
+  async login(dto: LoginDto) {
     const user = await this.prisma.user.findUnique({
-      where: { email },
+      where: { email: dto.email },
       include: {
+        tenant: true,
+        city: true,
         userRoles: {
           include: {
             role: true,
@@ -26,29 +29,31 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const passwordValid = await bcrypt.compare(password, user.password);
+    const isValid = await bcrypt.compare(dto.password, user.password);
 
-    if (!passwordValid) {
+    if (!isValid) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const payload = {
+    const roles = user.userRoles.map((ur) => ur.role.code);
+
+    const accessToken = await this.jwtService.signAsync({
       sub: user.id,
       email: user.email,
       tenantId: user.tenantId,
       cityId: user.cityId,
-      roles: user.userRoles.map((ur) => ur.role.code),
-    };
+      roles,
+    });
 
     return {
-      accessToken: await this.jwtService.signAsync(payload),
+      accessToken,
       user: {
         id: user.id,
-        email: user.email,
         name: user.name,
-        tenantId: user.tenantId,
-        cityId: user.cityId,
-        roles: payload.roles,
+        email: user.email,
+        tenant: user.tenant,
+        city: user.city,
+        roles,
       },
     };
   }

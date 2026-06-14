@@ -15,16 +15,14 @@ const STATUS_FILL: Record<string, string> = {
 };
 
 export function LiveMap({
-  filter, heat, onSelect, selectedId, liveData,
+  filter, heat, onSelect, selectedId,
 }: {
   filter: { zone: string; status: string };
   heat: boolean;
   onSelect: (s: LiveSpace) => void;
   selectedId: string | null;
-  liveData?: LiveSpace[];
 }) {
-  const { live: simulatedLive } = useSim();
-  const live = liveData ?? simulatedLive;
+  const { live } = useSim();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<L.Map | null>(null);
   const layerRef = useRef<L.LayerGroup | null>(null);

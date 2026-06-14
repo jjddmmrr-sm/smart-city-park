@@ -27,7 +27,7 @@ type OverviewApi = {
   ticketsAmount: number;
 };
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/index/backup/final/20260611041949")({
   head: () => ({
     meta: [
       { title: "Mapa en Vivo — Smart Park Chone" },
@@ -125,7 +125,7 @@ function LiveMapPage() {
           </div>
 
           <div className="hidden md:inline-flex absolute bottom-2 right-2 z-[400] bg-card/95 backdrop-blur border border-border rounded shadow-sm px-2 py-1 text-[10px] text-muted-foreground items-center gap-1">
-            <Layers className="h-3 w-3" /> {liveData ? 1 : ZONES.length} zona · {realTotal} espacios
+            <Layers className="h-3 w-3" /> {ZONES.length} zonas · 500 espacios
           </div>
         </div>
 

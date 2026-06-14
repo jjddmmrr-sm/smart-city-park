@@ -1,33 +1,16 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useSim, useLiveStats } from "@/lib/sim";
 import { ZONES, type LiveSpace } from "@/lib/data";
-import { fmtInt, fmtPct, fmtUSD, STATUS_LABEL, ISSUE_LABEL } from "@/lib/format";
+import { fmtInt, fmtPct, STATUS_LABEL, ISSUE_LABEL } from "@/lib/format";
 import { Panel, StatusPill } from "@/components/ui-bits";
-import { apiGet } from "@/lib/api";
 import {
   Activity, AlertTriangle, Car, DollarSign, Filter, Flame, Layers, MapPin, Radio, Search,
 } from "lucide-react";
 
 const LiveMap = lazy(() => import("@/components/LiveMap").then((m) => ({ default: m.LiveMap })));
 
-type OverviewApi = {
-  totalSpaces: number;
-  occupiedSpaces: number;
-  availableSpaces: number;
-  occupancyRate: number;
-  vehiclesToday: number;
-  revenueToday: number;
-  activeSessions: number;
-  completedSessions: number;
-  activeAlerts: number;
-  overstayCases: number;
-  unpaidCases: number;
-  ticketsIssued: number;
-  ticketsAmount: number;
-};
-
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/index/backup/20260611030009")({
   head: () => ({
     meta: [
       { title: "Mapa en Vivo — Smart Park Chone" },
@@ -45,42 +28,21 @@ function LiveMapPage() {
   const [status, setStatus] = useState("all");
   const [heat, setHeat] = useState(false);
   const [selected, setSelected] = useState<LiveSpace | null>(null);
-  const [liveData, setLiveData] = useState<LiveSpace[] | null>(null);
-  const [overview, setOverview] = useState<OverviewApi | null>(null);
 
-  useEffect(() => {
-    Promise.all([
-      apiGet<LiveSpace[]>("/frontend/live"),
-      apiGet<OverviewApi>("/frontend/overview"),
-    ])
-      .then(([live, overviewData]) => {
-        setLiveData(live);
-        setOverview(overviewData);
-      })
-      .catch((error) => console.error("Error loading live map", error));
-  }, []);
-
-  const currentLive = liveData ?? stats.total ? (liveData ?? []) : [];
-  const realTotal = liveData ? currentLive.length : stats.total;
-  const realOccupied = liveData ? currentLive.filter((s) => s.status === "occupied").length : stats.occupied;
-  const realAvailable = liveData ? currentLive.filter((s) => s.status === "available").length : stats.available;
-  const realOccupancy = realTotal > 0 ? (realOccupied / realTotal) * 100 : stats.occupancy;
-
-  const todayRevenue = overview?.revenueToday ?? 0;
-  const vehiclesToday = overview?.vehiclesToday ?? 0;
-  const activeAlerts = overview?.activeAlerts ?? feed.filter((f) => f.status === "pending").length;
+  const todayRevenue = 4820 + Math.round((stats.occupied % 50) * 13);
+  const vehiclesToday = 6310 + (stats.occupied % 20);
 
   return (
     <div className="h-full flex flex-col">
       {/* Top KPI strip */}
       <div className="border-b border-border bg-card">
         <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-px bg-border">
-          <KpiBare label="Ocupación" value={fmtPct(realOccupancy, 1)} sub={`${realOccupied}/${realTotal}`} icon={<Activity className="h-4 w-4 text-accent" />} />
-          <KpiBare label="Disponibles" value={fmtInt(realAvailable)} sub="listos" icon={<MapPin className="h-4 w-4 text-success" />} />
-          <KpiBare label="Ocupados" value={fmtInt(realOccupied)} sub="activos" icon={<Car className="h-4 w-4 text-destructive" />} />
+          <KpiBare label="Ocupación" value={fmtPct(stats.occupancy, 1)} sub={`${stats.occupied}/${stats.total - stats.oos}`} icon={<Activity className="h-4 w-4 text-accent" />} />
+          <KpiBare label="Disponibles" value={fmtInt(stats.available)} sub="listos" icon={<MapPin className="h-4 w-4 text-success" />} />
+          <KpiBare label="Ocupados" value={fmtInt(stats.occupied)} sub="activos" icon={<Car className="h-4 w-4 text-destructive" />} />
           <KpiBare label="Vehículos hoy" value={fmtInt(vehiclesToday)} sub="desde 06:00" icon={<Radio className="h-4 w-4 text-primary" />} />
-          <KpiBare label="Ingresos hoy" value={fmtUSD(todayRevenue)} sub="todas las zonas" icon={<DollarSign className="h-4 w-4 text-success" />} />
-          <KpiBare label="Alertas" value={fmtInt(activeAlerts)} sub="pendientes" icon={<AlertTriangle className="h-4 w-4 text-warning" />} />
+          <KpiBare label="Ingresos hoy" value={`$${fmtInt(todayRevenue)}`} sub="todas las zonas" icon={<DollarSign className="h-4 w-4 text-success" />} />
+          <KpiBare label="Alertas" value={fmtInt(feed.filter((f) => f.status === "pending").length)} sub="pendientes" icon={<AlertTriangle className="h-4 w-4 text-warning" />} />
         </div>
       </div>
 
@@ -93,7 +55,6 @@ function LiveMapPage() {
               heat={heat}
               selectedId={selected?.id ?? null}
               onSelect={(s) => setSelected(s)}
-              liveData={liveData ?? undefined}
             />
           </Suspense>
 
@@ -125,7 +86,7 @@ function LiveMapPage() {
           </div>
 
           <div className="hidden md:inline-flex absolute bottom-2 right-2 z-[400] bg-card/95 backdrop-blur border border-border rounded shadow-sm px-2 py-1 text-[10px] text-muted-foreground items-center gap-1">
-            <Layers className="h-3 w-3" /> {liveData ? 1 : ZONES.length} zona · {realTotal} espacios
+            <Layers className="h-3 w-3" /> {ZONES.length} zonas · 500 espacios
           </div>
         </div>
 

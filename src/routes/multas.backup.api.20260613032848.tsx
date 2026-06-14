@@ -1,14 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { KpiTile, Panel, StatusPill } from "@/components/ui-bits";
 import { FilterBar, FilterField, FilterSelect, FilterDate, FilterDivider, FilterBtn } from "@/components/FilterBar";
-import { type Multa, type Zone } from "@/lib/data";
-import { apiGet, apiPatch } from "@/lib/api";
+import { MULTAS, MULTAS_RESUMEN, ZONES, type Multa } from "@/lib/data";
 import { fmtInt, fmtUSD, ISSUE_LABEL } from "@/lib/format";
 import { Receipt, FileWarning, AlertTriangle, CheckCircle2, X, Camera, Download, RotateCcw } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-export const Route = createFileRoute("/multas")({
+export const Route = createFileRoute("/multas/backup/api/20260613032848")({
   head: () => ({
     meta: [
       { title: "Multas — Smart Park Chone" },
@@ -26,99 +25,7 @@ const MOTIVO_COLORS: Record<string, string> = {
   zona_reservada: "#00d4aa",
 };
 
-function shortId(value: string) {
-  if (!value) return "—";
-  return value.length > 8 ? value.slice(0, 8).toUpperCase() : value;
-}
-
-function fineCode(value: string) {
-  if (!value) return "MUL-000000";
-  return `MUL-${value.slice(0, 8).toUpperCase()}`;
-}
-
-function controllerCode(value: string) {
-  if (!value || value === "N/A") return "Sin asignar";
-  return `CTR-${value.slice(0, 6).toUpperCase()}`;
-}
-
-function evidenceLabel(value: string) {
-  return value === "si" ? "📷 Disponible" : "Sin evidencia";
-}
-
-function cleanZone(value: string) {
-  return value === "Smart City Demo" ? "Zona Centro" : value;
-}
-
-function fmtDateTime(value: string) {
-  if (!value) return "—";
-  const d = new Date(value);
-  if (Number.isNaN(d.getTime())) return value;
-  return d.toLocaleString("es-EC", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
-
-function normalizeMotivo(value: string) {
-  if (value === "no_payment") return "sin_pago";
-  if (value === "overstay") return "exceso_tiempo";
-  return value;
-}
-
-function normalizeStatus(value: string) {
-  if (value === "pending") return "pendiente";
-  if (value === "paid") return "pagada";
-  if (value === "appealed") return "apelada";
-  if (value === "cancelled") return "anulada";
-  return value;
-}
-
-function normalizePriority(value: string) {
-  if (value === "high") return "alta";
-  if (value === "medium") return "media";
-  if (value === "low") return "baja";
-  return value;
-}
-
-function normalizeMulta(m: Multa): Multa {
-  return {
-    ...m,
-    motivo_codigo: normalizeMotivo(m.motivo_codigo) as Multa["motivo_codigo"],
-    estado_multa: normalizeStatus(m.estado_multa) as Multa["estado_multa"],
-    prioridad: normalizePriority(m.prioridad) as Multa["prioridad"],
-  };
-}
-
 function MultasPage() {
-  const [multas, setMultas] = useState<Multa[]>([]);
-  const [zones, setZones] = useState<Zone[]>([]);
-
-  async function loadFines() {
-    const [multasData, zonesData] = await Promise.all([
-      apiGet<Multa[]>("/frontend/fines"),
-      apiGet<Zone[]>("/frontend/zones"),
-    ]);
-
-    const normalized = multasData.map(normalizeMulta);
-    setMultas(normalized);
-    setZones(zonesData);
-
-    const loadedDates = Array.from(new Set(normalized.map((m) => m.fecha_hora.slice(0, 10)))).sort();
-    if (loadedDates.length > 0) {
-      setFrom(loadedDates[0]);
-      setTo(loadedDates[loadedDates.length - 1]);
-    }
-
-    return normalized;
-  }
-
-  useEffect(() => {
-    loadFines().catch((error) => console.error("Error loading fines", error));
-  }, []);
-
   const [motivo, setMotivo] = useState("all");
   const [estado, setEstado] = useState("all");
   const [prioridad, setPrioridad] = useState("all");
@@ -126,7 +33,7 @@ function MultasPage() {
   const [q, setQ] = useState("");
   const [selected, setSelected] = useState<Multa | null>(null);
 
-  const dates = useMemo(() => Array.from(new Set(multas.map((m) => m.fecha_hora.slice(0, 10)))).sort(), []);
+  const dates = useMemo(() => Array.from(new Set(MULTAS.map((m) => m.fecha_hora.slice(0, 10)))).sort(), []);
   const minD = dates[0] ?? "";
   const maxD = dates[dates.length - 1] ?? "";
   const [from, setFrom] = useState(minD);
@@ -134,7 +41,7 @@ function MultasPage() {
 
   const inRange = (d: string) => (from === "" || d >= from) && (to === "" || d <= to);
 
-  const filtered = useMemo(() => multas.filter((m) => inRange(m.fecha_hora.slice(0, 10))), [from, to]);
+  const filtered = useMemo(() => MULTAS.filter((m) => inRange(m.fecha_hora.slice(0, 10))), [from, to]);
 
   const kpis = useMemo(() => {
     const k = { total: filtered.length, monto: 0, pendientes: 0, pagadas: 0, apeladas: 0, alta: 0 };
@@ -149,18 +56,18 @@ function MultasPage() {
   }, [filtered]);
 
   const trend30 = useMemo(() => {
-    const ds = Array.from(new Set(filtered.map((m) => m.fecha_hora.slice(0, 10)))).sort().slice(-30);
-    return ds.map((d) => {
-      const day = filtered.filter((x) => x.fecha_hora.slice(0, 10) === d);
+    const ds = Array.from(new Set(MULTAS_RESUMEN.filter((m) => inRange(m.fecha)).map(m => m.fecha))).sort().slice(-30);
+    return ds.map(d => {
+      const day = MULTAS_RESUMEN.filter(x => x.fecha === d);
       return {
         date: d.slice(5),
-        sin_pago: day.filter((x) => x.motivo_codigo === "sin_pago").length,
-        exceso_tiempo: day.filter((x) => x.motivo_codigo === "exceso_tiempo").length,
-        zona_prohibida: day.filter((x) => x.motivo_codigo === "zona_prohibida").length,
-        zona_reservada: day.filter((x) => x.motivo_codigo === "zona_reservada").length,
+        sin_pago: day.reduce((a, b) => a + b.multas_sin_pago, 0),
+        exceso_tiempo: day.reduce((a, b) => a + b.multas_exceso_tiempo, 0),
+        zona_prohibida: day.reduce((a, b) => a + b.multas_zona_prohibida, 0),
+        zona_reservada: day.reduce((a, b) => a + b.multas_zona_reservada, 0),
       };
     });
-  }, [filtered]);
+  }, [from, to]);
 
   const breakdown = useMemo(() => {
     const m: Record<string, number> = { sin_pago: 0, exceso_tiempo: 0, zona_prohibida: 0, zona_reservada: 0 };
@@ -181,26 +88,6 @@ function MultasPage() {
 
   function reset() {
     setMotivo("all"); setEstado("all"); setPrioridad("all"); setZona("all"); setQ(""); setFrom(minD); setTo(maxD);
-  }
-
-  async function markSelectedPaid() {
-    if (!selected) return;
-
-    await apiPatch(`/frontend/fines/${selected.multa_id}/status`, {
-      status: "paid",
-    });
-
-    const updatedRows = await loadFines();
-    const updatedSelected = updatedRows.find((m) => m.multa_id === selected.multa_id);
-
-    if (updatedSelected) {
-      setSelected(updatedSelected);
-    }
-  }
-
-  function notifySelected() {
-    if (!selected) return;
-    alert(`Notificación generada para la multa ${fineCode(selected.multa_id)} de la placa ${selected.placa}`);
   }
 
   function exportCsv() {
@@ -287,7 +174,7 @@ function MultasPage() {
           <FilterSelect value={prioridad} onChange={setPrioridad} options={[{ v: "all", l: "Todas" }, { v: "alta", l: "Alta" }, { v: "media", l: "Media" }, { v: "baja", l: "Baja" }]} />
         </FilterField>
         <FilterField label="Zona">
-          <FilterSelect value={zona} onChange={setZona} options={[{ v: "all", l: "Todas" }, ...zones.map(z => ({ v: z.zone_name, l: z.zone_name }))]} />
+          <FilterSelect value={zona} onChange={setZona} options={[{ v: "all", l: "Todas" }, ...ZONES.map(z => ({ v: z.zone_name, l: z.zone_name }))]} />
         </FilterField>
         <FilterBtn onClick={reset}><RotateCcw className="h-3 w-3" /> Limpiar</FilterBtn>
         <div className="flex-1" />
@@ -310,15 +197,15 @@ function MultasPage() {
               <tbody>
                 {rows.slice(0, 500).map((m, i) => (
                   <tr key={m.multa_id} onClick={() => setSelected(m)} className={"border-t border-border hover:bg-surface-2 cursor-pointer " + (i % 2 ? "bg-surface-2/40" : "")}>
-                    <td className="px-3 py-1.5 font-mono text-[11px]">{fineCode(m.multa_id)}</td>
-                    <td className="px-3 py-1.5 tabular-nums">{fmtDateTime(m.fecha_hora)}</td>
+                    <td className="px-3 py-1.5 font-mono text-[11px]">{m.multa_id}</td>
+                    <td className="px-3 py-1.5 tabular-nums">{m.fecha_hora.replace(" ", " · ")}</td>
                     <td className="px-3 py-1.5 font-mono font-medium">{m.placa}</td>
-                    <td className="px-3 py-1.5">{cleanZone(m.zona)}</td>
+                    <td className="px-3 py-1.5">{m.zona}</td>
                     <td className="px-3 py-1.5 text-muted-foreground truncate max-w-[160px]">{m.calle}</td>
                     <td className="px-3 py-1.5">{ISSUE_LABEL[m.motivo_codigo] ?? m.motivo_codigo}</td>
-                    <td className="px-3 py-1.5 text-right tabular-nums">{fmtUSD(m.valor_multa_usd)}</td>
-                    <td className="px-3 py-1.5 font-mono text-[11px]">{controllerCode(m.controlador_id)}</td>
-                    <td className="px-3 py-1.5">{m.evidencia_foto === "si" ? <span className="inline-flex items-center gap-1 text-success"><Camera className="h-3 w-3" /> Disponible</span> : <span className="text-muted-foreground">Sin evidencia</span>}</td>
+                    <td className="px-3 py-1.5 text-right tabular-nums">${m.valor_multa_usd.toFixed(2)}</td>
+                    <td className="px-3 py-1.5 font-mono text-[11px]">{m.controlador_id}</td>
+                    <td className="px-3 py-1.5">{m.evidencia_foto === "si" ? <span className="inline-flex items-center gap-1 text-success"><Camera className="h-3 w-3" /> Sí</span> : <span className="text-muted-foreground">—</span>}</td>
                     <td className="px-3 py-1.5"><StatusPill status={m.prioridad} /></td>
                     <td className="px-3 py-1.5"><StatusPill status={m.estado_multa} /></td>
                   </tr>
@@ -337,25 +224,25 @@ function MultasPage() {
           {selected ? (
             <div className="space-y-2 text-[12px]">
               <div className="flex items-center justify-between">
-                <span className="text-[14px] font-mono font-semibold">{fineCode(selected.multa_id)}</span>
+                <span className="text-[14px] font-mono font-semibold">{selected.multa_id}</span>
                 <button onClick={() => setSelected(null)} className="text-muted-foreground hover:text-foreground"><X className="h-4 w-4" /></button>
               </div>
               <Row k="Placa" v={<span className="font-mono">{selected.placa}</span>} />
-              <Row k="Fecha/hora" v={fmtDateTime(selected.fecha_hora)} />
-              <Row k="Zona" v={cleanZone(selected.zona)} />
+              <Row k="Fecha/hora" v={selected.fecha_hora} />
+              <Row k="Zona" v={selected.zona} />
               <Row k="Calle" v={selected.calle} />
               <Row k="Motivo" v={ISSUE_LABEL[selected.motivo_codigo] ?? selected.motivo_codigo} />
-              <Row k="Valor" v={fmtUSD(selected.valor_multa_usd)} />
-              <Row k="Controlador" v={controllerCode(selected.controlador_id)} />
-              <Row k="Evidencia" v={evidenceLabel(selected.evidencia_foto)} />
+              <Row k="Valor" v={`$${selected.valor_multa_usd.toFixed(2)}`} />
+              <Row k="Controlador" v={selected.controlador_id} />
+              <Row k="Evidencia foto" v={selected.evidencia_foto === "si" ? "Sí" : "No"} />
               <Row k="Prioridad" v={<StatusPill status={selected.prioridad} />} />
               <Row k="Estado" v={<StatusPill status={selected.estado_multa} />} />
               <div className="my-2 border-t border-border" />
               <div className="text-muted-foreground">Observación</div>
               <div className="text-[12px] bg-surface-2 rounded p-2 border border-border">{selected.observacion}</div>
               <div className="grid grid-cols-2 gap-2 pt-2">
-                <button onClick={notifySelected} className="h-8 text-[12px] rounded-md bg-primary text-primary-foreground hover:bg-primary/90">Notificar</button>
-                <button onClick={markSelectedPaid} className="h-8 text-[12px] rounded-md border border-border hover:bg-secondary">Marcar pagada</button>
+                <button className="h-8 text-[12px] rounded-md bg-primary text-primary-foreground hover:bg-primary/90">Notificar</button>
+                <button className="h-8 text-[12px] rounded-md border border-border hover:bg-secondary">Marcar pagada</button>
                 <button className="h-8 text-[12px] rounded-md border border-border hover:bg-secondary">Anular</button>
                 <button className="h-8 text-[12px] rounded-md border border-border hover:bg-secondary">Ver evidencia</button>
               </div>

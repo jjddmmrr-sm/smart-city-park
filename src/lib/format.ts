@@ -1,6 +1,11 @@
 export const fmtInt = (n: number) => new Intl.NumberFormat("es-EC").format(Math.round(n));
 export const fmtUSD = (n: number) =>
-  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(n);
 export const fmtUSD2 = (n: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 }).format(n);
 export const fmtPct = (n: number, d = 0) => `${(n * 100).toFixed(d)}%`;

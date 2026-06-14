@@ -9,10 +9,9 @@ import {
 import {
   Area, AreaChart, Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from "recharts";
-import { useEffect, useMemo, useState } from "react";
-import { apiGet } from "@/lib/api";
+import { useMemo } from "react";
 
-export const Route = createFileRoute("/overview")({
+export const Route = createFileRoute("/overview/backup")({
   head: () => ({
     meta: [
       { title: "Resumen General — Smart Park Chone" },
@@ -23,33 +22,9 @@ export const Route = createFileRoute("/overview")({
   ssr: false,
 });
 
-
-type OverviewApi = {
-  totalSpaces: number;
-  occupiedSpaces: number;
-  availableSpaces: number;
-  occupancyRate: number;
-  vehiclesToday: number;
-  revenueToday: number;
-  activeSessions: number;
-  completedSessions: number;
-  activeAlerts: number;
-  overstayCases: number;
-  unpaidCases: number;
-  ticketsIssued: number;
-  ticketsAmount: number;
-};
-
 function OverviewPage() {
   const stats = useLiveStats();
   const { feed } = useSim();
-  const [overview, setOverview] = useState<OverviewApi | null>(null);
-
-  useEffect(() => {
-    apiGet<OverviewApi>("/frontend/overview")
-      .then(setOverview)
-      .catch((error) => console.error("Error loading overview", error));
-  }, []);
 
   const today = useMemo(() => DAILY.filter((d) => d.date === LATEST_DATE), []);
   const todayTotals = today.reduce(
@@ -107,15 +82,15 @@ function OverviewPage() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-          <KpiTile label="Espacios totales" value={fmtInt(overview?.totalSpaces ?? stats.total)} sub="inventario ciudad" icon={<MapPin className="h-4 w-4" />} accent="primary" />
-          <KpiTile label="Ocupados ahora" value={fmtInt(overview?.occupiedSpaces ?? stats.occupied)} sub={`${fmtPct((overview?.occupancyRate ?? stats.occupancy), 1)} ocupación`} icon={<Car className="h-4 w-4" />} accent="destructive" />
-          <KpiTile label="Disponibles ahora" value={fmtInt(overview?.availableSpaces ?? stats.available)} sub="listos para uso" icon={<Activity className="h-4 w-4" />} accent="success" />
-          <KpiTile label="Vehículos hoy" value={fmtInt(overview?.vehiclesToday ?? todayTotals.vehicles)} sub={`${avgDur} min promedio`} icon={<TrendingUp className="h-4 w-4" />} accent="accent" />
-          <KpiTile label="Ingresos hoy" value={fmtUSD(overview?.revenueToday ?? todayTotals.revenue)} sub="todas las zonas" icon={<DollarSign className="h-4 w-4" />} accent="success" />
-          <KpiTile label="Alertas activas" value={fmtInt(overview?.activeAlerts ?? feed.filter(f => f.status === "pending").length)} sub="pendientes" icon={<AlertTriangle className="h-4 w-4" />} accent="warning" />
-          <KpiTile label="Excesos de tiempo" value={fmtInt(overview?.overstayCases ?? todayTotals.over)} sub="hoy" icon={<Timer className="h-4 w-4" />} accent="warning" />
-          <KpiTile label="Casos sin pago" value={fmtInt(overview?.unpaidCases ?? todayTotals.unpaid)} sub="hoy" icon={<ShieldAlert className="h-4 w-4" />} accent="destructive" />
-          <KpiTile label="Multas emitidas" value={fmtInt(overview?.ticketsIssued ?? multasHoy.total)} sub={fmtUSD(overview?.ticketsAmount ?? multasHoy.monto)} icon={<Receipt className="h-4 w-4" />} accent="primary" />
+          <KpiTile label="Espacios totales" value={fmtInt(stats.total)} sub="inventario ciudad" icon={<MapPin className="h-4 w-4" />} accent="primary" />
+          <KpiTile label="Ocupados ahora" value={fmtInt(stats.occupied)} sub={`${fmtPct(stats.occupancy, 1)} ocupación`} icon={<Car className="h-4 w-4" />} accent="destructive" />
+          <KpiTile label="Disponibles ahora" value={fmtInt(stats.available)} sub="listos para uso" icon={<Activity className="h-4 w-4" />} accent="success" />
+          <KpiTile label="Vehículos hoy" value={fmtInt(todayTotals.vehicles)} sub={`${avgDur} min promedio`} icon={<TrendingUp className="h-4 w-4" />} accent="accent" />
+          <KpiTile label="Ingresos hoy" value={fmtUSD(todayTotals.revenue)} sub="todas las zonas" icon={<DollarSign className="h-4 w-4" />} accent="success" />
+          <KpiTile label="Alertas activas" value={fmtInt(feed.filter(f => f.status === "pending").length)} sub="pendientes" icon={<AlertTriangle className="h-4 w-4" />} accent="warning" />
+          <KpiTile label="Excesos de tiempo" value={fmtInt(todayTotals.over)} sub="hoy" icon={<Timer className="h-4 w-4" />} accent="warning" />
+          <KpiTile label="Casos sin pago" value={fmtInt(todayTotals.unpaid)} sub="hoy" icon={<ShieldAlert className="h-4 w-4" />} accent="destructive" />
+          <KpiTile label="Multas emitidas" value={fmtInt(multasHoy.total)} sub={fmtUSD(multasHoy.monto)} icon={<Receipt className="h-4 w-4" />} accent="primary" />
           <KpiTile label="Duración promedio" value={`${avgDur} min`} sub="ponderada" icon={<Timer className="h-4 w-4" />} accent="primary" />
         </div>
 
