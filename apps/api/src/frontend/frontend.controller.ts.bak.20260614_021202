@@ -37,11 +37,6 @@ export class FrontendController {
     return this.frontendService.getEnforcement();
   }
 
-  @Patch('enforcement/:id/status')
-  updateEnforcementStatus(@Param('id') id: string, @Body() body: { status: string }) {
-    return this.frontendService.updateEnforcementStatus(id, body.status);
-  }
-
   @Get('zones')
   getZones() {
     return this.frontendService.getZones();

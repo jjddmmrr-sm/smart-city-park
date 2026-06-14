@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Panel, StatusPill, KpiTile } from "@/components/ui-bits";
-import { apiGet, apiPatch } from "@/lib/api";
+import { apiGet } from "@/lib/api";
 import { fmtInt, ISSUE_LABEL } from "@/lib/format";
 import { AlertTriangle, ShieldCheck, Timer, X, FileWarning } from "lucide-react";
 
@@ -60,28 +60,12 @@ function EnforcementPage() {
   const [selected, setSelected] = useState<EnforcementCase | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const loadEnforcement = () => {
-    setLoading(true);
+  useEffect(() => {
     apiGet<EnforcementCase[]>("/frontend/enforcement")
       .then(setFeed)
       .catch((error) => console.error("Error loading enforcement", error))
       .finally(() => setLoading(false));
-  };
-
-  useEffect(() => {
-    loadEnforcement();
   }, []);
-
-  const updateStatus = async (id: string, nextStatus: string) => {
-    try {
-      await apiPatch(`/frontend/enforcement/${id}/status`, { status: nextStatus });
-      const updated = await apiGet<EnforcementCase[]>("/frontend/enforcement");
-      setFeed(updated);
-      setSelected(updated.find((item) => item.id === id) ?? null);
-    } catch (error) {
-      console.error("Error updating enforcement status", error);
-    }
-  };
 
   const zones = useMemo(() => {
     const map = new Map<string, string>();
@@ -175,16 +159,8 @@ function EnforcementPage() {
               <Row k="Prioridad" v={<StatusPill status={statusEs(selected.priority)} />} />
               <Row k="Estado" v={<StatusPill status={statusEs(selected.status)} />} />
               <div className="my-2 border-t border-border" />
-              <div className="grid grid-cols-1 gap-2 pt-1">
-                <button onClick={() => updateStatus(selected.id, "reviewing")} className="h-8 text-[12px] rounded-md border border-border hover:bg-secondary">
-                  Marcar en revisión
-                </button>
-                <button onClick={() => updateStatus(selected.id, "fined")} className="h-8 text-[12px] rounded-md bg-primary text-primary-foreground hover:bg-primary/90">
-                  Emitir multa
-                </button>
-                <button onClick={() => updateStatus(selected.id, "resolved")} className="h-8 text-[12px] rounded-md border border-border hover:bg-secondary">
-                  Resolver caso
-                </button>
+              <div className="text-muted-foreground">
+                Acciones operativas disponibles cuando el backend exponga PATCH de estados de cumplimiento.
               </div>
             </div>
           ) : (

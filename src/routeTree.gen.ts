@@ -18,7 +18,10 @@ import { Route as EnforcementRouteImport } from './routes/enforcement'
 import { Route as ControladoresRouteImport } from './routes/controladores'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as OverviewBackupRouteImport } from './routes/overview.backup'
+import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as VehiclesBackup20260611035904RouteImport } from './routes/vehicles.backup.20260611035904'
 import { Route as IndexBackup20260611030009RouteImport } from './routes/index.backup.20260611030009'
 import { Route as VehiclesBackupFinal20260611041949RouteImport } from './routes/vehicles.backup.final.20260611041949'
@@ -71,10 +74,25 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OverviewBackupRoute = OverviewBackupRouteImport.update({
   id: '/backup',
   path: '/backup',
   getParentRoute: () => OverviewRoute,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const VehiclesBackup20260611035904Route =
   VehiclesBackup20260611035904RouteImport.update({
@@ -123,7 +141,10 @@ export interface FileRoutesByFullPath {
   '/overview': typeof OverviewRouteWithChildren
   '/settings': typeof SettingsRoute
   '/vehicles': typeof VehiclesRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/users': typeof AdminUsersRoute
   '/overview/backup': typeof OverviewBackupRoute
+  '/admin/': typeof AdminIndexRoute
   '/index/backup/20260611030009': typeof IndexBackup20260611030009Route
   '/vehicles/backup/20260611035904': typeof VehiclesBackup20260611035904Route
   '/index/backup/final/20260611041949': typeof IndexBackupFinal20260611041949Route
@@ -141,7 +162,10 @@ export interface FileRoutesByTo {
   '/overview': typeof OverviewRouteWithChildren
   '/settings': typeof SettingsRoute
   '/vehicles': typeof VehiclesRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/users': typeof AdminUsersRoute
   '/overview/backup': typeof OverviewBackupRoute
+  '/admin': typeof AdminIndexRoute
   '/index/backup/20260611030009': typeof IndexBackup20260611030009Route
   '/vehicles/backup/20260611035904': typeof VehiclesBackup20260611035904Route
   '/index/backup/final/20260611041949': typeof IndexBackupFinal20260611041949Route
@@ -160,7 +184,10 @@ export interface FileRoutesById {
   '/overview': typeof OverviewRouteWithChildren
   '/settings': typeof SettingsRoute
   '/vehicles': typeof VehiclesRouteWithChildren
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/users': typeof AdminUsersRoute
   '/overview/backup': typeof OverviewBackupRoute
+  '/admin/': typeof AdminIndexRoute
   '/index/backup/20260611030009': typeof IndexBackup20260611030009Route
   '/vehicles/backup/20260611035904': typeof VehiclesBackup20260611035904Route
   '/index/backup/final/20260611041949': typeof IndexBackupFinal20260611041949Route
@@ -180,7 +207,10 @@ export interface FileRouteTypes {
     | '/overview'
     | '/settings'
     | '/vehicles'
+    | '/admin/login'
+    | '/admin/users'
     | '/overview/backup'
+    | '/admin/'
     | '/index/backup/20260611030009'
     | '/vehicles/backup/20260611035904'
     | '/index/backup/final/20260611041949'
@@ -198,7 +228,10 @@ export interface FileRouteTypes {
     | '/overview'
     | '/settings'
     | '/vehicles'
+    | '/admin/login'
+    | '/admin/users'
     | '/overview/backup'
+    | '/admin'
     | '/index/backup/20260611030009'
     | '/vehicles/backup/20260611035904'
     | '/index/backup/final/20260611041949'
@@ -216,7 +249,10 @@ export interface FileRouteTypes {
     | '/overview'
     | '/settings'
     | '/vehicles'
+    | '/admin/login'
+    | '/admin/users'
     | '/overview/backup'
+    | '/admin/'
     | '/index/backup/20260611030009'
     | '/vehicles/backup/20260611035904'
     | '/index/backup/final/20260611041949'
@@ -235,6 +271,9 @@ export interface RootRouteChildren {
   OverviewRoute: typeof OverviewRouteWithChildren
   SettingsRoute: typeof SettingsRoute
   VehiclesRoute: typeof VehiclesRouteWithChildren
+  AdminLoginRoute: typeof AdminLoginRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  AdminIndexRoute: typeof AdminIndexRoute
   IndexBackup20260611030009Route: typeof IndexBackup20260611030009Route
   IndexBackupFinal20260611041949Route: typeof IndexBackupFinal20260611041949Route
 }
@@ -304,12 +343,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/overview/backup': {
       id: '/overview/backup'
       path: '/backup'
       fullPath: '/overview/backup'
       preLoaderRoute: typeof OverviewBackupRouteImport
       parentRoute: typeof OverviewRoute
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/vehicles/backup/20260611035904': {
       id: '/vehicles/backup/20260611035904'
@@ -406,6 +466,9 @@ const rootRouteChildren: RootRouteChildren = {
   OverviewRoute: OverviewRouteWithChildren,
   SettingsRoute: SettingsRoute,
   VehiclesRoute: VehiclesRouteWithChildren,
+  AdminLoginRoute: AdminLoginRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  AdminIndexRoute: AdminIndexRoute,
   IndexBackup20260611030009Route: IndexBackup20260611030009Route,
   IndexBackupFinal20260611041949Route: IndexBackupFinal20260611041949Route,
 }

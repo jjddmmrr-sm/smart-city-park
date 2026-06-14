@@ -118,23 +118,6 @@ export class FrontendService {
     }));
   }
 
-
-  async updateEnforcementStatus(id: string, status: string) {
-    const allowed = ['pending', 'reviewing', 'fined', 'resolved'];
-
-    if (!allowed.includes(status)) {
-      throw new Error('Invalid enforcement status');
-    }
-
-    return this.prisma.enforcementCase.update({
-      where: { id },
-      data: {
-        status,
-        resolvedAt: status === 'resolved' ? new Date() : null,
-      },
-    });
-  }
-
   async getZones() {
     const zones = await this.prisma.parkingZone.findMany({
       include: {
