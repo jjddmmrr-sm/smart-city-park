@@ -19,7 +19,6 @@ import { Route as ControladoresRouteImport } from './routes/controladores'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
-import { Route as OverviewBackupRouteImport } from './routes/overview.backup'
 import { Route as AdminZonesRouteImport } from './routes/admin/zones'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as AdminSpacesRouteImport } from './routes/admin/spaces'
@@ -30,12 +29,6 @@ import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminFineTypesRouteImport } from './routes/admin/fine-types'
 import { Route as AdminControllersRouteImport } from './routes/admin/controllers'
 import { Route as AdminAccessControlRouteImport } from './routes/admin/access-control'
-import { Route as VehiclesBackup20260611035904RouteImport } from './routes/vehicles.backup.20260611035904'
-import { Route as IndexBackup20260611030009RouteImport } from './routes/index.backup.20260611030009'
-import { Route as VehiclesBackupFinal20260611041949RouteImport } from './routes/vehicles.backup.final.20260611041949'
-import { Route as MultasBackupFinal20260613034429RouteImport } from './routes/multas.backup.final.20260613034429'
-import { Route as MultasBackupApi20260613032848RouteImport } from './routes/multas.backup.api.20260613032848'
-import { Route as IndexBackupFinal20260611041949RouteImport } from './routes/index.backup.final.20260611041949'
 
 const VehiclesRoute = VehiclesRouteImport.update({
   id: '/vehicles',
@@ -87,11 +80,6 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const OverviewBackupRoute = OverviewBackupRouteImport.update({
-  id: '/backup',
-  path: '/backup',
-  getParentRoute: () => OverviewRoute,
-} as any)
 const AdminZonesRoute = AdminZonesRouteImport.update({
   id: '/admin/zones',
   path: '/admin/zones',
@@ -142,42 +130,6 @@ const AdminAccessControlRoute = AdminAccessControlRouteImport.update({
   path: '/admin/access-control',
   getParentRoute: () => rootRouteImport,
 } as any)
-const VehiclesBackup20260611035904Route =
-  VehiclesBackup20260611035904RouteImport.update({
-    id: '/backup/20260611035904',
-    path: '/backup/20260611035904',
-    getParentRoute: () => VehiclesRoute,
-  } as any)
-const IndexBackup20260611030009Route =
-  IndexBackup20260611030009RouteImport.update({
-    id: '/index/backup/20260611030009',
-    path: '/index/backup/20260611030009',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const VehiclesBackupFinal20260611041949Route =
-  VehiclesBackupFinal20260611041949RouteImport.update({
-    id: '/backup/final/20260611041949',
-    path: '/backup/final/20260611041949',
-    getParentRoute: () => VehiclesRoute,
-  } as any)
-const MultasBackupFinal20260613034429Route =
-  MultasBackupFinal20260613034429RouteImport.update({
-    id: '/backup/final/20260613034429',
-    path: '/backup/final/20260613034429',
-    getParentRoute: () => MultasRoute,
-  } as any)
-const MultasBackupApi20260613032848Route =
-  MultasBackupApi20260613032848RouteImport.update({
-    id: '/backup/api/20260613032848',
-    path: '/backup/api/20260613032848',
-    getParentRoute: () => MultasRoute,
-  } as any)
-const IndexBackupFinal20260611041949Route =
-  IndexBackupFinal20260611041949RouteImport.update({
-    id: '/index/backup/final/20260611041949',
-    path: '/index/backup/final/20260611041949',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -185,10 +137,10 @@ export interface FileRoutesByFullPath {
   '/controladores': typeof ControladoresRoute
   '/enforcement': typeof EnforcementRoute
   '/medios-pago': typeof MediosPagoRoute
-  '/multas': typeof MultasRouteWithChildren
-  '/overview': typeof OverviewRouteWithChildren
+  '/multas': typeof MultasRoute
+  '/overview': typeof OverviewRoute
   '/settings': typeof SettingsRoute
-  '/vehicles': typeof VehiclesRouteWithChildren
+  '/vehicles': typeof VehiclesRoute
   '/admin/access-control': typeof AdminAccessControlRoute
   '/admin/controllers': typeof AdminControllersRoute
   '/admin/fine-types': typeof AdminFineTypesRoute
@@ -199,14 +151,7 @@ export interface FileRoutesByFullPath {
   '/admin/spaces': typeof AdminSpacesRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/zones': typeof AdminZonesRoute
-  '/overview/backup': typeof OverviewBackupRoute
   '/admin/': typeof AdminIndexRoute
-  '/index/backup/20260611030009': typeof IndexBackup20260611030009Route
-  '/vehicles/backup/20260611035904': typeof VehiclesBackup20260611035904Route
-  '/index/backup/final/20260611041949': typeof IndexBackupFinal20260611041949Route
-  '/multas/backup/api/20260613032848': typeof MultasBackupApi20260613032848Route
-  '/multas/backup/final/20260613034429': typeof MultasBackupFinal20260613034429Route
-  '/vehicles/backup/final/20260611041949': typeof VehiclesBackupFinal20260611041949Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -214,10 +159,10 @@ export interface FileRoutesByTo {
   '/controladores': typeof ControladoresRoute
   '/enforcement': typeof EnforcementRoute
   '/medios-pago': typeof MediosPagoRoute
-  '/multas': typeof MultasRouteWithChildren
-  '/overview': typeof OverviewRouteWithChildren
+  '/multas': typeof MultasRoute
+  '/overview': typeof OverviewRoute
   '/settings': typeof SettingsRoute
-  '/vehicles': typeof VehiclesRouteWithChildren
+  '/vehicles': typeof VehiclesRoute
   '/admin/access-control': typeof AdminAccessControlRoute
   '/admin/controllers': typeof AdminControllersRoute
   '/admin/fine-types': typeof AdminFineTypesRoute
@@ -228,14 +173,7 @@ export interface FileRoutesByTo {
   '/admin/spaces': typeof AdminSpacesRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/zones': typeof AdminZonesRoute
-  '/overview/backup': typeof OverviewBackupRoute
   '/admin': typeof AdminIndexRoute
-  '/index/backup/20260611030009': typeof IndexBackup20260611030009Route
-  '/vehicles/backup/20260611035904': typeof VehiclesBackup20260611035904Route
-  '/index/backup/final/20260611041949': typeof IndexBackupFinal20260611041949Route
-  '/multas/backup/api/20260613032848': typeof MultasBackupApi20260613032848Route
-  '/multas/backup/final/20260613034429': typeof MultasBackupFinal20260613034429Route
-  '/vehicles/backup/final/20260611041949': typeof VehiclesBackupFinal20260611041949Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -244,10 +182,10 @@ export interface FileRoutesById {
   '/controladores': typeof ControladoresRoute
   '/enforcement': typeof EnforcementRoute
   '/medios-pago': typeof MediosPagoRoute
-  '/multas': typeof MultasRouteWithChildren
-  '/overview': typeof OverviewRouteWithChildren
+  '/multas': typeof MultasRoute
+  '/overview': typeof OverviewRoute
   '/settings': typeof SettingsRoute
-  '/vehicles': typeof VehiclesRouteWithChildren
+  '/vehicles': typeof VehiclesRoute
   '/admin/access-control': typeof AdminAccessControlRoute
   '/admin/controllers': typeof AdminControllersRoute
   '/admin/fine-types': typeof AdminFineTypesRoute
@@ -258,14 +196,7 @@ export interface FileRoutesById {
   '/admin/spaces': typeof AdminSpacesRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/zones': typeof AdminZonesRoute
-  '/overview/backup': typeof OverviewBackupRoute
   '/admin/': typeof AdminIndexRoute
-  '/index/backup/20260611030009': typeof IndexBackup20260611030009Route
-  '/vehicles/backup/20260611035904': typeof VehiclesBackup20260611035904Route
-  '/index/backup/final/20260611041949': typeof IndexBackupFinal20260611041949Route
-  '/multas/backup/api/20260613032848': typeof MultasBackupApi20260613032848Route
-  '/multas/backup/final/20260613034429': typeof MultasBackupFinal20260613034429Route
-  '/vehicles/backup/final/20260611041949': typeof VehiclesBackupFinal20260611041949Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -289,14 +220,7 @@ export interface FileRouteTypes {
     | '/admin/spaces'
     | '/admin/users'
     | '/admin/zones'
-    | '/overview/backup'
     | '/admin/'
-    | '/index/backup/20260611030009'
-    | '/vehicles/backup/20260611035904'
-    | '/index/backup/final/20260611041949'
-    | '/multas/backup/api/20260613032848'
-    | '/multas/backup/final/20260613034429'
-    | '/vehicles/backup/final/20260611041949'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -318,14 +242,7 @@ export interface FileRouteTypes {
     | '/admin/spaces'
     | '/admin/users'
     | '/admin/zones'
-    | '/overview/backup'
     | '/admin'
-    | '/index/backup/20260611030009'
-    | '/vehicles/backup/20260611035904'
-    | '/index/backup/final/20260611041949'
-    | '/multas/backup/api/20260613032848'
-    | '/multas/backup/final/20260613034429'
-    | '/vehicles/backup/final/20260611041949'
   id:
     | '__root__'
     | '/'
@@ -347,14 +264,7 @@ export interface FileRouteTypes {
     | '/admin/spaces'
     | '/admin/users'
     | '/admin/zones'
-    | '/overview/backup'
     | '/admin/'
-    | '/index/backup/20260611030009'
-    | '/vehicles/backup/20260611035904'
-    | '/index/backup/final/20260611041949'
-    | '/multas/backup/api/20260613032848'
-    | '/multas/backup/final/20260613034429'
-    | '/vehicles/backup/final/20260611041949'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -363,10 +273,10 @@ export interface RootRouteChildren {
   ControladoresRoute: typeof ControladoresRoute
   EnforcementRoute: typeof EnforcementRoute
   MediosPagoRoute: typeof MediosPagoRoute
-  MultasRoute: typeof MultasRouteWithChildren
-  OverviewRoute: typeof OverviewRouteWithChildren
+  MultasRoute: typeof MultasRoute
+  OverviewRoute: typeof OverviewRoute
   SettingsRoute: typeof SettingsRoute
-  VehiclesRoute: typeof VehiclesRouteWithChildren
+  VehiclesRoute: typeof VehiclesRoute
   AdminAccessControlRoute: typeof AdminAccessControlRoute
   AdminControllersRoute: typeof AdminControllersRoute
   AdminFineTypesRoute: typeof AdminFineTypesRoute
@@ -378,8 +288,6 @@ export interface RootRouteChildren {
   AdminUsersRoute: typeof AdminUsersRoute
   AdminZonesRoute: typeof AdminZonesRoute
   AdminIndexRoute: typeof AdminIndexRoute
-  IndexBackup20260611030009Route: typeof IndexBackup20260611030009Route
-  IndexBackupFinal20260611041949Route: typeof IndexBackupFinal20260611041949Route
 }
 
 declare module '@tanstack/react-router' {
@@ -454,13 +362,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/overview/backup': {
-      id: '/overview/backup'
-      path: '/backup'
-      fullPath: '/overview/backup'
-      preLoaderRoute: typeof OverviewBackupRouteImport
-      parentRoute: typeof OverviewRoute
-    }
     '/admin/zones': {
       id: '/admin/zones'
       path: '/admin/zones'
@@ -531,90 +432,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAccessControlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/vehicles/backup/20260611035904': {
-      id: '/vehicles/backup/20260611035904'
-      path: '/backup/20260611035904'
-      fullPath: '/vehicles/backup/20260611035904'
-      preLoaderRoute: typeof VehiclesBackup20260611035904RouteImport
-      parentRoute: typeof VehiclesRoute
-    }
-    '/index/backup/20260611030009': {
-      id: '/index/backup/20260611030009'
-      path: '/index/backup/20260611030009'
-      fullPath: '/index/backup/20260611030009'
-      preLoaderRoute: typeof IndexBackup20260611030009RouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/vehicles/backup/final/20260611041949': {
-      id: '/vehicles/backup/final/20260611041949'
-      path: '/backup/final/20260611041949'
-      fullPath: '/vehicles/backup/final/20260611041949'
-      preLoaderRoute: typeof VehiclesBackupFinal20260611041949RouteImport
-      parentRoute: typeof VehiclesRoute
-    }
-    '/multas/backup/final/20260613034429': {
-      id: '/multas/backup/final/20260613034429'
-      path: '/backup/final/20260613034429'
-      fullPath: '/multas/backup/final/20260613034429'
-      preLoaderRoute: typeof MultasBackupFinal20260613034429RouteImport
-      parentRoute: typeof MultasRoute
-    }
-    '/multas/backup/api/20260613032848': {
-      id: '/multas/backup/api/20260613032848'
-      path: '/backup/api/20260613032848'
-      fullPath: '/multas/backup/api/20260613032848'
-      preLoaderRoute: typeof MultasBackupApi20260613032848RouteImport
-      parentRoute: typeof MultasRoute
-    }
-    '/index/backup/final/20260611041949': {
-      id: '/index/backup/final/20260611041949'
-      path: '/index/backup/final/20260611041949'
-      fullPath: '/index/backup/final/20260611041949'
-      preLoaderRoute: typeof IndexBackupFinal20260611041949RouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
-
-interface MultasRouteChildren {
-  MultasBackupApi20260613032848Route: typeof MultasBackupApi20260613032848Route
-  MultasBackupFinal20260613034429Route: typeof MultasBackupFinal20260613034429Route
-}
-
-const MultasRouteChildren: MultasRouteChildren = {
-  MultasBackupApi20260613032848Route: MultasBackupApi20260613032848Route,
-  MultasBackupFinal20260613034429Route: MultasBackupFinal20260613034429Route,
-}
-
-const MultasRouteWithChildren =
-  MultasRoute._addFileChildren(MultasRouteChildren)
-
-interface OverviewRouteChildren {
-  OverviewBackupRoute: typeof OverviewBackupRoute
-}
-
-const OverviewRouteChildren: OverviewRouteChildren = {
-  OverviewBackupRoute: OverviewBackupRoute,
-}
-
-const OverviewRouteWithChildren = OverviewRoute._addFileChildren(
-  OverviewRouteChildren,
-)
-
-interface VehiclesRouteChildren {
-  VehiclesBackup20260611035904Route: typeof VehiclesBackup20260611035904Route
-  VehiclesBackupFinal20260611041949Route: typeof VehiclesBackupFinal20260611041949Route
-}
-
-const VehiclesRouteChildren: VehiclesRouteChildren = {
-  VehiclesBackup20260611035904Route: VehiclesBackup20260611035904Route,
-  VehiclesBackupFinal20260611041949Route:
-    VehiclesBackupFinal20260611041949Route,
-}
-
-const VehiclesRouteWithChildren = VehiclesRoute._addFileChildren(
-  VehiclesRouteChildren,
-)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -622,10 +441,10 @@ const rootRouteChildren: RootRouteChildren = {
   ControladoresRoute: ControladoresRoute,
   EnforcementRoute: EnforcementRoute,
   MediosPagoRoute: MediosPagoRoute,
-  MultasRoute: MultasRouteWithChildren,
-  OverviewRoute: OverviewRouteWithChildren,
+  MultasRoute: MultasRoute,
+  OverviewRoute: OverviewRoute,
   SettingsRoute: SettingsRoute,
-  VehiclesRoute: VehiclesRouteWithChildren,
+  VehiclesRoute: VehiclesRoute,
   AdminAccessControlRoute: AdminAccessControlRoute,
   AdminControllersRoute: AdminControllersRoute,
   AdminFineTypesRoute: AdminFineTypesRoute,
@@ -637,8 +456,6 @@ const rootRouteChildren: RootRouteChildren = {
   AdminUsersRoute: AdminUsersRoute,
   AdminZonesRoute: AdminZonesRoute,
   AdminIndexRoute: AdminIndexRoute,
-  IndexBackup20260611030009Route: IndexBackup20260611030009Route,
-  IndexBackupFinal20260611041949Route: IndexBackupFinal20260611041949Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
