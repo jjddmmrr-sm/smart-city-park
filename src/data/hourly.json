@@ -1,1 +1,408 @@
-[{"zone_id":"Z1","zone_name":"Centro","hour":6,"occupancy_rate":0.25,"avg_entries":149.4},{"zone_id":"Z1","zone_name":"Centro","hour":7,"occupancy_rate":0.52,"avg_entries":149.3},{"zone_id":"Z1","zone_name":"Centro","hour":8,"occupancy_rate":0.72,"avg_entries":152.3},{"zone_id":"Z1","zone_name":"Centro","hour":9,"occupancy_rate":0.81,"avg_entries":147.7},{"zone_id":"Z1","zone_name":"Centro","hour":10,"occupancy_rate":0.86,"avg_entries":147.7},{"zone_id":"Z1","zone_name":"Centro","hour":11,"occupancy_rate":0.909,"avg_entries":153.4},{"zone_id":"Z1","zone_name":"Centro","hour":12,"occupancy_rate":0.951,"avg_entries":150.4},{"zone_id":"Z1","zone_name":"Centro","hour":13,"occupancy_rate":0.944,"avg_entries":149.8},{"zone_id":"Z1","zone_name":"Centro","hour":14,"occupancy_rate":0.87,"avg_entries":148.8},{"zone_id":"Z1","zone_name":"Centro","hour":15,"occupancy_rate":0.82,"avg_entries":151.1},{"zone_id":"Z1","zone_name":"Centro","hour":16,"occupancy_rate":0.85,"avg_entries":150.8},{"zone_id":"Z1","zone_name":"Centro","hour":17,"occupancy_rate":0.899,"avg_entries":149.8},{"zone_id":"Z1","zone_name":"Centro","hour":18,"occupancy_rate":0.78,"avg_entries":150.0},{"zone_id":"Z1","zone_name":"Centro","hour":19,"occupancy_rate":0.56,"avg_entries":152.9},{"zone_id":"Z2","zone_name":"Comercial","hour":6,"occupancy_rate":0.251,"avg_entries":73.0},{"zone_id":"Z2","zone_name":"Comercial","hour":7,"occupancy_rate":0.522,"avg_entries":75.8},{"zone_id":"Z2","zone_name":"Comercial","hour":8,"occupancy_rate":0.723,"avg_entries":74.6},{"zone_id":"Z2","zone_name":"Comercial","hour":9,"occupancy_rate":0.813,"avg_entries":73.5},{"zone_id":"Z2","zone_name":"Comercial","hour":10,"occupancy_rate":0.864,"avg_entries":74.2},{"zone_id":"Z2","zone_name":"Comercial","hour":11,"occupancy_rate":0.913,"avg_entries":73.8},{"zone_id":"Z2","zone_name":"Comercial","hour":12,"occupancy_rate":0.957,"avg_entries":74.4},{"zone_id":"Z2","zone_name":"Comercial","hour":13,"occupancy_rate":0.949,"avg_entries":76.1},{"zone_id":"Z2","zone_name":"Comercial","hour":14,"occupancy_rate":0.874,"avg_entries":75.0},{"zone_id":"Z2","zone_name":"Comercial","hour":15,"occupancy_rate":0.823,"avg_entries":73.7},{"zone_id":"Z2","zone_name":"Comercial","hour":16,"occupancy_rate":0.853,"avg_entries":74.1},{"zone_id":"Z2","zone_name":"Comercial","hour":17,"occupancy_rate":0.903,"avg_entries":74.4},{"zone_id":"Z2","zone_name":"Comercial","hour":18,"occupancy_rate":0.783,"avg_entries":73.4},{"zone_id":"Z2","zone_name":"Comercial","hour":19,"occupancy_rate":0.562,"avg_entries":74.4},{"zone_id":"Z3","zone_name":"Hospitalaria","hour":6,"occupancy_rate":0.248,"avg_entries":41.0},{"zone_id":"Z3","zone_name":"Hospitalaria","hour":7,"occupancy_rate":0.516,"avg_entries":40.8},{"zone_id":"Z3","zone_name":"Hospitalaria","hour":8,"occupancy_rate":0.715,"avg_entries":40.4},{"zone_id":"Z3","zone_name":"Hospitalaria","hour":9,"occupancy_rate":0.804,"avg_entries":41.5},{"zone_id":"Z3","zone_name":"Hospitalaria","hour":10,"occupancy_rate":0.853,"avg_entries":41.3},{"zone_id":"Z3","zone_name":"Hospitalaria","hour":11,"occupancy_rate":0.903,"avg_entries":41.2},{"zone_id":"Z3","zone_name":"Hospitalaria","hour":12,"occupancy_rate":0.947,"avg_entries":40.5},{"zone_id":"Z3","zone_name":"Hospitalaria","hour":13,"occupancy_rate":0.939,"avg_entries":40.2},{"zone_id":"Z3","zone_name":"Hospitalaria","hour":14,"occupancy_rate":0.863,"avg_entries":40.6},{"zone_id":"Z3","zone_name":"Hospitalaria","hour":15,"occupancy_rate":0.814,"avg_entries":41.0},{"zone_id":"Z3","zone_name":"Hospitalaria","hour":16,"occupancy_rate":0.844,"avg_entries":40.5},{"zone_id":"Z3","zone_name":"Hospitalaria","hour":17,"occupancy_rate":0.893,"avg_entries":40.2},{"zone_id":"Z3","zone_name":"Hospitalaria","hour":18,"occupancy_rate":0.774,"avg_entries":40.3},{"zone_id":"Z3","zone_name":"Hospitalaria","hour":19,"occupancy_rate":0.556,"avg_entries":40.8},{"zone_id":"Z4","zone_name":"Norte","hour":6,"occupancy_rate":0.249,"avg_entries":23.1},{"zone_id":"Z4","zone_name":"Norte","hour":7,"occupancy_rate":0.518,"avg_entries":23.4},{"zone_id":"Z4","zone_name":"Norte","hour":8,"occupancy_rate":0.718,"avg_entries":23.7},{"zone_id":"Z4","zone_name":"Norte","hour":9,"occupancy_rate":0.807,"avg_entries":23.0},{"zone_id":"Z4","zone_name":"Norte","hour":10,"occupancy_rate":0.857,"avg_entries":23.4},{"zone_id":"Z4","zone_name":"Norte","hour":11,"occupancy_rate":0.905,"avg_entries":23.1},{"zone_id":"Z4","zone_name":"Norte","hour":12,"occupancy_rate":0.947,"avg_entries":23.6},{"zone_id":"Z4","zone_name":"Norte","hour":13,"occupancy_rate":0.939,"avg_entries":23.2},{"zone_id":"Z4","zone_name":"Norte","hour":14,"occupancy_rate":0.866,"avg_entries":23.0},{"zone_id":"Z4","zone_name":"Norte","hour":15,"occupancy_rate":0.817,"avg_entries":23.6},{"zone_id":"Z4","zone_name":"Norte","hour":16,"occupancy_rate":0.847,"avg_entries":23.8},{"zone_id":"Z4","zone_name":"Norte","hour":17,"occupancy_rate":0.895,"avg_entries":23.3},{"zone_id":"Z4","zone_name":"Norte","hour":18,"occupancy_rate":0.777,"avg_entries":22.9},{"zone_id":"Z4","zone_name":"Norte","hour":19,"occupancy_rate":0.558,"avg_entries":23.4},{"zone_id":"Z5","zone_name":"Sur","hour":6,"occupancy_rate":0.252,"avg_entries":24.2},{"zone_id":"Z5","zone_name":"Sur","hour":7,"occupancy_rate":0.524,"avg_entries":23.7},{"zone_id":"Z5","zone_name":"Sur","hour":8,"occupancy_rate":0.726,"avg_entries":23.6},{"zone_id":"Z5","zone_name":"Sur","hour":9,"occupancy_rate":0.817,"avg_entries":24.0},{"zone_id":"Z5","zone_name":"Sur","hour":10,"occupancy_rate":0.867,"avg_entries":24.0},{"zone_id":"Z5","zone_name":"Sur","hour":11,"occupancy_rate":0.913,"avg_entries":24.2},{"zone_id":"Z5","zone_name":"Sur","hour":12,"occupancy_rate":0.952,"avg_entries":24.5},{"zone_id":"Z5","zone_name":"Sur","hour":13,"occupancy_rate":0.945,"avg_entries":23.6},{"zone_id":"Z5","zone_name":"Sur","hour":14,"occupancy_rate":0.877,"avg_entries":24.2},{"zone_id":"Z5","zone_name":"Sur","hour":15,"occupancy_rate":0.826,"avg_entries":23.7},{"zone_id":"Z5","zone_name":"Sur","hour":16,"occupancy_rate":0.857,"avg_entries":24.1},{"zone_id":"Z5","zone_name":"Sur","hour":17,"occupancy_rate":0.905,"avg_entries":23.7},{"zone_id":"Z5","zone_name":"Sur","hour":18,"occupancy_rate":0.786,"avg_entries":23.9},{"zone_id":"Z5","zone_name":"Sur","hour":19,"occupancy_rate":0.564,"avg_entries":24.0}]
+[
+  {
+    "zone_id": "Z1",
+    "zone_name": "Centro",
+    "hour": 6,
+    "occupancy_rate": 0.25,
+    "avg_entries": 149.4
+  },
+  {
+    "zone_id": "Z1",
+    "zone_name": "Centro",
+    "hour": 7,
+    "occupancy_rate": 0.52,
+    "avg_entries": 149.3
+  },
+  {
+    "zone_id": "Z1",
+    "zone_name": "Centro",
+    "hour": 8,
+    "occupancy_rate": 0.72,
+    "avg_entries": 152.3
+  },
+  {
+    "zone_id": "Z1",
+    "zone_name": "Centro",
+    "hour": 9,
+    "occupancy_rate": 0.81,
+    "avg_entries": 147.7
+  },
+  {
+    "zone_id": "Z1",
+    "zone_name": "Centro",
+    "hour": 10,
+    "occupancy_rate": 0.86,
+    "avg_entries": 147.7
+  },
+  {
+    "zone_id": "Z1",
+    "zone_name": "Centro",
+    "hour": 11,
+    "occupancy_rate": 0.909,
+    "avg_entries": 153.4
+  },
+  {
+    "zone_id": "Z1",
+    "zone_name": "Centro",
+    "hour": 12,
+    "occupancy_rate": 0.951,
+    "avg_entries": 150.4
+  },
+  {
+    "zone_id": "Z1",
+    "zone_name": "Centro",
+    "hour": 13,
+    "occupancy_rate": 0.944,
+    "avg_entries": 149.8
+  },
+  {
+    "zone_id": "Z1",
+    "zone_name": "Centro",
+    "hour": 14,
+    "occupancy_rate": 0.87,
+    "avg_entries": 148.8
+  },
+  {
+    "zone_id": "Z1",
+    "zone_name": "Centro",
+    "hour": 15,
+    "occupancy_rate": 0.82,
+    "avg_entries": 151.1
+  },
+  {
+    "zone_id": "Z1",
+    "zone_name": "Centro",
+    "hour": 16,
+    "occupancy_rate": 0.85,
+    "avg_entries": 150.8
+  },
+  {
+    "zone_id": "Z1",
+    "zone_name": "Centro",
+    "hour": 17,
+    "occupancy_rate": 0.899,
+    "avg_entries": 149.8
+  },
+  {
+    "zone_id": "Z1",
+    "zone_name": "Centro",
+    "hour": 18,
+    "occupancy_rate": 0.78,
+    "avg_entries": 150.0
+  },
+  {
+    "zone_id": "Z1",
+    "zone_name": "Centro",
+    "hour": 19,
+    "occupancy_rate": 0.56,
+    "avg_entries": 152.9
+  },
+  {
+    "zone_id": "Z2",
+    "zone_name": "Comercial",
+    "hour": 6,
+    "occupancy_rate": 0.251,
+    "avg_entries": 73.0
+  },
+  {
+    "zone_id": "Z2",
+    "zone_name": "Comercial",
+    "hour": 7,
+    "occupancy_rate": 0.522,
+    "avg_entries": 75.8
+  },
+  {
+    "zone_id": "Z2",
+    "zone_name": "Comercial",
+    "hour": 8,
+    "occupancy_rate": 0.723,
+    "avg_entries": 74.6
+  },
+  {
+    "zone_id": "Z2",
+    "zone_name": "Comercial",
+    "hour": 9,
+    "occupancy_rate": 0.813,
+    "avg_entries": 73.5
+  },
+  {
+    "zone_id": "Z2",
+    "zone_name": "Comercial",
+    "hour": 10,
+    "occupancy_rate": 0.864,
+    "avg_entries": 74.2
+  },
+  {
+    "zone_id": "Z2",
+    "zone_name": "Comercial",
+    "hour": 11,
+    "occupancy_rate": 0.913,
+    "avg_entries": 73.8
+  },
+  {
+    "zone_id": "Z2",
+    "zone_name": "Comercial",
+    "hour": 12,
+    "occupancy_rate": 0.957,
+    "avg_entries": 74.4
+  },
+  {
+    "zone_id": "Z2",
+    "zone_name": "Comercial",
+    "hour": 13,
+    "occupancy_rate": 0.949,
+    "avg_entries": 76.1
+  },
+  {
+    "zone_id": "Z2",
+    "zone_name": "Comercial",
+    "hour": 14,
+    "occupancy_rate": 0.874,
+    "avg_entries": 75.0
+  },
+  {
+    "zone_id": "Z2",
+    "zone_name": "Comercial",
+    "hour": 15,
+    "occupancy_rate": 0.823,
+    "avg_entries": 73.7
+  },
+  {
+    "zone_id": "Z2",
+    "zone_name": "Comercial",
+    "hour": 16,
+    "occupancy_rate": 0.853,
+    "avg_entries": 74.1
+  },
+  {
+    "zone_id": "Z2",
+    "zone_name": "Comercial",
+    "hour": 17,
+    "occupancy_rate": 0.903,
+    "avg_entries": 74.4
+  },
+  {
+    "zone_id": "Z2",
+    "zone_name": "Comercial",
+    "hour": 18,
+    "occupancy_rate": 0.783,
+    "avg_entries": 73.4
+  },
+  {
+    "zone_id": "Z2",
+    "zone_name": "Comercial",
+    "hour": 19,
+    "occupancy_rate": 0.562,
+    "avg_entries": 74.4
+  },
+  {
+    "zone_id": "Z3",
+    "zone_name": "Hospitalaria",
+    "hour": 6,
+    "occupancy_rate": 0.248,
+    "avg_entries": 41.0
+  },
+  {
+    "zone_id": "Z3",
+    "zone_name": "Hospitalaria",
+    "hour": 7,
+    "occupancy_rate": 0.516,
+    "avg_entries": 40.8
+  },
+  {
+    "zone_id": "Z3",
+    "zone_name": "Hospitalaria",
+    "hour": 8,
+    "occupancy_rate": 0.715,
+    "avg_entries": 40.4
+  },
+  {
+    "zone_id": "Z3",
+    "zone_name": "Hospitalaria",
+    "hour": 9,
+    "occupancy_rate": 0.804,
+    "avg_entries": 41.5
+  },
+  {
+    "zone_id": "Z3",
+    "zone_name": "Hospitalaria",
+    "hour": 10,
+    "occupancy_rate": 0.853,
+    "avg_entries": 41.3
+  },
+  {
+    "zone_id": "Z3",
+    "zone_name": "Hospitalaria",
+    "hour": 11,
+    "occupancy_rate": 0.903,
+    "avg_entries": 41.2
+  },
+  {
+    "zone_id": "Z3",
+    "zone_name": "Hospitalaria",
+    "hour": 12,
+    "occupancy_rate": 0.947,
+    "avg_entries": 40.5
+  },
+  {
+    "zone_id": "Z3",
+    "zone_name": "Hospitalaria",
+    "hour": 13,
+    "occupancy_rate": 0.939,
+    "avg_entries": 40.2
+  },
+  {
+    "zone_id": "Z3",
+    "zone_name": "Hospitalaria",
+    "hour": 14,
+    "occupancy_rate": 0.863,
+    "avg_entries": 40.6
+  },
+  {
+    "zone_id": "Z3",
+    "zone_name": "Hospitalaria",
+    "hour": 15,
+    "occupancy_rate": 0.814,
+    "avg_entries": 41.0
+  },
+  {
+    "zone_id": "Z3",
+    "zone_name": "Hospitalaria",
+    "hour": 16,
+    "occupancy_rate": 0.844,
+    "avg_entries": 40.5
+  },
+  {
+    "zone_id": "Z3",
+    "zone_name": "Hospitalaria",
+    "hour": 17,
+    "occupancy_rate": 0.893,
+    "avg_entries": 40.2
+  },
+  {
+    "zone_id": "Z3",
+    "zone_name": "Hospitalaria",
+    "hour": 18,
+    "occupancy_rate": 0.774,
+    "avg_entries": 40.3
+  },
+  {
+    "zone_id": "Z3",
+    "zone_name": "Hospitalaria",
+    "hour": 19,
+    "occupancy_rate": 0.556,
+    "avg_entries": 40.8
+  },
+  {
+    "zone_id": "Z4",
+    "zone_name": "Norte",
+    "hour": 6,
+    "occupancy_rate": 0.249,
+    "avg_entries": 23.1
+  },
+  {
+    "zone_id": "Z4",
+    "zone_name": "Norte",
+    "hour": 7,
+    "occupancy_rate": 0.518,
+    "avg_entries": 23.4
+  },
+  {
+    "zone_id": "Z4",
+    "zone_name": "Norte",
+    "hour": 8,
+    "occupancy_rate": 0.718,
+    "avg_entries": 23.7
+  },
+  {
+    "zone_id": "Z4",
+    "zone_name": "Norte",
+    "hour": 9,
+    "occupancy_rate": 0.807,
+    "avg_entries": 23.0
+  },
+  {
+    "zone_id": "Z4",
+    "zone_name": "Norte",
+    "hour": 10,
+    "occupancy_rate": 0.857,
+    "avg_entries": 23.4
+  },
+  {
+    "zone_id": "Z4",
+    "zone_name": "Norte",
+    "hour": 11,
+    "occupancy_rate": 0.905,
+    "avg_entries": 23.1
+  },
+  {
+    "zone_id": "Z4",
+    "zone_name": "Norte",
+    "hour": 12,
+    "occupancy_rate": 0.947,
+    "avg_entries": 23.6
+  },
+  {
+    "zone_id": "Z4",
+    "zone_name": "Norte",
+    "hour": 13,
+    "occupancy_rate": 0.939,
+    "avg_entries": 23.2
+  },
+  {
+    "zone_id": "Z4",
+    "zone_name": "Norte",
+    "hour": 14,
+    "occupancy_rate": 0.866,
+    "avg_entries": 23.0
+  },
+  {
+    "zone_id": "Z4",
+    "zone_name": "Norte",
+    "hour": 15,
+    "occupancy_rate": 0.817,
+    "avg_entries": 23.6
+  },
+  {
+    "zone_id": "Z4",
+    "zone_name": "Norte",
+    "hour": 16,
+    "occupancy_rate": 0.847,
+    "avg_entries": 23.8
+  },
+  {
+    "zone_id": "Z4",
+    "zone_name": "Norte",
+    "hour": 17,
+    "occupancy_rate": 0.895,
+    "avg_entries": 23.3
+  },
+  {
+    "zone_id": "Z4",
+    "zone_name": "Norte",
+    "hour": 18,
+    "occupancy_rate": 0.777,
+    "avg_entries": 22.9
+  },
+  {
+    "zone_id": "Z4",
+    "zone_name": "Norte",
+    "hour": 19,
+    "occupancy_rate": 0.558,
+    "avg_entries": 23.4
+  },
+  { "zone_id": "Z5", "zone_name": "Sur", "hour": 6, "occupancy_rate": 0.252, "avg_entries": 24.2 },
+  { "zone_id": "Z5", "zone_name": "Sur", "hour": 7, "occupancy_rate": 0.524, "avg_entries": 23.7 },
+  { "zone_id": "Z5", "zone_name": "Sur", "hour": 8, "occupancy_rate": 0.726, "avg_entries": 23.6 },
+  { "zone_id": "Z5", "zone_name": "Sur", "hour": 9, "occupancy_rate": 0.817, "avg_entries": 24.0 },
+  { "zone_id": "Z5", "zone_name": "Sur", "hour": 10, "occupancy_rate": 0.867, "avg_entries": 24.0 },
+  { "zone_id": "Z5", "zone_name": "Sur", "hour": 11, "occupancy_rate": 0.913, "avg_entries": 24.2 },
+  { "zone_id": "Z5", "zone_name": "Sur", "hour": 12, "occupancy_rate": 0.952, "avg_entries": 24.5 },
+  { "zone_id": "Z5", "zone_name": "Sur", "hour": 13, "occupancy_rate": 0.945, "avg_entries": 23.6 },
+  { "zone_id": "Z5", "zone_name": "Sur", "hour": 14, "occupancy_rate": 0.877, "avg_entries": 24.2 },
+  { "zone_id": "Z5", "zone_name": "Sur", "hour": 15, "occupancy_rate": 0.826, "avg_entries": 23.7 },
+  { "zone_id": "Z5", "zone_name": "Sur", "hour": 16, "occupancy_rate": 0.857, "avg_entries": 24.1 },
+  { "zone_id": "Z5", "zone_name": "Sur", "hour": 17, "occupancy_rate": 0.905, "avg_entries": 23.7 },
+  { "zone_id": "Z5", "zone_name": "Sur", "hour": 18, "occupancy_rate": 0.786, "avg_entries": 23.9 },
+  { "zone_id": "Z5", "zone_name": "Sur", "hour": 19, "occupancy_rate": 0.564, "avg_entries": 24.0 }
+]
