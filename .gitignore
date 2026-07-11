@@ -30,3 +30,31 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Local backup files
+*.bak
+*.bak.*
+*.backup
+*.backup.*
+
+# Dependencies and generated artifacts
+node_modules/
+dist/
+coverage/
+*.log
+
+# Claude Code local/private configuration
+.claude/settings.local.json
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db

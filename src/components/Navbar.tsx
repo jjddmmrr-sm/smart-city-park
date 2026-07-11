@@ -1,23 +1,82 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Map, Car, BarChart3, ShieldAlert, Settings, Activity, Receipt, UserCog, CreditCard, Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import {
+  LayoutDashboard,
+  Map,
+  Car,
+  BarChart3,
+  ShieldAlert,
+  Settings,
+  Activity,
+  Receipt,
+  UserCog,
+  CreditCard,
+  Menu,
+  X,
+} from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { apiGetAuth } from "@/lib/api";
+import { getAuthUser, isAuthenticated } from "@/lib/auth";
 
 const NAV = [
-  { to: "/overview", label: "Resumen", full: "Resumen General", icon: LayoutDashboard },
-  { to: "/", label: "Mapa", full: "Mapa en Vivo", icon: Map },
-  { to: "/vehicles", label: "Vehículos", full: "Vehículos", icon: Car },
-  { to: "/multas", label: "Multas", full: "Multas", icon: Receipt },
-  { to: "/controladores", label: "Controladores", full: "Controladores", icon: UserCog },
-  { to: "/analytics", label: "Analítica", full: "Analítica", icon: BarChart3 },
-  { to: "/medios-pago", label: "Pagos", full: "Medios de Pago", icon: CreditCard },
-  { to: "/enforcement", label: "Cumplimiento", full: "Cumplimiento", icon: ShieldAlert },
-  { to: "/settings", label: "Config.", full: "Configuración", icon: Settings },
+  {
+    to: "/overview",
+    label: "Resumen",
+    full: "Resumen General",
+    icon: LayoutDashboard,
+    permission: "VIEW_OVERVIEW",
+  },
+  { to: "/", label: "Mapa", full: "Mapa en Vivo", icon: Map, permission: "VIEW_LIVE" },
+  {
+    to: "/vehicles",
+    label: "Vehículos",
+    full: "Vehículos",
+    icon: Car,
+    permission: "VIEW_VEHICLES",
+  },
+  { to: "/multas", label: "Multas", full: "Multas", icon: Receipt, permission: "VIEW_FINES" },
+  {
+    to: "/controladores",
+    label: "Controladores",
+    full: "Controladores",
+    icon: UserCog,
+    permission: "VIEW_CONTROLLERS",
+  },
+  {
+    to: "/analytics",
+    label: "Analítica",
+    full: "Analítica",
+    icon: BarChart3,
+    permission: "VIEW_ANALYTICS",
+  },
+  {
+    to: "/medios-pago",
+    label: "Pagos",
+    full: "Medios de Pago",
+    icon: CreditCard,
+    permission: "VIEW_PAYMENTS",
+  },
+  {
+    to: "/enforcement",
+    label: "Cumplimiento",
+    full: "Cumplimiento",
+    icon: ShieldAlert,
+    permission: "VIEW_ENFORCEMENT",
+  },
+  {
+    to: "/admin",
+    label: "Admin",
+    full: "Administración",
+    icon: Settings,
+    permission: "MANAGE_USERS",
+  },
 ] as const;
 
 export function Navbar() {
   const { location } = useRouterState();
   const [now, setNow] = useState<Date | null>(null);
   const [open, setOpen] = useState(false);
+  const [permissions, setPermissions] = useState<string[]>([]);
+  const [roles, setRoles] = useState<string[]>([]);
 
   useEffect(() => {
     setNow(new Date());
@@ -25,7 +84,28 @@ export function Navbar() {
     return () => clearInterval(i);
   }, []);
 
-  useEffect(() => { setOpen(false); }, [location.pathname]);
+  useEffect(() => {
+    if (!isAuthenticated()) return;
+
+    apiGetAuth<{ permissions: string[]; roles: string[] }>("/auth/me")
+      .then((me) => {
+        setPermissions(me.permissions ?? []);
+        setRoles(me.roles ?? []);
+      })
+      .catch(() => {
+        setPermissions([]);
+        setRoles([]);
+      });
+  }, []);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname]);
+
+  const visibleNav = useMemo(() => {
+    if (roles.includes("SUPER_ADMIN")) return NAV;
+    return NAV.filter((n) => permissions.includes(n.permission));
+  }, [permissions, roles]);
 
   return (
     <header className="sticky top-0 z-40 backdrop-blur-md bg-white/85 border-b border-border">
@@ -41,7 +121,7 @@ export function Navbar() {
 
         {/* Desktop nav */}
         <nav className="hidden lg:flex items-center gap-px ml-2 min-w-0 flex-1">
-          {NAV.map((n) => {
+          {visibleNav.map((n) => {
             const active =
               n.to === "/" ? location.pathname === "/" : location.pathname.startsWith(n.to);
             const Icon = n.icon;
@@ -76,7 +156,9 @@ export function Navbar() {
               {now ? now.toLocaleTimeString("es-EC") : "--:--:--"}
             </div>
             <div className="text-[10px] text-muted-foreground">
-              {now ? `Chone · ${now.toLocaleDateString("es-EC", { day: "2-digit", month: "short" })}` : "Chone"}
+              {now
+                ? `Chone · ${now.toLocaleDateString("es-EC", { day: "2-digit", month: "short" })}`
+                : "Chone"}
             </div>
           </div>
           <div className="h-7 w-7 rounded-full bg-secondary text-primary grid place-items-center text-[11px] font-medium shrink-0">
@@ -96,7 +178,7 @@ export function Navbar() {
       {/* Mobile nav */}
       {open && (
         <nav className="lg:hidden border-t border-border bg-white/95 backdrop-blur-md p-1.5 grid grid-cols-2 sm:grid-cols-3 gap-1">
-          {NAV.map((n) => {
+          {visibleNav.map((n) => {
             const active =
               n.to === "/" ? location.pathname === "/" : location.pathname.startsWith(n.to);
             const Icon = n.icon;

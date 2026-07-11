@@ -18,6 +18,17 @@ import { Route as EnforcementRouteImport } from './routes/enforcement'
 import { Route as ControladoresRouteImport } from './routes/controladores'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminZonesRouteImport } from './routes/admin/zones'
+import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as AdminSpacesRouteImport } from './routes/admin/spaces'
+import { Route as AdminRolesRouteImport } from './routes/admin/roles'
+import { Route as AdminRatesRouteImport } from './routes/admin/rates'
+import { Route as AdminPaymentMethodsRouteImport } from './routes/admin/payment-methods'
+import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminFineTypesRouteImport } from './routes/admin/fine-types'
+import { Route as AdminControllersRouteImport } from './routes/admin/controllers'
+import { Route as AdminAccessControlRouteImport } from './routes/admin/access-control'
 
 const VehiclesRoute = VehiclesRouteImport.update({
   id: '/vehicles',
@@ -64,6 +75,61 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminZonesRoute = AdminZonesRouteImport.update({
+  id: '/admin/zones',
+  path: '/admin/zones',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSpacesRoute = AdminSpacesRouteImport.update({
+  id: '/admin/spaces',
+  path: '/admin/spaces',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRolesRoute = AdminRolesRouteImport.update({
+  id: '/admin/roles',
+  path: '/admin/roles',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRatesRoute = AdminRatesRouteImport.update({
+  id: '/admin/rates',
+  path: '/admin/rates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPaymentMethodsRoute = AdminPaymentMethodsRouteImport.update({
+  id: '/admin/payment-methods',
+  path: '/admin/payment-methods',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminFineTypesRoute = AdminFineTypesRouteImport.update({
+  id: '/admin/fine-types',
+  path: '/admin/fine-types',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminControllersRoute = AdminControllersRouteImport.update({
+  id: '/admin/controllers',
+  path: '/admin/controllers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAccessControlRoute = AdminAccessControlRouteImport.update({
+  id: '/admin/access-control',
+  path: '/admin/access-control',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -75,6 +141,17 @@ export interface FileRoutesByFullPath {
   '/overview': typeof OverviewRoute
   '/settings': typeof SettingsRoute
   '/vehicles': typeof VehiclesRoute
+  '/admin/access-control': typeof AdminAccessControlRoute
+  '/admin/controllers': typeof AdminControllersRoute
+  '/admin/fine-types': typeof AdminFineTypesRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/payment-methods': typeof AdminPaymentMethodsRoute
+  '/admin/rates': typeof AdminRatesRoute
+  '/admin/roles': typeof AdminRolesRoute
+  '/admin/spaces': typeof AdminSpacesRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/zones': typeof AdminZonesRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -86,6 +163,17 @@ export interface FileRoutesByTo {
   '/overview': typeof OverviewRoute
   '/settings': typeof SettingsRoute
   '/vehicles': typeof VehiclesRoute
+  '/admin/access-control': typeof AdminAccessControlRoute
+  '/admin/controllers': typeof AdminControllersRoute
+  '/admin/fine-types': typeof AdminFineTypesRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/payment-methods': typeof AdminPaymentMethodsRoute
+  '/admin/rates': typeof AdminRatesRoute
+  '/admin/roles': typeof AdminRolesRoute
+  '/admin/spaces': typeof AdminSpacesRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/zones': typeof AdminZonesRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -98,6 +186,17 @@ export interface FileRoutesById {
   '/overview': typeof OverviewRoute
   '/settings': typeof SettingsRoute
   '/vehicles': typeof VehiclesRoute
+  '/admin/access-control': typeof AdminAccessControlRoute
+  '/admin/controllers': typeof AdminControllersRoute
+  '/admin/fine-types': typeof AdminFineTypesRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/payment-methods': typeof AdminPaymentMethodsRoute
+  '/admin/rates': typeof AdminRatesRoute
+  '/admin/roles': typeof AdminRolesRoute
+  '/admin/spaces': typeof AdminSpacesRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/zones': typeof AdminZonesRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,6 +210,17 @@ export interface FileRouteTypes {
     | '/overview'
     | '/settings'
     | '/vehicles'
+    | '/admin/access-control'
+    | '/admin/controllers'
+    | '/admin/fine-types'
+    | '/admin/login'
+    | '/admin/payment-methods'
+    | '/admin/rates'
+    | '/admin/roles'
+    | '/admin/spaces'
+    | '/admin/users'
+    | '/admin/zones'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,6 +232,17 @@ export interface FileRouteTypes {
     | '/overview'
     | '/settings'
     | '/vehicles'
+    | '/admin/access-control'
+    | '/admin/controllers'
+    | '/admin/fine-types'
+    | '/admin/login'
+    | '/admin/payment-methods'
+    | '/admin/rates'
+    | '/admin/roles'
+    | '/admin/spaces'
+    | '/admin/users'
+    | '/admin/zones'
+    | '/admin'
   id:
     | '__root__'
     | '/'
@@ -133,6 +254,17 @@ export interface FileRouteTypes {
     | '/overview'
     | '/settings'
     | '/vehicles'
+    | '/admin/access-control'
+    | '/admin/controllers'
+    | '/admin/fine-types'
+    | '/admin/login'
+    | '/admin/payment-methods'
+    | '/admin/rates'
+    | '/admin/roles'
+    | '/admin/spaces'
+    | '/admin/users'
+    | '/admin/zones'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -145,6 +277,17 @@ export interface RootRouteChildren {
   OverviewRoute: typeof OverviewRoute
   SettingsRoute: typeof SettingsRoute
   VehiclesRoute: typeof VehiclesRoute
+  AdminAccessControlRoute: typeof AdminAccessControlRoute
+  AdminControllersRoute: typeof AdminControllersRoute
+  AdminFineTypesRoute: typeof AdminFineTypesRoute
+  AdminLoginRoute: typeof AdminLoginRoute
+  AdminPaymentMethodsRoute: typeof AdminPaymentMethodsRoute
+  AdminRatesRoute: typeof AdminRatesRoute
+  AdminRolesRoute: typeof AdminRolesRoute
+  AdminSpacesRoute: typeof AdminSpacesRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  AdminZonesRoute: typeof AdminZonesRoute
+  AdminIndexRoute: typeof AdminIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -212,6 +355,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/zones': {
+      id: '/admin/zones'
+      path: '/admin/zones'
+      fullPath: '/admin/zones'
+      preLoaderRoute: typeof AdminZonesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/spaces': {
+      id: '/admin/spaces'
+      path: '/admin/spaces'
+      fullPath: '/admin/spaces'
+      preLoaderRoute: typeof AdminSpacesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/roles': {
+      id: '/admin/roles'
+      path: '/admin/roles'
+      fullPath: '/admin/roles'
+      preLoaderRoute: typeof AdminRolesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/rates': {
+      id: '/admin/rates'
+      path: '/admin/rates'
+      fullPath: '/admin/rates'
+      preLoaderRoute: typeof AdminRatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/payment-methods': {
+      id: '/admin/payment-methods'
+      path: '/admin/payment-methods'
+      fullPath: '/admin/payment-methods'
+      preLoaderRoute: typeof AdminPaymentMethodsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/fine-types': {
+      id: '/admin/fine-types'
+      path: '/admin/fine-types'
+      fullPath: '/admin/fine-types'
+      preLoaderRoute: typeof AdminFineTypesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/controllers': {
+      id: '/admin/controllers'
+      path: '/admin/controllers'
+      fullPath: '/admin/controllers'
+      preLoaderRoute: typeof AdminControllersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/access-control': {
+      id: '/admin/access-control'
+      path: '/admin/access-control'
+      fullPath: '/admin/access-control'
+      preLoaderRoute: typeof AdminAccessControlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -225,6 +445,17 @@ const rootRouteChildren: RootRouteChildren = {
   OverviewRoute: OverviewRoute,
   SettingsRoute: SettingsRoute,
   VehiclesRoute: VehiclesRoute,
+  AdminAccessControlRoute: AdminAccessControlRoute,
+  AdminControllersRoute: AdminControllersRoute,
+  AdminFineTypesRoute: AdminFineTypesRoute,
+  AdminLoginRoute: AdminLoginRoute,
+  AdminPaymentMethodsRoute: AdminPaymentMethodsRoute,
+  AdminRatesRoute: AdminRatesRoute,
+  AdminRolesRoute: AdminRolesRoute,
+  AdminSpacesRoute: AdminSpacesRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  AdminZonesRoute: AdminZonesRoute,
+  AdminIndexRoute: AdminIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

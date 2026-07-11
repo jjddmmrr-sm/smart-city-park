@@ -1,1 +1,164 @@
-[{"controlador_id":"CTR-001","nombre":"Luis Zambrano","zona_asignada":"Centro","turno":"tarde","estado":"activo","fecha_ingreso":"2024-06-15","dispositivo_id":"DEV-001"},{"controlador_id":"CTR-002","nombre":"Carlos Moreira","zona_asignada":"Comercial","turno":"mañana","estado":"activo","fecha_ingreso":"2024-06-01","dispositivo_id":"DEV-002"},{"controlador_id":"CTR-003","nombre":"Javier Mieles","zona_asignada":"Hospitalaria","turno":"mañana","estado":"activo","fecha_ingreso":"2024-06-12","dispositivo_id":"DEV-003"},{"controlador_id":"CTR-004","nombre":"Andrea Delgado","zona_asignada":"Residencial Norte","turno":"tarde","estado":"activo","fecha_ingreso":"2025-07-27","dispositivo_id":"DEV-004"},{"controlador_id":"CTR-005","nombre":"José Alcívar","zona_asignada":"Residencial Sur","turno":"tarde","estado":"vacaciones","fecha_ingreso":"2025-04-19","dispositivo_id":"DEV-005"},{"controlador_id":"CTR-006","nombre":"Daniel Cedeño","zona_asignada":"Centro","turno":"mixto","estado":"activo","fecha_ingreso":"2024-02-29","dispositivo_id":"DEV-006"},{"controlador_id":"CTR-007","nombre":"Karina Arteaga","zona_asignada":"Comercial","turno":"mañana","estado":"vacaciones","fecha_ingreso":"2024-05-23","dispositivo_id":"DEV-007"},{"controlador_id":"CTR-008","nombre":"Mónica Vera","zona_asignada":"Hospitalaria","turno":"mañana","estado":"activo","fecha_ingreso":"2024-09-04","dispositivo_id":"DEV-008"},{"controlador_id":"CTR-009","nombre":"Patricio Intriago","zona_asignada":"Residencial Norte","turno":"tarde","estado":"activo","fecha_ingreso":"2024-04-04","dispositivo_id":"DEV-009"},{"controlador_id":"CTR-010","nombre":"Diana Mendoza","zona_asignada":"Residencial Sur","turno":"tarde","estado":"vacaciones","fecha_ingreso":"2025-03-15","dispositivo_id":"DEV-010"},{"controlador_id":"CTR-011","nombre":"Henry Loor","zona_asignada":"Centro","turno":"tarde","estado":"vacaciones","fecha_ingreso":"2024-02-12","dispositivo_id":"DEV-011"},{"controlador_id":"CTR-012","nombre":"Verónica Dueñas","zona_asignada":"Comercial","turno":"mañana","estado":"activo","fecha_ingreso":"2025-04-08","dispositivo_id":"DEV-012"},{"controlador_id":"CTR-013","nombre":"Rafael Solórzano","zona_asignada":"Hospitalaria","turno":"mixto","estado":"activo","fecha_ingreso":"2024-02-08","dispositivo_id":"DEV-013"},{"controlador_id":"CTR-014","nombre":"María Farías","zona_asignada":"Residencial Norte","turno":"mixto","estado":"activo","fecha_ingreso":"2024-07-21","dispositivo_id":"DEV-014"},{"controlador_id":"CTR-015","nombre":"Jonathan Ponce","zona_asignada":"Residencial Sur","turno":"mañana","estado":"activo","fecha_ingreso":"2024-03-25","dispositivo_id":"DEV-015"},{"controlador_id":"CTR-016","nombre":"Ximena Saltos","zona_asignada":"Centro","turno":"tarde","estado":"activo","fecha_ingreso":"2024-12-12","dispositivo_id":"DEV-016"},{"controlador_id":"CTR-017","nombre":"Byron Zambrano","zona_asignada":"Comercial","turno":"mixto","estado":"activo","fecha_ingreso":"2025-03-09","dispositivo_id":"DEV-017"},{"controlador_id":"CTR-018","nombre":"Paola Villamar","zona_asignada":"Hospitalaria","turno":"tarde","estado":"activo","fecha_ingreso":"2025-06-08","dispositivo_id":"DEV-018"}]
+[
+  {
+    "controlador_id": "CTR-001",
+    "nombre": "Luis Zambrano",
+    "zona_asignada": "Centro",
+    "turno": "tarde",
+    "estado": "activo",
+    "fecha_ingreso": "2024-06-15",
+    "dispositivo_id": "DEV-001"
+  },
+  {
+    "controlador_id": "CTR-002",
+    "nombre": "Carlos Moreira",
+    "zona_asignada": "Comercial",
+    "turno": "mañana",
+    "estado": "activo",
+    "fecha_ingreso": "2024-06-01",
+    "dispositivo_id": "DEV-002"
+  },
+  {
+    "controlador_id": "CTR-003",
+    "nombre": "Javier Mieles",
+    "zona_asignada": "Hospitalaria",
+    "turno": "mañana",
+    "estado": "activo",
+    "fecha_ingreso": "2024-06-12",
+    "dispositivo_id": "DEV-003"
+  },
+  {
+    "controlador_id": "CTR-004",
+    "nombre": "Andrea Delgado",
+    "zona_asignada": "Residencial Norte",
+    "turno": "tarde",
+    "estado": "activo",
+    "fecha_ingreso": "2025-07-27",
+    "dispositivo_id": "DEV-004"
+  },
+  {
+    "controlador_id": "CTR-005",
+    "nombre": "José Alcívar",
+    "zona_asignada": "Residencial Sur",
+    "turno": "tarde",
+    "estado": "vacaciones",
+    "fecha_ingreso": "2025-04-19",
+    "dispositivo_id": "DEV-005"
+  },
+  {
+    "controlador_id": "CTR-006",
+    "nombre": "Daniel Cedeño",
+    "zona_asignada": "Centro",
+    "turno": "mixto",
+    "estado": "activo",
+    "fecha_ingreso": "2024-02-29",
+    "dispositivo_id": "DEV-006"
+  },
+  {
+    "controlador_id": "CTR-007",
+    "nombre": "Karina Arteaga",
+    "zona_asignada": "Comercial",
+    "turno": "mañana",
+    "estado": "vacaciones",
+    "fecha_ingreso": "2024-05-23",
+    "dispositivo_id": "DEV-007"
+  },
+  {
+    "controlador_id": "CTR-008",
+    "nombre": "Mónica Vera",
+    "zona_asignada": "Hospitalaria",
+    "turno": "mañana",
+    "estado": "activo",
+    "fecha_ingreso": "2024-09-04",
+    "dispositivo_id": "DEV-008"
+  },
+  {
+    "controlador_id": "CTR-009",
+    "nombre": "Patricio Intriago",
+    "zona_asignada": "Residencial Norte",
+    "turno": "tarde",
+    "estado": "activo",
+    "fecha_ingreso": "2024-04-04",
+    "dispositivo_id": "DEV-009"
+  },
+  {
+    "controlador_id": "CTR-010",
+    "nombre": "Diana Mendoza",
+    "zona_asignada": "Residencial Sur",
+    "turno": "tarde",
+    "estado": "vacaciones",
+    "fecha_ingreso": "2025-03-15",
+    "dispositivo_id": "DEV-010"
+  },
+  {
+    "controlador_id": "CTR-011",
+    "nombre": "Henry Loor",
+    "zona_asignada": "Centro",
+    "turno": "tarde",
+    "estado": "vacaciones",
+    "fecha_ingreso": "2024-02-12",
+    "dispositivo_id": "DEV-011"
+  },
+  {
+    "controlador_id": "CTR-012",
+    "nombre": "Verónica Dueñas",
+    "zona_asignada": "Comercial",
+    "turno": "mañana",
+    "estado": "activo",
+    "fecha_ingreso": "2025-04-08",
+    "dispositivo_id": "DEV-012"
+  },
+  {
+    "controlador_id": "CTR-013",
+    "nombre": "Rafael Solórzano",
+    "zona_asignada": "Hospitalaria",
+    "turno": "mixto",
+    "estado": "activo",
+    "fecha_ingreso": "2024-02-08",
+    "dispositivo_id": "DEV-013"
+  },
+  {
+    "controlador_id": "CTR-014",
+    "nombre": "María Farías",
+    "zona_asignada": "Residencial Norte",
+    "turno": "mixto",
+    "estado": "activo",
+    "fecha_ingreso": "2024-07-21",
+    "dispositivo_id": "DEV-014"
+  },
+  {
+    "controlador_id": "CTR-015",
+    "nombre": "Jonathan Ponce",
+    "zona_asignada": "Residencial Sur",
+    "turno": "mañana",
+    "estado": "activo",
+    "fecha_ingreso": "2024-03-25",
+    "dispositivo_id": "DEV-015"
+  },
+  {
+    "controlador_id": "CTR-016",
+    "nombre": "Ximena Saltos",
+    "zona_asignada": "Centro",
+    "turno": "tarde",
+    "estado": "activo",
+    "fecha_ingreso": "2024-12-12",
+    "dispositivo_id": "DEV-016"
+  },
+  {
+    "controlador_id": "CTR-017",
+    "nombre": "Byron Zambrano",
+    "zona_asignada": "Comercial",
+    "turno": "mixto",
+    "estado": "activo",
+    "fecha_ingreso": "2025-03-09",
+    "dispositivo_id": "DEV-017"
+  },
+  {
+    "controlador_id": "CTR-018",
+    "nombre": "Paola Villamar",
+    "zona_asignada": "Hospitalaria",
+    "turno": "tarde",
+    "estado": "activo",
+    "fecha_ingreso": "2025-06-08",
+    "dispositivo_id": "DEV-018"
+  }
+]

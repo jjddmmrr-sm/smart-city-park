@@ -1,0 +1,460 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Tenant {
+  id        String   @id @default(uuid())
+  name      String
+  code      String   @unique
+  status    String   @default("active")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cities           City[]
+  users            User[]
+  parkingZones     ParkingZone[]
+  parkingSpaces    ParkingSpace[]
+  vehicles         Vehicle[]
+  parkingRates     ParkingRate[]
+  parkingSessions  ParkingSession[]
+  paymentMethods   PaymentMethod[]
+  payments         Payment[]
+  inspectors       Inspector[]
+  fineTypes        FineType[]
+  fines            Fine[]
+  enforcementCases EnforcementCase[]
+  cameras          Camera[]
+  cameraEvents     CameraEvent[]
+  auditLogs        AuditLog[]
+
+  @@map("tenants")
+}
+
+model City {
+  id        String   @id @default(uuid())
+  tenantId  String
+  name      String
+  code      String
+  status    String   @default("active")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant           Tenant            @relation(fields: [tenantId], references: [id])
+  users            User[]
+  parkingZones     ParkingZone[]
+  parkingSpaces    ParkingSpace[]
+  vehicles         Vehicle[]
+  parkingRates     ParkingRate[]
+  parkingSessions  ParkingSession[]
+  payments         Payment[]
+  inspectors       Inspector[]
+  fines            Fine[]
+  enforcementCases EnforcementCase[]
+  cameras          Camera[]
+  cameraEvents     CameraEvent[]
+
+  @@unique([tenantId, code])
+  @@map("cities")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  tenantId  String
+  cityId    String?
+  email     String   @unique
+  name      String
+  password  String
+  status    String   @default("active")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  city   City?  @relation(fields: [cityId], references: [id])
+
+  userRoles UserRole[]
+  auditLogs AuditLog[]
+  zoneAccess UserZoneAccess[]
+
+  @@map("users")
+}
+
+model Role {
+  id          String   @id @default(uuid())
+  name        String
+  code        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userRoles       UserRole[]
+  rolePermissions RolePermission[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String   @id @default(uuid())
+  name        String
+  code        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  rolePermissions RolePermission[]
+
+  @@map("permissions")
+}
+
+model UserRole {
+  id        String   @id @default(uuid())
+  userId    String
+  roleId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  role Role @relation(fields: [roleId], references: [id])
+
+  @@unique([userId, roleId])
+  @@map("user_roles")
+}
+
+model RolePermission {
+  id           String   @id @default(uuid())
+  roleId       String
+  permissionId String
+  createdAt    DateTime @default(now())
+
+  role       Role       @relation(fields: [roleId], references: [id])
+  permission Permission @relation(fields: [permissionId], references: [id])
+
+  @@unique([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+
+model UserZoneAccess {
+  id        String   @id @default(uuid())
+  userId    String
+  zoneId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  zone ParkingZone @relation(fields: [zoneId], references: [id])
+
+  @@unique([userId, zoneId])
+  @@map("user_zone_access")
+}
+
+model ParkingZone {
+  id        String   @id @default(uuid())
+  tenantId  String
+  cityId    String
+  name      String
+  code      String
+  status    String   @default("active")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  city   City   @relation(fields: [cityId], references: [id])
+
+  spaces     ParkingSpace[]
+  inspectors Inspector[]
+  cameras    Camera[]
+  userZoneAccess UserZoneAccess[]
+
+  @@unique([cityId, code])
+  @@map("parking_zones")
+}
+
+model ParkingSpace {
+  id        String   @id @default(uuid())
+  tenantId  String
+  cityId    String
+  zoneId    String
+  code      String
+  label     String?
+  type      String   @default("vehicle")
+  status    String   @default("available")
+  latitude  Float?
+  longitude Float?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant   Tenant           @relation(fields: [tenantId], references: [id])
+  city     City             @relation(fields: [cityId], references: [id])
+  zone     ParkingZone      @relation(fields: [zoneId], references: [id])
+  sessions ParkingSession[]
+
+  @@unique([zoneId, code])
+  @@map("parking_spaces")
+}
+
+model Vehicle {
+  id          String   @id @default(uuid())
+  tenantId    String
+  cityId      String
+  plateNumber String
+  ownerName   String?
+  ownerPhone  String?
+  ownerEmail  String?
+  status      String   @default("active")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant           Tenant            @relation(fields: [tenantId], references: [id])
+  city             City              @relation(fields: [cityId], references: [id])
+  sessions         ParkingSession[]
+  fines            Fine[]
+  enforcementCases EnforcementCase[]
+
+  @@unique([tenantId, plateNumber])
+  @@map("vehicles")
+}
+
+model ParkingRate {
+  id             String   @id @default(uuid())
+  tenantId       String
+  cityId         String
+  name           String
+  code           String
+  currency       String   @default("USD")
+  pricePerMinute Float
+  minimumMinutes Int      @default(15)
+  status         String   @default("active")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  city   City   @relation(fields: [cityId], references: [id])
+
+  @@unique([cityId, code])
+  @@map("parking_rates")
+}
+
+model ParkingSession {
+  id        String    @id @default(uuid())
+  tenantId  String
+  cityId    String
+  spaceId   String
+  vehicleId String
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+  status    String    @default("active")
+  amount    Float     @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  tenant   Tenant       @relation(fields: [tenantId], references: [id])
+  city     City         @relation(fields: [cityId], references: [id])
+  space    ParkingSpace @relation(fields: [spaceId], references: [id])
+  vehicle  Vehicle      @relation(fields: [vehicleId], references: [id])
+  payments Payment[]
+  fines    Fine[]
+
+  @@map("parking_sessions")
+}
+
+model PaymentMethod {
+  id          String   @id @default(uuid())
+  tenantId    String
+  code        String
+  name        String
+  description String?
+  status      String   @default("active")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant   Tenant    @relation(fields: [tenantId], references: [id])
+  payments Payment[]
+
+  @@unique([tenantId, code])
+  @@map("payment_methods")
+}
+
+model Payment {
+  id              String   @id @default(uuid())
+  tenantId        String
+  cityId          String
+  sessionId       String?
+  paymentMethodId String
+  amount          Float
+  currency        String   @default("USD")
+  status          String   @default("paid")
+  reference       String?
+  paidAt          DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  tenant        Tenant          @relation(fields: [tenantId], references: [id])
+  city          City            @relation(fields: [cityId], references: [id])
+  session       ParkingSession? @relation(fields: [sessionId], references: [id])
+  paymentMethod PaymentMethod   @relation(fields: [paymentMethodId], references: [id])
+
+  @@map("payments")
+}
+
+model Inspector {
+  id             String   @id @default(uuid())
+  tenantId       String
+  cityId         String
+  assignedZoneId String?
+  name           String
+  email          String?
+  phone          String?
+  deviceId       String?
+  shift          String   @default("mixto")
+  status         String   @default("active")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  tenant           Tenant            @relation(fields: [tenantId], references: [id])
+  city             City              @relation(fields: [cityId], references: [id])
+  assignedZone     ParkingZone?      @relation(fields: [assignedZoneId], references: [id])
+  fines            Fine[]
+  enforcementCases EnforcementCase[]
+
+  @@map("inspectors")
+}
+
+model FineType {
+  id          String   @id @default(uuid())
+  tenantId    String
+  code        String
+  name        String
+  description String?
+  amount      Float
+  status      String   @default("active")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  fines  Fine[]
+
+  @@unique([tenantId, code])
+  @@map("fine_types")
+}
+
+model Fine {
+  id          String    @id @default(uuid())
+  tenantId    String
+  cityId      String
+  sessionId   String?
+  vehicleId   String?
+  inspectorId String?
+  fineTypeId  String
+  plateNumber String
+  amount      Float
+  status      String    @default("pending")
+  priority    String    @default("medium")
+  evidenceUrl String?
+  observation String?
+  issuedAt    DateTime  @default(now())
+  paidAt      DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  tenant    Tenant          @relation(fields: [tenantId], references: [id])
+  city      City            @relation(fields: [cityId], references: [id])
+  session   ParkingSession? @relation(fields: [sessionId], references: [id])
+  vehicle   Vehicle?        @relation(fields: [vehicleId], references: [id])
+  inspector Inspector?      @relation(fields: [inspectorId], references: [id])
+  fineType  FineType        @relation(fields: [fineTypeId], references: [id])
+
+  @@map("fines")
+}
+
+model EnforcementCase {
+  id          String    @id @default(uuid())
+  tenantId    String
+  cityId      String
+  inspectorId String?
+  vehicleId   String?
+  plateNumber String
+  issue       String
+  status      String    @default("pending")
+  priority    String    @default("medium")
+  detectedAt  DateTime  @default(now())
+  resolvedAt  DateTime?
+  observation String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  tenant    Tenant     @relation(fields: [tenantId], references: [id])
+  city      City       @relation(fields: [cityId], references: [id])
+  inspector Inspector? @relation(fields: [inspectorId], references: [id])
+  vehicle   Vehicle?   @relation(fields: [vehicleId], references: [id])
+
+  @@map("enforcement_cases")
+}
+
+model Camera {
+  id        String   @id @default(uuid())
+  tenantId  String
+  cityId    String
+  zoneId    String?
+  code      String
+  name      String
+  location  String?
+  latitude  Float?
+  longitude Float?
+  status    String   @default("active")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant Tenant        @relation(fields: [tenantId], references: [id])
+  city   City          @relation(fields: [cityId], references: [id])
+  zone   ParkingZone?  @relation(fields: [zoneId], references: [id])
+  events CameraEvent[]
+
+  @@unique([tenantId, code])
+  @@map("cameras")
+}
+
+model CameraEvent {
+  id          String   @id @default(uuid())
+  tenantId    String
+  cityId      String
+  cameraId    String
+  plateNumber String?
+  eventType   String
+  confidence  Float?
+  imageUrl    String?
+  metadata    Json?
+  occurredAt  DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+  city   City   @relation(fields: [cityId], references: [id])
+  camera Camera @relation(fields: [cameraId], references: [id])
+
+  @@map("camera_events")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  tenantId   String?
+  userId     String?
+  action     String
+  entity     String
+  entityId   String?
+  beforeData Json?
+  afterData  Json?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  tenant Tenant? @relation(fields: [tenantId], references: [id])
+  user   User?   @relation(fields: [userId], references: [id])
+
+  @@map("audit_logs")
+}

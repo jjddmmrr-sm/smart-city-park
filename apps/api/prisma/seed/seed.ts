@@ -1,0 +1,479 @@
+import 'dotenv/config';
+import { PrismaClient } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+import * as bcrypt from 'bcrypt';
+
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL!,
+});
+
+const prisma = new PrismaClient({ adapter });
+
+const zonesSeed = [
+  {
+    code: 'CENTRO',
+    name: 'Zona Centro',
+    streets: ['Av. Amazonas', 'Calle Bolívar', 'Parque Central'],
+  },
+  {
+    code: 'COMERCIAL',
+    name: 'Zona Comercial',
+    streets: ['Av. Sixto Durán', 'Calle Comercio', 'Bahía Norte'],
+  },
+  {
+    code: 'MERCADO',
+    name: 'Zona Mercado',
+    streets: ['Mercado Central', 'Calle Atahualpa', 'Av. Eloy Alfaro'],
+  },
+  {
+    code: 'HOSPITAL',
+    name: 'Zona Hospitalaria',
+    streets: ['Hospital Básico', 'Av. Salud', 'Calle Clínica'],
+  },
+  {
+    code: 'TERMINAL',
+    name: 'Zona Terminal',
+    streets: ['Terminal Terrestre', 'Av. Transporte', 'Calle Los Ríos'],
+  },
+];
+
+const inspectorNames = [
+  'Carlos Mendoza',
+  'María Zambrano',
+  'José Cedeño',
+  'Ana Vera',
+  'Luis Moreira',
+  'Gabriela Andrade',
+  'Pedro Alcívar',
+  'Diana Vélez',
+  'Ricardo Molina',
+  'Sofía Delgado',
+];
+
+const plates = [
+  'ABC1234',
+  'PBA4821',
+  'GSD9021',
+  'MBI7744',
+  'PCH1102',
+  'GYE5920',
+  'MAN8422',
+  'UIO1930',
+  'CHN2401',
+  'MTA3360',
+  'PDC7810',
+  'LOJ4491',
+  'CUE9201',
+  'ESM1720',
+  'DUR6619',
+  'BAB8204',
+  'QUE7713',
+  'SCO5530',
+  'JIP3102',
+  'CHO2026',
+];
+
+function minutesAgo(minutes: number) {
+  return new Date(Date.now() - minutes * 60 * 1000);
+}
+
+async function main() {
+  console.log('Smart Park Chone demo seed started...');
+
+  const tenant = await prisma.tenant.upsert({
+    where: { code: 'MUNI_DEMO' },
+    update: { name: 'Municipio de Chone Demo', status: 'active' },
+    create: {
+      name: 'Municipio de Chone Demo',
+      code: 'MUNI_DEMO',
+      status: 'active',
+    },
+  });
+
+  const city = await prisma.city.upsert({
+    where: { tenantId_code: { tenantId: tenant.id, code: 'SMART_CITY' } },
+    update: { name: 'Smart Park Chone', status: 'active' },
+    create: {
+      tenantId: tenant.id,
+      name: 'Smart Park Chone',
+      code: 'SMART_CITY',
+      status: 'active',
+    },
+  });
+
+  const role = await prisma.role.upsert({
+    where: { code: 'SUPER_ADMIN' },
+    update: {
+      name: 'Super Administrator',
+      description: 'Full platform access',
+    },
+    create: {
+      name: 'Super Administrator',
+      code: 'SUPER_ADMIN',
+      description: 'Full platform access',
+    },
+  });
+
+  const password = await bcrypt.hash('Admin12345', 10);
+
+  const user = await prisma.user.upsert({
+    where: { email: 'admin@smartparking.com' },
+    update: {
+      tenantId: tenant.id,
+      cityId: city.id,
+      name: 'Platform Administrator',
+      password,
+      status: 'active',
+    },
+    create: {
+      tenantId: tenant.id,
+      cityId: city.id,
+      email: 'admin@smartparking.com',
+      name: 'Platform Administrator',
+      password,
+      status: 'active',
+    },
+  });
+
+  await prisma.userRole.upsert({
+    where: { userId_roleId: { userId: user.id, roleId: role.id } },
+    update: {},
+    create: { userId: user.id, roleId: role.id },
+  });
+
+  console.log('Cleaning operational demo data...');
+
+  await prisma.cameraEvent.deleteMany({
+    where: { tenantId: tenant.id, cityId: city.id },
+  });
+  await prisma.camera.deleteMany({
+    where: { tenantId: tenant.id, cityId: city.id },
+  });
+  await prisma.enforcementCase.deleteMany({
+    where: { tenantId: tenant.id, cityId: city.id },
+  });
+  await prisma.fine.deleteMany({
+    where: { tenantId: tenant.id, cityId: city.id },
+  });
+  await prisma.payment.deleteMany({
+    where: { tenantId: tenant.id, cityId: city.id },
+  });
+  await prisma.parkingSession.deleteMany({
+    where: { tenantId: tenant.id, cityId: city.id },
+  });
+  await prisma.vehicle.deleteMany({
+    where: { tenantId: tenant.id, cityId: city.id },
+  });
+  await prisma.inspector.deleteMany({
+    where: { tenantId: tenant.id, cityId: city.id },
+  });
+  await prisma.parkingSpace.deleteMany({
+    where: { tenantId: tenant.id, cityId: city.id },
+  });
+  await prisma.parkingRate.deleteMany({
+    where: { tenantId: tenant.id, cityId: city.id },
+  });
+  await prisma.parkingZone.deleteMany({
+    where: { tenantId: tenant.id, cityId: city.id },
+  });
+
+  const appMethod = await prisma.paymentMethod.upsert({
+    where: { tenantId_code: { tenantId: tenant.id, code: 'APP' } },
+    update: { name: 'Aplicación Móvil', status: 'active' },
+    create: {
+      tenantId: tenant.id,
+      code: 'APP',
+      name: 'Aplicación Móvil',
+      status: 'active',
+    },
+  });
+
+  const cardMethod = await prisma.paymentMethod.upsert({
+    where: { tenantId_code: { tenantId: tenant.id, code: 'CARD' } },
+    update: { name: 'Tarjeta Física', status: 'active' },
+    create: {
+      tenantId: tenant.id,
+      code: 'CARD',
+      name: 'Tarjeta Física',
+      status: 'active',
+    },
+  });
+
+  const kioskMethod = await prisma.paymentMethod.upsert({
+    where: { tenantId_code: { tenantId: tenant.id, code: 'KIOSK' } },
+    update: { name: 'Kiosco Municipal', status: 'active' },
+    create: {
+      tenantId: tenant.id,
+      code: 'KIOSK',
+      name: 'Kiosco Municipal',
+      status: 'active',
+    },
+  });
+
+  const noPaymentFine = await prisma.fineType.upsert({
+    where: { tenantId_code: { tenantId: tenant.id, code: 'NO_PAYMENT' } },
+    update: { name: 'Sin Pago', amount: 20, status: 'active' },
+    create: {
+      tenantId: tenant.id,
+      code: 'NO_PAYMENT',
+      name: 'Sin Pago',
+      amount: 20,
+      status: 'active',
+    },
+  });
+
+  const overstayFine = await prisma.fineType.upsert({
+    where: { tenantId_code: { tenantId: tenant.id, code: 'OVERSTAY' } },
+    update: { name: 'Exceso de Tiempo', amount: 15, status: 'active' },
+    create: {
+      tenantId: tenant.id,
+      code: 'OVERSTAY',
+      name: 'Exceso de Tiempo',
+      amount: 15,
+      status: 'active',
+    },
+  });
+
+  console.log(
+    'Creating zones, spaces, inspectors, vehicles, sessions, payments, fines and enforcement cases...',
+  );
+
+  const zones: any[] = [];
+  for (const z of zonesSeed) {
+    const zone = await prisma.parkingZone.create({
+      data: {
+        tenantId: tenant.id,
+        cityId: city.id,
+        code: z.code,
+        name: z.name,
+        status: 'active',
+      },
+    });
+    zones.push({ ...zone, streets: z.streets });
+  }
+
+  const spaces: any[] = [];
+  for (const zone of zones) {
+    for (let i = 1; i <= 20; i++) {
+      const status =
+        i <= 4 ? 'occupied' : i === 20 ? 'out_of_service' : 'available';
+      const space = await prisma.parkingSpace.create({
+        data: {
+          tenantId: tenant.id,
+          cityId: city.id,
+          zoneId: zone.id,
+          code: `${zone.code}-${String(i).padStart(3, '0')}`,
+          label: `${zone.name} ${i}`,
+          type:
+            i % 15 === 0 ? 'disabled' : i % 10 === 0 ? 'motorcycle' : 'vehicle',
+          status,
+          latitude: -0.698 + Math.random() / 100,
+          longitude: -80.095 + Math.random() / 100,
+        },
+      });
+      spaces.push(space);
+    }
+
+    await prisma.parkingRate.create({
+      data: {
+        tenantId: tenant.id,
+        cityId: city.id,
+        name: `Tarifa ${zone.name}`,
+        code: `RATE-${zone.code}`,
+        currency: 'USD',
+        pricePerMinute: zone.code === 'CENTRO' ? 0.03 : 0.025,
+        minimumMinutes: 15,
+        status: 'active',
+      },
+    });
+
+    await prisma.camera.create({
+      data: {
+        tenantId: tenant.id,
+        cityId: city.id,
+        zoneId: zone.id,
+        code: `CAM-${zone.code}`,
+        name: `Cámara ${zone.name}`,
+        location: zone.streets[0],
+        status: 'active',
+      },
+    });
+  }
+
+  const inspectors: any[] = [];
+  for (let i = 0; i < inspectorNames.length; i++) {
+    const zone = zones[i % zones.length];
+    inspectors.push(
+      await prisma.inspector.create({
+        data: {
+          tenantId: tenant.id,
+          cityId: city.id,
+          assignedZoneId: zone.id,
+          name: inspectorNames[i],
+          email: `inspector${i + 1}@chone.gob.ec`,
+          phone: `099${String(2000000 + i).padStart(7, '0')}`,
+          deviceId: `DEV-CHONE-${String(i + 1).padStart(3, '0')}`,
+          shift: i % 3 === 0 ? 'mañana' : i % 3 === 1 ? 'tarde' : 'mixto',
+          status: i === 9 ? 'inactive' : 'active',
+        },
+      }),
+    );
+  }
+
+  const vehicles: any[] = [];
+  for (let i = 0; i < plates.length; i++) {
+    vehicles.push(
+      await prisma.vehicle.create({
+        data: {
+          tenantId: tenant.id,
+          cityId: city.id,
+          plateNumber: plates[i],
+          ownerName: `Propietario ${i + 1}`,
+          ownerPhone: `098${String(3000000 + i).padStart(7, '0')}`,
+          status: 'active',
+        },
+      }),
+    );
+  }
+
+  const paymentMethods = [appMethod, cardMethod, kioskMethod];
+  const sessions: any[] = [];
+
+  for (let i = 0; i < 50; i++) {
+    const vehicle = vehicles[i % vehicles.length];
+    const space = spaces[i % spaces.length];
+    const startedAt = minutesAgo(30 + i * 18);
+    const isActive = i < 12;
+    const duration = 20 + (i % 8) * 12;
+    const amount = Number((duration * 0.03).toFixed(2));
+
+    const session = await prisma.parkingSession.create({
+      data: {
+        tenantId: tenant.id,
+        cityId: city.id,
+        spaceId: space.id,
+        vehicleId: vehicle.id,
+        startedAt,
+        endedAt: isActive
+          ? null
+          : new Date(startedAt.getTime() + duration * 60 * 1000),
+        status: isActive ? 'active' : 'completed',
+        amount,
+      },
+    });
+    sessions.push(session);
+
+    if (!isActive || i % 3 !== 0) {
+      const method = paymentMethods[i % paymentMethods.length];
+      await prisma.payment.create({
+        data: {
+          tenantId: tenant.id,
+          cityId: city.id,
+          sessionId: session.id,
+          paymentMethodId: method.id,
+          amount,
+          currency: 'USD',
+          status: 'paid',
+          reference: `PAY-DEMO-${String(i + 1).padStart(4, '0')}`,
+          paidAt: new Date(session.startedAt.getTime() + 10 * 60 * 1000),
+        },
+      });
+    }
+  }
+
+  for (let i = 0; i < 20; i++) {
+    const session = sessions[i];
+    const vehicle = vehicles[i % vehicles.length];
+    const inspector = inspectors[i % inspectors.length];
+    const fineType = i % 3 === 0 ? overstayFine : noPaymentFine;
+    const status = i < 12 ? 'paid' : i < 17 ? 'pending' : 'reviewing';
+
+    await prisma.fine.create({
+      data: {
+        tenantId: tenant.id,
+        cityId: city.id,
+        sessionId: session.id,
+        vehicleId: vehicle.id,
+        inspectorId: inspector.id,
+        fineTypeId: fineType.id,
+        plateNumber: vehicle.plateNumber,
+        amount: fineType.amount,
+        status,
+        priority: i < 8 ? 'high' : i < 15 ? 'medium' : 'low',
+        observation:
+          fineType.code === 'NO_PAYMENT'
+            ? 'Vehículo detectado sin pago válido'
+            : 'Vehículo excedió el tiempo permitido',
+        issuedAt: minutesAgo(20 + i * 24),
+        paidAt: status === 'paid' ? minutesAgo(10 + i * 10) : null,
+      },
+    });
+  }
+
+  for (let i = 0; i < 20; i++) {
+    const vehicle = vehicles[i % vehicles.length];
+    const inspector = inspectors[i % inspectors.length];
+
+    await prisma.enforcementCase.create({
+      data: {
+        tenantId: tenant.id,
+        cityId: city.id,
+        inspectorId: inspector.id,
+        vehicleId: vehicle.id,
+        plateNumber: vehicle.plateNumber,
+        issue: i % 3 === 0 ? 'overstay' : 'no_payment',
+        status:
+          i < 11
+            ? 'pending'
+            : i < 15
+              ? 'reviewing'
+              : i < 18
+                ? 'fined'
+                : 'resolved',
+        priority: i < 8 ? 'high' : i < 15 ? 'medium' : 'low',
+        detectedAt: minutesAgo(15 + i * 13),
+        resolvedAt: i >= 18 ? minutesAgo(i * 5) : null,
+        observation: 'Caso generado para demostración operativa municipal',
+      },
+    });
+  }
+
+  const cameras = await prisma.camera.findMany({
+    where: { tenantId: tenant.id, cityId: city.id },
+  });
+  for (let i = 0; i < 30; i++) {
+    const camera = cameras[i % cameras.length];
+    const vehicle = vehicles[i % vehicles.length];
+
+    await prisma.cameraEvent.create({
+      data: {
+        tenantId: tenant.id,
+        cityId: city.id,
+        cameraId: camera.id,
+        plateNumber: vehicle.plateNumber,
+        eventType: i % 4 === 0 ? 'violation_detected' : 'plate_detected',
+        confidence: 0.86 + (i % 10) / 100,
+        occurredAt: minutesAgo(5 + i * 6),
+        metadata: {
+          source: 'demo_seed',
+          zone: camera.name,
+        },
+      },
+    });
+  }
+
+  console.log('Seed completed successfully.');
+  console.log(
+    'Created: 5 zones, 100 spaces, 10 inspectors, 20 vehicles, 50 sessions, payments, 20 fines, 20 enforcement cases.',
+  );
+  console.log('Login: admin@smartparking.com / Admin12345');
+}
+
+main()
+  .catch((e) => {
+    console.error('Seed failed:', e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
