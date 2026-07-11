@@ -18,22 +18,45 @@ export function FilterField({ label, children }: { label: string; children: Reac
 }
 
 export function FilterSelect({
-  value, onChange, options, className = "",
-}: { value: string; onChange: (v: string) => void; options: { v: string; l: string }[]; className?: string }) {
+  value,
+  onChange,
+  options,
+  className = "",
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  options: { v: string; l: string }[];
+  className?: string;
+}) {
   return (
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className={"h-7 text-[12px] rounded border border-border bg-card px-1.5 text-foreground focus:outline-none focus:ring-1 focus:ring-ring min-w-0 " + className}
+      className={
+        "h-7 text-[12px] rounded border border-border bg-card px-1.5 text-foreground focus:outline-none focus:ring-1 focus:ring-ring min-w-0 " +
+        className
+      }
     >
-      {options.map((o) => <option key={o.v} value={o.v}>{o.l}</option>)}
+      {options.map((o) => (
+        <option key={o.v} value={o.v}>
+          {o.l}
+        </option>
+      ))}
     </select>
   );
 }
 
 export function FilterDate({
-  value, onChange, min, max,
-}: { value: string; onChange: (v: string) => void; min?: string; max?: string }) {
+  value,
+  onChange,
+  min,
+  max,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  min?: string;
+  max?: string;
+}) {
   return (
     <input
       type="date"
@@ -51,8 +74,14 @@ export function FilterDivider() {
 }
 
 export function FilterBtn({
-  onClick, variant = "ghost", children,
-}: { onClick: () => void; variant?: "primary" | "ghost"; children: ReactNode }) {
+  onClick,
+  variant = "ghost",
+  children,
+}: {
+  onClick: () => void;
+  variant?: "primary" | "ghost";
+  children: ReactNode;
+}) {
   const cls =
     variant === "primary"
       ? "bg-primary text-primary-foreground hover:bg-primary/90 border-primary"
@@ -61,7 +90,9 @@ export function FilterBtn({
     <button
       type="button"
       onClick={onClick}
-      className={"h-7 px-2.5 text-[11px] font-medium rounded border inline-flex items-center gap-1 " + cls}
+      className={
+        "h-7 px-2.5 text-[11px] font-medium rounded border inline-flex items-center gap-1 " + cls
+      }
     >
       {children}
     </button>

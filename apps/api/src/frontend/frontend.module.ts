@@ -4,6 +4,6 @@ import { FrontendService } from './frontend.service';
 
 @Module({
   controllers: [FrontendController],
-  providers: [FrontendService]
+  providers: [FrontendService],
 })
 export class FrontendModule {}

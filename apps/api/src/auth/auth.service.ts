@@ -69,7 +69,10 @@ export class AuthService {
     };
   }
 
-  async login(dto: LoginDto, meta?: { ipAddress?: string; userAgent?: string }) {
+  async login(
+    dto: LoginDto,
+    meta?: { ipAddress?: string; userAgent?: string },
+  ) {
     const user = await this.prisma.user.findUnique({
       where: { email: dto.email },
       include: {
@@ -84,19 +87,21 @@ export class AuthService {
     });
 
     if (!user) {
-      await this.prisma.auditLog.create({
-        data: {
-          action: 'LOGIN_FAILED',
-          entity: 'User',
-          entityId: dto.email,
-          afterData: {
-            email: dto.email,
-            reason: 'USER_NOT_FOUND',
+      await this.prisma.auditLog
+        .create({
+          data: {
+            action: 'LOGIN_FAILED',
+            entity: 'User',
+            entityId: dto.email,
+            afterData: {
+              email: dto.email,
+              reason: 'USER_NOT_FOUND',
+            },
+            ipAddress: meta?.ipAddress,
+            userAgent: meta?.userAgent,
           },
-          ipAddress: meta?.ipAddress,
-          userAgent: meta?.userAgent,
-        },
-      }).catch(() => undefined);
+        })
+        .catch(() => undefined);
 
       throw new UnauthorizedException('Invalid credentials');
     }
@@ -104,42 +109,46 @@ export class AuthService {
     const isValid = await bcrypt.compare(dto.password, user.password);
 
     if (!isValid) {
-      await this.prisma.auditLog.create({
-        data: {
-          tenantId: user.tenantId,
-          userId: user.id,
-          action: 'LOGIN_FAILED',
-          entity: 'User',
-          entityId: user.id,
-          afterData: {
-            email: user.email,
-            reason: 'INVALID_PASSWORD',
+      await this.prisma.auditLog
+        .create({
+          data: {
+            tenantId: user.tenantId,
+            userId: user.id,
+            action: 'LOGIN_FAILED',
+            entity: 'User',
+            entityId: user.id,
+            afterData: {
+              email: user.email,
+              reason: 'INVALID_PASSWORD',
+            },
+            ipAddress: meta?.ipAddress,
+            userAgent: meta?.userAgent,
           },
-          ipAddress: meta?.ipAddress,
-          userAgent: meta?.userAgent,
-        },
-      }).catch(() => undefined);
+        })
+        .catch(() => undefined);
 
       throw new UnauthorizedException('Invalid credentials');
     }
 
     const roles = user.userRoles.map((ur) => ur.role.code);
 
-    await this.prisma.auditLog.create({
-      data: {
-        tenantId: user.tenantId,
-        userId: user.id,
-        action: 'LOGIN_SUCCESS',
-        entity: 'User',
-        entityId: user.id,
-        afterData: {
-          email: user.email,
-          roles,
+    await this.prisma.auditLog
+      .create({
+        data: {
+          tenantId: user.tenantId,
+          userId: user.id,
+          action: 'LOGIN_SUCCESS',
+          entity: 'User',
+          entityId: user.id,
+          afterData: {
+            email: user.email,
+            roles,
+          },
+          ipAddress: meta?.ipAddress,
+          userAgent: meta?.userAgent,
         },
-        ipAddress: meta?.ipAddress,
-        userAgent: meta?.userAgent,
-      },
-    }).catch(() => undefined);
+      })
+      .catch(() => undefined);
 
     const accessToken = await this.jwtService.signAsync({
       sub: user.id,

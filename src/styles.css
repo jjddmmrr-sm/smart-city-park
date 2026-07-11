@@ -48,29 +48,29 @@
 
   /* Smart Park Chone palette */
   --background: oklch(1 0 0);
-  --foreground: oklch(0.205 0.04 255);            /* navy ink */
-  --surface: oklch(0.985 0.005 240);              /* page chrome */
-  --surface-2: oklch(0.965 0.008 240);            /* table stripe */
+  --foreground: oklch(0.205 0.04 255); /* navy ink */
+  --surface: oklch(0.985 0.005 240); /* page chrome */
+  --surface-2: oklch(0.965 0.008 240); /* table stripe */
 
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.205 0.04 255);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.205 0.04 255);
 
-  --primary: oklch(0.245 0.062 259);              /* #0a2540 navy */
+  --primary: oklch(0.245 0.062 259); /* #0a2540 navy */
   --primary-foreground: oklch(0.99 0.003 240);
   --secondary: oklch(0.96 0.008 240);
   --secondary-foreground: oklch(0.245 0.062 259);
   --muted: oklch(0.965 0.005 240);
   --muted-foreground: oklch(0.5 0.02 250);
-  --accent: oklch(0.78 0.14 180);                 /* #00d4aa teal */
+  --accent: oklch(0.78 0.14 180); /* #00d4aa teal */
   --accent-foreground: oklch(0.18 0.04 250);
 
-  --destructive: oklch(0.62 0.22 27);             /* #ef4444 red */
+  --destructive: oklch(0.62 0.22 27); /* #ef4444 red */
   --destructive-foreground: oklch(0.99 0 0);
-  --warning: oklch(0.78 0.16 70);                 /* #f59e0b amber */
+  --warning: oklch(0.78 0.16 70); /* #f59e0b amber */
   --warning-foreground: oklch(0.22 0.04 60);
-  --success: oklch(0.7 0.16 160);                 /* #10b981 green */
+  --success: oklch(0.7 0.16 160); /* #10b981 green */
   --success-foreground: oklch(0.18 0.04 160);
   --info: oklch(0.6 0.14 240);
 
@@ -86,8 +86,14 @@
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
-  html, body, #root { height: 100%; }
+  * {
+    border-color: var(--color-border);
+  }
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
   body {
     background-color: var(--color-surface);
     color: var(--color-foreground);
@@ -101,35 +107,78 @@
 @import "leaflet/dist/leaflet.css";
 
 /* Custom scrollbar (operations feel) */
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-thumb { background: oklch(0.85 0.01 250); border-radius: 6px; }
-::-webkit-scrollbar-thumb:hover { background: oklch(0.75 0.02 250); }
-::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(0.85 0.01 250);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.75 0.02 250);
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
 
 /* Dot status indicators */
-.spk-dot { display:inline-block; width:8px; height:8px; border-radius:9999px; }
+.spk-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+}
 
 /* Map markers */
 .spk-marker {
-  width: 14px; height: 14px; border-radius: 9999px;
-  border: 2px solid white; box-shadow: 0 0 0 1px rgba(10,37,64,0.25), 0 1px 2px rgba(0,0,0,0.2);
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  border: 2px solid white;
+  box-shadow:
+    0 0 0 1px rgba(10, 37, 64, 0.25),
+    0 1px 2px rgba(0, 0, 0, 0.2);
 }
-.spk-marker.available  { background: #10b981; }
-.spk-marker.occupied   { background: #ef4444; }
-.spk-marker.reserved   { background: #f59e0b; }
-.spk-marker.out_of_service { background: #94a3b8; }
+.spk-marker.available {
+  background: #10b981;
+}
+.spk-marker.occupied {
+  background: #ef4444;
+}
+.spk-marker.reserved {
+  background: #f59e0b;
+}
+.spk-marker.out_of_service {
+  background: #94a3b8;
+}
 
-.leaflet-container { background: #eef2f7; font-family: var(--font-sans); }
-.leaflet-popup-content-wrapper { border-radius: 8px; }
+.leaflet-container {
+  background: #eef2f7;
+  font-family: var(--font-sans);
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+}
 
 /* Pulse for live alerts */
-@keyframes spk-pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
-.spk-pulse { animation: spk-pulse 1.6s ease-in-out infinite; }
+@keyframes spk-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.spk-pulse {
+  animation: spk-pulse 1.6s ease-in-out infinite;
+}
 
 /* Subtle grid for control room background panels */
 .spk-grid-bg {
   background-image:
-    linear-gradient(to right, rgba(10,37,64,0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(10,37,64,0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(10, 37, 64, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10, 37, 64, 0.04) 1px, transparent 1px);
   background-size: 24px 24px;
 }

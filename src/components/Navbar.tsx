@@ -1,19 +1,74 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Map, Car, BarChart3, ShieldAlert, Settings, Activity, Receipt, UserCog, CreditCard, Menu, X } from "lucide-react";
+import {
+  LayoutDashboard,
+  Map,
+  Car,
+  BarChart3,
+  ShieldAlert,
+  Settings,
+  Activity,
+  Receipt,
+  UserCog,
+  CreditCard,
+  Menu,
+  X,
+} from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { apiGetAuth } from "@/lib/api";
 import { getAuthUser, isAuthenticated } from "@/lib/auth";
 
 const NAV = [
-  { to: "/overview", label: "Resumen", full: "Resumen General", icon: LayoutDashboard, permission: "VIEW_OVERVIEW" },
+  {
+    to: "/overview",
+    label: "Resumen",
+    full: "Resumen General",
+    icon: LayoutDashboard,
+    permission: "VIEW_OVERVIEW",
+  },
   { to: "/", label: "Mapa", full: "Mapa en Vivo", icon: Map, permission: "VIEW_LIVE" },
-  { to: "/vehicles", label: "Vehículos", full: "Vehículos", icon: Car, permission: "VIEW_VEHICLES" },
+  {
+    to: "/vehicles",
+    label: "Vehículos",
+    full: "Vehículos",
+    icon: Car,
+    permission: "VIEW_VEHICLES",
+  },
   { to: "/multas", label: "Multas", full: "Multas", icon: Receipt, permission: "VIEW_FINES" },
-  { to: "/controladores", label: "Controladores", full: "Controladores", icon: UserCog, permission: "VIEW_CONTROLLERS" },
-  { to: "/analytics", label: "Analítica", full: "Analítica", icon: BarChart3, permission: "VIEW_ANALYTICS" },
-  { to: "/medios-pago", label: "Pagos", full: "Medios de Pago", icon: CreditCard, permission: "VIEW_PAYMENTS" },
-  { to: "/enforcement", label: "Cumplimiento", full: "Cumplimiento", icon: ShieldAlert, permission: "VIEW_ENFORCEMENT" },
-  { to: "/admin", label: "Admin", full: "Administración", icon: Settings, permission: "MANAGE_USERS" },
+  {
+    to: "/controladores",
+    label: "Controladores",
+    full: "Controladores",
+    icon: UserCog,
+    permission: "VIEW_CONTROLLERS",
+  },
+  {
+    to: "/analytics",
+    label: "Analítica",
+    full: "Analítica",
+    icon: BarChart3,
+    permission: "VIEW_ANALYTICS",
+  },
+  {
+    to: "/medios-pago",
+    label: "Pagos",
+    full: "Medios de Pago",
+    icon: CreditCard,
+    permission: "VIEW_PAYMENTS",
+  },
+  {
+    to: "/enforcement",
+    label: "Cumplimiento",
+    full: "Cumplimiento",
+    icon: ShieldAlert,
+    permission: "VIEW_ENFORCEMENT",
+  },
+  {
+    to: "/admin",
+    label: "Admin",
+    full: "Administración",
+    icon: Settings,
+    permission: "MANAGE_USERS",
+  },
 ] as const;
 
 export function Navbar() {
@@ -43,7 +98,9 @@ export function Navbar() {
       });
   }, []);
 
-  useEffect(() => { setOpen(false); }, [location.pathname]);
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname]);
 
   const visibleNav = useMemo(() => {
     if (roles.includes("SUPER_ADMIN")) return NAV;
@@ -99,7 +156,9 @@ export function Navbar() {
               {now ? now.toLocaleTimeString("es-EC") : "--:--:--"}
             </div>
             <div className="text-[10px] text-muted-foreground">
-              {now ? `Chone · ${now.toLocaleDateString("es-EC", { day: "2-digit", month: "short" })}` : "Chone"}
+              {now
+                ? `Chone · ${now.toLocaleDateString("es-EC", { day: "2-digit", month: "short" })}`
+                : "Chone"}
             </div>
           </div>
           <div className="h-7 w-7 rounded-full bg-secondary text-primary grid place-items-center text-[11px] font-medium shrink-0">

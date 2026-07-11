@@ -7,10 +7,18 @@ export class FrontendService {
 
   async getOverview() {
     const totalSpaces = await this.prisma.parkingSpace.count();
-    const occupiedSpaces = await this.prisma.parkingSpace.count({ where: { status: 'occupied' } });
-    const availableSpaces = await this.prisma.parkingSpace.count({ where: { status: 'available' } });
-    const activeSessions = await this.prisma.parkingSession.count({ where: { status: 'active' } });
-    const completedSessions = await this.prisma.parkingSession.count({ where: { status: 'completed' } });
+    const occupiedSpaces = await this.prisma.parkingSpace.count({
+      where: { status: 'occupied' },
+    });
+    const availableSpaces = await this.prisma.parkingSpace.count({
+      where: { status: 'available' },
+    });
+    const activeSessions = await this.prisma.parkingSession.count({
+      where: { status: 'active' },
+    });
+    const completedSessions = await this.prisma.parkingSession.count({
+      where: { status: 'completed' },
+    });
     const vehiclesToday = await this.prisma.vehicle.count();
 
     const revenue = await this.prisma.parkingSession.aggregate({
@@ -27,14 +35,23 @@ export class FrontendService {
       totalSpaces,
       occupiedSpaces,
       availableSpaces,
-      occupancyRate: totalSpaces > 0 ? Number(((occupiedSpaces / totalSpaces) * 100).toFixed(2)) : 0,
+      occupancyRate:
+        totalSpaces > 0
+          ? Number(((occupiedSpaces / totalSpaces) * 100).toFixed(2))
+          : 0,
       vehiclesToday,
       revenueToday: revenue._sum.amount ?? 0,
       activeSessions,
       completedSessions,
-      activeAlerts: await this.prisma.enforcementCase.count({ where: { status: 'pending' } }),
-      overstayCases: await this.prisma.enforcementCase.count({ where: { issue: 'overstay' } }),
-      unpaidCases: await this.prisma.enforcementCase.count({ where: { issue: 'no_payment' } }),
+      activeAlerts: await this.prisma.enforcementCase.count({
+        where: { status: 'pending' },
+      }),
+      overstayCases: await this.prisma.enforcementCase.count({
+        where: { issue: 'overstay' },
+      }),
+      unpaidCases: await this.prisma.enforcementCase.count({
+        where: { issue: 'no_payment' },
+      }),
       ticketsIssued: fines._count.id,
       ticketsAmount: fines._sum.amount ?? 0,
     };
@@ -118,7 +135,6 @@ export class FrontendService {
     }));
   }
 
-
   async updateEnforcementStatus(id: string, status: string) {
     const allowed = ['pending', 'reviewing', 'fined', 'resolved'];
 
@@ -155,7 +171,8 @@ export class FrontendService {
         spaces: z.spaces.length,
         tariff: rate?.pricePerMinute ?? 0,
         occupancy_base: z.spaces.length
-          ? z.spaces.filter((s) => s.status === 'occupied').length / z.spaces.length
+          ? z.spaces.filter((s) => s.status === 'occupied').length /
+            z.spaces.length
           : 0,
         streets: [z.name],
       };
@@ -263,5 +280,4 @@ export class FrontendService {
       compliance: s.status === 'completed' ? 'valid' : 'no_payment',
     }));
   }
-
 }

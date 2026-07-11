@@ -38,7 +38,10 @@ export class FrontendController {
   }
 
   @Patch('enforcement/:id/status')
-  updateEnforcementStatus(@Param('id') id: string, @Body() body: { status: string }) {
+  updateEnforcementStatus(
+    @Param('id') id: string,
+    @Body() body: { status: string },
+  ) {
     return this.frontendService.updateEnforcementStatus(id, body.status);
   }
 
@@ -61,5 +64,4 @@ export class FrontendController {
   getVehicles() {
     return this.frontendService.getVehicles();
   }
-
 }

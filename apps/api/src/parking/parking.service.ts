@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -54,7 +58,10 @@ export class ParkingService {
     });
   }
 
-  async updateZone(id: string, data: { name?: string; code?: string; status?: string }) {
+  async updateZone(
+    id: string,
+    data: { name?: string; code?: string; status?: string },
+  ) {
     const zone = await this.prisma.parkingZone.findUnique({ where: { id } });
 
     if (!zone) {
@@ -137,15 +144,18 @@ export class ParkingService {
     });
   }
 
-  async updateSpace(id: string, data: {
-    zoneId?: string;
-    code?: string;
-    label?: string;
-    type?: string;
-    status?: string;
-    latitude?: number;
-    longitude?: number;
-  }) {
+  async updateSpace(
+    id: string,
+    data: {
+      zoneId?: string;
+      code?: string;
+      label?: string;
+      type?: string;
+      status?: string;
+      latitude?: number;
+      longitude?: number;
+    },
+  ) {
     const space = await this.prisma.parkingSpace.findUnique({ where: { id } });
 
     if (!space) {
@@ -160,8 +170,12 @@ export class ParkingService {
         ...(data.label !== undefined ? { label: data.label } : {}),
         ...(data.type !== undefined ? { type: data.type } : {}),
         ...(data.status !== undefined ? { status: data.status } : {}),
-        ...(data.latitude !== undefined ? { latitude: Number(data.latitude) } : {}),
-        ...(data.longitude !== undefined ? { longitude: Number(data.longitude) } : {}),
+        ...(data.latitude !== undefined
+          ? { latitude: Number(data.latitude) }
+          : {}),
+        ...(data.longitude !== undefined
+          ? { longitude: Number(data.longitude) }
+          : {}),
       },
       include: { zone: true },
     });
@@ -232,15 +246,18 @@ export class ParkingService {
     });
   }
 
-  async updateController(id: string, data: {
-    name?: string;
-    email?: string;
-    phone?: string;
-    assignedZoneId?: string;
-    deviceId?: string;
-    shift?: string;
-    status?: string;
-  }) {
+  async updateController(
+    id: string,
+    data: {
+      name?: string;
+      email?: string;
+      phone?: string;
+      assignedZoneId?: string;
+      deviceId?: string;
+      shift?: string;
+      status?: string;
+    },
+  ) {
     const inspector = await this.prisma.inspector.findUnique({ where: { id } });
 
     if (!inspector) {
@@ -253,7 +270,9 @@ export class ParkingService {
         ...(data.name !== undefined ? { name: data.name } : {}),
         ...(data.email !== undefined ? { email: data.email } : {}),
         ...(data.phone !== undefined ? { phone: data.phone } : {}),
-        ...(data.assignedZoneId !== undefined ? { assignedZoneId: data.assignedZoneId || null } : {}),
+        ...(data.assignedZoneId !== undefined
+          ? { assignedZoneId: data.assignedZoneId || null }
+          : {}),
         ...(data.deviceId !== undefined ? { deviceId: data.deviceId } : {}),
         ...(data.shift !== undefined ? { shift: data.shift } : {}),
         ...(data.status !== undefined ? { status: data.status } : {}),
@@ -339,13 +358,16 @@ export class ParkingService {
     });
   }
 
-  async updateFineType(id: string, data: {
-    code?: string;
-    name?: string;
-    description?: string;
-    amount?: number;
-    status?: string;
-  }) {
+  async updateFineType(
+    id: string,
+    data: {
+      code?: string;
+      name?: string;
+      description?: string;
+      amount?: number;
+      status?: string;
+    },
+  ) {
     const fineType = await this.prisma.fineType.findUnique({ where: { id } });
 
     if (!fineType) {
@@ -357,7 +379,9 @@ export class ParkingService {
       data: {
         ...(data.code !== undefined ? { code: data.code.toUpperCase() } : {}),
         ...(data.name !== undefined ? { name: data.name } : {}),
-        ...(data.description !== undefined ? { description: data.description } : {}),
+        ...(data.description !== undefined
+          ? { description: data.description }
+          : {}),
         ...(data.amount !== undefined ? { amount: Number(data.amount) } : {}),
         ...(data.status !== undefined ? { status: data.status } : {}),
       },
@@ -406,13 +430,18 @@ export class ParkingService {
     });
   }
 
-  async updatePaymentMethod(id: string, data: {
-    code?: string;
-    name?: string;
-    description?: string;
-    status?: string;
-  }) {
-    const method = await this.prisma.paymentMethod.findUnique({ where: { id } });
+  async updatePaymentMethod(
+    id: string,
+    data: {
+      code?: string;
+      name?: string;
+      description?: string;
+      status?: string;
+    },
+  ) {
+    const method = await this.prisma.paymentMethod.findUnique({
+      where: { id },
+    });
 
     if (!method) {
       throw new NotFoundException('Payment method not found');
@@ -423,7 +452,9 @@ export class ParkingService {
       data: {
         ...(data.code !== undefined ? { code: data.code.toUpperCase() } : {}),
         ...(data.name !== undefined ? { name: data.name } : {}),
-        ...(data.description !== undefined ? { description: data.description } : {}),
+        ...(data.description !== undefined
+          ? { description: data.description }
+          : {}),
         ...(data.status !== undefined ? { status: data.status } : {}),
       },
     });
@@ -476,14 +507,17 @@ export class ParkingService {
     });
   }
 
-  async updateRate(id: string, data: {
-    name?: string;
-    code?: string;
-    currency?: string;
-    pricePerMinute?: number;
-    minimumMinutes?: number;
-    status?: string;
-  }) {
+  async updateRate(
+    id: string,
+    data: {
+      name?: string;
+      code?: string;
+      currency?: string;
+      pricePerMinute?: number;
+      minimumMinutes?: number;
+      status?: string;
+    },
+  ) {
     const rate = await this.prisma.parkingRate.findUnique({ where: { id } });
 
     if (!rate) {
@@ -496,8 +530,12 @@ export class ParkingService {
         ...(data.name !== undefined ? { name: data.name } : {}),
         ...(data.code !== undefined ? { code: data.code.toUpperCase() } : {}),
         ...(data.currency !== undefined ? { currency: data.currency } : {}),
-        ...(data.pricePerMinute !== undefined ? { pricePerMinute: Number(data.pricePerMinute) } : {}),
-        ...(data.minimumMinutes !== undefined ? { minimumMinutes: Number(data.minimumMinutes) } : {}),
+        ...(data.pricePerMinute !== undefined
+          ? { pricePerMinute: Number(data.pricePerMinute) }
+          : {}),
+        ...(data.minimumMinutes !== undefined
+          ? { minimumMinutes: Number(data.minimumMinutes) }
+          : {}),
         ...(data.status !== undefined ? { status: data.status } : {}),
       },
     });
@@ -528,7 +566,9 @@ export class ParkingService {
     });
 
     if (activeSession) {
-      throw new BadRequestException('Parking space already has an active session');
+      throw new BadRequestException(
+        'Parking space already has an active session',
+      );
     }
 
     await this.prisma.parkingSpace.update({

@@ -15,7 +15,11 @@ const STATUS_FILL: Record<string, string> = {
 };
 
 export function LiveMap({
-  filter, heat, onSelect, selectedId, liveData,
+  filter,
+  heat,
+  onSelect,
+  selectedId,
+  liveData,
 }: {
   filter: { zone: string; status: string };
   heat: boolean;
@@ -55,9 +59,10 @@ export function LiveMap({
   }, []);
 
   const filtered = useMemo(() => {
-    return live.filter((s) =>
-      (filter.zone === "all" || s.zone_id === filter.zone) &&
-      (filter.status === "all" || s.status === filter.status)
+    return live.filter(
+      (s) =>
+        (filter.zone === "all" || s.zone_id === filter.zone) &&
+        (filter.status === "all" || s.status === filter.status),
     );
   }, [live, filter]);
 
@@ -71,8 +76,12 @@ export function LiveMap({
       const points = filtered
         .filter((s) => s.status === "occupied")
         .map((s) => [s.lat, s.lng, 0.6] as [number, number, number]);
-      const heatLayer = (L as unknown as { heatLayer: (p: unknown, o: unknown) => L.Layer }).heatLayer(points, {
-        radius: 28, blur: 22, maxZoom: 18,
+      const heatLayer = (
+        L as unknown as { heatLayer: (p: unknown, o: unknown) => L.Layer }
+      ).heatLayer(points, {
+        radius: 28,
+        blur: 22,
+        maxZoom: 18,
         gradient: { 0.2: "#00d4aa", 0.5: "#f59e0b", 0.8: "#ef4444" },
       });
       heatLayer.addTo(layer);
