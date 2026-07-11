@@ -1,3 +1,4 @@
+import { RequirePermission } from "@/components/RequirePermission";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { KpiTile, Panel, StatusPill } from "@/components/ui-bits";
@@ -15,7 +16,7 @@ export const Route = createFileRoute("/multas")({
       { name: "description", content: "Gestión de multas: sin pago, exceso de tiempo, zona prohibida y reservada." },
     ],
   }),
-  component: MultasPage,
+  component: MultasPageProtected,
   ssr: false,
 });
 
@@ -374,4 +375,13 @@ function Th({ children, className = "" }: { children: React.ReactNode; className
 }
 function Row({ k, v }: { k: string; v: React.ReactNode }) {
   return <div className="flex justify-between gap-2"><span className="text-muted-foreground">{k}</span><span className="font-medium text-right truncate ml-2">{v}</span></div>;
+}
+
+
+function MultasPageProtected() {
+  return (
+    <RequirePermission permission="VIEW_FINES">
+      <MultasPage />
+    </RequirePermission>
+  );
 }

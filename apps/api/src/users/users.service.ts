@@ -117,6 +117,55 @@ export class UsersService {
     return this.findOneSafe(id);
   }
 
+  async getUserZones(id: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+      include: {
+        zoneAccess: {
+          include: {
+            zone: true,
+          },
+        },
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return {
+      userId: user.id,
+      zones: user.zoneAccess.map((za) => za.zone),
+      zoneIds: user.zoneAccess.map((za) => za.zoneId),
+    };
+  }
+
+  async updateUserZones(id: string, zoneIds: string[]) {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    await this.prisma.userZoneAccess.deleteMany({
+      where: { userId: id },
+    });
+
+    if (zoneIds.length > 0) {
+      await this.prisma.userZoneAccess.createMany({
+        data: zoneIds.map((zoneId) => ({
+          userId: id,
+          zoneId,
+        })),
+        skipDuplicates: true,
+      });
+    }
+
+    return this.getUserZones(id);
+  }
+
   private async findOneSafe(id: string) {
     const user = await this.prisma.user.findUnique({
       where: { id },

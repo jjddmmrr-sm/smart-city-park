@@ -1,3 +1,4 @@
+import { RequirePermission } from "@/components/RequirePermission";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Panel, KpiTile, StatusPill } from "@/components/ui-bits";
@@ -17,7 +18,7 @@ export const Route = createFileRoute("/overview")({
       { name: "description", content: "Resumen ejecutivo real de operaciones Smart Park Chone." },
     ],
   }),
-  component: OverviewPage,
+  component: OverviewPageProtected,
   ssr: false,
 });
 
@@ -285,5 +286,14 @@ function OverviewPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+
+function OverviewPageProtected() {
+  return (
+    <RequirePermission permission="VIEW_OVERVIEW">
+      <OverviewPage />
+    </RequirePermission>
   );
 }

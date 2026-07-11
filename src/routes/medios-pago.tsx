@@ -1,3 +1,4 @@
+import { RequirePermission } from "@/components/RequirePermission";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { KpiTile, Panel } from "@/components/ui-bits";
@@ -13,7 +14,7 @@ export const Route = createFileRoute("/medios-pago")({
       { name: "description", content: "Análisis de canales de pago reales del sistema." },
     ],
   }),
-  component: MediosPagoPage,
+  component: MediosPagoPageProtected,
   ssr: false,
 });
 
@@ -246,5 +247,14 @@ function MediosPagoPage() {
         </Panel>
       </div>
     </div>
+  );
+}
+
+
+function MediosPagoPageProtected() {
+  return (
+    <RequirePermission permission="VIEW_PAYMENTS">
+      <MediosPagoPage />
+    </RequirePermission>
   );
 }

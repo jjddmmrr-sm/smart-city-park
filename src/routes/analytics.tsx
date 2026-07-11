@@ -1,3 +1,4 @@
+import { RequirePermission } from "@/components/RequirePermission";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { KpiTile, Panel } from "@/components/ui-bits";
@@ -16,7 +17,7 @@ export const Route = createFileRoute("/analytics")({
       { name: "description", content: "Analítica ejecutiva con datos reales de Smart Park Chone." },
     ],
   }),
-  component: AnalyticsPage,
+  component: AnalyticsPageProtected,
   ssr: false,
 });
 
@@ -274,5 +275,14 @@ function AnalyticsPage() {
         </Panel>
       </div>
     </div>
+  );
+}
+
+
+function AnalyticsPageProtected() {
+  return (
+    <RequirePermission permission="VIEW_ANALYTICS">
+      <AnalyticsPage />
+    </RequirePermission>
   );
 }

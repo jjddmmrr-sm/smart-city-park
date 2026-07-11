@@ -9,6 +9,12 @@ export const Route = createFileRoute("/admin/users")({
   ssr: false,
 });
 
+type RoleRow = {
+  id: string;
+  code: string;
+  name: string;
+};
+
 type UserRow = {
   id: string;
   email: string;
@@ -25,6 +31,7 @@ function friendlyId(id: string) {
 function AdminUsersPage() {
   const navigate = useNavigate();
   const [users, setUsers] = useState<UserRow[]>([]);
+  const [roles, setRoles] = useState<RoleRow[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<UserRow | null>(null);
   const [form, setForm] = useState({
@@ -39,6 +46,15 @@ function AdminUsersPage() {
     apiGetAuth<UserRow[]>("/users")
       .then(setUsers)
       .catch((error) => console.error("Error loading users", error));
+
+    apiGetAuth<RoleRow[]>("/roles")
+      .then((data) => {
+        setRoles(data);
+        if (data.length > 0 && !data.some((r) => r.code === form.roleCode)) {
+          setForm((current) => ({ ...current, roleCode: data[0].code }));
+        }
+      })
+      .catch((error) => console.error("Error loading roles", error));
   };
 
   useEffect(() => {
@@ -128,7 +144,7 @@ function AdminUsersPage() {
               <Input label="Nombre" value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
               <Input label="Correo" value={form.email} onChange={(v) => setForm({ ...form, email: v })} />
               <Input label="Contraseña" value={form.password} onChange={(v) => setForm({ ...form, password: v })} type="password" />
-              <Select label="Rol" value={form.roleCode} onChange={(v) => setForm({ ...form, roleCode: v })} options={["SUPER_ADMIN", "ADMIN", "AUDITOR", "OPERADOR"]} />
+              <Select label="Rol" value={form.roleCode} onChange={(v) => setForm({ ...form, roleCode: v })} options={roles.map((r) => r.code)} />
               <Select label="Estado" value={form.status} onChange={(v) => setForm({ ...form, status: v })} options={["active", "inactive"]} />
             </div>
             <div className="mt-3 flex justify-end gap-2">

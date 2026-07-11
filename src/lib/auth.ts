@@ -3,6 +3,8 @@ export type AuthUser = {
   name: string;
   email: string;
   roles: string[];
+  permissions?: string[];
+  zones?: { id: string; code: string; name: string; status: string }[];
 };
 
 export function saveAuth(accessToken: string, user: AuthUser) {

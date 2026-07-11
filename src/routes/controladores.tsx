@@ -1,3 +1,4 @@
+import { RequirePermission } from "@/components/RequirePermission";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { KpiTile, Panel, StatusPill } from "@/components/ui-bits";
@@ -13,7 +14,7 @@ export const Route = createFileRoute("/controladores")({
       { name: "description", content: "Gestión de controladores en sitio." },
     ],
   }),
-  component: ControladoresPage,
+  component: ControladoresPageProtected,
   ssr: false,
 });
 
@@ -211,4 +212,13 @@ function Sel({ value, onChange, options }: { value: string; onChange: (v: string
 
 function Row({ k, v }: { k: string; v: React.ReactNode }) {
   return <div className="flex justify-between gap-2"><span className="text-muted-foreground">{k}</span><span className="font-medium text-right truncate ml-2">{v}</span></div>;
+}
+
+
+function ControladoresPageProtected() {
+  return (
+    <RequirePermission permission="VIEW_CONTROLLERS">
+      <ControladoresPage />
+    </RequirePermission>
+  );
 }

@@ -9,7 +9,7 @@ function requireAdmin() {
   return true;
 }
 import { Panel } from "@/components/ui-bits";
-import { UsersRound, MapPinned, ParkingSquare, BadgeDollarSign, ShieldCheck } from "lucide-react";
+import { UsersRound, MapPinned, ParkingSquare, BadgeDollarSign, ShieldCheck, KeyRound, Building2, SquareParking, Coins, UserCog, CreditCard, FileWarning } from "lucide-react";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminHomePage,
@@ -38,9 +38,15 @@ function AdminHomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <AdminCard to="/admin/users" title="Usuarios" desc="Gestión de accesos administrativos" icon={<UsersRound className="h-5 w-5" />} />
+          <AdminCard to="/admin/roles" title="Roles" desc="Perfiles y accesos del sistema" icon={<KeyRound className="h-5 w-5" />} />
+          <AdminCard to="/admin/access-control" title="Gobierno de Acceso" desc="Permisos y zonas por usuario" icon={<ShieldCheck className="h-5 w-5" />} />
+          <AdminCard to="/admin/zones" title="Zonas" desc="Administración de zonas de parqueo" icon={<Building2 className="h-5 w-5" />} />
+          <AdminCard to="/admin/spaces" title="Espacios" desc="Inventario físico de parqueo" icon={<SquareParking className="h-5 w-5" />} />
+          <AdminCard to="/admin/rates" title="Tarifas" desc="Precios y mínimos de parqueo" icon={<Coins className="h-5 w-5" />} />
+          <AdminCard to="/admin/payment-methods" title="Medios de Pago" desc="Canales de recaudación" icon={<CreditCard className="h-5 w-5" />} />
+          <AdminCard to="/admin/fine-types" title="Tipos de Multa" desc="Catálogo de infracciones" icon={<FileWarning className="h-5 w-5" />} />
+          <AdminCard to="/admin/controllers" title="Controladores" desc="Equipo operativo de campo" icon={<UserCog className="h-5 w-5" />} />
           <AdminCard to="/settings" title="Zonas y espacios" desc="Inventario operativo real" icon={<MapPinned className="h-5 w-5" />} />
-          <AdminCard to="/controladores" title="Controladores" desc="Equipo operativo de campo" icon={<ShieldCheck className="h-5 w-5" />} />
-          <AdminCard to="/medios-pago" title="Medios de pago" desc="Canales activos de recaudación" icon={<BadgeDollarSign className="h-5 w-5" />} />
           <AdminCard to="/" title="Mapa operativo" desc="Monitoreo en vivo" icon={<ParkingSquare className="h-5 w-5" />} />
         </div>
       </div>

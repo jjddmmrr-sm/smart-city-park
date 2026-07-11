@@ -26,4 +26,14 @@ export class UsersController {
   update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
     return this.usersService.update(id, dto);
   }
+
+  @Get(':id/zones')
+  getUserZones(@Param('id') id: string) {
+    return this.usersService.getUserZones(id);
+  }
+
+  @Patch(':id/zones')
+  updateUserZones(@Param('id') id: string, @Body() body: { zoneIds: string[] }) {
+    return this.usersService.updateUserZones(id, body.zoneIds);
+  }
 }

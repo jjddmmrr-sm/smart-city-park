@@ -20,8 +20,16 @@ import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as OverviewBackupRouteImport } from './routes/overview.backup'
+import { Route as AdminZonesRouteImport } from './routes/admin/zones'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as AdminSpacesRouteImport } from './routes/admin/spaces'
+import { Route as AdminRolesRouteImport } from './routes/admin/roles'
+import { Route as AdminRatesRouteImport } from './routes/admin/rates'
+import { Route as AdminPaymentMethodsRouteImport } from './routes/admin/payment-methods'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminFineTypesRouteImport } from './routes/admin/fine-types'
+import { Route as AdminControllersRouteImport } from './routes/admin/controllers'
+import { Route as AdminAccessControlRouteImport } from './routes/admin/access-control'
 import { Route as VehiclesBackup20260611035904RouteImport } from './routes/vehicles.backup.20260611035904'
 import { Route as IndexBackup20260611030009RouteImport } from './routes/index.backup.20260611030009'
 import { Route as VehiclesBackupFinal20260611041949RouteImport } from './routes/vehicles.backup.final.20260611041949'
@@ -84,14 +92,54 @@ const OverviewBackupRoute = OverviewBackupRouteImport.update({
   path: '/backup',
   getParentRoute: () => OverviewRoute,
 } as any)
+const AdminZonesRoute = AdminZonesRouteImport.update({
+  id: '/admin/zones',
+  path: '/admin/zones',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/admin/users',
   path: '/admin/users',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminSpacesRoute = AdminSpacesRouteImport.update({
+  id: '/admin/spaces',
+  path: '/admin/spaces',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRolesRoute = AdminRolesRouteImport.update({
+  id: '/admin/roles',
+  path: '/admin/roles',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRatesRoute = AdminRatesRouteImport.update({
+  id: '/admin/rates',
+  path: '/admin/rates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPaymentMethodsRoute = AdminPaymentMethodsRouteImport.update({
+  id: '/admin/payment-methods',
+  path: '/admin/payment-methods',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin/login',
   path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminFineTypesRoute = AdminFineTypesRouteImport.update({
+  id: '/admin/fine-types',
+  path: '/admin/fine-types',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminControllersRoute = AdminControllersRouteImport.update({
+  id: '/admin/controllers',
+  path: '/admin/controllers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAccessControlRoute = AdminAccessControlRouteImport.update({
+  id: '/admin/access-control',
+  path: '/admin/access-control',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VehiclesBackup20260611035904Route =
@@ -141,8 +189,16 @@ export interface FileRoutesByFullPath {
   '/overview': typeof OverviewRouteWithChildren
   '/settings': typeof SettingsRoute
   '/vehicles': typeof VehiclesRouteWithChildren
+  '/admin/access-control': typeof AdminAccessControlRoute
+  '/admin/controllers': typeof AdminControllersRoute
+  '/admin/fine-types': typeof AdminFineTypesRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/payment-methods': typeof AdminPaymentMethodsRoute
+  '/admin/rates': typeof AdminRatesRoute
+  '/admin/roles': typeof AdminRolesRoute
+  '/admin/spaces': typeof AdminSpacesRoute
   '/admin/users': typeof AdminUsersRoute
+  '/admin/zones': typeof AdminZonesRoute
   '/overview/backup': typeof OverviewBackupRoute
   '/admin/': typeof AdminIndexRoute
   '/index/backup/20260611030009': typeof IndexBackup20260611030009Route
@@ -162,8 +218,16 @@ export interface FileRoutesByTo {
   '/overview': typeof OverviewRouteWithChildren
   '/settings': typeof SettingsRoute
   '/vehicles': typeof VehiclesRouteWithChildren
+  '/admin/access-control': typeof AdminAccessControlRoute
+  '/admin/controllers': typeof AdminControllersRoute
+  '/admin/fine-types': typeof AdminFineTypesRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/payment-methods': typeof AdminPaymentMethodsRoute
+  '/admin/rates': typeof AdminRatesRoute
+  '/admin/roles': typeof AdminRolesRoute
+  '/admin/spaces': typeof AdminSpacesRoute
   '/admin/users': typeof AdminUsersRoute
+  '/admin/zones': typeof AdminZonesRoute
   '/overview/backup': typeof OverviewBackupRoute
   '/admin': typeof AdminIndexRoute
   '/index/backup/20260611030009': typeof IndexBackup20260611030009Route
@@ -184,8 +248,16 @@ export interface FileRoutesById {
   '/overview': typeof OverviewRouteWithChildren
   '/settings': typeof SettingsRoute
   '/vehicles': typeof VehiclesRouteWithChildren
+  '/admin/access-control': typeof AdminAccessControlRoute
+  '/admin/controllers': typeof AdminControllersRoute
+  '/admin/fine-types': typeof AdminFineTypesRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/payment-methods': typeof AdminPaymentMethodsRoute
+  '/admin/rates': typeof AdminRatesRoute
+  '/admin/roles': typeof AdminRolesRoute
+  '/admin/spaces': typeof AdminSpacesRoute
   '/admin/users': typeof AdminUsersRoute
+  '/admin/zones': typeof AdminZonesRoute
   '/overview/backup': typeof OverviewBackupRoute
   '/admin/': typeof AdminIndexRoute
   '/index/backup/20260611030009': typeof IndexBackup20260611030009Route
@@ -207,8 +279,16 @@ export interface FileRouteTypes {
     | '/overview'
     | '/settings'
     | '/vehicles'
+    | '/admin/access-control'
+    | '/admin/controllers'
+    | '/admin/fine-types'
     | '/admin/login'
+    | '/admin/payment-methods'
+    | '/admin/rates'
+    | '/admin/roles'
+    | '/admin/spaces'
     | '/admin/users'
+    | '/admin/zones'
     | '/overview/backup'
     | '/admin/'
     | '/index/backup/20260611030009'
@@ -228,8 +308,16 @@ export interface FileRouteTypes {
     | '/overview'
     | '/settings'
     | '/vehicles'
+    | '/admin/access-control'
+    | '/admin/controllers'
+    | '/admin/fine-types'
     | '/admin/login'
+    | '/admin/payment-methods'
+    | '/admin/rates'
+    | '/admin/roles'
+    | '/admin/spaces'
     | '/admin/users'
+    | '/admin/zones'
     | '/overview/backup'
     | '/admin'
     | '/index/backup/20260611030009'
@@ -249,8 +337,16 @@ export interface FileRouteTypes {
     | '/overview'
     | '/settings'
     | '/vehicles'
+    | '/admin/access-control'
+    | '/admin/controllers'
+    | '/admin/fine-types'
     | '/admin/login'
+    | '/admin/payment-methods'
+    | '/admin/rates'
+    | '/admin/roles'
+    | '/admin/spaces'
     | '/admin/users'
+    | '/admin/zones'
     | '/overview/backup'
     | '/admin/'
     | '/index/backup/20260611030009'
@@ -271,8 +367,16 @@ export interface RootRouteChildren {
   OverviewRoute: typeof OverviewRouteWithChildren
   SettingsRoute: typeof SettingsRoute
   VehiclesRoute: typeof VehiclesRouteWithChildren
+  AdminAccessControlRoute: typeof AdminAccessControlRoute
+  AdminControllersRoute: typeof AdminControllersRoute
+  AdminFineTypesRoute: typeof AdminFineTypesRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminPaymentMethodsRoute: typeof AdminPaymentMethodsRoute
+  AdminRatesRoute: typeof AdminRatesRoute
+  AdminRolesRoute: typeof AdminRolesRoute
+  AdminSpacesRoute: typeof AdminSpacesRoute
   AdminUsersRoute: typeof AdminUsersRoute
+  AdminZonesRoute: typeof AdminZonesRoute
   AdminIndexRoute: typeof AdminIndexRoute
   IndexBackup20260611030009Route: typeof IndexBackup20260611030009Route
   IndexBackupFinal20260611041949Route: typeof IndexBackupFinal20260611041949Route
@@ -357,6 +461,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OverviewBackupRouteImport
       parentRoute: typeof OverviewRoute
     }
+    '/admin/zones': {
+      id: '/admin/zones'
+      path: '/admin/zones'
+      fullPath: '/admin/zones'
+      preLoaderRoute: typeof AdminZonesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/users': {
       id: '/admin/users'
       path: '/admin/users'
@@ -364,11 +475,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/spaces': {
+      id: '/admin/spaces'
+      path: '/admin/spaces'
+      fullPath: '/admin/spaces'
+      preLoaderRoute: typeof AdminSpacesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/roles': {
+      id: '/admin/roles'
+      path: '/admin/roles'
+      fullPath: '/admin/roles'
+      preLoaderRoute: typeof AdminRolesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/rates': {
+      id: '/admin/rates'
+      path: '/admin/rates'
+      fullPath: '/admin/rates'
+      preLoaderRoute: typeof AdminRatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/payment-methods': {
+      id: '/admin/payment-methods'
+      path: '/admin/payment-methods'
+      fullPath: '/admin/payment-methods'
+      preLoaderRoute: typeof AdminPaymentMethodsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/admin/login'
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/fine-types': {
+      id: '/admin/fine-types'
+      path: '/admin/fine-types'
+      fullPath: '/admin/fine-types'
+      preLoaderRoute: typeof AdminFineTypesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/controllers': {
+      id: '/admin/controllers'
+      path: '/admin/controllers'
+      fullPath: '/admin/controllers'
+      preLoaderRoute: typeof AdminControllersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/access-control': {
+      id: '/admin/access-control'
+      path: '/admin/access-control'
+      fullPath: '/admin/access-control'
+      preLoaderRoute: typeof AdminAccessControlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/vehicles/backup/20260611035904': {
@@ -466,8 +626,16 @@ const rootRouteChildren: RootRouteChildren = {
   OverviewRoute: OverviewRouteWithChildren,
   SettingsRoute: SettingsRoute,
   VehiclesRoute: VehiclesRouteWithChildren,
+  AdminAccessControlRoute: AdminAccessControlRoute,
+  AdminControllersRoute: AdminControllersRoute,
+  AdminFineTypesRoute: AdminFineTypesRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminPaymentMethodsRoute: AdminPaymentMethodsRoute,
+  AdminRatesRoute: AdminRatesRoute,
+  AdminRolesRoute: AdminRolesRoute,
+  AdminSpacesRoute: AdminSpacesRoute,
   AdminUsersRoute: AdminUsersRoute,
+  AdminZonesRoute: AdminZonesRoute,
   AdminIndexRoute: AdminIndexRoute,
   IndexBackup20260611030009Route: IndexBackup20260611030009Route,
   IndexBackupFinal20260611041949Route: IndexBackupFinal20260611041949Route,

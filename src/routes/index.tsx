@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from "react";
+import { RequirePermission } from "@/components/RequirePermission";
 import { createFileRoute } from "@tanstack/react-router";
 import { useSim, useLiveStats } from "@/lib/sim";
 import { ZONES, type LiveSpace } from "@/lib/data";
@@ -34,7 +35,7 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Mapa de ocupación de parqueo en tiempo real de la ciudad de Chone." },
     ],
   }),
-  component: LiveMapPage,
+  component: LiveMapPageProtected,
   ssr: false,
 });
 
@@ -229,5 +230,14 @@ function Row({ k, v }: { k: string; v: React.ReactNode }) {
       <span className="text-muted-foreground">{k}</span>
       <span className="font-medium text-foreground text-right truncate ml-2">{v}</span>
     </div>
+  );
+}
+
+
+function LiveMapPageProtected() {
+  return (
+    <RequirePermission permission="VIEW_LIVE">
+      <LiveMapPage />
+    </RequirePermission>
   );
 }
