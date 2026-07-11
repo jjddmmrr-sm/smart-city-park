@@ -5,10 +5,28 @@ import { Panel, KpiTile, StatusPill } from "@/components/ui-bits";
 import { apiGet } from "@/lib/api";
 import { fmtInt, fmtUSD, fmtPct, ISSUE_LABEL } from "@/lib/format";
 import {
-  Activity, AlertTriangle, Car, DollarSign, MapPin, ShieldAlert, Timer, TrendingUp, Receipt,
+  Activity,
+  AlertTriangle,
+  Car,
+  DollarSign,
+  MapPin,
+  ShieldAlert,
+  Timer,
+  TrendingUp,
+  Receipt,
 } from "lucide-react";
 import {
-  Bar, BarChart, CartesianGrid, Pie, PieChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Pie,
+  PieChart,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+  Legend,
 } from "recharts";
 
 export const Route = createFileRoute("/overview")({
@@ -129,7 +147,11 @@ function OverviewPage() {
   const paymentsByMethod = useMemo(() => {
     const map: Record<string, { label: string; amount: number; tx: number }> = {};
     for (const p of payments) {
-      const e = (map[p.metodo_pago_codigo] ??= { label: p.metodo_pago_descripcion, amount: 0, tx: 0 });
+      const e = (map[p.metodo_pago_codigo] ??= {
+        label: p.metodo_pago_descripcion,
+        amount: 0,
+        tx: 0,
+      });
       e.amount += p.monto_total_usd;
       e.tx += p.transacciones;
     }
@@ -148,7 +170,10 @@ function OverviewPage() {
   }, [enforcement]);
 
   const zoneSummary = useMemo(() => {
-    const map: Record<string, { vehicles: number; fines: number; revenue: number; alerts: number }> = {};
+    const map: Record<
+      string,
+      { vehicles: number; fines: number; revenue: number; alerts: number }
+    > = {};
 
     for (const v of vehicles) {
       const e = (map[v.zone] ??= { vehicles: 0, fines: 0, revenue: 0, alerts: 0 });
@@ -187,34 +212,105 @@ function OverviewPage() {
         <div className="flex items-end justify-between">
           <div>
             <h1 className="text-[20px] font-semibold text-primary">Resumen General Ejecutivo</h1>
-            <p className="text-[12px] text-muted-foreground">Datos reales desde PostgreSQL · operación actual · todas las zonas</p>
+            <p className="text-[12px] text-muted-foreground">
+              Datos reales desde PostgreSQL · operación actual · todas las zonas
+            </p>
           </div>
-          <Link to="/" className="text-[12px] inline-flex items-center gap-1.5 px-3 h-8 rounded-md bg-primary text-primary-foreground hover:bg-primary/90">
+          <Link
+            to="/"
+            className="text-[12px] inline-flex items-center gap-1.5 px-3 h-8 rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
+          >
             Abrir Mapa en Vivo
           </Link>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-          <KpiTile label="Espacios totales" value={fmtInt(overview?.totalSpaces ?? 0)} sub="inventario ciudad" icon={<MapPin className="h-4 w-4" />} accent="primary" />
-          <KpiTile label="Ocupados ahora" value={fmtInt(overview?.occupiedSpaces ?? 0)} sub={`${fmtPct(overview?.occupancyRate ?? 0, 1)} ocupación`} icon={<Car className="h-4 w-4" />} accent="destructive" />
-          <KpiTile label="Disponibles ahora" value={fmtInt(overview?.availableSpaces ?? 0)} sub="listos para uso" icon={<Activity className="h-4 w-4" />} accent="success" />
-          <KpiTile label="Vehículos hoy" value={fmtInt(overview?.vehiclesToday ?? vehicles.length)} sub={`${avgDuration} min promedio`} icon={<TrendingUp className="h-4 w-4" />} accent="accent" />
-          <KpiTile label="Ingresos hoy" value={fmtUSD(overview?.revenueToday ?? 0)} sub="todas las zonas" icon={<DollarSign className="h-4 w-4" />} accent="success" />
-          <KpiTile label="Alertas activas" value={fmtInt(overview?.activeAlerts ?? enforcement.length)} sub="pendientes" icon={<AlertTriangle className="h-4 w-4" />} accent="warning" />
-          <KpiTile label="Excesos de tiempo" value={fmtInt(overview?.overstayCases ?? 0)} sub="hoy" icon={<Timer className="h-4 w-4" />} accent="warning" />
-          <KpiTile label="Casos sin pago" value={fmtInt(overview?.unpaidCases ?? 0)} sub="hoy" icon={<ShieldAlert className="h-4 w-4" />} accent="destructive" />
-          <KpiTile label="Multas emitidas" value={fmtInt(overview?.ticketsIssued ?? fines.length)} sub={fmtUSD(overview?.ticketsAmount ?? 0)} icon={<Receipt className="h-4 w-4" />} accent="primary" />
-          <KpiTile label="Duración promedio" value={`${avgDuration} min`} sub="sesiones registradas" icon={<Timer className="h-4 w-4" />} accent="primary" />
+          <KpiTile
+            label="Espacios totales"
+            value={fmtInt(overview?.totalSpaces ?? 0)}
+            sub="inventario ciudad"
+            icon={<MapPin className="h-4 w-4" />}
+            accent="primary"
+          />
+          <KpiTile
+            label="Ocupados ahora"
+            value={fmtInt(overview?.occupiedSpaces ?? 0)}
+            sub={`${fmtPct(overview?.occupancyRate ?? 0, 1)} ocupación`}
+            icon={<Car className="h-4 w-4" />}
+            accent="destructive"
+          />
+          <KpiTile
+            label="Disponibles ahora"
+            value={fmtInt(overview?.availableSpaces ?? 0)}
+            sub="listos para uso"
+            icon={<Activity className="h-4 w-4" />}
+            accent="success"
+          />
+          <KpiTile
+            label="Vehículos hoy"
+            value={fmtInt(overview?.vehiclesToday ?? vehicles.length)}
+            sub={`${avgDuration} min promedio`}
+            icon={<TrendingUp className="h-4 w-4" />}
+            accent="accent"
+          />
+          <KpiTile
+            label="Ingresos hoy"
+            value={fmtUSD(overview?.revenueToday ?? 0)}
+            sub="todas las zonas"
+            icon={<DollarSign className="h-4 w-4" />}
+            accent="success"
+          />
+          <KpiTile
+            label="Alertas activas"
+            value={fmtInt(overview?.activeAlerts ?? enforcement.length)}
+            sub="pendientes"
+            icon={<AlertTriangle className="h-4 w-4" />}
+            accent="warning"
+          />
+          <KpiTile
+            label="Excesos de tiempo"
+            value={fmtInt(overview?.overstayCases ?? 0)}
+            sub="hoy"
+            icon={<Timer className="h-4 w-4" />}
+            accent="warning"
+          />
+          <KpiTile
+            label="Casos sin pago"
+            value={fmtInt(overview?.unpaidCases ?? 0)}
+            sub="hoy"
+            icon={<ShieldAlert className="h-4 w-4" />}
+            accent="destructive"
+          />
+          <KpiTile
+            label="Multas emitidas"
+            value={fmtInt(overview?.ticketsIssued ?? fines.length)}
+            sub={fmtUSD(overview?.ticketsAmount ?? 0)}
+            icon={<Receipt className="h-4 w-4" />}
+            accent="primary"
+          />
+          <KpiTile
+            label="Duración promedio"
+            value={`${avgDuration} min`}
+            sub="sesiones registradas"
+            icon={<Timer className="h-4 w-4" />}
+            accent="primary"
+          />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
           <Panel title="Recaudación por método de pago" className="lg:col-span-2 h-72">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={paymentsByMethod} margin={{ top: 6, right: 12, left: -10, bottom: 0 }}>
+              <BarChart
+                data={paymentsByMethod}
+                margin={{ top: 6, right: 12, left: -10, bottom: 0 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                 <XAxis dataKey="metodo" tick={{ fontSize: 10, fill: "#64748b" }} />
                 <YAxis tick={{ fontSize: 11, fill: "#64748b" }} />
-                <Tooltip contentStyle={{ borderRadius: 6, fontSize: 12 }} formatter={(v) => fmtUSD(Number(v))} />
+                <Tooltip
+                  contentStyle={{ borderRadius: 6, fontSize: 12 }}
+                  formatter={(v) => fmtUSD(Number(v))}
+                />
                 <Bar dataKey="monto" fill="#00d4aa" radius={[3, 3, 0, 0]} name="Recaudación" />
               </BarChart>
             </ResponsiveContainer>
@@ -223,8 +319,16 @@ function OverviewPage() {
           <Panel title="Alertas por prioridad" className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
-                <Pie data={alertsByPriority} dataKey="value" nameKey="name" innerRadius={50} outerRadius={90}>
-                  {alertsByPriority.map((_, i) => <Cell key={i} fill={COLORS[(i + 2) % COLORS.length]} />)}
+                <Pie
+                  data={alertsByPriority}
+                  dataKey="value"
+                  nameKey="name"
+                  innerRadius={50}
+                  outerRadius={90}
+                >
+                  {alertsByPriority.map((_, i) => (
+                    <Cell key={i} fill={COLORS[(i + 2) % COLORS.length]} />
+                  ))}
                 </Pie>
                 <Tooltip contentStyle={{ borderRadius: 6, fontSize: 12 }} />
                 <Legend wrapperStyle={{ fontSize: 11 }} />
@@ -276,8 +380,12 @@ function OverviewPage() {
                     <td className="px-3 py-1.5 font-mono">{c.plate}</td>
                     <td className="px-3 py-1.5">{c.zone}</td>
                     <td className="px-3 py-1.5">{ISSUE_LABEL[c.issue] ?? c.issue}</td>
-                    <td className="px-3 py-1.5"><StatusPill status={priorityEs(c.priority)} /></td>
-                    <td className="px-3 py-1.5"><StatusPill status={statusEs(c.status)} /></td>
+                    <td className="px-3 py-1.5">
+                      <StatusPill status={priorityEs(c.priority)} />
+                    </td>
+                    <td className="px-3 py-1.5">
+                      <StatusPill status={statusEs(c.status)} />
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -288,7 +396,6 @@ function OverviewPage() {
     </div>
   );
 }
-
 
 function OverviewPageProtected() {
   return (

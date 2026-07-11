@@ -5,6 +5,7 @@
 This document defines the database architecture for the Smart City Park platform.
 
 The database is the operational source of truth for:
+
 - municipalities,
 - cities,
 - parking zones,
@@ -28,6 +29,7 @@ The platform will use:
 - PostgreSQL
 
 PostgreSQL is selected because it supports:
+
 - relational integrity,
 - geospatial extensions,
 - JSONB,
@@ -46,6 +48,7 @@ The platform will not treat the database as a simple storage layer.
 The database is part of the core operational architecture.
 
 It must support:
+
 - multi-city operations,
 - realtime occupancy,
 - controller workflows,
@@ -471,13 +474,16 @@ This guarantees operational isolation between municipalities.
 Example structure:
 
 Tenant:
+
 - Municipality of Chone
 
 Cities:
+
 - Chone Downtown
 - Chone North Sector
 
 Future tenants:
+
 - Municipality of Manta
 - Municipality of Portoviejo
 - Private Parking Operators

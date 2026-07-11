@@ -1,1 +1,4502 @@
-[{"fecha":"2026-01-20","zona":"Centro","multas_sin_pago":20,"multas_exceso_tiempo":18,"multas_zona_prohibida":5,"multas_zona_reservada":1,"total_multas":44,"monto_total_usd":459.0},{"fecha":"2026-01-20","zona":"Comercial","multas_sin_pago":9,"multas_exceso_tiempo":17,"multas_zona_prohibida":3,"multas_zona_reservada":0,"total_multas":29,"monto_total_usd":286.0},{"fecha":"2026-01-20","zona":"Hospitalaria","multas_sin_pago":5,"multas_exceso_tiempo":6,"multas_zona_prohibida":4,"multas_zona_reservada":4,"total_multas":19,"monto_total_usd":238.0},{"fecha":"2026-01-20","zona":"Residencial Norte","multas_sin_pago":6,"multas_exceso_tiempo":8,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":15,"monto_total_usd":139.0},{"fecha":"2026-01-20","zona":"Residencial Sur","multas_sin_pago":12,"multas_exceso_tiempo":12,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":25,"monto_total_usd":231.0},{"fecha":"2026-01-21","zona":"Centro","multas_sin_pago":19,"multas_exceso_tiempo":22,"multas_zona_prohibida":5,"multas_zona_reservada":3,"total_multas":49,"monto_total_usd":511.0},{"fecha":"2026-01-21","zona":"Comercial","multas_sin_pago":15,"multas_exceso_tiempo":17,"multas_zona_prohibida":3,"multas_zona_reservada":0,"total_multas":35,"monto_total_usd":346.0},{"fecha":"2026-01-21","zona":"Hospitalaria","multas_sin_pago":13,"multas_exceso_tiempo":6,"multas_zona_prohibida":1,"multas_zona_reservada":5,"total_multas":25,"monto_total_usd":273.0},{"fecha":"2026-01-21","zona":"Residencial Norte","multas_sin_pago":13,"multas_exceso_tiempo":8,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":21,"monto_total_usd":194.0},{"fecha":"2026-01-21","zona":"Residencial Sur","multas_sin_pago":7,"multas_exceso_tiempo":10,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":19,"monto_total_usd":180.0},{"fecha":"2026-01-22","zona":"Centro","multas_sin_pago":18,"multas_exceso_tiempo":24,"multas_zona_prohibida":3,"multas_zona_reservada":2,"total_multas":47,"monto_total_usd":462.0},{"fecha":"2026-01-22","zona":"Comercial","multas_sin_pago":9,"multas_exceso_tiempo":17,"multas_zona_prohibida":2,"multas_zona_reservada":3,"total_multas":31,"monto_total_usd":311.0},{"fecha":"2026-01-22","zona":"Hospitalaria","multas_sin_pago":8,"multas_exceso_tiempo":9,"multas_zona_prohibida":2,"multas_zona_reservada":7,"total_multas":26,"monto_total_usd":297.0},{"fecha":"2026-01-22","zona":"Residencial Norte","multas_sin_pago":6,"multas_exceso_tiempo":8,"multas_zona_prohibida":1,"multas_zona_reservada":1,"total_multas":16,"monto_total_usd":159.0},{"fecha":"2026-01-22","zona":"Residencial Sur","multas_sin_pago":16,"multas_exceso_tiempo":7,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":24,"monto_total_usd":236.0},{"fecha":"2026-01-23","zona":"Centro","multas_sin_pago":28,"multas_exceso_tiempo":16,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":47,"monto_total_usd":463.0},{"fecha":"2026-01-23","zona":"Comercial","multas_sin_pago":12,"multas_exceso_tiempo":20,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":33,"monto_total_usd":300.0},{"fecha":"2026-01-23","zona":"Hospitalaria","multas_sin_pago":14,"multas_exceso_tiempo":1,"multas_zona_prohibida":4,"multas_zona_reservada":5,"total_multas":24,"monto_total_usd":303.0},{"fecha":"2026-01-23","zona":"Residencial Norte","multas_sin_pago":8,"multas_exceso_tiempo":6,"multas_zona_prohibida":4,"multas_zona_reservada":2,"total_multas":20,"monto_total_usd":238.0},{"fecha":"2026-01-23","zona":"Residencial Sur","multas_sin_pago":12,"multas_exceso_tiempo":10,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":25,"monto_total_usd":255.0},{"fecha":"2026-01-24","zona":"Centro","multas_sin_pago":17,"multas_exceso_tiempo":22,"multas_zona_prohibida":5,"multas_zona_reservada":1,"total_multas":45,"monto_total_usd":461.0},{"fecha":"2026-01-24","zona":"Comercial","multas_sin_pago":13,"multas_exceso_tiempo":21,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":35,"monto_total_usd":318.0},{"fecha":"2026-01-24","zona":"Hospitalaria","multas_sin_pago":5,"multas_exceso_tiempo":10,"multas_zona_prohibida":2,"multas_zona_reservada":6,"total_multas":23,"monto_total_usd":260.0},{"fecha":"2026-01-24","zona":"Residencial Norte","multas_sin_pago":12,"multas_exceso_tiempo":6,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":19,"monto_total_usd":183.0},{"fecha":"2026-01-24","zona":"Residencial Sur","multas_sin_pago":12,"multas_exceso_tiempo":2,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":18,"monto_total_usd":211.0},{"fecha":"2026-01-25","zona":"Centro","multas_sin_pago":18,"multas_exceso_tiempo":17,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":38,"monto_total_usd":371.0},{"fecha":"2026-01-25","zona":"Comercial","multas_sin_pago":5,"multas_exceso_tiempo":17,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":22,"monto_total_usd":186.0},{"fecha":"2026-01-25","zona":"Hospitalaria","multas_sin_pago":13,"multas_exceso_tiempo":5,"multas_zona_prohibida":0,"multas_zona_reservada":4,"total_multas":22,"monto_total_usd":230.0},{"fecha":"2026-01-25","zona":"Residencial Norte","multas_sin_pago":11,"multas_exceso_tiempo":10,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":23,"monto_total_usd":220.0},{"fecha":"2026-01-25","zona":"Residencial Sur","multas_sin_pago":13,"multas_exceso_tiempo":3,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":16,"monto_total_usd":154.0},{"fecha":"2026-01-26","zona":"Centro","multas_sin_pago":17,"multas_exceso_tiempo":16,"multas_zona_prohibida":3,"multas_zona_reservada":2,"total_multas":38,"monto_total_usd":388.0},{"fecha":"2026-01-26","zona":"Comercial","multas_sin_pago":8,"multas_exceso_tiempo":15,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":25,"monto_total_usd":230.0},{"fecha":"2026-01-26","zona":"Hospitalaria","multas_sin_pago":12,"multas_exceso_tiempo":8,"multas_zona_prohibida":0,"multas_zona_reservada":3,"total_multas":23,"monto_total_usd":229.0},{"fecha":"2026-01-26","zona":"Residencial Norte","multas_sin_pago":6,"multas_exceso_tiempo":1,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":11,"monto_total_usd":143.0},{"fecha":"2026-01-26","zona":"Residencial Sur","multas_sin_pago":14,"multas_exceso_tiempo":7,"multas_zona_prohibida":4,"multas_zona_reservada":2,"total_multas":27,"monto_total_usd":306.0},{"fecha":"2026-01-27","zona":"Centro","multas_sin_pago":24,"multas_exceso_tiempo":20,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":47,"monto_total_usd":450.0},{"fecha":"2026-01-27","zona":"Comercial","multas_sin_pago":1,"multas_exceso_tiempo":18,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":22,"monto_total_usd":204.0},{"fecha":"2026-01-27","zona":"Hospitalaria","multas_sin_pago":6,"multas_exceso_tiempo":7,"multas_zona_prohibida":1,"multas_zona_reservada":4,"total_multas":18,"monto_total_usd":196.0},{"fecha":"2026-01-27","zona":"Residencial Norte","multas_sin_pago":5,"multas_exceso_tiempo":9,"multas_zona_prohibida":3,"multas_zona_reservada":0,"total_multas":17,"monto_total_usd":182.0},{"fecha":"2026-01-27","zona":"Residencial Sur","multas_sin_pago":14,"multas_exceso_tiempo":3,"multas_zona_prohibida":1,"multas_zona_reservada":1,"total_multas":19,"monto_total_usd":199.0},{"fecha":"2026-01-28","zona":"Centro","multas_sin_pago":26,"multas_exceso_tiempo":17,"multas_zona_prohibida":3,"multas_zona_reservada":2,"total_multas":48,"monto_total_usd":486.0},{"fecha":"2026-01-28","zona":"Comercial","multas_sin_pago":12,"multas_exceso_tiempo":14,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":29,"monto_total_usd":287.0},{"fecha":"2026-01-28","zona":"Hospitalaria","multas_sin_pago":0,"multas_exceso_tiempo":5,"multas_zona_prohibida":2,"multas_zona_reservada":5,"total_multas":12,"monto_total_usd":155.0},{"fecha":"2026-01-28","zona":"Residencial Norte","multas_sin_pago":10,"multas_exceso_tiempo":6,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":16,"monto_total_usd":148.0},{"fecha":"2026-01-28","zona":"Residencial Sur","multas_sin_pago":6,"multas_exceso_tiempo":6,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":13,"monto_total_usd":123.0},{"fecha":"2026-01-29","zona":"Centro","multas_sin_pago":20,"multas_exceso_tiempo":17,"multas_zona_prohibida":6,"multas_zona_reservada":0,"total_multas":43,"monto_total_usd":456.0},{"fecha":"2026-01-29","zona":"Comercial","multas_sin_pago":14,"multas_exceso_tiempo":14,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":30,"monto_total_usd":282.0},{"fecha":"2026-01-29","zona":"Hospitalaria","multas_sin_pago":7,"multas_exceso_tiempo":4,"multas_zona_prohibida":4,"multas_zona_reservada":3,"total_multas":18,"monto_total_usd":227.0},{"fecha":"2026-01-29","zona":"Residencial Norte","multas_sin_pago":12,"multas_exceso_tiempo":12,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":24,"monto_total_usd":216.0},{"fecha":"2026-01-29","zona":"Residencial Sur","multas_sin_pago":11,"multas_exceso_tiempo":10,"multas_zona_prohibida":4,"multas_zona_reservada":2,"total_multas":27,"monto_total_usd":300.0},{"fecha":"2026-01-30","zona":"Centro","multas_sin_pago":27,"multas_exceso_tiempo":16,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":47,"monto_total_usd":473.0},{"fecha":"2026-01-30","zona":"Comercial","multas_sin_pago":8,"multas_exceso_tiempo":15,"multas_zona_prohibida":4,"multas_zona_reservada":1,"total_multas":28,"monto_total_usd":295.0},{"fecha":"2026-01-30","zona":"Hospitalaria","multas_sin_pago":12,"multas_exceso_tiempo":10,"multas_zona_prohibida":3,"multas_zona_reservada":5,"total_multas":30,"monto_total_usd":335.0},{"fecha":"2026-01-30","zona":"Residencial Norte","multas_sin_pago":14,"multas_exceso_tiempo":3,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":19,"monto_total_usd":194.0},{"fecha":"2026-01-30","zona":"Residencial Sur","multas_sin_pago":9,"multas_exceso_tiempo":8,"multas_zona_prohibida":3,"multas_zona_reservada":0,"total_multas":20,"monto_total_usd":214.0},{"fecha":"2026-01-31","zona":"Centro","multas_sin_pago":26,"multas_exceso_tiempo":17,"multas_zona_prohibida":3,"multas_zona_reservada":0,"total_multas":46,"monto_total_usd":456.0},{"fecha":"2026-01-31","zona":"Comercial","multas_sin_pago":11,"multas_exceso_tiempo":15,"multas_zona_prohibida":2,"multas_zona_reservada":0,"total_multas":28,"monto_total_usd":270.0},{"fecha":"2026-01-31","zona":"Hospitalaria","multas_sin_pago":9,"multas_exceso_tiempo":7,"multas_zona_prohibida":1,"multas_zona_reservada":6,"total_multas":23,"monto_total_usd":256.0},{"fecha":"2026-01-31","zona":"Residencial Norte","multas_sin_pago":15,"multas_exceso_tiempo":7,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":25,"monto_total_usd":261.0},{"fecha":"2026-01-31","zona":"Residencial Sur","multas_sin_pago":9,"multas_exceso_tiempo":11,"multas_zona_prohibida":1,"multas_zona_reservada":3,"total_multas":24,"monto_total_usd":243.0},{"fecha":"2026-02-01","zona":"Centro","multas_sin_pago":21,"multas_exceso_tiempo":14,"multas_zona_prohibida":7,"multas_zona_reservada":2,"total_multas":44,"monto_total_usd":492.0},{"fecha":"2026-02-01","zona":"Comercial","multas_sin_pago":6,"multas_exceso_tiempo":16,"multas_zona_prohibida":2,"multas_zona_reservada":4,"total_multas":28,"monto_total_usd":288.0},{"fecha":"2026-02-01","zona":"Hospitalaria","multas_sin_pago":14,"multas_exceso_tiempo":6,"multas_zona_prohibida":2,"multas_zona_reservada":5,"total_multas":27,"monto_total_usd":303.0},{"fecha":"2026-02-01","zona":"Residencial Norte","multas_sin_pago":5,"multas_exceso_tiempo":7,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":14,"monto_total_usd":136.0},{"fecha":"2026-02-01","zona":"Residencial Sur","multas_sin_pago":5,"multas_exceso_tiempo":8,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":16,"monto_total_usd":169.0},{"fecha":"2026-02-02","zona":"Centro","multas_sin_pago":27,"multas_exceso_tiempo":19,"multas_zona_prohibida":5,"multas_zona_reservada":3,"total_multas":54,"monto_total_usd":567.0},{"fecha":"2026-02-02","zona":"Comercial","multas_sin_pago":14,"multas_exceso_tiempo":18,"multas_zona_prohibida":2,"multas_zona_reservada":3,"total_multas":37,"monto_total_usd":369.0},{"fecha":"2026-02-02","zona":"Hospitalaria","multas_sin_pago":8,"multas_exceso_tiempo":8,"multas_zona_prohibida":4,"multas_zona_reservada":4,"total_multas":24,"monto_total_usd":284.0},{"fecha":"2026-02-02","zona":"Residencial Norte","multas_sin_pago":13,"multas_exceso_tiempo":4,"multas_zona_prohibida":1,"multas_zona_reservada":4,"total_multas":22,"monto_total_usd":242.0},{"fecha":"2026-02-02","zona":"Residencial Sur","multas_sin_pago":13,"multas_exceso_tiempo":14,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":30,"monto_total_usd":297.0},{"fecha":"2026-02-03","zona":"Centro","multas_sin_pago":21,"multas_exceso_tiempo":17,"multas_zona_prohibida":5,"multas_zona_reservada":1,"total_multas":44,"monto_total_usd":461.0},{"fecha":"2026-02-03","zona":"Comercial","multas_sin_pago":14,"multas_exceso_tiempo":14,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":32,"monto_total_usd":327.0},{"fecha":"2026-02-03","zona":"Hospitalaria","multas_sin_pago":10,"multas_exceso_tiempo":9,"multas_zona_prohibida":0,"multas_zona_reservada":5,"total_multas":24,"monto_total_usd":247.0},{"fecha":"2026-02-03","zona":"Residencial Norte","multas_sin_pago":11,"multas_exceso_tiempo":5,"multas_zona_prohibida":0,"multas_zona_reservada":3,"total_multas":19,"monto_total_usd":195.0},{"fecha":"2026-02-03","zona":"Residencial Sur","multas_sin_pago":3,"multas_exceso_tiempo":3,"multas_zona_prohibida":0,"multas_zona_reservada":4,"total_multas":10,"monto_total_usd":114.0},{"fecha":"2026-02-04","zona":"Centro","multas_sin_pago":20,"multas_exceso_tiempo":17,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":40,"monto_total_usd":391.0},{"fecha":"2026-02-04","zona":"Comercial","multas_sin_pago":6,"multas_exceso_tiempo":19,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":25,"monto_total_usd":212.0},{"fecha":"2026-02-04","zona":"Hospitalaria","multas_sin_pago":11,"multas_exceso_tiempo":9,"multas_zona_prohibida":3,"multas_zona_reservada":2,"total_multas":25,"monto_total_usd":272.0},{"fecha":"2026-02-04","zona":"Residencial Norte","multas_sin_pago":12,"multas_exceso_tiempo":9,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":21,"monto_total_usd":192.0},{"fecha":"2026-02-04","zona":"Residencial Sur","multas_sin_pago":9,"multas_exceso_tiempo":6,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":16,"monto_total_usd":153.0},{"fecha":"2026-02-05","zona":"Centro","multas_sin_pago":14,"multas_exceso_tiempo":16,"multas_zona_prohibida":5,"multas_zona_reservada":2,"total_multas":37,"monto_total_usd":398.0},{"fecha":"2026-02-05","zona":"Comercial","multas_sin_pago":13,"multas_exceso_tiempo":16,"multas_zona_prohibida":3,"multas_zona_reservada":3,"total_multas":35,"monto_total_usd":363.0},{"fecha":"2026-02-05","zona":"Hospitalaria","multas_sin_pago":9,"multas_exceso_tiempo":11,"multas_zona_prohibida":1,"multas_zona_reservada":3,"total_multas":24,"monto_total_usd":243.0},{"fecha":"2026-02-05","zona":"Residencial Norte","multas_sin_pago":4,"multas_exceso_tiempo":8,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":15,"monto_total_usd":159.0},{"fecha":"2026-02-05","zona":"Residencial Sur","multas_sin_pago":14,"multas_exceso_tiempo":2,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":19,"monto_total_usd":211.0},{"fecha":"2026-02-06","zona":"Centro","multas_sin_pago":22,"multas_exceso_tiempo":19,"multas_zona_prohibida":4,"multas_zona_reservada":0,"total_multas":45,"monto_total_usd":452.0},{"fecha":"2026-02-06","zona":"Comercial","multas_sin_pago":12,"multas_exceso_tiempo":17,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":32,"monto_total_usd":306.0},{"fecha":"2026-02-06","zona":"Hospitalaria","multas_sin_pago":9,"multas_exceso_tiempo":6,"multas_zona_prohibida":0,"multas_zona_reservada":6,"total_multas":21,"monto_total_usd":228.0},{"fecha":"2026-02-06","zona":"Residencial Norte","multas_sin_pago":8,"multas_exceso_tiempo":1,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":13,"monto_total_usd":163.0},{"fecha":"2026-02-06","zona":"Residencial Sur","multas_sin_pago":8,"multas_exceso_tiempo":4,"multas_zona_prohibida":0,"multas_zona_reservada":3,"total_multas":15,"monto_total_usd":157.0},{"fecha":"2026-02-07","zona":"Centro","multas_sin_pago":17,"multas_exceso_tiempo":14,"multas_zona_prohibida":3,"multas_zona_reservada":0,"total_multas":34,"monto_total_usd":342.0},{"fecha":"2026-02-07","zona":"Comercial","multas_sin_pago":6,"multas_exceso_tiempo":13,"multas_zona_prohibida":1,"multas_zona_reservada":1,"total_multas":21,"monto_total_usd":199.0},{"fecha":"2026-02-07","zona":"Hospitalaria","multas_sin_pago":6,"multas_exceso_tiempo":4,"multas_zona_prohibida":0,"multas_zona_reservada":6,"total_multas":16,"monto_total_usd":182.0},{"fecha":"2026-02-07","zona":"Residencial Norte","multas_sin_pago":14,"multas_exceso_tiempo":5,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":22,"monto_total_usd":235.0},{"fecha":"2026-02-07","zona":"Residencial Sur","multas_sin_pago":4,"multas_exceso_tiempo":4,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":11,"monto_total_usd":122.0},{"fecha":"2026-02-08","zona":"Centro","multas_sin_pago":24,"multas_exceso_tiempo":18,"multas_zona_prohibida":5,"multas_zona_reservada":3,"total_multas":50,"monto_total_usd":529.0},{"fecha":"2026-02-08","zona":"Comercial","multas_sin_pago":13,"multas_exceso_tiempo":18,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":33,"monto_total_usd":304.0},{"fecha":"2026-02-08","zona":"Hospitalaria","multas_sin_pago":17,"multas_exceso_tiempo":11,"multas_zona_prohibida":2,"multas_zona_reservada":3,"total_multas":33,"monto_total_usd":343.0},{"fecha":"2026-02-08","zona":"Residencial Norte","multas_sin_pago":1,"multas_exceso_tiempo":7,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":12,"monto_total_usd":141.0},{"fecha":"2026-02-08","zona":"Residencial Sur","multas_sin_pago":16,"multas_exceso_tiempo":6,"multas_zona_prohibida":3,"multas_zona_reservada":0,"total_multas":25,"monto_total_usd":268.0},{"fecha":"2026-02-09","zona":"Centro","multas_sin_pago":12,"multas_exceso_tiempo":11,"multas_zona_prohibida":2,"multas_zona_reservada":0,"total_multas":25,"monto_total_usd":248.0},{"fecha":"2026-02-09","zona":"Comercial","multas_sin_pago":8,"multas_exceso_tiempo":17,"multas_zona_prohibida":1,"multas_zona_reservada":3,"total_multas":29,"monto_total_usd":281.0},{"fecha":"2026-02-09","zona":"Hospitalaria","multas_sin_pago":12,"multas_exceso_tiempo":12,"multas_zona_prohibida":2,"multas_zona_reservada":3,"total_multas":29,"monto_total_usd":301.0},{"fecha":"2026-02-09","zona":"Residencial Norte","multas_sin_pago":7,"multas_exceso_tiempo":2,"multas_zona_prohibida":3,"multas_zona_reservada":3,"total_multas":15,"monto_total_usd":191.0},{"fecha":"2026-02-09","zona":"Residencial Sur","multas_sin_pago":13,"multas_exceso_tiempo":6,"multas_zona_prohibida":4,"multas_zona_reservada":0,"total_multas":23,"monto_total_usd":258.0},{"fecha":"2026-02-10","zona":"Centro","multas_sin_pago":25,"multas_exceso_tiempo":20,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":48,"monto_total_usd":460.0},{"fecha":"2026-02-10","zona":"Comercial","multas_sin_pago":4,"multas_exceso_tiempo":22,"multas_zona_prohibida":4,"multas_zona_reservada":0,"total_multas":30,"monto_total_usd":296.0},{"fecha":"2026-02-10","zona":"Hospitalaria","multas_sin_pago":9,"multas_exceso_tiempo":5,"multas_zona_prohibida":0,"multas_zona_reservada":7,"total_multas":21,"monto_total_usd":235.0},{"fecha":"2026-02-10","zona":"Residencial Norte","multas_sin_pago":17,"multas_exceso_tiempo":7,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":25,"monto_total_usd":246.0},{"fecha":"2026-02-10","zona":"Residencial Sur","multas_sin_pago":8,"multas_exceso_tiempo":3,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":12,"monto_total_usd":124.0},{"fecha":"2026-02-11","zona":"Centro","multas_sin_pago":17,"multas_exceso_tiempo":13,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":33,"monto_total_usd":329.0},{"fecha":"2026-02-11","zona":"Comercial","multas_sin_pago":12,"multas_exceso_tiempo":18,"multas_zona_prohibida":4,"multas_zona_reservada":2,"total_multas":36,"monto_total_usd":374.0},{"fecha":"2026-02-11","zona":"Hospitalaria","multas_sin_pago":9,"multas_exceso_tiempo":4,"multas_zona_prohibida":2,"multas_zona_reservada":3,"total_multas":18,"monto_total_usd":207.0},{"fecha":"2026-02-11","zona":"Residencial Norte","multas_sin_pago":11,"multas_exceso_tiempo":5,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":16,"monto_total_usd":150.0},{"fecha":"2026-02-11","zona":"Residencial Sur","multas_sin_pago":7,"multas_exceso_tiempo":10,"multas_zona_prohibida":1,"multas_zona_reservada":1,"total_multas":19,"monto_total_usd":185.0},{"fecha":"2026-02-12","zona":"Centro","multas_sin_pago":17,"multas_exceso_tiempo":12,"multas_zona_prohibida":3,"multas_zona_reservada":3,"total_multas":35,"monto_total_usd":371.0},{"fecha":"2026-02-12","zona":"Comercial","multas_sin_pago":6,"multas_exceso_tiempo":17,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":24,"monto_total_usd":216.0},{"fecha":"2026-02-12","zona":"Hospitalaria","multas_sin_pago":7,"multas_exceso_tiempo":4,"multas_zona_prohibida":4,"multas_zona_reservada":5,"total_multas":20,"monto_total_usd":257.0},{"fecha":"2026-02-12","zona":"Residencial Norte","multas_sin_pago":17,"multas_exceso_tiempo":9,"multas_zona_prohibida":0,"multas_zona_reservada":3,"total_multas":29,"monto_total_usd":287.0},{"fecha":"2026-02-12","zona":"Residencial Sur","multas_sin_pago":7,"multas_exceso_tiempo":5,"multas_zona_prohibida":2,"multas_zona_reservada":0,"total_multas":14,"monto_total_usd":150.0},{"fecha":"2026-02-13","zona":"Centro","multas_sin_pago":22,"multas_exceso_tiempo":19,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":44,"monto_total_usd":427.0},{"fecha":"2026-02-13","zona":"Comercial","multas_sin_pago":11,"multas_exceso_tiempo":17,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":28,"monto_total_usd":246.0},{"fecha":"2026-02-13","zona":"Hospitalaria","multas_sin_pago":13,"multas_exceso_tiempo":6,"multas_zona_prohibida":2,"multas_zona_reservada":5,"total_multas":26,"monto_total_usd":293.0},{"fecha":"2026-02-13","zona":"Residencial Norte","multas_sin_pago":11,"multas_exceso_tiempo":3,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":15,"monto_total_usd":149.0},{"fecha":"2026-02-13","zona":"Residencial Sur","multas_sin_pago":5,"multas_exceso_tiempo":2,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":10,"monto_total_usd":121.0},{"fecha":"2026-02-14","zona":"Centro","multas_sin_pago":26,"multas_exceso_tiempo":18,"multas_zona_prohibida":5,"multas_zona_reservada":1,"total_multas":50,"monto_total_usd":519.0},{"fecha":"2026-02-14","zona":"Comercial","multas_sin_pago":10,"multas_exceso_tiempo":24,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":35,"monto_total_usd":307.0},{"fecha":"2026-02-14","zona":"Hospitalaria","multas_sin_pago":12,"multas_exceso_tiempo":2,"multas_zona_prohibida":1,"multas_zona_reservada":5,"total_multas":20,"monto_total_usd":231.0},{"fecha":"2026-02-14","zona":"Residencial Norte","multas_sin_pago":14,"multas_exceso_tiempo":8,"multas_zona_prohibida":3,"multas_zona_reservada":3,"total_multas":28,"monto_total_usd":309.0},{"fecha":"2026-02-14","zona":"Residencial Sur","multas_sin_pago":12,"multas_exceso_tiempo":10,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":25,"monto_total_usd":255.0},{"fecha":"2026-02-15","zona":"Centro","multas_sin_pago":23,"multas_exceso_tiempo":19,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":45,"monto_total_usd":437.0},{"fecha":"2026-02-15","zona":"Comercial","multas_sin_pago":7,"multas_exceso_tiempo":11,"multas_zona_prohibida":4,"multas_zona_reservada":2,"total_multas":24,"monto_total_usd":268.0},{"fecha":"2026-02-15","zona":"Hospitalaria","multas_sin_pago":14,"multas_exceso_tiempo":3,"multas_zona_prohibida":1,"multas_zona_reservada":4,"total_multas":22,"monto_total_usd":244.0},{"fecha":"2026-02-15","zona":"Residencial Norte","multas_sin_pago":17,"multas_exceso_tiempo":5,"multas_zona_prohibida":2,"multas_zona_reservada":2,"total_multas":26,"monto_total_usd":280.0},{"fecha":"2026-02-15","zona":"Residencial Sur","multas_sin_pago":11,"multas_exceso_tiempo":5,"multas_zona_prohibida":2,"multas_zona_reservada":0,"total_multas":18,"monto_total_usd":190.0},{"fecha":"2026-02-16","zona":"Centro","multas_sin_pago":27,"multas_exceso_tiempo":17,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":44,"monto_total_usd":406.0},{"fecha":"2026-02-16","zona":"Comercial","multas_sin_pago":5,"multas_exceso_tiempo":20,"multas_zona_prohibida":2,"multas_zona_reservada":2,"total_multas":29,"monto_total_usd":280.0},{"fecha":"2026-02-16","zona":"Hospitalaria","multas_sin_pago":6,"multas_exceso_tiempo":8,"multas_zona_prohibida":3,"multas_zona_reservada":5,"total_multas":22,"monto_total_usd":259.0},{"fecha":"2026-02-16","zona":"Residencial Norte","multas_sin_pago":6,"multas_exceso_tiempo":2,"multas_zona_prohibida":4,"multas_zona_reservada":0,"total_multas":12,"monto_total_usd":156.0},{"fecha":"2026-02-16","zona":"Residencial Sur","multas_sin_pago":16,"multas_exceso_tiempo":4,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":23,"monto_total_usd":247.0},{"fecha":"2026-02-17","zona":"Centro","multas_sin_pago":14,"multas_exceso_tiempo":18,"multas_zona_prohibida":5,"multas_zona_reservada":2,"total_multas":39,"monto_total_usd":414.0},{"fecha":"2026-02-17","zona":"Comercial","multas_sin_pago":9,"multas_exceso_tiempo":15,"multas_zona_prohibida":2,"multas_zona_reservada":2,"total_multas":28,"monto_total_usd":280.0},{"fecha":"2026-02-17","zona":"Hospitalaria","multas_sin_pago":8,"multas_exceso_tiempo":0,"multas_zona_prohibida":5,"multas_zona_reservada":4,"total_multas":17,"monto_total_usd":240.0},{"fecha":"2026-02-17","zona":"Residencial Norte","multas_sin_pago":13,"multas_exceso_tiempo":6,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":23,"monto_total_usd":253.0},{"fecha":"2026-02-17","zona":"Residencial Sur","multas_sin_pago":3,"multas_exceso_tiempo":0,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":7,"monto_total_usd":105.0},{"fecha":"2026-02-18","zona":"Centro","multas_sin_pago":22,"multas_exceso_tiempo":16,"multas_zona_prohibida":6,"multas_zona_reservada":1,"total_multas":45,"monto_total_usd":483.0},{"fecha":"2026-02-18","zona":"Comercial","multas_sin_pago":2,"multas_exceso_tiempo":24,"multas_zona_prohibida":4,"multas_zona_reservada":2,"total_multas":32,"monto_total_usd":322.0},{"fecha":"2026-02-18","zona":"Hospitalaria","multas_sin_pago":7,"multas_exceso_tiempo":3,"multas_zona_prohibida":2,"multas_zona_reservada":3,"total_multas":15,"monto_total_usd":179.0},{"fecha":"2026-02-18","zona":"Residencial Norte","multas_sin_pago":6,"multas_exceso_tiempo":3,"multas_zona_prohibida":4,"multas_zona_reservada":1,"total_multas":14,"monto_total_usd":179.0},{"fecha":"2026-02-18","zona":"Residencial Sur","multas_sin_pago":13,"multas_exceso_tiempo":12,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":26,"monto_total_usd":241.0},{"fecha":"2026-02-19","zona":"Centro","multas_sin_pago":27,"multas_exceso_tiempo":20,"multas_zona_prohibida":5,"multas_zona_reservada":2,"total_multas":54,"monto_total_usd":560.0},{"fecha":"2026-02-19","zona":"Comercial","multas_sin_pago":17,"multas_exceso_tiempo":19,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":38,"monto_total_usd":352.0},{"fecha":"2026-02-19","zona":"Hospitalaria","multas_sin_pago":18,"multas_exceso_tiempo":6,"multas_zona_prohibida":0,"multas_zona_reservada":3,"total_multas":27,"monto_total_usd":273.0},{"fecha":"2026-02-19","zona":"Residencial Norte","multas_sin_pago":13,"multas_exceso_tiempo":4,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":20,"monto_total_usd":212.0},{"fecha":"2026-02-19","zona":"Residencial Sur","multas_sin_pago":7,"multas_exceso_tiempo":7,"multas_zona_prohibida":2,"multas_zona_reservada":3,"total_multas":19,"monto_total_usd":211.0},{"fecha":"2026-02-20","zona":"Centro","multas_sin_pago":32,"multas_exceso_tiempo":19,"multas_zona_prohibida":4,"multas_zona_reservada":2,"total_multas":57,"monto_total_usd":582.0},{"fecha":"2026-02-20","zona":"Comercial","multas_sin_pago":8,"multas_exceso_tiempo":16,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":26,"monto_total_usd":238.0},{"fecha":"2026-02-20","zona":"Hospitalaria","multas_sin_pago":7,"multas_exceso_tiempo":6,"multas_zona_prohibida":0,"multas_zona_reservada":5,"total_multas":18,"monto_total_usd":193.0},{"fecha":"2026-02-20","zona":"Residencial Norte","multas_sin_pago":4,"multas_exceso_tiempo":2,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":7,"monto_total_usd":76.0},{"fecha":"2026-02-20","zona":"Residencial Sur","multas_sin_pago":14,"multas_exceso_tiempo":12,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":28,"monto_total_usd":266.0},{"fecha":"2026-02-21","zona":"Centro","multas_sin_pago":23,"multas_exceso_tiempo":21,"multas_zona_prohibida":3,"multas_zona_reservada":2,"total_multas":49,"monto_total_usd":488.0},{"fecha":"2026-02-21","zona":"Comercial","multas_sin_pago":15,"multas_exceso_tiempo":14,"multas_zona_prohibida":3,"multas_zona_reservada":3,"total_multas":35,"monto_total_usd":367.0},{"fecha":"2026-02-21","zona":"Hospitalaria","multas_sin_pago":16,"multas_exceso_tiempo":5,"multas_zona_prohibida":0,"multas_zona_reservada":3,"total_multas":24,"monto_total_usd":245.0},{"fecha":"2026-02-21","zona":"Residencial Norte","multas_sin_pago":7,"multas_exceso_tiempo":7,"multas_zona_prohibida":2,"multas_zona_reservada":3,"total_multas":19,"monto_total_usd":211.0},{"fecha":"2026-02-21","zona":"Residencial Sur","multas_sin_pago":5,"multas_exceso_tiempo":7,"multas_zona_prohibida":1,"multas_zona_reservada":3,"total_multas":16,"monto_total_usd":171.0},{"fecha":"2026-02-22","zona":"Centro","multas_sin_pago":23,"multas_exceso_tiempo":21,"multas_zona_prohibida":6,"multas_zona_reservada":4,"total_multas":54,"monto_total_usd":578.0},{"fecha":"2026-02-22","zona":"Comercial","multas_sin_pago":8,"multas_exceso_tiempo":12,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":24,"monto_total_usd":251.0},{"fecha":"2026-02-22","zona":"Hospitalaria","multas_sin_pago":7,"multas_exceso_tiempo":8,"multas_zona_prohibida":0,"multas_zona_reservada":3,"total_multas":18,"monto_total_usd":179.0},{"fecha":"2026-02-22","zona":"Residencial Norte","multas_sin_pago":11,"multas_exceso_tiempo":5,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":17,"monto_total_usd":170.0},{"fecha":"2026-02-22","zona":"Residencial Sur","multas_sin_pago":17,"multas_exceso_tiempo":7,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":25,"monto_total_usd":246.0},{"fecha":"2026-02-23","zona":"Centro","multas_sin_pago":22,"multas_exceso_tiempo":16,"multas_zona_prohibida":7,"multas_zona_reservada":0,"total_multas":45,"monto_total_usd":488.0},{"fecha":"2026-02-23","zona":"Comercial","multas_sin_pago":7,"multas_exceso_tiempo":19,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":28,"monto_total_usd":252.0},{"fecha":"2026-02-23","zona":"Hospitalaria","multas_sin_pago":1,"multas_exceso_tiempo":2,"multas_zona_prohibida":2,"multas_zona_reservada":4,"total_multas":9,"monto_total_usd":126.0},{"fecha":"2026-02-23","zona":"Residencial Norte","multas_sin_pago":8,"multas_exceso_tiempo":1,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":11,"monto_total_usd":118.0},{"fecha":"2026-02-23","zona":"Residencial Sur","multas_sin_pago":6,"multas_exceso_tiempo":9,"multas_zona_prohibida":2,"multas_zona_reservada":3,"total_multas":20,"monto_total_usd":217.0},{"fecha":"2026-02-24","zona":"Centro","multas_sin_pago":19,"multas_exceso_tiempo":13,"multas_zona_prohibida":4,"multas_zona_reservada":2,"total_multas":38,"monto_total_usd":404.0},{"fecha":"2026-02-24","zona":"Comercial","multas_sin_pago":14,"multas_exceso_tiempo":13,"multas_zona_prohibida":2,"multas_zona_reservada":3,"total_multas":32,"monto_total_usd":329.0},{"fecha":"2026-02-24","zona":"Hospitalaria","multas_sin_pago":4,"multas_exceso_tiempo":4,"multas_zona_prohibida":1,"multas_zona_reservada":5,"total_multas":14,"monto_total_usd":167.0},{"fecha":"2026-02-24","zona":"Residencial Norte","multas_sin_pago":6,"multas_exceso_tiempo":4,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":13,"monto_total_usd":142.0},{"fecha":"2026-02-24","zona":"Residencial Sur","multas_sin_pago":5,"multas_exceso_tiempo":1,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":7,"monto_total_usd":78.0},{"fecha":"2026-02-25","zona":"Centro","multas_sin_pago":19,"multas_exceso_tiempo":22,"multas_zona_prohibida":4,"multas_zona_reservada":3,"total_multas":48,"monto_total_usd":491.0},{"fecha":"2026-02-25","zona":"Comercial","multas_sin_pago":6,"multas_exceso_tiempo":16,"multas_zona_prohibida":4,"multas_zona_reservada":1,"total_multas":27,"monto_total_usd":283.0},{"fecha":"2026-02-25","zona":"Hospitalaria","multas_sin_pago":9,"multas_exceso_tiempo":9,"multas_zona_prohibida":3,"multas_zona_reservada":5,"total_multas":26,"monto_total_usd":297.0},{"fecha":"2026-02-25","zona":"Residencial Norte","multas_sin_pago":11,"multas_exceso_tiempo":9,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":22,"monto_total_usd":212.0},{"fecha":"2026-02-25","zona":"Residencial Sur","multas_sin_pago":19,"multas_exceso_tiempo":4,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":26,"monto_total_usd":272.0},{"fecha":"2026-02-26","zona":"Centro","multas_sin_pago":25,"multas_exceso_tiempo":18,"multas_zona_prohibida":3,"multas_zona_reservada":2,"total_multas":48,"monto_total_usd":484.0},{"fecha":"2026-02-26","zona":"Comercial","multas_sin_pago":9,"multas_exceso_tiempo":23,"multas_zona_prohibida":0,"multas_zona_reservada":3,"total_multas":35,"monto_total_usd":319.0},{"fecha":"2026-02-26","zona":"Hospitalaria","multas_sin_pago":11,"multas_exceso_tiempo":4,"multas_zona_prohibida":1,"multas_zona_reservada":6,"total_multas":22,"monto_total_usd":252.0},{"fecha":"2026-02-26","zona":"Residencial Norte","multas_sin_pago":11,"multas_exceso_tiempo":8,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":21,"monto_total_usd":204.0},{"fecha":"2026-02-26","zona":"Residencial Sur","multas_sin_pago":13,"multas_exceso_tiempo":10,"multas_zona_prohibida":6,"multas_zona_reservada":1,"total_multas":30,"monto_total_usd":345.0},{"fecha":"2026-02-27","zona":"Centro","multas_sin_pago":25,"multas_exceso_tiempo":16,"multas_zona_prohibida":4,"multas_zona_reservada":1,"total_multas":46,"monto_total_usd":473.0},{"fecha":"2026-02-27","zona":"Comercial","multas_sin_pago":14,"multas_exceso_tiempo":17,"multas_zona_prohibida":6,"multas_zona_reservada":0,"total_multas":37,"monto_total_usd":396.0},{"fecha":"2026-02-27","zona":"Hospitalaria","multas_sin_pago":10,"multas_exceso_tiempo":4,"multas_zona_prohibida":2,"multas_zona_reservada":4,"total_multas":20,"monto_total_usd":232.0},{"fecha":"2026-02-27","zona":"Residencial Norte","multas_sin_pago":10,"multas_exceso_tiempo":0,"multas_zona_prohibida":3,"multas_zona_reservada":0,"total_multas":13,"monto_total_usd":160.0},{"fecha":"2026-02-27","zona":"Residencial Sur","multas_sin_pago":13,"multas_exceso_tiempo":5,"multas_zona_prohibida":4,"multas_zona_reservada":3,"total_multas":25,"monto_total_usd":295.0},{"fecha":"2026-02-28","zona":"Centro","multas_sin_pago":24,"multas_exceso_tiempo":17,"multas_zona_prohibida":4,"multas_zona_reservada":2,"total_multas":47,"monto_total_usd":486.0},{"fecha":"2026-02-28","zona":"Comercial","multas_sin_pago":14,"multas_exceso_tiempo":14,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":31,"monto_total_usd":302.0},{"fecha":"2026-02-28","zona":"Hospitalaria","multas_sin_pago":13,"multas_exceso_tiempo":9,"multas_zona_prohibida":1,"multas_zona_reservada":5,"total_multas":28,"monto_total_usd":297.0},{"fecha":"2026-02-28","zona":"Residencial Norte","multas_sin_pago":2,"multas_exceso_tiempo":12,"multas_zona_prohibida":0,"multas_zona_reservada":3,"total_multas":17,"monto_total_usd":161.0},{"fecha":"2026-02-28","zona":"Residencial Sur","multas_sin_pago":8,"multas_exceso_tiempo":1,"multas_zona_prohibida":0,"multas_zona_reservada":3,"total_multas":12,"monto_total_usd":133.0},{"fecha":"2026-03-01","zona":"Centro","multas_sin_pago":20,"multas_exceso_tiempo":20,"multas_zona_prohibida":4,"multas_zona_reservada":3,"total_multas":47,"monto_total_usd":485.0},{"fecha":"2026-03-01","zona":"Comercial","multas_sin_pago":11,"multas_exceso_tiempo":22,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":35,"monto_total_usd":316.0},{"fecha":"2026-03-01","zona":"Hospitalaria","multas_sin_pago":12,"multas_exceso_tiempo":6,"multas_zona_prohibida":3,"multas_zona_reservada":4,"total_multas":25,"monto_total_usd":288.0},{"fecha":"2026-03-01","zona":"Residencial Norte","multas_sin_pago":18,"multas_exceso_tiempo":8,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":29,"monto_total_usd":299.0},{"fecha":"2026-03-01","zona":"Residencial Sur","multas_sin_pago":8,"multas_exceso_tiempo":0,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":8,"monto_total_usd":80.0},{"fecha":"2026-03-02","zona":"Centro","multas_sin_pago":23,"multas_exceso_tiempo":11,"multas_zona_prohibida":3,"multas_zona_reservada":2,"total_multas":39,"monto_total_usd":408.0},{"fecha":"2026-03-02","zona":"Comercial","multas_sin_pago":5,"multas_exceso_tiempo":14,"multas_zona_prohibida":3,"multas_zona_reservada":0,"total_multas":22,"monto_total_usd":222.0},{"fecha":"2026-03-02","zona":"Hospitalaria","multas_sin_pago":2,"multas_exceso_tiempo":7,"multas_zona_prohibida":1,"multas_zona_reservada":5,"total_multas":15,"monto_total_usd":171.0},{"fecha":"2026-03-02","zona":"Residencial Norte","multas_sin_pago":11,"multas_exceso_tiempo":6,"multas_zona_prohibida":5,"multas_zona_reservada":0,"total_multas":22,"monto_total_usd":258.0},{"fecha":"2026-03-02","zona":"Residencial Sur","multas_sin_pago":4,"multas_exceso_tiempo":5,"multas_zona_prohibida":4,"multas_zona_reservada":4,"total_multas":17,"monto_total_usd":220.0},{"fecha":"2026-03-03","zona":"Centro","multas_sin_pago":20,"multas_exceso_tiempo":7,"multas_zona_prohibida":5,"multas_zona_reservada":3,"total_multas":35,"monto_total_usd":401.0},{"fecha":"2026-03-03","zona":"Comercial","multas_sin_pago":9,"multas_exceso_tiempo":11,"multas_zona_prohibida":3,"multas_zona_reservada":3,"total_multas":26,"monto_total_usd":283.0},{"fecha":"2026-03-03","zona":"Hospitalaria","multas_sin_pago":9,"multas_exceso_tiempo":6,"multas_zona_prohibida":2,"multas_zona_reservada":7,"total_multas":24,"monto_total_usd":283.0},{"fecha":"2026-03-03","zona":"Residencial Norte","multas_sin_pago":6,"multas_exceso_tiempo":5,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":13,"monto_total_usd":130.0},{"fecha":"2026-03-03","zona":"Residencial Sur","multas_sin_pago":13,"multas_exceso_tiempo":6,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":20,"monto_total_usd":193.0},{"fecha":"2026-03-04","zona":"Centro","multas_sin_pago":20,"multas_exceso_tiempo":14,"multas_zona_prohibida":4,"multas_zona_reservada":2,"total_multas":40,"monto_total_usd":422.0},{"fecha":"2026-03-04","zona":"Comercial","multas_sin_pago":8,"multas_exceso_tiempo":12,"multas_zona_prohibida":4,"multas_zona_reservada":1,"total_multas":25,"monto_total_usd":271.0},{"fecha":"2026-03-04","zona":"Hospitalaria","multas_sin_pago":10,"multas_exceso_tiempo":7,"multas_zona_prohibida":6,"multas_zona_reservada":5,"total_multas":28,"monto_total_usd":351.0},{"fecha":"2026-03-04","zona":"Residencial Norte","multas_sin_pago":13,"multas_exceso_tiempo":4,"multas_zona_prohibida":1,"multas_zona_reservada":4,"total_multas":22,"monto_total_usd":242.0},{"fecha":"2026-03-04","zona":"Residencial Sur","multas_sin_pago":12,"multas_exceso_tiempo":7,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":22,"monto_total_usd":226.0},{"fecha":"2026-03-05","zona":"Centro","multas_sin_pago":19,"multas_exceso_tiempo":17,"multas_zona_prohibida":6,"multas_zona_reservada":2,"total_multas":44,"monto_total_usd":476.0},{"fecha":"2026-03-05","zona":"Comercial","multas_sin_pago":12,"multas_exceso_tiempo":22,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":37,"monto_total_usd":351.0},{"fecha":"2026-03-05","zona":"Hospitalaria","multas_sin_pago":13,"multas_exceso_tiempo":8,"multas_zona_prohibida":2,"multas_zona_reservada":2,"total_multas":25,"monto_total_usd":264.0},{"fecha":"2026-03-05","zona":"Residencial Norte","multas_sin_pago":8,"multas_exceso_tiempo":6,"multas_zona_prohibida":1,"multas_zona_reservada":1,"total_multas":16,"monto_total_usd":163.0},{"fecha":"2026-03-05","zona":"Residencial Sur","multas_sin_pago":10,"multas_exceso_tiempo":8,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":22,"monto_total_usd":239.0},{"fecha":"2026-03-06","zona":"Centro","multas_sin_pago":22,"multas_exceso_tiempo":22,"multas_zona_prohibida":2,"multas_zona_reservada":3,"total_multas":49,"monto_total_usd":481.0},{"fecha":"2026-03-06","zona":"Comercial","multas_sin_pago":13,"multas_exceso_tiempo":18,"multas_zona_prohibida":1,"multas_zona_reservada":4,"total_multas":36,"monto_total_usd":354.0},{"fecha":"2026-03-06","zona":"Hospitalaria","multas_sin_pago":10,"multas_exceso_tiempo":10,"multas_zona_prohibida":0,"multas_zona_reservada":4,"total_multas":24,"monto_total_usd":240.0},{"fecha":"2026-03-06","zona":"Residencial Norte","multas_sin_pago":10,"multas_exceso_tiempo":9,"multas_zona_prohibida":5,"multas_zona_reservada":2,"total_multas":26,"monto_total_usd":302.0},{"fecha":"2026-03-06","zona":"Residencial Sur","multas_sin_pago":0,"multas_exceso_tiempo":9,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":11,"monto_total_usd":102.0},{"fecha":"2026-03-07","zona":"Centro","multas_sin_pago":23,"multas_exceso_tiempo":16,"multas_zona_prohibida":3,"multas_zona_reservada":0,"total_multas":42,"monto_total_usd":418.0},{"fecha":"2026-03-07","zona":"Comercial","multas_sin_pago":6,"multas_exceso_tiempo":15,"multas_zona_prohibida":1,"multas_zona_reservada":3,"total_multas":25,"monto_total_usd":245.0},{"fecha":"2026-03-07","zona":"Hospitalaria","multas_sin_pago":10,"multas_exceso_tiempo":5,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":19,"monto_total_usd":215.0},{"fecha":"2026-03-07","zona":"Residencial Norte","multas_sin_pago":8,"multas_exceso_tiempo":4,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":16,"monto_total_usd":187.0},{"fecha":"2026-03-07","zona":"Residencial Sur","multas_sin_pago":6,"multas_exceso_tiempo":6,"multas_zona_prohibida":3,"multas_zona_reservada":3,"total_multas":18,"monto_total_usd":213.0},{"fecha":"2026-03-08","zona":"Centro","multas_sin_pago":26,"multas_exceso_tiempo":12,"multas_zona_prohibida":5,"multas_zona_reservada":1,"total_multas":44,"monto_total_usd":471.0},{"fecha":"2026-03-08","zona":"Comercial","multas_sin_pago":16,"multas_exceso_tiempo":17,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":34,"monto_total_usd":316.0},{"fecha":"2026-03-08","zona":"Hospitalaria","multas_sin_pago":3,"multas_exceso_tiempo":0,"multas_zona_prohibida":3,"multas_zona_reservada":6,"total_multas":12,"monto_total_usd":180.0},{"fecha":"2026-03-08","zona":"Residencial Norte","multas_sin_pago":8,"multas_exceso_tiempo":5,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":16,"monto_total_usd":170.0},{"fecha":"2026-03-08","zona":"Residencial Sur","multas_sin_pago":5,"multas_exceso_tiempo":3,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":11,"monto_total_usd":124.0},{"fecha":"2026-03-09","zona":"Centro","multas_sin_pago":15,"multas_exceso_tiempo":11,"multas_zona_prohibida":4,"multas_zona_reservada":1,"total_multas":31,"monto_total_usd":333.0},{"fecha":"2026-03-09","zona":"Comercial","multas_sin_pago":8,"multas_exceso_tiempo":23,"multas_zona_prohibida":4,"multas_zona_reservada":4,"total_multas":39,"monto_total_usd":404.0},{"fecha":"2026-03-09","zona":"Hospitalaria","multas_sin_pago":10,"multas_exceso_tiempo":9,"multas_zona_prohibida":1,"multas_zona_reservada":3,"total_multas":23,"monto_total_usd":237.0},{"fecha":"2026-03-09","zona":"Residencial Norte","multas_sin_pago":7,"multas_exceso_tiempo":8,"multas_zona_prohibida":0,"multas_zona_reservada":3,"total_multas":18,"monto_total_usd":179.0},{"fecha":"2026-03-09","zona":"Residencial Sur","multas_sin_pago":10,"multas_exceso_tiempo":9,"multas_zona_prohibida":0,"multas_zona_reservada":5,"total_multas":24,"monto_total_usd":247.0},{"fecha":"2026-03-10","zona":"Centro","multas_sin_pago":22,"multas_exceso_tiempo":12,"multas_zona_prohibida":3,"multas_zona_reservada":3,"total_multas":40,"monto_total_usd":421.0},{"fecha":"2026-03-10","zona":"Comercial","multas_sin_pago":10,"multas_exceso_tiempo":14,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":25,"monto_total_usd":232.0},{"fecha":"2026-03-10","zona":"Hospitalaria","multas_sin_pago":6,"multas_exceso_tiempo":6,"multas_zona_prohibida":4,"multas_zona_reservada":5,"total_multas":21,"monto_total_usd":263.0},{"fecha":"2026-03-10","zona":"Residencial Norte","multas_sin_pago":8,"multas_exceso_tiempo":8,"multas_zona_prohibida":2,"multas_zona_reservada":2,"total_multas":20,"monto_total_usd":214.0},{"fecha":"2026-03-10","zona":"Residencial Sur","multas_sin_pago":7,"multas_exceso_tiempo":7,"multas_zona_prohibida":3,"multas_zona_reservada":0,"total_multas":17,"monto_total_usd":186.0},{"fecha":"2026-03-11","zona":"Centro","multas_sin_pago":21,"multas_exceso_tiempo":16,"multas_zona_prohibida":6,"multas_zona_reservada":2,"total_multas":45,"monto_total_usd":488.0},{"fecha":"2026-03-11","zona":"Comercial","multas_sin_pago":6,"multas_exceso_tiempo":10,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":16,"monto_total_usd":140.0},{"fecha":"2026-03-11","zona":"Hospitalaria","multas_sin_pago":8,"multas_exceso_tiempo":6,"multas_zona_prohibida":3,"multas_zona_reservada":3,"total_multas":20,"monto_total_usd":233.0},{"fecha":"2026-03-11","zona":"Residencial Norte","multas_sin_pago":15,"multas_exceso_tiempo":4,"multas_zona_prohibida":0,"multas_zona_reservada":3,"total_multas":22,"monto_total_usd":227.0},{"fecha":"2026-03-11","zona":"Residencial Sur","multas_sin_pago":8,"multas_exceso_tiempo":5,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":16,"monto_total_usd":175.0},{"fecha":"2026-03-12","zona":"Centro","multas_sin_pago":21,"multas_exceso_tiempo":16,"multas_zona_prohibida":7,"multas_zona_reservada":1,"total_multas":45,"monto_total_usd":493.0},{"fecha":"2026-03-12","zona":"Comercial","multas_sin_pago":6,"multas_exceso_tiempo":12,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":19,"monto_total_usd":171.0},{"fecha":"2026-03-12","zona":"Hospitalaria","multas_sin_pago":10,"multas_exceso_tiempo":7,"multas_zona_prohibida":4,"multas_zona_reservada":5,"total_multas":26,"monto_total_usd":311.0},{"fecha":"2026-03-12","zona":"Residencial Norte","multas_sin_pago":12,"multas_exceso_tiempo":10,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":26,"monto_total_usd":275.0},{"fecha":"2026-03-12","zona":"Residencial Sur","multas_sin_pago":14,"multas_exceso_tiempo":7,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":24,"monto_total_usd":251.0},{"fecha":"2026-03-13","zona":"Centro","multas_sin_pago":22,"multas_exceso_tiempo":15,"multas_zona_prohibida":4,"multas_zona_reservada":4,"total_multas":45,"monto_total_usd":480.0},{"fecha":"2026-03-13","zona":"Comercial","multas_sin_pago":14,"multas_exceso_tiempo":17,"multas_zona_prohibida":4,"multas_zona_reservada":1,"total_multas":36,"monto_total_usd":371.0},{"fecha":"2026-03-13","zona":"Hospitalaria","multas_sin_pago":7,"multas_exceso_tiempo":7,"multas_zona_prohibida":2,"multas_zona_reservada":5,"total_multas":21,"monto_total_usd":241.0},{"fecha":"2026-03-13","zona":"Residencial Norte","multas_sin_pago":9,"multas_exceso_tiempo":5,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":17,"monto_total_usd":185.0},{"fecha":"2026-03-13","zona":"Residencial Sur","multas_sin_pago":2,"multas_exceso_tiempo":10,"multas_zona_prohibida":4,"multas_zona_reservada":1,"total_multas":17,"monto_total_usd":195.0},{"fecha":"2026-03-14","zona":"Centro","multas_sin_pago":26,"multas_exceso_tiempo":14,"multas_zona_prohibida":4,"multas_zona_reservada":0,"total_multas":44,"monto_total_usd":452.0},{"fecha":"2026-03-14","zona":"Comercial","multas_sin_pago":12,"multas_exceso_tiempo":23,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":36,"monto_total_usd":319.0},{"fecha":"2026-03-14","zona":"Hospitalaria","multas_sin_pago":11,"multas_exceso_tiempo":12,"multas_zona_prohibida":1,"multas_zona_reservada":7,"total_multas":31,"monto_total_usd":331.0},{"fecha":"2026-03-14","zona":"Residencial Norte","multas_sin_pago":11,"multas_exceso_tiempo":10,"multas_zona_prohibida":3,"multas_zona_reservada":0,"total_multas":24,"monto_total_usd":250.0},{"fecha":"2026-03-14","zona":"Residencial Sur","multas_sin_pago":3,"multas_exceso_tiempo":6,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":10,"monto_total_usd":93.0},{"fecha":"2026-03-15","zona":"Centro","multas_sin_pago":15,"multas_exceso_tiempo":13,"multas_zona_prohibida":2,"multas_zona_reservada":2,"total_multas":32,"monto_total_usd":324.0},{"fecha":"2026-03-15","zona":"Comercial","multas_sin_pago":0,"multas_exceso_tiempo":18,"multas_zona_prohibida":0,"multas_zona_reservada":3,"total_multas":21,"monto_total_usd":189.0},{"fecha":"2026-03-15","zona":"Hospitalaria","multas_sin_pago":17,"multas_exceso_tiempo":6,"multas_zona_prohibida":1,"multas_zona_reservada":7,"total_multas":31,"monto_total_usd":343.0},{"fecha":"2026-03-15","zona":"Residencial Norte","multas_sin_pago":15,"multas_exceso_tiempo":10,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":26,"monto_total_usd":245.0},{"fecha":"2026-03-15","zona":"Residencial Sur","multas_sin_pago":9,"multas_exceso_tiempo":1,"multas_zona_prohibida":6,"multas_zona_reservada":2,"total_multas":18,"monto_total_usd":248.0},{"fecha":"2026-03-16","zona":"Centro","multas_sin_pago":20,"multas_exceso_tiempo":12,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":33,"monto_total_usd":311.0},{"fecha":"2026-03-16","zona":"Comercial","multas_sin_pago":6,"multas_exceso_tiempo":11,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":19,"monto_total_usd":178.0},{"fecha":"2026-03-16","zona":"Hospitalaria","multas_sin_pago":6,"multas_exceso_tiempo":6,"multas_zona_prohibida":0,"multas_zona_reservada":7,"total_multas":19,"monto_total_usd":213.0},{"fecha":"2026-03-16","zona":"Residencial Norte","multas_sin_pago":7,"multas_exceso_tiempo":2,"multas_zona_prohibida":0,"multas_zona_reservada":5,"total_multas":14,"monto_total_usd":161.0},{"fecha":"2026-03-16","zona":"Residencial Sur","multas_sin_pago":10,"multas_exceso_tiempo":7,"multas_zona_prohibida":1,"multas_zona_reservada":1,"total_multas":19,"monto_total_usd":191.0},{"fecha":"2026-03-17","zona":"Centro","multas_sin_pago":26,"multas_exceso_tiempo":13,"multas_zona_prohibida":4,"multas_zona_reservada":2,"total_multas":45,"monto_total_usd":474.0},{"fecha":"2026-03-17","zona":"Comercial","multas_sin_pago":5,"multas_exceso_tiempo":20,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":28,"monto_total_usd":265.0},{"fecha":"2026-03-17","zona":"Hospitalaria","multas_sin_pago":16,"multas_exceso_tiempo":8,"multas_zona_prohibida":0,"multas_zona_reservada":6,"total_multas":30,"monto_total_usd":314.0},{"fecha":"2026-03-17","zona":"Residencial Norte","multas_sin_pago":9,"multas_exceso_tiempo":2,"multas_zona_prohibida":1,"multas_zona_reservada":1,"total_multas":13,"monto_total_usd":141.0},{"fecha":"2026-03-17","zona":"Residencial Sur","multas_sin_pago":5,"multas_exceso_tiempo":3,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":8,"monto_total_usd":74.0},{"fecha":"2026-03-18","zona":"Centro","multas_sin_pago":28,"multas_exceso_tiempo":20,"multas_zona_prohibida":5,"multas_zona_reservada":3,"total_multas":56,"monto_total_usd":585.0},{"fecha":"2026-03-18","zona":"Comercial","multas_sin_pago":11,"multas_exceso_tiempo":16,"multas_zona_prohibida":2,"multas_zona_reservada":2,"total_multas":31,"monto_total_usd":308.0},{"fecha":"2026-03-18","zona":"Hospitalaria","multas_sin_pago":9,"multas_exceso_tiempo":6,"multas_zona_prohibida":0,"multas_zona_reservada":3,"total_multas":18,"monto_total_usd":183.0},{"fecha":"2026-03-18","zona":"Residencial Norte","multas_sin_pago":3,"multas_exceso_tiempo":6,"multas_zona_prohibida":3,"multas_zona_reservada":3,"total_multas":15,"monto_total_usd":183.0},{"fecha":"2026-03-18","zona":"Residencial Sur","multas_sin_pago":8,"multas_exceso_tiempo":2,"multas_zona_prohibida":2,"multas_zona_reservada":4,"total_multas":16,"monto_total_usd":196.0},{"fecha":"2026-03-19","zona":"Centro","multas_sin_pago":25,"multas_exceso_tiempo":20,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":49,"monto_total_usd":485.0},{"fecha":"2026-03-19","zona":"Comercial","multas_sin_pago":9,"multas_exceso_tiempo":16,"multas_zona_prohibida":1,"multas_zona_reservada":1,"total_multas":27,"monto_total_usd":253.0},{"fecha":"2026-03-19","zona":"Hospitalaria","multas_sin_pago":8,"multas_exceso_tiempo":5,"multas_zona_prohibida":5,"multas_zona_reservada":3,"total_multas":21,"monto_total_usd":265.0},{"fecha":"2026-03-19","zona":"Residencial Norte","multas_sin_pago":17,"multas_exceso_tiempo":5,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":23,"monto_total_usd":230.0},{"fecha":"2026-03-19","zona":"Residencial Sur","multas_sin_pago":5,"multas_exceso_tiempo":7,"multas_zona_prohibida":2,"multas_zona_reservada":0,"total_multas":14,"monto_total_usd":146.0},{"fecha":"2026-03-20","zona":"Centro","multas_sin_pago":21,"multas_exceso_tiempo":16,"multas_zona_prohibida":4,"multas_zona_reservada":3,"total_multas":44,"monto_total_usd":463.0},{"fecha":"2026-03-20","zona":"Comercial","multas_sin_pago":11,"multas_exceso_tiempo":24,"multas_zona_prohibida":2,"multas_zona_reservada":4,"total_multas":41,"monto_total_usd":402.0},{"fecha":"2026-03-20","zona":"Hospitalaria","multas_sin_pago":5,"multas_exceso_tiempo":9,"multas_zona_prohibida":0,"multas_zona_reservada":4,"total_multas":18,"monto_total_usd":182.0},{"fecha":"2026-03-20","zona":"Residencial Norte","multas_sin_pago":17,"multas_exceso_tiempo":2,"multas_zona_prohibida":2,"multas_zona_reservada":2,"total_multas":23,"monto_total_usd":256.0},{"fecha":"2026-03-20","zona":"Residencial Sur","multas_sin_pago":13,"multas_exceso_tiempo":3,"multas_zona_prohibida":0,"multas_zona_reservada":5,"total_multas":21,"monto_total_usd":229.0},{"fecha":"2026-03-21","zona":"Centro","multas_sin_pago":17,"multas_exceso_tiempo":20,"multas_zona_prohibida":4,"multas_zona_reservada":3,"total_multas":44,"monto_total_usd":455.0},{"fecha":"2026-03-21","zona":"Comercial","multas_sin_pago":14,"multas_exceso_tiempo":17,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":35,"monto_total_usd":351.0},{"fecha":"2026-03-21","zona":"Hospitalaria","multas_sin_pago":17,"multas_exceso_tiempo":3,"multas_zona_prohibida":1,"multas_zona_reservada":3,"total_multas":24,"monto_total_usd":259.0},{"fecha":"2026-03-21","zona":"Residencial Norte","multas_sin_pago":0,"multas_exceso_tiempo":7,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":11,"monto_total_usd":131.0},{"fecha":"2026-03-21","zona":"Residencial Sur","multas_sin_pago":11,"multas_exceso_tiempo":1,"multas_zona_prohibida":1,"multas_zona_reservada":3,"total_multas":16,"monto_total_usd":183.0},{"fecha":"2026-03-22","zona":"Centro","multas_sin_pago":21,"multas_exceso_tiempo":16,"multas_zona_prohibida":5,"multas_zona_reservada":2,"total_multas":44,"monto_total_usd":468.0},{"fecha":"2026-03-22","zona":"Comercial","multas_sin_pago":11,"multas_exceso_tiempo":16,"multas_zona_prohibida":1,"multas_zona_reservada":3,"total_multas":31,"monto_total_usd":303.0},{"fecha":"2026-03-22","zona":"Hospitalaria","multas_sin_pago":4,"multas_exceso_tiempo":8,"multas_zona_prohibida":1,"multas_zona_reservada":4,"total_multas":17,"monto_total_usd":184.0},{"fecha":"2026-03-22","zona":"Residencial Norte","multas_sin_pago":14,"multas_exceso_tiempo":13,"multas_zona_prohibida":4,"multas_zona_reservada":0,"total_multas":31,"monto_total_usd":324.0},{"fecha":"2026-03-22","zona":"Residencial Sur","multas_sin_pago":10,"multas_exceso_tiempo":6,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":20,"monto_total_usd":223.0},{"fecha":"2026-03-23","zona":"Centro","multas_sin_pago":23,"multas_exceso_tiempo":21,"multas_zona_prohibida":6,"multas_zona_reservada":1,"total_multas":51,"monto_total_usd":533.0},{"fecha":"2026-03-23","zona":"Comercial","multas_sin_pago":8,"multas_exceso_tiempo":16,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":27,"monto_total_usd":263.0},{"fecha":"2026-03-23","zona":"Hospitalaria","multas_sin_pago":16,"multas_exceso_tiempo":9,"multas_zona_prohibida":3,"multas_zona_reservada":6,"total_multas":34,"monto_total_usd":382.0},{"fecha":"2026-03-23","zona":"Residencial Norte","multas_sin_pago":14,"multas_exceso_tiempo":1,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":18,"monto_total_usd":198.0},{"fecha":"2026-03-23","zona":"Residencial Sur","multas_sin_pago":5,"multas_exceso_tiempo":4,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":9,"monto_total_usd":82.0},{"fecha":"2026-03-24","zona":"Centro","multas_sin_pago":16,"multas_exceso_tiempo":17,"multas_zona_prohibida":1,"multas_zona_reservada":1,"total_multas":35,"monto_total_usd":331.0},{"fecha":"2026-03-24","zona":"Comercial","multas_sin_pago":2,"multas_exceso_tiempo":12,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":15,"monto_total_usd":131.0},{"fecha":"2026-03-24","zona":"Hospitalaria","multas_sin_pago":8,"multas_exceso_tiempo":9,"multas_zona_prohibida":0,"multas_zona_reservada":3,"total_multas":20,"monto_total_usd":197.0},{"fecha":"2026-03-24","zona":"Residencial Norte","multas_sin_pago":6,"multas_exceso_tiempo":7,"multas_zona_prohibida":2,"multas_zona_reservada":4,"total_multas":19,"monto_total_usd":216.0},{"fecha":"2026-03-24","zona":"Residencial Sur","multas_sin_pago":9,"multas_exceso_tiempo":7,"multas_zona_prohibida":3,"multas_zona_reservada":2,"total_multas":21,"monto_total_usd":236.0},{"fecha":"2026-03-25","zona":"Centro","multas_sin_pago":26,"multas_exceso_tiempo":17,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":46,"monto_total_usd":451.0},{"fecha":"2026-03-25","zona":"Comercial","multas_sin_pago":11,"multas_exceso_tiempo":16,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":30,"monto_total_usd":293.0},{"fecha":"2026-03-25","zona":"Hospitalaria","multas_sin_pago":15,"multas_exceso_tiempo":7,"multas_zona_prohibida":3,"multas_zona_reservada":7,"total_multas":32,"monto_total_usd":371.0},{"fecha":"2026-03-25","zona":"Residencial Norte","multas_sin_pago":12,"multas_exceso_tiempo":4,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":19,"monto_total_usd":207.0},{"fecha":"2026-03-25","zona":"Residencial Sur","multas_sin_pago":12,"multas_exceso_tiempo":3,"multas_zona_prohibida":1,"multas_zona_reservada":3,"total_multas":19,"monto_total_usd":209.0},{"fecha":"2026-03-26","zona":"Centro","multas_sin_pago":26,"multas_exceso_tiempo":13,"multas_zona_prohibida":4,"multas_zona_reservada":1,"total_multas":44,"monto_total_usd":459.0},{"fecha":"2026-03-26","zona":"Comercial","multas_sin_pago":3,"multas_exceso_tiempo":16,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":19,"monto_total_usd":158.0},{"fecha":"2026-03-26","zona":"Hospitalaria","multas_sin_pago":6,"multas_exceso_tiempo":4,"multas_zona_prohibida":2,"multas_zona_reservada":5,"total_multas":17,"monto_total_usd":207.0},{"fecha":"2026-03-26","zona":"Residencial Norte","multas_sin_pago":8,"multas_exceso_tiempo":10,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":18,"monto_total_usd":160.0},{"fecha":"2026-03-26","zona":"Residencial Sur","multas_sin_pago":9,"multas_exceso_tiempo":8,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":20,"monto_total_usd":209.0},{"fecha":"2026-03-27","zona":"Centro","multas_sin_pago":21,"multas_exceso_tiempo":17,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":39,"monto_total_usd":366.0},{"fecha":"2026-03-27","zona":"Comercial","multas_sin_pago":4,"multas_exceso_tiempo":13,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":21,"monto_total_usd":219.0},{"fecha":"2026-03-27","zona":"Hospitalaria","multas_sin_pago":13,"multas_exceso_tiempo":12,"multas_zona_prohibida":2,"multas_zona_reservada":4,"total_multas":31,"monto_total_usd":326.0},{"fecha":"2026-03-27","zona":"Residencial Norte","multas_sin_pago":6,"multas_exceso_tiempo":6,"multas_zona_prohibida":1,"multas_zona_reservada":3,"total_multas":16,"monto_total_usd":173.0},{"fecha":"2026-03-27","zona":"Residencial Sur","multas_sin_pago":9,"multas_exceso_tiempo":8,"multas_zona_prohibida":1,"multas_zona_reservada":1,"total_multas":19,"monto_total_usd":189.0},{"fecha":"2026-03-28","zona":"Centro","multas_sin_pago":13,"multas_exceso_tiempo":13,"multas_zona_prohibida":2,"multas_zona_reservada":2,"total_multas":30,"monto_total_usd":304.0},{"fecha":"2026-03-28","zona":"Comercial","multas_sin_pago":11,"multas_exceso_tiempo":15,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":26,"monto_total_usd":230.0},{"fecha":"2026-03-28","zona":"Hospitalaria","multas_sin_pago":8,"multas_exceso_tiempo":5,"multas_zona_prohibida":1,"multas_zona_reservada":5,"total_multas":19,"monto_total_usd":215.0},{"fecha":"2026-03-28","zona":"Residencial Norte","multas_sin_pago":8,"multas_exceso_tiempo":8,"multas_zona_prohibida":4,"multas_zona_reservada":1,"total_multas":21,"monto_total_usd":239.0},{"fecha":"2026-03-28","zona":"Residencial Sur","multas_sin_pago":9,"multas_exceso_tiempo":6,"multas_zona_prohibida":4,"multas_zona_reservada":2,"total_multas":21,"monto_total_usd":248.0},{"fecha":"2026-03-29","zona":"Centro","multas_sin_pago":11,"multas_exceso_tiempo":12,"multas_zona_prohibida":5,"multas_zona_reservada":0,"total_multas":28,"monto_total_usd":306.0},{"fecha":"2026-03-29","zona":"Comercial","multas_sin_pago":8,"multas_exceso_tiempo":19,"multas_zona_prohibida":5,"multas_zona_reservada":5,"total_multas":37,"monto_total_usd":407.0},{"fecha":"2026-03-29","zona":"Hospitalaria","multas_sin_pago":17,"multas_exceso_tiempo":3,"multas_zona_prohibida":4,"multas_zona_reservada":5,"total_multas":29,"monto_total_usd":349.0},{"fecha":"2026-03-29","zona":"Residencial Norte","multas_sin_pago":13,"multas_exceso_tiempo":4,"multas_zona_prohibida":3,"multas_zona_reservada":0,"total_multas":20,"monto_total_usd":222.0},{"fecha":"2026-03-29","zona":"Residencial Sur","multas_sin_pago":15,"multas_exceso_tiempo":4,"multas_zona_prohibida":3,"multas_zona_reservada":3,"total_multas":25,"monto_total_usd":287.0},{"fecha":"2026-03-30","zona":"Centro","multas_sin_pago":18,"multas_exceso_tiempo":15,"multas_zona_prohibida":6,"multas_zona_reservada":1,"total_multas":40,"monto_total_usd":435.0},{"fecha":"2026-03-30","zona":"Comercial","multas_sin_pago":9,"multas_exceso_tiempo":12,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":24,"monto_total_usd":236.0},{"fecha":"2026-03-30","zona":"Hospitalaria","multas_sin_pago":7,"multas_exceso_tiempo":4,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":14,"monto_total_usd":152.0},{"fecha":"2026-03-30","zona":"Residencial Norte","multas_sin_pago":7,"multas_exceso_tiempo":6,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":13,"monto_total_usd":118.0},{"fecha":"2026-03-30","zona":"Residencial Sur","multas_sin_pago":17,"multas_exceso_tiempo":9,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":29,"monto_total_usd":292.0},{"fecha":"2026-03-31","zona":"Centro","multas_sin_pago":19,"multas_exceso_tiempo":20,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":39,"monto_total_usd":350.0},{"fecha":"2026-03-31","zona":"Comercial","multas_sin_pago":9,"multas_exceso_tiempo":16,"multas_zona_prohibida":2,"multas_zona_reservada":0,"total_multas":27,"monto_total_usd":258.0},{"fecha":"2026-03-31","zona":"Hospitalaria","multas_sin_pago":12,"multas_exceso_tiempo":6,"multas_zona_prohibida":2,"multas_zona_reservada":3,"total_multas":23,"monto_total_usd":253.0},{"fecha":"2026-03-31","zona":"Residencial Norte","multas_sin_pago":15,"multas_exceso_tiempo":2,"multas_zona_prohibida":3,"multas_zona_reservada":2,"total_multas":22,"monto_total_usd":256.0},{"fecha":"2026-03-31","zona":"Residencial Sur","multas_sin_pago":20,"multas_exceso_tiempo":3,"multas_zona_prohibida":2,"multas_zona_reservada":2,"total_multas":27,"monto_total_usd":294.0},{"fecha":"2026-04-01","zona":"Centro","multas_sin_pago":24,"multas_exceso_tiempo":17,"multas_zona_prohibida":5,"multas_zona_reservada":0,"total_multas":46,"monto_total_usd":476.0},{"fecha":"2026-04-01","zona":"Comercial","multas_sin_pago":9,"multas_exceso_tiempo":18,"multas_zona_prohibida":2,"multas_zona_reservada":0,"total_multas":29,"monto_total_usd":274.0},{"fecha":"2026-04-01","zona":"Hospitalaria","multas_sin_pago":10,"multas_exceso_tiempo":1,"multas_zona_prohibida":0,"multas_zona_reservada":4,"total_multas":15,"monto_total_usd":168.0},{"fecha":"2026-04-01","zona":"Residencial Norte","multas_sin_pago":11,"multas_exceso_tiempo":9,"multas_zona_prohibida":2,"multas_zona_reservada":3,"total_multas":25,"monto_total_usd":267.0},{"fecha":"2026-04-01","zona":"Residencial Sur","multas_sin_pago":12,"multas_exceso_tiempo":4,"multas_zona_prohibida":2,"multas_zona_reservada":3,"total_multas":21,"monto_total_usd":237.0},{"fecha":"2026-04-02","zona":"Centro","multas_sin_pago":23,"multas_exceso_tiempo":19,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":44,"monto_total_usd":412.0},{"fecha":"2026-04-02","zona":"Comercial","multas_sin_pago":3,"multas_exceso_tiempo":18,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":23,"monto_total_usd":204.0},{"fecha":"2026-04-02","zona":"Hospitalaria","multas_sin_pago":5,"multas_exceso_tiempo":2,"multas_zona_prohibida":2,"multas_zona_reservada":4,"total_multas":13,"monto_total_usd":166.0},{"fecha":"2026-04-02","zona":"Residencial Norte","multas_sin_pago":11,"multas_exceso_tiempo":9,"multas_zona_prohibida":1,"multas_zona_reservada":1,"total_multas":22,"monto_total_usd":217.0},{"fecha":"2026-04-02","zona":"Residencial Sur","multas_sin_pago":7,"multas_exceso_tiempo":4,"multas_zona_prohibida":6,"multas_zona_reservada":0,"total_multas":17,"monto_total_usd":222.0},{"fecha":"2026-04-03","zona":"Centro","multas_sin_pago":19,"multas_exceso_tiempo":14,"multas_zona_prohibida":2,"multas_zona_reservada":0,"total_multas":35,"monto_total_usd":342.0},{"fecha":"2026-04-03","zona":"Comercial","multas_sin_pago":13,"multas_exceso_tiempo":18,"multas_zona_prohibida":1,"multas_zona_reservada":3,"total_multas":35,"monto_total_usd":339.0},{"fecha":"2026-04-03","zona":"Hospitalaria","multas_sin_pago":8,"multas_exceso_tiempo":8,"multas_zona_prohibida":4,"multas_zona_reservada":6,"total_multas":26,"monto_total_usd":314.0},{"fecha":"2026-04-03","zona":"Residencial Norte","multas_sin_pago":10,"multas_exceso_tiempo":6,"multas_zona_prohibida":1,"multas_zona_reservada":1,"total_multas":18,"monto_total_usd":183.0},{"fecha":"2026-04-03","zona":"Residencial Sur","multas_sin_pago":3,"multas_exceso_tiempo":8,"multas_zona_prohibida":5,"multas_zona_reservada":1,"total_multas":17,"monto_total_usd":209.0},{"fecha":"2026-04-04","zona":"Centro","multas_sin_pago":22,"multas_exceso_tiempo":12,"multas_zona_prohibida":4,"multas_zona_reservada":1,"total_multas":39,"monto_total_usd":411.0},{"fecha":"2026-04-04","zona":"Comercial","multas_sin_pago":14,"multas_exceso_tiempo":18,"multas_zona_prohibida":3,"multas_zona_reservada":2,"total_multas":37,"monto_total_usd":374.0},{"fecha":"2026-04-04","zona":"Hospitalaria","multas_sin_pago":2,"multas_exceso_tiempo":7,"multas_zona_prohibida":2,"multas_zona_reservada":5,"total_multas":16,"monto_total_usd":191.0},{"fecha":"2026-04-04","zona":"Residencial Norte","multas_sin_pago":14,"multas_exceso_tiempo":9,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":24,"monto_total_usd":227.0},{"fecha":"2026-04-04","zona":"Residencial Sur","multas_sin_pago":8,"multas_exceso_tiempo":3,"multas_zona_prohibida":4,"multas_zona_reservada":1,"total_multas":16,"monto_total_usd":199.0},{"fecha":"2026-04-05","zona":"Centro","multas_sin_pago":14,"multas_exceso_tiempo":10,"multas_zona_prohibida":4,"multas_zona_reservada":2,"total_multas":30,"monto_total_usd":330.0},{"fecha":"2026-04-05","zona":"Comercial","multas_sin_pago":4,"multas_exceso_tiempo":10,"multas_zona_prohibida":3,"multas_zona_reservada":0,"total_multas":17,"monto_total_usd":180.0},{"fecha":"2026-04-05","zona":"Hospitalaria","multas_sin_pago":7,"multas_exceso_tiempo":6,"multas_zona_prohibida":3,"multas_zona_reservada":6,"total_multas":22,"monto_total_usd":268.0},{"fecha":"2026-04-05","zona":"Residencial Norte","multas_sin_pago":11,"multas_exceso_tiempo":3,"multas_zona_prohibida":3,"multas_zona_reservada":2,"total_multas":19,"monto_total_usd":224.0},{"fecha":"2026-04-05","zona":"Residencial Sur","multas_sin_pago":5,"multas_exceso_tiempo":4,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":11,"monto_total_usd":112.0},{"fecha":"2026-04-06","zona":"Centro","multas_sin_pago":21,"multas_exceso_tiempo":18,"multas_zona_prohibida":4,"multas_zona_reservada":3,"total_multas":46,"monto_total_usd":479.0},{"fecha":"2026-04-06","zona":"Comercial","multas_sin_pago":10,"multas_exceso_tiempo":18,"multas_zona_prohibida":0,"multas_zona_reservada":4,"total_multas":32,"monto_total_usd":304.0},{"fecha":"2026-04-06","zona":"Hospitalaria","multas_sin_pago":3,"multas_exceso_tiempo":10,"multas_zona_prohibida":1,"multas_zona_reservada":5,"total_multas":19,"monto_total_usd":205.0},{"fecha":"2026-04-06","zona":"Residencial Norte","multas_sin_pago":16,"multas_exceso_tiempo":1,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":17,"monto_total_usd":168.0},{"fecha":"2026-04-06","zona":"Residencial Sur","multas_sin_pago":9,"multas_exceso_tiempo":6,"multas_zona_prohibida":3,"multas_zona_reservada":1,"total_multas":19,"monto_total_usd":213.0},{"fecha":"2026-04-07","zona":"Centro","multas_sin_pago":19,"multas_exceso_tiempo":16,"multas_zona_prohibida":2,"multas_zona_reservada":0,"total_multas":37,"monto_total_usd":358.0},{"fecha":"2026-04-07","zona":"Comercial","multas_sin_pago":15,"multas_exceso_tiempo":21,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":37,"monto_total_usd":338.0},{"fecha":"2026-04-07","zona":"Hospitalaria","multas_sin_pago":10,"multas_exceso_tiempo":0,"multas_zona_prohibida":1,"multas_zona_reservada":6,"total_multas":17,"monto_total_usd":210.0},{"fecha":"2026-04-07","zona":"Residencial Norte","multas_sin_pago":8,"multas_exceso_tiempo":3,"multas_zona_prohibida":2,"multas_zona_reservada":2,"total_multas":15,"monto_total_usd":174.0},{"fecha":"2026-04-07","zona":"Residencial Sur","multas_sin_pago":7,"multas_exceso_tiempo":6,"multas_zona_prohibida":2,"multas_zona_reservada":3,"total_multas":18,"monto_total_usd":203.0},{"fecha":"2026-04-08","zona":"Centro","multas_sin_pago":26,"multas_exceso_tiempo":19,"multas_zona_prohibida":5,"multas_zona_reservada":2,"total_multas":52,"monto_total_usd":542.0},{"fecha":"2026-04-08","zona":"Comercial","multas_sin_pago":10,"multas_exceso_tiempo":13,"multas_zona_prohibida":2,"multas_zona_reservada":4,"total_multas":29,"monto_total_usd":304.0},{"fecha":"2026-04-08","zona":"Hospitalaria","multas_sin_pago":19,"multas_exceso_tiempo":9,"multas_zona_prohibida":4,"multas_zona_reservada":6,"total_multas":38,"monto_total_usd":432.0},{"fecha":"2026-04-08","zona":"Residencial Norte","multas_sin_pago":6,"multas_exceso_tiempo":2,"multas_zona_prohibida":4,"multas_zona_reservada":1,"total_multas":13,"monto_total_usd":171.0},{"fecha":"2026-04-08","zona":"Residencial Sur","multas_sin_pago":5,"multas_exceso_tiempo":7,"multas_zona_prohibida":0,"multas_zona_reservada":0,"total_multas":12,"monto_total_usd":106.0},{"fecha":"2026-04-09","zona":"Centro","multas_sin_pago":20,"multas_exceso_tiempo":19,"multas_zona_prohibida":6,"multas_zona_reservada":0,"total_multas":45,"monto_total_usd":472.0},{"fecha":"2026-04-09","zona":"Comercial","multas_sin_pago":6,"multas_exceso_tiempo":15,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":23,"monto_total_usd":210.0},{"fecha":"2026-04-09","zona":"Hospitalaria","multas_sin_pago":5,"multas_exceso_tiempo":0,"multas_zona_prohibida":1,"multas_zona_reservada":6,"total_multas":12,"monto_total_usd":160.0},{"fecha":"2026-04-09","zona":"Residencial Norte","multas_sin_pago":10,"multas_exceso_tiempo":2,"multas_zona_prohibida":2,"multas_zona_reservada":3,"total_multas":17,"monto_total_usd":201.0},{"fecha":"2026-04-09","zona":"Residencial Sur","multas_sin_pago":17,"multas_exceso_tiempo":7,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":25,"monto_total_usd":246.0},{"fecha":"2026-04-10","zona":"Centro","multas_sin_pago":21,"multas_exceso_tiempo":18,"multas_zona_prohibida":4,"multas_zona_reservada":1,"total_multas":44,"monto_total_usd":449.0},{"fecha":"2026-04-10","zona":"Comercial","multas_sin_pago":9,"multas_exceso_tiempo":15,"multas_zona_prohibida":2,"multas_zona_reservada":0,"total_multas":26,"monto_total_usd":250.0},{"fecha":"2026-04-10","zona":"Hospitalaria","multas_sin_pago":3,"multas_exceso_tiempo":12,"multas_zona_prohibida":2,"multas_zona_reservada":5,"total_multas":22,"monto_total_usd":241.0},{"fecha":"2026-04-10","zona":"Residencial Norte","multas_sin_pago":7,"multas_exceso_tiempo":8,"multas_zona_prohibida":3,"multas_zona_reservada":0,"total_multas":18,"monto_total_usd":194.0},{"fecha":"2026-04-10","zona":"Residencial Sur","multas_sin_pago":11,"multas_exceso_tiempo":6,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":20,"monto_total_usd":208.0},{"fecha":"2026-04-11","zona":"Centro","multas_sin_pago":20,"multas_exceso_tiempo":18,"multas_zona_prohibida":2,"multas_zona_reservada":4,"total_multas":44,"monto_total_usd":444.0},{"fecha":"2026-04-11","zona":"Comercial","multas_sin_pago":14,"multas_exceso_tiempo":13,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":30,"monto_total_usd":294.0},{"fecha":"2026-04-11","zona":"Hospitalaria","multas_sin_pago":8,"multas_exceso_tiempo":7,"multas_zona_prohibida":1,"multas_zona_reservada":4,"total_multas":20,"monto_total_usd":216.0},{"fecha":"2026-04-11","zona":"Residencial Norte","multas_sin_pago":15,"multas_exceso_tiempo":6,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":22,"monto_total_usd":218.0},{"fecha":"2026-04-11","zona":"Residencial Sur","multas_sin_pago":9,"multas_exceso_tiempo":6,"multas_zona_prohibida":0,"multas_zona_reservada":3,"total_multas":18,"monto_total_usd":183.0},{"fecha":"2026-04-12","zona":"Centro","multas_sin_pago":15,"multas_exceso_tiempo":11,"multas_zona_prohibida":4,"multas_zona_reservada":2,"total_multas":32,"monto_total_usd":348.0},{"fecha":"2026-04-12","zona":"Comercial","multas_sin_pago":10,"multas_exceso_tiempo":14,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":25,"monto_total_usd":232.0},{"fecha":"2026-04-12","zona":"Hospitalaria","multas_sin_pago":16,"multas_exceso_tiempo":9,"multas_zona_prohibida":0,"multas_zona_reservada":4,"total_multas":29,"monto_total_usd":292.0},{"fecha":"2026-04-12","zona":"Residencial Norte","multas_sin_pago":16,"multas_exceso_tiempo":13,"multas_zona_prohibida":1,"multas_zona_reservada":3,"total_multas":33,"monto_total_usd":329.0},{"fecha":"2026-04-12","zona":"Residencial Sur","multas_sin_pago":14,"multas_exceso_tiempo":3,"multas_zona_prohibida":3,"multas_zona_reservada":3,"total_multas":23,"monto_total_usd":269.0},{"fecha":"2026-04-13","zona":"Centro","multas_sin_pago":20,"multas_exceso_tiempo":17,"multas_zona_prohibida":5,"multas_zona_reservada":0,"total_multas":42,"monto_total_usd":436.0},{"fecha":"2026-04-13","zona":"Comercial","multas_sin_pago":11,"multas_exceso_tiempo":17,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":29,"monto_total_usd":261.0},{"fecha":"2026-04-13","zona":"Hospitalaria","multas_sin_pago":17,"multas_exceso_tiempo":5,"multas_zona_prohibida":0,"multas_zona_reservada":6,"total_multas":28,"monto_total_usd":300.0},{"fecha":"2026-04-13","zona":"Residencial Norte","multas_sin_pago":6,"multas_exceso_tiempo":6,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":13,"monto_total_usd":123.0},{"fecha":"2026-04-13","zona":"Residencial Sur","multas_sin_pago":13,"multas_exceso_tiempo":9,"multas_zona_prohibida":1,"multas_zona_reservada":3,"total_multas":26,"monto_total_usd":267.0},{"fecha":"2026-04-14","zona":"Centro","multas_sin_pago":25,"multas_exceso_tiempo":20,"multas_zona_prohibida":3,"multas_zona_reservada":2,"total_multas":50,"monto_total_usd":500.0},{"fecha":"2026-04-14","zona":"Comercial","multas_sin_pago":10,"multas_exceso_tiempo":12,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":25,"monto_total_usd":251.0},{"fecha":"2026-04-14","zona":"Hospitalaria","multas_sin_pago":15,"multas_exceso_tiempo":6,"multas_zona_prohibida":1,"multas_zona_reservada":5,"total_multas":27,"monto_total_usd":293.0},{"fecha":"2026-04-14","zona":"Residencial Norte","multas_sin_pago":15,"multas_exceso_tiempo":9,"multas_zona_prohibida":0,"multas_zona_reservada":3,"total_multas":27,"monto_total_usd":267.0},{"fecha":"2026-04-14","zona":"Residencial Sur","multas_sin_pago":9,"multas_exceso_tiempo":3,"multas_zona_prohibida":1,"multas_zona_reservada":1,"total_multas":14,"monto_total_usd":149.0},{"fecha":"2026-04-15","zona":"Centro","multas_sin_pago":24,"multas_exceso_tiempo":15,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":42,"monto_total_usd":410.0},{"fecha":"2026-04-15","zona":"Comercial","multas_sin_pago":14,"multas_exceso_tiempo":14,"multas_zona_prohibida":1,"multas_zona_reservada":0,"total_multas":29,"monto_total_usd":272.0},{"fecha":"2026-04-15","zona":"Hospitalaria","multas_sin_pago":11,"multas_exceso_tiempo":4,"multas_zona_prohibida":2,"multas_zona_reservada":4,"total_multas":21,"monto_total_usd":242.0},{"fecha":"2026-04-15","zona":"Residencial Norte","multas_sin_pago":10,"multas_exceso_tiempo":0,"multas_zona_prohibida":2,"multas_zona_reservada":1,"total_multas":13,"monto_total_usd":155.0},{"fecha":"2026-04-15","zona":"Residencial Sur","multas_sin_pago":10,"multas_exceso_tiempo":6,"multas_zona_prohibida":1,"multas_zona_reservada":3,"total_multas":20,"monto_total_usd":213.0},{"fecha":"2026-04-16","zona":"Centro","multas_sin_pago":20,"multas_exceso_tiempo":17,"multas_zona_prohibida":2,"multas_zona_reservada":4,"total_multas":43,"monto_total_usd":436.0},{"fecha":"2026-04-16","zona":"Comercial","multas_sin_pago":6,"multas_exceso_tiempo":17,"multas_zona_prohibida":2,"multas_zona_reservada":2,"total_multas":27,"monto_total_usd":266.0},{"fecha":"2026-04-16","zona":"Hospitalaria","multas_sin_pago":9,"multas_exceso_tiempo":7,"multas_zona_prohibida":3,"multas_zona_reservada":3,"total_multas":22,"monto_total_usd":251.0},{"fecha":"2026-04-16","zona":"Residencial Norte","multas_sin_pago":9,"multas_exceso_tiempo":5,"multas_zona_prohibida":1,"multas_zona_reservada":4,"total_multas":19,"monto_total_usd":210.0},{"fecha":"2026-04-16","zona":"Residencial Sur","multas_sin_pago":11,"multas_exceso_tiempo":3,"multas_zona_prohibida":0,"multas_zona_reservada":1,"total_multas":15,"monto_total_usd":149.0},{"fecha":"2026-04-17","zona":"Centro","multas_sin_pago":20,"multas_exceso_tiempo":17,"multas_zona_prohibida":2,"multas_zona_reservada":2,"total_multas":41,"monto_total_usd":406.0},{"fecha":"2026-04-17","zona":"Comercial","multas_sin_pago":5,"multas_exceso_tiempo":20,"multas_zona_prohibida":4,"multas_zona_reservada":1,"total_multas":30,"monto_total_usd":305.0},{"fecha":"2026-04-17","zona":"Hospitalaria","multas_sin_pago":5,"multas_exceso_tiempo":2,"multas_zona_prohibida":0,"multas_zona_reservada":4,"total_multas":11,"monto_total_usd":126.0},{"fecha":"2026-04-17","zona":"Residencial Norte","multas_sin_pago":17,"multas_exceso_tiempo":5,"multas_zona_prohibida":1,"multas_zona_reservada":1,"total_multas":24,"monto_total_usd":245.0},{"fecha":"2026-04-17","zona":"Residencial Sur","multas_sin_pago":5,"multas_exceso_tiempo":7,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":15,"monto_total_usd":156.0},{"fecha":"2026-04-18","zona":"Centro","multas_sin_pago":29,"multas_exceso_tiempo":14,"multas_zona_prohibida":3,"multas_zona_reservada":3,"total_multas":49,"monto_total_usd":507.0},{"fecha":"2026-04-18","zona":"Comercial","multas_sin_pago":9,"multas_exceso_tiempo":17,"multas_zona_prohibida":1,"multas_zona_reservada":1,"total_multas":28,"monto_total_usd":261.0},{"fecha":"2026-04-18","zona":"Hospitalaria","multas_sin_pago":10,"multas_exceso_tiempo":7,"multas_zona_prohibida":4,"multas_zona_reservada":7,"total_multas":28,"monto_total_usd":341.0},{"fecha":"2026-04-18","zona":"Residencial Norte","multas_sin_pago":14,"multas_exceso_tiempo":6,"multas_zona_prohibida":3,"multas_zona_reservada":5,"total_multas":28,"monto_total_usd":323.0},{"fecha":"2026-04-18","zona":"Residencial Sur","multas_sin_pago":4,"multas_exceso_tiempo":10,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":16,"monto_total_usd":150.0},{"fecha":"2026-04-19","zona":"Centro","multas_sin_pago":21,"multas_exceso_tiempo":19,"multas_zona_prohibida":4,"multas_zona_reservada":0,"total_multas":44,"monto_total_usd":442.0},{"fecha":"2026-04-19","zona":"Comercial","multas_sin_pago":10,"multas_exceso_tiempo":13,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":25,"monto_total_usd":234.0},{"fecha":"2026-04-19","zona":"Hospitalaria","multas_sin_pago":10,"multas_exceso_tiempo":6,"multas_zona_prohibida":0,"multas_zona_reservada":2,"total_multas":18,"monto_total_usd":178.0},{"fecha":"2026-04-19","zona":"Residencial Norte","multas_sin_pago":5,"multas_exceso_tiempo":8,"multas_zona_prohibida":3,"multas_zona_reservada":3,"total_multas":19,"monto_total_usd":219.0},{"fecha":"2026-04-19","zona":"Residencial Sur","multas_sin_pago":11,"multas_exceso_tiempo":9,"multas_zona_prohibida":1,"multas_zona_reservada":2,"total_multas":23,"monto_total_usd":232.0}]
+[
+  {
+    "fecha": "2026-01-20",
+    "zona": "Centro",
+    "multas_sin_pago": 20,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 1,
+    "total_multas": 44,
+    "monto_total_usd": 459.0
+  },
+  {
+    "fecha": "2026-01-20",
+    "zona": "Comercial",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 0,
+    "total_multas": 29,
+    "monto_total_usd": 286.0
+  },
+  {
+    "fecha": "2026-01-20",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 4,
+    "total_multas": 19,
+    "monto_total_usd": 238.0
+  },
+  {
+    "fecha": "2026-01-20",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 15,
+    "monto_total_usd": 139.0
+  },
+  {
+    "fecha": "2026-01-20",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 25,
+    "monto_total_usd": 231.0
+  },
+  {
+    "fecha": "2026-01-21",
+    "zona": "Centro",
+    "multas_sin_pago": 19,
+    "multas_exceso_tiempo": 22,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 3,
+    "total_multas": 49,
+    "monto_total_usd": 511.0
+  },
+  {
+    "fecha": "2026-01-21",
+    "zona": "Comercial",
+    "multas_sin_pago": 15,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 0,
+    "total_multas": 35,
+    "monto_total_usd": 346.0
+  },
+  {
+    "fecha": "2026-01-21",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 5,
+    "total_multas": 25,
+    "monto_total_usd": 273.0
+  },
+  {
+    "fecha": "2026-01-21",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 21,
+    "monto_total_usd": 194.0
+  },
+  {
+    "fecha": "2026-01-21",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 19,
+    "monto_total_usd": 180.0
+  },
+  {
+    "fecha": "2026-01-22",
+    "zona": "Centro",
+    "multas_sin_pago": 18,
+    "multas_exceso_tiempo": 24,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 2,
+    "total_multas": 47,
+    "monto_total_usd": 462.0
+  },
+  {
+    "fecha": "2026-01-22",
+    "zona": "Comercial",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 3,
+    "total_multas": 31,
+    "monto_total_usd": 311.0
+  },
+  {
+    "fecha": "2026-01-22",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 7,
+    "total_multas": 26,
+    "monto_total_usd": 297.0
+  },
+  {
+    "fecha": "2026-01-22",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 1,
+    "total_multas": 16,
+    "monto_total_usd": 159.0
+  },
+  {
+    "fecha": "2026-01-22",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 16,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 24,
+    "monto_total_usd": 236.0
+  },
+  {
+    "fecha": "2026-01-23",
+    "zona": "Centro",
+    "multas_sin_pago": 28,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 47,
+    "monto_total_usd": 463.0
+  },
+  {
+    "fecha": "2026-01-23",
+    "zona": "Comercial",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 20,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 33,
+    "monto_total_usd": 300.0
+  },
+  {
+    "fecha": "2026-01-23",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 1,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 5,
+    "total_multas": 24,
+    "monto_total_usd": 303.0
+  },
+  {
+    "fecha": "2026-01-23",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 2,
+    "total_multas": 20,
+    "monto_total_usd": 238.0
+  },
+  {
+    "fecha": "2026-01-23",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 25,
+    "monto_total_usd": 255.0
+  },
+  {
+    "fecha": "2026-01-24",
+    "zona": "Centro",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 22,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 1,
+    "total_multas": 45,
+    "monto_total_usd": 461.0
+  },
+  {
+    "fecha": "2026-01-24",
+    "zona": "Comercial",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 21,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 35,
+    "monto_total_usd": 318.0
+  },
+  {
+    "fecha": "2026-01-24",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 6,
+    "total_multas": 23,
+    "monto_total_usd": 260.0
+  },
+  {
+    "fecha": "2026-01-24",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 19,
+    "monto_total_usd": 183.0
+  },
+  {
+    "fecha": "2026-01-24",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 2,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 18,
+    "monto_total_usd": 211.0
+  },
+  {
+    "fecha": "2026-01-25",
+    "zona": "Centro",
+    "multas_sin_pago": 18,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 38,
+    "monto_total_usd": 371.0
+  },
+  {
+    "fecha": "2026-01-25",
+    "zona": "Comercial",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 22,
+    "monto_total_usd": 186.0
+  },
+  {
+    "fecha": "2026-01-25",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 4,
+    "total_multas": 22,
+    "monto_total_usd": 230.0
+  },
+  {
+    "fecha": "2026-01-25",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 23,
+    "monto_total_usd": 220.0
+  },
+  {
+    "fecha": "2026-01-25",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 16,
+    "monto_total_usd": 154.0
+  },
+  {
+    "fecha": "2026-01-26",
+    "zona": "Centro",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 2,
+    "total_multas": 38,
+    "monto_total_usd": 388.0
+  },
+  {
+    "fecha": "2026-01-26",
+    "zona": "Comercial",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 15,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 25,
+    "monto_total_usd": 230.0
+  },
+  {
+    "fecha": "2026-01-26",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 3,
+    "total_multas": 23,
+    "monto_total_usd": 229.0
+  },
+  {
+    "fecha": "2026-01-26",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 1,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 11,
+    "monto_total_usd": 143.0
+  },
+  {
+    "fecha": "2026-01-26",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 2,
+    "total_multas": 27,
+    "monto_total_usd": 306.0
+  },
+  {
+    "fecha": "2026-01-27",
+    "zona": "Centro",
+    "multas_sin_pago": 24,
+    "multas_exceso_tiempo": 20,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 47,
+    "monto_total_usd": 450.0
+  },
+  {
+    "fecha": "2026-01-27",
+    "zona": "Comercial",
+    "multas_sin_pago": 1,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 22,
+    "monto_total_usd": 204.0
+  },
+  {
+    "fecha": "2026-01-27",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 4,
+    "total_multas": 18,
+    "monto_total_usd": 196.0
+  },
+  {
+    "fecha": "2026-01-27",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 0,
+    "total_multas": 17,
+    "monto_total_usd": 182.0
+  },
+  {
+    "fecha": "2026-01-27",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 1,
+    "total_multas": 19,
+    "monto_total_usd": 199.0
+  },
+  {
+    "fecha": "2026-01-28",
+    "zona": "Centro",
+    "multas_sin_pago": 26,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 2,
+    "total_multas": 48,
+    "monto_total_usd": 486.0
+  },
+  {
+    "fecha": "2026-01-28",
+    "zona": "Comercial",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 14,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 29,
+    "monto_total_usd": 287.0
+  },
+  {
+    "fecha": "2026-01-28",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 0,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 5,
+    "total_multas": 12,
+    "monto_total_usd": 155.0
+  },
+  {
+    "fecha": "2026-01-28",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 16,
+    "monto_total_usd": 148.0
+  },
+  {
+    "fecha": "2026-01-28",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 13,
+    "monto_total_usd": 123.0
+  },
+  {
+    "fecha": "2026-01-29",
+    "zona": "Centro",
+    "multas_sin_pago": 20,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 6,
+    "multas_zona_reservada": 0,
+    "total_multas": 43,
+    "monto_total_usd": 456.0
+  },
+  {
+    "fecha": "2026-01-29",
+    "zona": "Comercial",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 14,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 30,
+    "monto_total_usd": 282.0
+  },
+  {
+    "fecha": "2026-01-29",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 3,
+    "total_multas": 18,
+    "monto_total_usd": 227.0
+  },
+  {
+    "fecha": "2026-01-29",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 24,
+    "monto_total_usd": 216.0
+  },
+  {
+    "fecha": "2026-01-29",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 2,
+    "total_multas": 27,
+    "monto_total_usd": 300.0
+  },
+  {
+    "fecha": "2026-01-30",
+    "zona": "Centro",
+    "multas_sin_pago": 27,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 47,
+    "monto_total_usd": 473.0
+  },
+  {
+    "fecha": "2026-01-30",
+    "zona": "Comercial",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 15,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 1,
+    "total_multas": 28,
+    "monto_total_usd": 295.0
+  },
+  {
+    "fecha": "2026-01-30",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 5,
+    "total_multas": 30,
+    "monto_total_usd": 335.0
+  },
+  {
+    "fecha": "2026-01-30",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 19,
+    "monto_total_usd": 194.0
+  },
+  {
+    "fecha": "2026-01-30",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 0,
+    "total_multas": 20,
+    "monto_total_usd": 214.0
+  },
+  {
+    "fecha": "2026-01-31",
+    "zona": "Centro",
+    "multas_sin_pago": 26,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 0,
+    "total_multas": 46,
+    "monto_total_usd": 456.0
+  },
+  {
+    "fecha": "2026-01-31",
+    "zona": "Comercial",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 15,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 0,
+    "total_multas": 28,
+    "monto_total_usd": 270.0
+  },
+  {
+    "fecha": "2026-01-31",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 6,
+    "total_multas": 23,
+    "monto_total_usd": 256.0
+  },
+  {
+    "fecha": "2026-01-31",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 15,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 25,
+    "monto_total_usd": 261.0
+  },
+  {
+    "fecha": "2026-01-31",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 11,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 3,
+    "total_multas": 24,
+    "monto_total_usd": 243.0
+  },
+  {
+    "fecha": "2026-02-01",
+    "zona": "Centro",
+    "multas_sin_pago": 21,
+    "multas_exceso_tiempo": 14,
+    "multas_zona_prohibida": 7,
+    "multas_zona_reservada": 2,
+    "total_multas": 44,
+    "monto_total_usd": 492.0
+  },
+  {
+    "fecha": "2026-02-01",
+    "zona": "Comercial",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 4,
+    "total_multas": 28,
+    "monto_total_usd": 288.0
+  },
+  {
+    "fecha": "2026-02-01",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 5,
+    "total_multas": 27,
+    "monto_total_usd": 303.0
+  },
+  {
+    "fecha": "2026-02-01",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 14,
+    "monto_total_usd": 136.0
+  },
+  {
+    "fecha": "2026-02-01",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 16,
+    "monto_total_usd": 169.0
+  },
+  {
+    "fecha": "2026-02-02",
+    "zona": "Centro",
+    "multas_sin_pago": 27,
+    "multas_exceso_tiempo": 19,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 3,
+    "total_multas": 54,
+    "monto_total_usd": 567.0
+  },
+  {
+    "fecha": "2026-02-02",
+    "zona": "Comercial",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 3,
+    "total_multas": 37,
+    "monto_total_usd": 369.0
+  },
+  {
+    "fecha": "2026-02-02",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 4,
+    "total_multas": 24,
+    "monto_total_usd": 284.0
+  },
+  {
+    "fecha": "2026-02-02",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 4,
+    "total_multas": 22,
+    "monto_total_usd": 242.0
+  },
+  {
+    "fecha": "2026-02-02",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 14,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 30,
+    "monto_total_usd": 297.0
+  },
+  {
+    "fecha": "2026-02-03",
+    "zona": "Centro",
+    "multas_sin_pago": 21,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 1,
+    "total_multas": 44,
+    "monto_total_usd": 461.0
+  },
+  {
+    "fecha": "2026-02-03",
+    "zona": "Comercial",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 14,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 32,
+    "monto_total_usd": 327.0
+  },
+  {
+    "fecha": "2026-02-03",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 5,
+    "total_multas": 24,
+    "monto_total_usd": 247.0
+  },
+  {
+    "fecha": "2026-02-03",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 3,
+    "total_multas": 19,
+    "monto_total_usd": 195.0
+  },
+  {
+    "fecha": "2026-02-03",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 3,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 4,
+    "total_multas": 10,
+    "monto_total_usd": 114.0
+  },
+  {
+    "fecha": "2026-02-04",
+    "zona": "Centro",
+    "multas_sin_pago": 20,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 40,
+    "monto_total_usd": 391.0
+  },
+  {
+    "fecha": "2026-02-04",
+    "zona": "Comercial",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 19,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 25,
+    "monto_total_usd": 212.0
+  },
+  {
+    "fecha": "2026-02-04",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 2,
+    "total_multas": 25,
+    "monto_total_usd": 272.0
+  },
+  {
+    "fecha": "2026-02-04",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 21,
+    "monto_total_usd": 192.0
+  },
+  {
+    "fecha": "2026-02-04",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 16,
+    "monto_total_usd": 153.0
+  },
+  {
+    "fecha": "2026-02-05",
+    "zona": "Centro",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 2,
+    "total_multas": 37,
+    "monto_total_usd": 398.0
+  },
+  {
+    "fecha": "2026-02-05",
+    "zona": "Comercial",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 3,
+    "total_multas": 35,
+    "monto_total_usd": 363.0
+  },
+  {
+    "fecha": "2026-02-05",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 11,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 3,
+    "total_multas": 24,
+    "monto_total_usd": 243.0
+  },
+  {
+    "fecha": "2026-02-05",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 4,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 15,
+    "monto_total_usd": 159.0
+  },
+  {
+    "fecha": "2026-02-05",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 2,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 19,
+    "monto_total_usd": 211.0
+  },
+  {
+    "fecha": "2026-02-06",
+    "zona": "Centro",
+    "multas_sin_pago": 22,
+    "multas_exceso_tiempo": 19,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 0,
+    "total_multas": 45,
+    "monto_total_usd": 452.0
+  },
+  {
+    "fecha": "2026-02-06",
+    "zona": "Comercial",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 32,
+    "monto_total_usd": 306.0
+  },
+  {
+    "fecha": "2026-02-06",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 6,
+    "total_multas": 21,
+    "monto_total_usd": 228.0
+  },
+  {
+    "fecha": "2026-02-06",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 1,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 13,
+    "monto_total_usd": 163.0
+  },
+  {
+    "fecha": "2026-02-06",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 3,
+    "total_multas": 15,
+    "monto_total_usd": 157.0
+  },
+  {
+    "fecha": "2026-02-07",
+    "zona": "Centro",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 14,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 0,
+    "total_multas": 34,
+    "monto_total_usd": 342.0
+  },
+  {
+    "fecha": "2026-02-07",
+    "zona": "Comercial",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 13,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 1,
+    "total_multas": 21,
+    "monto_total_usd": 199.0
+  },
+  {
+    "fecha": "2026-02-07",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 6,
+    "total_multas": 16,
+    "monto_total_usd": 182.0
+  },
+  {
+    "fecha": "2026-02-07",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 22,
+    "monto_total_usd": 235.0
+  },
+  {
+    "fecha": "2026-02-07",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 4,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 11,
+    "monto_total_usd": 122.0
+  },
+  {
+    "fecha": "2026-02-08",
+    "zona": "Centro",
+    "multas_sin_pago": 24,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 3,
+    "total_multas": 50,
+    "monto_total_usd": 529.0
+  },
+  {
+    "fecha": "2026-02-08",
+    "zona": "Comercial",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 33,
+    "monto_total_usd": 304.0
+  },
+  {
+    "fecha": "2026-02-08",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 11,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 3,
+    "total_multas": 33,
+    "monto_total_usd": 343.0
+  },
+  {
+    "fecha": "2026-02-08",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 1,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 12,
+    "monto_total_usd": 141.0
+  },
+  {
+    "fecha": "2026-02-08",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 16,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 0,
+    "total_multas": 25,
+    "monto_total_usd": 268.0
+  },
+  {
+    "fecha": "2026-02-09",
+    "zona": "Centro",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 11,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 0,
+    "total_multas": 25,
+    "monto_total_usd": 248.0
+  },
+  {
+    "fecha": "2026-02-09",
+    "zona": "Comercial",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 3,
+    "total_multas": 29,
+    "monto_total_usd": 281.0
+  },
+  {
+    "fecha": "2026-02-09",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 3,
+    "total_multas": 29,
+    "monto_total_usd": 301.0
+  },
+  {
+    "fecha": "2026-02-09",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 2,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 3,
+    "total_multas": 15,
+    "monto_total_usd": 191.0
+  },
+  {
+    "fecha": "2026-02-09",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 0,
+    "total_multas": 23,
+    "monto_total_usd": 258.0
+  },
+  {
+    "fecha": "2026-02-10",
+    "zona": "Centro",
+    "multas_sin_pago": 25,
+    "multas_exceso_tiempo": 20,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 48,
+    "monto_total_usd": 460.0
+  },
+  {
+    "fecha": "2026-02-10",
+    "zona": "Comercial",
+    "multas_sin_pago": 4,
+    "multas_exceso_tiempo": 22,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 0,
+    "total_multas": 30,
+    "monto_total_usd": 296.0
+  },
+  {
+    "fecha": "2026-02-10",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 7,
+    "total_multas": 21,
+    "monto_total_usd": 235.0
+  },
+  {
+    "fecha": "2026-02-10",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 25,
+    "monto_total_usd": 246.0
+  },
+  {
+    "fecha": "2026-02-10",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 12,
+    "monto_total_usd": 124.0
+  },
+  {
+    "fecha": "2026-02-11",
+    "zona": "Centro",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 13,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 33,
+    "monto_total_usd": 329.0
+  },
+  {
+    "fecha": "2026-02-11",
+    "zona": "Comercial",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 2,
+    "total_multas": 36,
+    "monto_total_usd": 374.0
+  },
+  {
+    "fecha": "2026-02-11",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 3,
+    "total_multas": 18,
+    "monto_total_usd": 207.0
+  },
+  {
+    "fecha": "2026-02-11",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 16,
+    "monto_total_usd": 150.0
+  },
+  {
+    "fecha": "2026-02-11",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 1,
+    "total_multas": 19,
+    "monto_total_usd": 185.0
+  },
+  {
+    "fecha": "2026-02-12",
+    "zona": "Centro",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 3,
+    "total_multas": 35,
+    "monto_total_usd": 371.0
+  },
+  {
+    "fecha": "2026-02-12",
+    "zona": "Comercial",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 24,
+    "monto_total_usd": 216.0
+  },
+  {
+    "fecha": "2026-02-12",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 5,
+    "total_multas": 20,
+    "monto_total_usd": 257.0
+  },
+  {
+    "fecha": "2026-02-12",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 3,
+    "total_multas": 29,
+    "monto_total_usd": 287.0
+  },
+  {
+    "fecha": "2026-02-12",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 0,
+    "total_multas": 14,
+    "monto_total_usd": 150.0
+  },
+  {
+    "fecha": "2026-02-13",
+    "zona": "Centro",
+    "multas_sin_pago": 22,
+    "multas_exceso_tiempo": 19,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 44,
+    "monto_total_usd": 427.0
+  },
+  {
+    "fecha": "2026-02-13",
+    "zona": "Comercial",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 28,
+    "monto_total_usd": 246.0
+  },
+  {
+    "fecha": "2026-02-13",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 5,
+    "total_multas": 26,
+    "monto_total_usd": 293.0
+  },
+  {
+    "fecha": "2026-02-13",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 15,
+    "monto_total_usd": 149.0
+  },
+  {
+    "fecha": "2026-02-13",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 2,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 10,
+    "monto_total_usd": 121.0
+  },
+  {
+    "fecha": "2026-02-14",
+    "zona": "Centro",
+    "multas_sin_pago": 26,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 1,
+    "total_multas": 50,
+    "monto_total_usd": 519.0
+  },
+  {
+    "fecha": "2026-02-14",
+    "zona": "Comercial",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 24,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 35,
+    "monto_total_usd": 307.0
+  },
+  {
+    "fecha": "2026-02-14",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 2,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 5,
+    "total_multas": 20,
+    "monto_total_usd": 231.0
+  },
+  {
+    "fecha": "2026-02-14",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 3,
+    "total_multas": 28,
+    "monto_total_usd": 309.0
+  },
+  {
+    "fecha": "2026-02-14",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 25,
+    "monto_total_usd": 255.0
+  },
+  {
+    "fecha": "2026-02-15",
+    "zona": "Centro",
+    "multas_sin_pago": 23,
+    "multas_exceso_tiempo": 19,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 45,
+    "monto_total_usd": 437.0
+  },
+  {
+    "fecha": "2026-02-15",
+    "zona": "Comercial",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 11,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 2,
+    "total_multas": 24,
+    "monto_total_usd": 268.0
+  },
+  {
+    "fecha": "2026-02-15",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 4,
+    "total_multas": 22,
+    "monto_total_usd": 244.0
+  },
+  {
+    "fecha": "2026-02-15",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 2,
+    "total_multas": 26,
+    "monto_total_usd": 280.0
+  },
+  {
+    "fecha": "2026-02-15",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 0,
+    "total_multas": 18,
+    "monto_total_usd": 190.0
+  },
+  {
+    "fecha": "2026-02-16",
+    "zona": "Centro",
+    "multas_sin_pago": 27,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 44,
+    "monto_total_usd": 406.0
+  },
+  {
+    "fecha": "2026-02-16",
+    "zona": "Comercial",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 20,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 2,
+    "total_multas": 29,
+    "monto_total_usd": 280.0
+  },
+  {
+    "fecha": "2026-02-16",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 5,
+    "total_multas": 22,
+    "monto_total_usd": 259.0
+  },
+  {
+    "fecha": "2026-02-16",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 2,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 0,
+    "total_multas": 12,
+    "monto_total_usd": 156.0
+  },
+  {
+    "fecha": "2026-02-16",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 16,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 23,
+    "monto_total_usd": 247.0
+  },
+  {
+    "fecha": "2026-02-17",
+    "zona": "Centro",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 2,
+    "total_multas": 39,
+    "monto_total_usd": 414.0
+  },
+  {
+    "fecha": "2026-02-17",
+    "zona": "Comercial",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 15,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 2,
+    "total_multas": 28,
+    "monto_total_usd": 280.0
+  },
+  {
+    "fecha": "2026-02-17",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 0,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 4,
+    "total_multas": 17,
+    "monto_total_usd": 240.0
+  },
+  {
+    "fecha": "2026-02-17",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 23,
+    "monto_total_usd": 253.0
+  },
+  {
+    "fecha": "2026-02-17",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 3,
+    "multas_exceso_tiempo": 0,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 7,
+    "monto_total_usd": 105.0
+  },
+  {
+    "fecha": "2026-02-18",
+    "zona": "Centro",
+    "multas_sin_pago": 22,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 6,
+    "multas_zona_reservada": 1,
+    "total_multas": 45,
+    "monto_total_usd": 483.0
+  },
+  {
+    "fecha": "2026-02-18",
+    "zona": "Comercial",
+    "multas_sin_pago": 2,
+    "multas_exceso_tiempo": 24,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 2,
+    "total_multas": 32,
+    "monto_total_usd": 322.0
+  },
+  {
+    "fecha": "2026-02-18",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 3,
+    "total_multas": 15,
+    "monto_total_usd": 179.0
+  },
+  {
+    "fecha": "2026-02-18",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 1,
+    "total_multas": 14,
+    "monto_total_usd": 179.0
+  },
+  {
+    "fecha": "2026-02-18",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 26,
+    "monto_total_usd": 241.0
+  },
+  {
+    "fecha": "2026-02-19",
+    "zona": "Centro",
+    "multas_sin_pago": 27,
+    "multas_exceso_tiempo": 20,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 2,
+    "total_multas": 54,
+    "monto_total_usd": 560.0
+  },
+  {
+    "fecha": "2026-02-19",
+    "zona": "Comercial",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 19,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 38,
+    "monto_total_usd": 352.0
+  },
+  {
+    "fecha": "2026-02-19",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 18,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 3,
+    "total_multas": 27,
+    "monto_total_usd": 273.0
+  },
+  {
+    "fecha": "2026-02-19",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 20,
+    "monto_total_usd": 212.0
+  },
+  {
+    "fecha": "2026-02-19",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 3,
+    "total_multas": 19,
+    "monto_total_usd": 211.0
+  },
+  {
+    "fecha": "2026-02-20",
+    "zona": "Centro",
+    "multas_sin_pago": 32,
+    "multas_exceso_tiempo": 19,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 2,
+    "total_multas": 57,
+    "monto_total_usd": 582.0
+  },
+  {
+    "fecha": "2026-02-20",
+    "zona": "Comercial",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 26,
+    "monto_total_usd": 238.0
+  },
+  {
+    "fecha": "2026-02-20",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 5,
+    "total_multas": 18,
+    "monto_total_usd": 193.0
+  },
+  {
+    "fecha": "2026-02-20",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 4,
+    "multas_exceso_tiempo": 2,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 7,
+    "monto_total_usd": 76.0
+  },
+  {
+    "fecha": "2026-02-20",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 28,
+    "monto_total_usd": 266.0
+  },
+  {
+    "fecha": "2026-02-21",
+    "zona": "Centro",
+    "multas_sin_pago": 23,
+    "multas_exceso_tiempo": 21,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 2,
+    "total_multas": 49,
+    "monto_total_usd": 488.0
+  },
+  {
+    "fecha": "2026-02-21",
+    "zona": "Comercial",
+    "multas_sin_pago": 15,
+    "multas_exceso_tiempo": 14,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 3,
+    "total_multas": 35,
+    "monto_total_usd": 367.0
+  },
+  {
+    "fecha": "2026-02-21",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 16,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 3,
+    "total_multas": 24,
+    "monto_total_usd": 245.0
+  },
+  {
+    "fecha": "2026-02-21",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 3,
+    "total_multas": 19,
+    "monto_total_usd": 211.0
+  },
+  {
+    "fecha": "2026-02-21",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 3,
+    "total_multas": 16,
+    "monto_total_usd": 171.0
+  },
+  {
+    "fecha": "2026-02-22",
+    "zona": "Centro",
+    "multas_sin_pago": 23,
+    "multas_exceso_tiempo": 21,
+    "multas_zona_prohibida": 6,
+    "multas_zona_reservada": 4,
+    "total_multas": 54,
+    "monto_total_usd": 578.0
+  },
+  {
+    "fecha": "2026-02-22",
+    "zona": "Comercial",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 24,
+    "monto_total_usd": 251.0
+  },
+  {
+    "fecha": "2026-02-22",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 3,
+    "total_multas": 18,
+    "monto_total_usd": 179.0
+  },
+  {
+    "fecha": "2026-02-22",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 17,
+    "monto_total_usd": 170.0
+  },
+  {
+    "fecha": "2026-02-22",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 25,
+    "monto_total_usd": 246.0
+  },
+  {
+    "fecha": "2026-02-23",
+    "zona": "Centro",
+    "multas_sin_pago": 22,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 7,
+    "multas_zona_reservada": 0,
+    "total_multas": 45,
+    "monto_total_usd": 488.0
+  },
+  {
+    "fecha": "2026-02-23",
+    "zona": "Comercial",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 19,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 28,
+    "monto_total_usd": 252.0
+  },
+  {
+    "fecha": "2026-02-23",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 1,
+    "multas_exceso_tiempo": 2,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 4,
+    "total_multas": 9,
+    "monto_total_usd": 126.0
+  },
+  {
+    "fecha": "2026-02-23",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 1,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 11,
+    "monto_total_usd": 118.0
+  },
+  {
+    "fecha": "2026-02-23",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 3,
+    "total_multas": 20,
+    "monto_total_usd": 217.0
+  },
+  {
+    "fecha": "2026-02-24",
+    "zona": "Centro",
+    "multas_sin_pago": 19,
+    "multas_exceso_tiempo": 13,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 2,
+    "total_multas": 38,
+    "monto_total_usd": 404.0
+  },
+  {
+    "fecha": "2026-02-24",
+    "zona": "Comercial",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 13,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 3,
+    "total_multas": 32,
+    "monto_total_usd": 329.0
+  },
+  {
+    "fecha": "2026-02-24",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 4,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 5,
+    "total_multas": 14,
+    "monto_total_usd": 167.0
+  },
+  {
+    "fecha": "2026-02-24",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 13,
+    "monto_total_usd": 142.0
+  },
+  {
+    "fecha": "2026-02-24",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 1,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 7,
+    "monto_total_usd": 78.0
+  },
+  {
+    "fecha": "2026-02-25",
+    "zona": "Centro",
+    "multas_sin_pago": 19,
+    "multas_exceso_tiempo": 22,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 3,
+    "total_multas": 48,
+    "monto_total_usd": 491.0
+  },
+  {
+    "fecha": "2026-02-25",
+    "zona": "Comercial",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 1,
+    "total_multas": 27,
+    "monto_total_usd": 283.0
+  },
+  {
+    "fecha": "2026-02-25",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 5,
+    "total_multas": 26,
+    "monto_total_usd": 297.0
+  },
+  {
+    "fecha": "2026-02-25",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 22,
+    "monto_total_usd": 212.0
+  },
+  {
+    "fecha": "2026-02-25",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 19,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 26,
+    "monto_total_usd": 272.0
+  },
+  {
+    "fecha": "2026-02-26",
+    "zona": "Centro",
+    "multas_sin_pago": 25,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 2,
+    "total_multas": 48,
+    "monto_total_usd": 484.0
+  },
+  {
+    "fecha": "2026-02-26",
+    "zona": "Comercial",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 23,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 3,
+    "total_multas": 35,
+    "monto_total_usd": 319.0
+  },
+  {
+    "fecha": "2026-02-26",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 6,
+    "total_multas": 22,
+    "monto_total_usd": 252.0
+  },
+  {
+    "fecha": "2026-02-26",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 21,
+    "monto_total_usd": 204.0
+  },
+  {
+    "fecha": "2026-02-26",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 6,
+    "multas_zona_reservada": 1,
+    "total_multas": 30,
+    "monto_total_usd": 345.0
+  },
+  {
+    "fecha": "2026-02-27",
+    "zona": "Centro",
+    "multas_sin_pago": 25,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 1,
+    "total_multas": 46,
+    "monto_total_usd": 473.0
+  },
+  {
+    "fecha": "2026-02-27",
+    "zona": "Comercial",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 6,
+    "multas_zona_reservada": 0,
+    "total_multas": 37,
+    "monto_total_usd": 396.0
+  },
+  {
+    "fecha": "2026-02-27",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 4,
+    "total_multas": 20,
+    "monto_total_usd": 232.0
+  },
+  {
+    "fecha": "2026-02-27",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 0,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 0,
+    "total_multas": 13,
+    "monto_total_usd": 160.0
+  },
+  {
+    "fecha": "2026-02-27",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 3,
+    "total_multas": 25,
+    "monto_total_usd": 295.0
+  },
+  {
+    "fecha": "2026-02-28",
+    "zona": "Centro",
+    "multas_sin_pago": 24,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 2,
+    "total_multas": 47,
+    "monto_total_usd": 486.0
+  },
+  {
+    "fecha": "2026-02-28",
+    "zona": "Comercial",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 14,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 31,
+    "monto_total_usd": 302.0
+  },
+  {
+    "fecha": "2026-02-28",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 5,
+    "total_multas": 28,
+    "monto_total_usd": 297.0
+  },
+  {
+    "fecha": "2026-02-28",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 2,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 3,
+    "total_multas": 17,
+    "monto_total_usd": 161.0
+  },
+  {
+    "fecha": "2026-02-28",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 1,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 3,
+    "total_multas": 12,
+    "monto_total_usd": 133.0
+  },
+  {
+    "fecha": "2026-03-01",
+    "zona": "Centro",
+    "multas_sin_pago": 20,
+    "multas_exceso_tiempo": 20,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 3,
+    "total_multas": 47,
+    "monto_total_usd": 485.0
+  },
+  {
+    "fecha": "2026-03-01",
+    "zona": "Comercial",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 22,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 35,
+    "monto_total_usd": 316.0
+  },
+  {
+    "fecha": "2026-03-01",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 4,
+    "total_multas": 25,
+    "monto_total_usd": 288.0
+  },
+  {
+    "fecha": "2026-03-01",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 18,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 29,
+    "monto_total_usd": 299.0
+  },
+  {
+    "fecha": "2026-03-01",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 0,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 8,
+    "monto_total_usd": 80.0
+  },
+  {
+    "fecha": "2026-03-02",
+    "zona": "Centro",
+    "multas_sin_pago": 23,
+    "multas_exceso_tiempo": 11,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 2,
+    "total_multas": 39,
+    "monto_total_usd": 408.0
+  },
+  {
+    "fecha": "2026-03-02",
+    "zona": "Comercial",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 14,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 0,
+    "total_multas": 22,
+    "monto_total_usd": 222.0
+  },
+  {
+    "fecha": "2026-03-02",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 2,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 5,
+    "total_multas": 15,
+    "monto_total_usd": 171.0
+  },
+  {
+    "fecha": "2026-03-02",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 0,
+    "total_multas": 22,
+    "monto_total_usd": 258.0
+  },
+  {
+    "fecha": "2026-03-02",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 4,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 4,
+    "total_multas": 17,
+    "monto_total_usd": 220.0
+  },
+  {
+    "fecha": "2026-03-03",
+    "zona": "Centro",
+    "multas_sin_pago": 20,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 3,
+    "total_multas": 35,
+    "monto_total_usd": 401.0
+  },
+  {
+    "fecha": "2026-03-03",
+    "zona": "Comercial",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 11,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 3,
+    "total_multas": 26,
+    "monto_total_usd": 283.0
+  },
+  {
+    "fecha": "2026-03-03",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 7,
+    "total_multas": 24,
+    "monto_total_usd": 283.0
+  },
+  {
+    "fecha": "2026-03-03",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 13,
+    "monto_total_usd": 130.0
+  },
+  {
+    "fecha": "2026-03-03",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 20,
+    "monto_total_usd": 193.0
+  },
+  {
+    "fecha": "2026-03-04",
+    "zona": "Centro",
+    "multas_sin_pago": 20,
+    "multas_exceso_tiempo": 14,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 2,
+    "total_multas": 40,
+    "monto_total_usd": 422.0
+  },
+  {
+    "fecha": "2026-03-04",
+    "zona": "Comercial",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 1,
+    "total_multas": 25,
+    "monto_total_usd": 271.0
+  },
+  {
+    "fecha": "2026-03-04",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 6,
+    "multas_zona_reservada": 5,
+    "total_multas": 28,
+    "monto_total_usd": 351.0
+  },
+  {
+    "fecha": "2026-03-04",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 4,
+    "total_multas": 22,
+    "monto_total_usd": 242.0
+  },
+  {
+    "fecha": "2026-03-04",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 22,
+    "monto_total_usd": 226.0
+  },
+  {
+    "fecha": "2026-03-05",
+    "zona": "Centro",
+    "multas_sin_pago": 19,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 6,
+    "multas_zona_reservada": 2,
+    "total_multas": 44,
+    "monto_total_usd": 476.0
+  },
+  {
+    "fecha": "2026-03-05",
+    "zona": "Comercial",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 22,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 37,
+    "monto_total_usd": 351.0
+  },
+  {
+    "fecha": "2026-03-05",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 2,
+    "total_multas": 25,
+    "monto_total_usd": 264.0
+  },
+  {
+    "fecha": "2026-03-05",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 1,
+    "total_multas": 16,
+    "monto_total_usd": 163.0
+  },
+  {
+    "fecha": "2026-03-05",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 22,
+    "monto_total_usd": 239.0
+  },
+  {
+    "fecha": "2026-03-06",
+    "zona": "Centro",
+    "multas_sin_pago": 22,
+    "multas_exceso_tiempo": 22,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 3,
+    "total_multas": 49,
+    "monto_total_usd": 481.0
+  },
+  {
+    "fecha": "2026-03-06",
+    "zona": "Comercial",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 4,
+    "total_multas": 36,
+    "monto_total_usd": 354.0
+  },
+  {
+    "fecha": "2026-03-06",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 4,
+    "total_multas": 24,
+    "monto_total_usd": 240.0
+  },
+  {
+    "fecha": "2026-03-06",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 2,
+    "total_multas": 26,
+    "monto_total_usd": 302.0
+  },
+  {
+    "fecha": "2026-03-06",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 0,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 11,
+    "monto_total_usd": 102.0
+  },
+  {
+    "fecha": "2026-03-07",
+    "zona": "Centro",
+    "multas_sin_pago": 23,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 0,
+    "total_multas": 42,
+    "monto_total_usd": 418.0
+  },
+  {
+    "fecha": "2026-03-07",
+    "zona": "Comercial",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 15,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 3,
+    "total_multas": 25,
+    "monto_total_usd": 245.0
+  },
+  {
+    "fecha": "2026-03-07",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 19,
+    "monto_total_usd": 215.0
+  },
+  {
+    "fecha": "2026-03-07",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 16,
+    "monto_total_usd": 187.0
+  },
+  {
+    "fecha": "2026-03-07",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 3,
+    "total_multas": 18,
+    "monto_total_usd": 213.0
+  },
+  {
+    "fecha": "2026-03-08",
+    "zona": "Centro",
+    "multas_sin_pago": 26,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 1,
+    "total_multas": 44,
+    "monto_total_usd": 471.0
+  },
+  {
+    "fecha": "2026-03-08",
+    "zona": "Comercial",
+    "multas_sin_pago": 16,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 34,
+    "monto_total_usd": 316.0
+  },
+  {
+    "fecha": "2026-03-08",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 3,
+    "multas_exceso_tiempo": 0,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 6,
+    "total_multas": 12,
+    "monto_total_usd": 180.0
+  },
+  {
+    "fecha": "2026-03-08",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 16,
+    "monto_total_usd": 170.0
+  },
+  {
+    "fecha": "2026-03-08",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 11,
+    "monto_total_usd": 124.0
+  },
+  {
+    "fecha": "2026-03-09",
+    "zona": "Centro",
+    "multas_sin_pago": 15,
+    "multas_exceso_tiempo": 11,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 1,
+    "total_multas": 31,
+    "monto_total_usd": 333.0
+  },
+  {
+    "fecha": "2026-03-09",
+    "zona": "Comercial",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 23,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 4,
+    "total_multas": 39,
+    "monto_total_usd": 404.0
+  },
+  {
+    "fecha": "2026-03-09",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 3,
+    "total_multas": 23,
+    "monto_total_usd": 237.0
+  },
+  {
+    "fecha": "2026-03-09",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 3,
+    "total_multas": 18,
+    "monto_total_usd": 179.0
+  },
+  {
+    "fecha": "2026-03-09",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 5,
+    "total_multas": 24,
+    "monto_total_usd": 247.0
+  },
+  {
+    "fecha": "2026-03-10",
+    "zona": "Centro",
+    "multas_sin_pago": 22,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 3,
+    "total_multas": 40,
+    "monto_total_usd": 421.0
+  },
+  {
+    "fecha": "2026-03-10",
+    "zona": "Comercial",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 14,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 25,
+    "monto_total_usd": 232.0
+  },
+  {
+    "fecha": "2026-03-10",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 5,
+    "total_multas": 21,
+    "monto_total_usd": 263.0
+  },
+  {
+    "fecha": "2026-03-10",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 2,
+    "total_multas": 20,
+    "monto_total_usd": 214.0
+  },
+  {
+    "fecha": "2026-03-10",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 0,
+    "total_multas": 17,
+    "monto_total_usd": 186.0
+  },
+  {
+    "fecha": "2026-03-11",
+    "zona": "Centro",
+    "multas_sin_pago": 21,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 6,
+    "multas_zona_reservada": 2,
+    "total_multas": 45,
+    "monto_total_usd": 488.0
+  },
+  {
+    "fecha": "2026-03-11",
+    "zona": "Comercial",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 16,
+    "monto_total_usd": 140.0
+  },
+  {
+    "fecha": "2026-03-11",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 3,
+    "total_multas": 20,
+    "monto_total_usd": 233.0
+  },
+  {
+    "fecha": "2026-03-11",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 15,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 3,
+    "total_multas": 22,
+    "monto_total_usd": 227.0
+  },
+  {
+    "fecha": "2026-03-11",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 16,
+    "monto_total_usd": 175.0
+  },
+  {
+    "fecha": "2026-03-12",
+    "zona": "Centro",
+    "multas_sin_pago": 21,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 7,
+    "multas_zona_reservada": 1,
+    "total_multas": 45,
+    "monto_total_usd": 493.0
+  },
+  {
+    "fecha": "2026-03-12",
+    "zona": "Comercial",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 19,
+    "monto_total_usd": 171.0
+  },
+  {
+    "fecha": "2026-03-12",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 5,
+    "total_multas": 26,
+    "monto_total_usd": 311.0
+  },
+  {
+    "fecha": "2026-03-12",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 26,
+    "monto_total_usd": 275.0
+  },
+  {
+    "fecha": "2026-03-12",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 24,
+    "monto_total_usd": 251.0
+  },
+  {
+    "fecha": "2026-03-13",
+    "zona": "Centro",
+    "multas_sin_pago": 22,
+    "multas_exceso_tiempo": 15,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 4,
+    "total_multas": 45,
+    "monto_total_usd": 480.0
+  },
+  {
+    "fecha": "2026-03-13",
+    "zona": "Comercial",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 1,
+    "total_multas": 36,
+    "monto_total_usd": 371.0
+  },
+  {
+    "fecha": "2026-03-13",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 5,
+    "total_multas": 21,
+    "monto_total_usd": 241.0
+  },
+  {
+    "fecha": "2026-03-13",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 17,
+    "monto_total_usd": 185.0
+  },
+  {
+    "fecha": "2026-03-13",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 2,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 1,
+    "total_multas": 17,
+    "monto_total_usd": 195.0
+  },
+  {
+    "fecha": "2026-03-14",
+    "zona": "Centro",
+    "multas_sin_pago": 26,
+    "multas_exceso_tiempo": 14,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 0,
+    "total_multas": 44,
+    "monto_total_usd": 452.0
+  },
+  {
+    "fecha": "2026-03-14",
+    "zona": "Comercial",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 23,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 36,
+    "monto_total_usd": 319.0
+  },
+  {
+    "fecha": "2026-03-14",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 7,
+    "total_multas": 31,
+    "monto_total_usd": 331.0
+  },
+  {
+    "fecha": "2026-03-14",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 0,
+    "total_multas": 24,
+    "monto_total_usd": 250.0
+  },
+  {
+    "fecha": "2026-03-14",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 3,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 10,
+    "monto_total_usd": 93.0
+  },
+  {
+    "fecha": "2026-03-15",
+    "zona": "Centro",
+    "multas_sin_pago": 15,
+    "multas_exceso_tiempo": 13,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 2,
+    "total_multas": 32,
+    "monto_total_usd": 324.0
+  },
+  {
+    "fecha": "2026-03-15",
+    "zona": "Comercial",
+    "multas_sin_pago": 0,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 3,
+    "total_multas": 21,
+    "monto_total_usd": 189.0
+  },
+  {
+    "fecha": "2026-03-15",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 7,
+    "total_multas": 31,
+    "monto_total_usd": 343.0
+  },
+  {
+    "fecha": "2026-03-15",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 15,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 26,
+    "monto_total_usd": 245.0
+  },
+  {
+    "fecha": "2026-03-15",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 1,
+    "multas_zona_prohibida": 6,
+    "multas_zona_reservada": 2,
+    "total_multas": 18,
+    "monto_total_usd": 248.0
+  },
+  {
+    "fecha": "2026-03-16",
+    "zona": "Centro",
+    "multas_sin_pago": 20,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 33,
+    "monto_total_usd": 311.0
+  },
+  {
+    "fecha": "2026-03-16",
+    "zona": "Comercial",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 11,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 19,
+    "monto_total_usd": 178.0
+  },
+  {
+    "fecha": "2026-03-16",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 7,
+    "total_multas": 19,
+    "monto_total_usd": 213.0
+  },
+  {
+    "fecha": "2026-03-16",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 2,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 5,
+    "total_multas": 14,
+    "monto_total_usd": 161.0
+  },
+  {
+    "fecha": "2026-03-16",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 1,
+    "total_multas": 19,
+    "monto_total_usd": 191.0
+  },
+  {
+    "fecha": "2026-03-17",
+    "zona": "Centro",
+    "multas_sin_pago": 26,
+    "multas_exceso_tiempo": 13,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 2,
+    "total_multas": 45,
+    "monto_total_usd": 474.0
+  },
+  {
+    "fecha": "2026-03-17",
+    "zona": "Comercial",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 20,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 28,
+    "monto_total_usd": 265.0
+  },
+  {
+    "fecha": "2026-03-17",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 16,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 6,
+    "total_multas": 30,
+    "monto_total_usd": 314.0
+  },
+  {
+    "fecha": "2026-03-17",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 2,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 1,
+    "total_multas": 13,
+    "monto_total_usd": 141.0
+  },
+  {
+    "fecha": "2026-03-17",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 8,
+    "monto_total_usd": 74.0
+  },
+  {
+    "fecha": "2026-03-18",
+    "zona": "Centro",
+    "multas_sin_pago": 28,
+    "multas_exceso_tiempo": 20,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 3,
+    "total_multas": 56,
+    "monto_total_usd": 585.0
+  },
+  {
+    "fecha": "2026-03-18",
+    "zona": "Comercial",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 2,
+    "total_multas": 31,
+    "monto_total_usd": 308.0
+  },
+  {
+    "fecha": "2026-03-18",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 3,
+    "total_multas": 18,
+    "monto_total_usd": 183.0
+  },
+  {
+    "fecha": "2026-03-18",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 3,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 3,
+    "total_multas": 15,
+    "monto_total_usd": 183.0
+  },
+  {
+    "fecha": "2026-03-18",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 2,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 4,
+    "total_multas": 16,
+    "monto_total_usd": 196.0
+  },
+  {
+    "fecha": "2026-03-19",
+    "zona": "Centro",
+    "multas_sin_pago": 25,
+    "multas_exceso_tiempo": 20,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 49,
+    "monto_total_usd": 485.0
+  },
+  {
+    "fecha": "2026-03-19",
+    "zona": "Comercial",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 1,
+    "total_multas": 27,
+    "monto_total_usd": 253.0
+  },
+  {
+    "fecha": "2026-03-19",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 3,
+    "total_multas": 21,
+    "monto_total_usd": 265.0
+  },
+  {
+    "fecha": "2026-03-19",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 23,
+    "monto_total_usd": 230.0
+  },
+  {
+    "fecha": "2026-03-19",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 0,
+    "total_multas": 14,
+    "monto_total_usd": 146.0
+  },
+  {
+    "fecha": "2026-03-20",
+    "zona": "Centro",
+    "multas_sin_pago": 21,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 3,
+    "total_multas": 44,
+    "monto_total_usd": 463.0
+  },
+  {
+    "fecha": "2026-03-20",
+    "zona": "Comercial",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 24,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 4,
+    "total_multas": 41,
+    "monto_total_usd": 402.0
+  },
+  {
+    "fecha": "2026-03-20",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 4,
+    "total_multas": 18,
+    "monto_total_usd": 182.0
+  },
+  {
+    "fecha": "2026-03-20",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 2,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 2,
+    "total_multas": 23,
+    "monto_total_usd": 256.0
+  },
+  {
+    "fecha": "2026-03-20",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 5,
+    "total_multas": 21,
+    "monto_total_usd": 229.0
+  },
+  {
+    "fecha": "2026-03-21",
+    "zona": "Centro",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 20,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 3,
+    "total_multas": 44,
+    "monto_total_usd": 455.0
+  },
+  {
+    "fecha": "2026-03-21",
+    "zona": "Comercial",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 35,
+    "monto_total_usd": 351.0
+  },
+  {
+    "fecha": "2026-03-21",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 3,
+    "total_multas": 24,
+    "monto_total_usd": 259.0
+  },
+  {
+    "fecha": "2026-03-21",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 0,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 11,
+    "monto_total_usd": 131.0
+  },
+  {
+    "fecha": "2026-03-21",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 1,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 3,
+    "total_multas": 16,
+    "monto_total_usd": 183.0
+  },
+  {
+    "fecha": "2026-03-22",
+    "zona": "Centro",
+    "multas_sin_pago": 21,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 2,
+    "total_multas": 44,
+    "monto_total_usd": 468.0
+  },
+  {
+    "fecha": "2026-03-22",
+    "zona": "Comercial",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 3,
+    "total_multas": 31,
+    "monto_total_usd": 303.0
+  },
+  {
+    "fecha": "2026-03-22",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 4,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 4,
+    "total_multas": 17,
+    "monto_total_usd": 184.0
+  },
+  {
+    "fecha": "2026-03-22",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 13,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 0,
+    "total_multas": 31,
+    "monto_total_usd": 324.0
+  },
+  {
+    "fecha": "2026-03-22",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 20,
+    "monto_total_usd": 223.0
+  },
+  {
+    "fecha": "2026-03-23",
+    "zona": "Centro",
+    "multas_sin_pago": 23,
+    "multas_exceso_tiempo": 21,
+    "multas_zona_prohibida": 6,
+    "multas_zona_reservada": 1,
+    "total_multas": 51,
+    "monto_total_usd": 533.0
+  },
+  {
+    "fecha": "2026-03-23",
+    "zona": "Comercial",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 27,
+    "monto_total_usd": 263.0
+  },
+  {
+    "fecha": "2026-03-23",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 16,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 6,
+    "total_multas": 34,
+    "monto_total_usd": 382.0
+  },
+  {
+    "fecha": "2026-03-23",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 1,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 18,
+    "monto_total_usd": 198.0
+  },
+  {
+    "fecha": "2026-03-23",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 9,
+    "monto_total_usd": 82.0
+  },
+  {
+    "fecha": "2026-03-24",
+    "zona": "Centro",
+    "multas_sin_pago": 16,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 1,
+    "total_multas": 35,
+    "monto_total_usd": 331.0
+  },
+  {
+    "fecha": "2026-03-24",
+    "zona": "Comercial",
+    "multas_sin_pago": 2,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 15,
+    "monto_total_usd": 131.0
+  },
+  {
+    "fecha": "2026-03-24",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 3,
+    "total_multas": 20,
+    "monto_total_usd": 197.0
+  },
+  {
+    "fecha": "2026-03-24",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 4,
+    "total_multas": 19,
+    "monto_total_usd": 216.0
+  },
+  {
+    "fecha": "2026-03-24",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 2,
+    "total_multas": 21,
+    "monto_total_usd": 236.0
+  },
+  {
+    "fecha": "2026-03-25",
+    "zona": "Centro",
+    "multas_sin_pago": 26,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 46,
+    "monto_total_usd": 451.0
+  },
+  {
+    "fecha": "2026-03-25",
+    "zona": "Comercial",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 30,
+    "monto_total_usd": 293.0
+  },
+  {
+    "fecha": "2026-03-25",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 15,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 7,
+    "total_multas": 32,
+    "monto_total_usd": 371.0
+  },
+  {
+    "fecha": "2026-03-25",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 19,
+    "monto_total_usd": 207.0
+  },
+  {
+    "fecha": "2026-03-25",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 3,
+    "total_multas": 19,
+    "monto_total_usd": 209.0
+  },
+  {
+    "fecha": "2026-03-26",
+    "zona": "Centro",
+    "multas_sin_pago": 26,
+    "multas_exceso_tiempo": 13,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 1,
+    "total_multas": 44,
+    "monto_total_usd": 459.0
+  },
+  {
+    "fecha": "2026-03-26",
+    "zona": "Comercial",
+    "multas_sin_pago": 3,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 19,
+    "monto_total_usd": 158.0
+  },
+  {
+    "fecha": "2026-03-26",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 5,
+    "total_multas": 17,
+    "monto_total_usd": 207.0
+  },
+  {
+    "fecha": "2026-03-26",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 18,
+    "monto_total_usd": 160.0
+  },
+  {
+    "fecha": "2026-03-26",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 20,
+    "monto_total_usd": 209.0
+  },
+  {
+    "fecha": "2026-03-27",
+    "zona": "Centro",
+    "multas_sin_pago": 21,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 39,
+    "monto_total_usd": 366.0
+  },
+  {
+    "fecha": "2026-03-27",
+    "zona": "Comercial",
+    "multas_sin_pago": 4,
+    "multas_exceso_tiempo": 13,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 21,
+    "monto_total_usd": 219.0
+  },
+  {
+    "fecha": "2026-03-27",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 4,
+    "total_multas": 31,
+    "monto_total_usd": 326.0
+  },
+  {
+    "fecha": "2026-03-27",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 3,
+    "total_multas": 16,
+    "monto_total_usd": 173.0
+  },
+  {
+    "fecha": "2026-03-27",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 1,
+    "total_multas": 19,
+    "monto_total_usd": 189.0
+  },
+  {
+    "fecha": "2026-03-28",
+    "zona": "Centro",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 13,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 2,
+    "total_multas": 30,
+    "monto_total_usd": 304.0
+  },
+  {
+    "fecha": "2026-03-28",
+    "zona": "Comercial",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 15,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 26,
+    "monto_total_usd": 230.0
+  },
+  {
+    "fecha": "2026-03-28",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 5,
+    "total_multas": 19,
+    "monto_total_usd": 215.0
+  },
+  {
+    "fecha": "2026-03-28",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 1,
+    "total_multas": 21,
+    "monto_total_usd": 239.0
+  },
+  {
+    "fecha": "2026-03-28",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 2,
+    "total_multas": 21,
+    "monto_total_usd": 248.0
+  },
+  {
+    "fecha": "2026-03-29",
+    "zona": "Centro",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 0,
+    "total_multas": 28,
+    "monto_total_usd": 306.0
+  },
+  {
+    "fecha": "2026-03-29",
+    "zona": "Comercial",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 19,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 5,
+    "total_multas": 37,
+    "monto_total_usd": 407.0
+  },
+  {
+    "fecha": "2026-03-29",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 5,
+    "total_multas": 29,
+    "monto_total_usd": 349.0
+  },
+  {
+    "fecha": "2026-03-29",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 0,
+    "total_multas": 20,
+    "monto_total_usd": 222.0
+  },
+  {
+    "fecha": "2026-03-29",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 15,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 3,
+    "total_multas": 25,
+    "monto_total_usd": 287.0
+  },
+  {
+    "fecha": "2026-03-30",
+    "zona": "Centro",
+    "multas_sin_pago": 18,
+    "multas_exceso_tiempo": 15,
+    "multas_zona_prohibida": 6,
+    "multas_zona_reservada": 1,
+    "total_multas": 40,
+    "monto_total_usd": 435.0
+  },
+  {
+    "fecha": "2026-03-30",
+    "zona": "Comercial",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 24,
+    "monto_total_usd": 236.0
+  },
+  {
+    "fecha": "2026-03-30",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 14,
+    "monto_total_usd": 152.0
+  },
+  {
+    "fecha": "2026-03-30",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 13,
+    "monto_total_usd": 118.0
+  },
+  {
+    "fecha": "2026-03-30",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 29,
+    "monto_total_usd": 292.0
+  },
+  {
+    "fecha": "2026-03-31",
+    "zona": "Centro",
+    "multas_sin_pago": 19,
+    "multas_exceso_tiempo": 20,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 39,
+    "monto_total_usd": 350.0
+  },
+  {
+    "fecha": "2026-03-31",
+    "zona": "Comercial",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 0,
+    "total_multas": 27,
+    "monto_total_usd": 258.0
+  },
+  {
+    "fecha": "2026-03-31",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 3,
+    "total_multas": 23,
+    "monto_total_usd": 253.0
+  },
+  {
+    "fecha": "2026-03-31",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 15,
+    "multas_exceso_tiempo": 2,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 2,
+    "total_multas": 22,
+    "monto_total_usd": 256.0
+  },
+  {
+    "fecha": "2026-03-31",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 20,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 2,
+    "total_multas": 27,
+    "monto_total_usd": 294.0
+  },
+  {
+    "fecha": "2026-04-01",
+    "zona": "Centro",
+    "multas_sin_pago": 24,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 0,
+    "total_multas": 46,
+    "monto_total_usd": 476.0
+  },
+  {
+    "fecha": "2026-04-01",
+    "zona": "Comercial",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 0,
+    "total_multas": 29,
+    "monto_total_usd": 274.0
+  },
+  {
+    "fecha": "2026-04-01",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 1,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 4,
+    "total_multas": 15,
+    "monto_total_usd": 168.0
+  },
+  {
+    "fecha": "2026-04-01",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 3,
+    "total_multas": 25,
+    "monto_total_usd": 267.0
+  },
+  {
+    "fecha": "2026-04-01",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 12,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 3,
+    "total_multas": 21,
+    "monto_total_usd": 237.0
+  },
+  {
+    "fecha": "2026-04-02",
+    "zona": "Centro",
+    "multas_sin_pago": 23,
+    "multas_exceso_tiempo": 19,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 44,
+    "monto_total_usd": 412.0
+  },
+  {
+    "fecha": "2026-04-02",
+    "zona": "Comercial",
+    "multas_sin_pago": 3,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 23,
+    "monto_total_usd": 204.0
+  },
+  {
+    "fecha": "2026-04-02",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 2,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 4,
+    "total_multas": 13,
+    "monto_total_usd": 166.0
+  },
+  {
+    "fecha": "2026-04-02",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 1,
+    "total_multas": 22,
+    "monto_total_usd": 217.0
+  },
+  {
+    "fecha": "2026-04-02",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 6,
+    "multas_zona_reservada": 0,
+    "total_multas": 17,
+    "monto_total_usd": 222.0
+  },
+  {
+    "fecha": "2026-04-03",
+    "zona": "Centro",
+    "multas_sin_pago": 19,
+    "multas_exceso_tiempo": 14,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 0,
+    "total_multas": 35,
+    "monto_total_usd": 342.0
+  },
+  {
+    "fecha": "2026-04-03",
+    "zona": "Comercial",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 3,
+    "total_multas": 35,
+    "monto_total_usd": 339.0
+  },
+  {
+    "fecha": "2026-04-03",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 6,
+    "total_multas": 26,
+    "monto_total_usd": 314.0
+  },
+  {
+    "fecha": "2026-04-03",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 1,
+    "total_multas": 18,
+    "monto_total_usd": 183.0
+  },
+  {
+    "fecha": "2026-04-03",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 3,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 1,
+    "total_multas": 17,
+    "monto_total_usd": 209.0
+  },
+  {
+    "fecha": "2026-04-04",
+    "zona": "Centro",
+    "multas_sin_pago": 22,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 1,
+    "total_multas": 39,
+    "monto_total_usd": 411.0
+  },
+  {
+    "fecha": "2026-04-04",
+    "zona": "Comercial",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 2,
+    "total_multas": 37,
+    "monto_total_usd": 374.0
+  },
+  {
+    "fecha": "2026-04-04",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 2,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 5,
+    "total_multas": 16,
+    "monto_total_usd": 191.0
+  },
+  {
+    "fecha": "2026-04-04",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 24,
+    "monto_total_usd": 227.0
+  },
+  {
+    "fecha": "2026-04-04",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 1,
+    "total_multas": 16,
+    "monto_total_usd": 199.0
+  },
+  {
+    "fecha": "2026-04-05",
+    "zona": "Centro",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 2,
+    "total_multas": 30,
+    "monto_total_usd": 330.0
+  },
+  {
+    "fecha": "2026-04-05",
+    "zona": "Comercial",
+    "multas_sin_pago": 4,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 0,
+    "total_multas": 17,
+    "monto_total_usd": 180.0
+  },
+  {
+    "fecha": "2026-04-05",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 6,
+    "total_multas": 22,
+    "monto_total_usd": 268.0
+  },
+  {
+    "fecha": "2026-04-05",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 2,
+    "total_multas": 19,
+    "monto_total_usd": 224.0
+  },
+  {
+    "fecha": "2026-04-05",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 11,
+    "monto_total_usd": 112.0
+  },
+  {
+    "fecha": "2026-04-06",
+    "zona": "Centro",
+    "multas_sin_pago": 21,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 3,
+    "total_multas": 46,
+    "monto_total_usd": 479.0
+  },
+  {
+    "fecha": "2026-04-06",
+    "zona": "Comercial",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 4,
+    "total_multas": 32,
+    "monto_total_usd": 304.0
+  },
+  {
+    "fecha": "2026-04-06",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 3,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 5,
+    "total_multas": 19,
+    "monto_total_usd": 205.0
+  },
+  {
+    "fecha": "2026-04-06",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 16,
+    "multas_exceso_tiempo": 1,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 17,
+    "monto_total_usd": 168.0
+  },
+  {
+    "fecha": "2026-04-06",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 1,
+    "total_multas": 19,
+    "monto_total_usd": 213.0
+  },
+  {
+    "fecha": "2026-04-07",
+    "zona": "Centro",
+    "multas_sin_pago": 19,
+    "multas_exceso_tiempo": 16,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 0,
+    "total_multas": 37,
+    "monto_total_usd": 358.0
+  },
+  {
+    "fecha": "2026-04-07",
+    "zona": "Comercial",
+    "multas_sin_pago": 15,
+    "multas_exceso_tiempo": 21,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 37,
+    "monto_total_usd": 338.0
+  },
+  {
+    "fecha": "2026-04-07",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 0,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 6,
+    "total_multas": 17,
+    "monto_total_usd": 210.0
+  },
+  {
+    "fecha": "2026-04-07",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 2,
+    "total_multas": 15,
+    "monto_total_usd": 174.0
+  },
+  {
+    "fecha": "2026-04-07",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 3,
+    "total_multas": 18,
+    "monto_total_usd": 203.0
+  },
+  {
+    "fecha": "2026-04-08",
+    "zona": "Centro",
+    "multas_sin_pago": 26,
+    "multas_exceso_tiempo": 19,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 2,
+    "total_multas": 52,
+    "monto_total_usd": 542.0
+  },
+  {
+    "fecha": "2026-04-08",
+    "zona": "Comercial",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 13,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 4,
+    "total_multas": 29,
+    "monto_total_usd": 304.0
+  },
+  {
+    "fecha": "2026-04-08",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 19,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 6,
+    "total_multas": 38,
+    "monto_total_usd": 432.0
+  },
+  {
+    "fecha": "2026-04-08",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 2,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 1,
+    "total_multas": 13,
+    "monto_total_usd": 171.0
+  },
+  {
+    "fecha": "2026-04-08",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 0,
+    "total_multas": 12,
+    "monto_total_usd": 106.0
+  },
+  {
+    "fecha": "2026-04-09",
+    "zona": "Centro",
+    "multas_sin_pago": 20,
+    "multas_exceso_tiempo": 19,
+    "multas_zona_prohibida": 6,
+    "multas_zona_reservada": 0,
+    "total_multas": 45,
+    "monto_total_usd": 472.0
+  },
+  {
+    "fecha": "2026-04-09",
+    "zona": "Comercial",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 15,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 23,
+    "monto_total_usd": 210.0
+  },
+  {
+    "fecha": "2026-04-09",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 0,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 6,
+    "total_multas": 12,
+    "monto_total_usd": 160.0
+  },
+  {
+    "fecha": "2026-04-09",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 2,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 3,
+    "total_multas": 17,
+    "monto_total_usd": 201.0
+  },
+  {
+    "fecha": "2026-04-09",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 25,
+    "monto_total_usd": 246.0
+  },
+  {
+    "fecha": "2026-04-10",
+    "zona": "Centro",
+    "multas_sin_pago": 21,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 1,
+    "total_multas": 44,
+    "monto_total_usd": 449.0
+  },
+  {
+    "fecha": "2026-04-10",
+    "zona": "Comercial",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 15,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 0,
+    "total_multas": 26,
+    "monto_total_usd": 250.0
+  },
+  {
+    "fecha": "2026-04-10",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 3,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 5,
+    "total_multas": 22,
+    "monto_total_usd": 241.0
+  },
+  {
+    "fecha": "2026-04-10",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 7,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 0,
+    "total_multas": 18,
+    "monto_total_usd": 194.0
+  },
+  {
+    "fecha": "2026-04-10",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 20,
+    "monto_total_usd": 208.0
+  },
+  {
+    "fecha": "2026-04-11",
+    "zona": "Centro",
+    "multas_sin_pago": 20,
+    "multas_exceso_tiempo": 18,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 4,
+    "total_multas": 44,
+    "monto_total_usd": 444.0
+  },
+  {
+    "fecha": "2026-04-11",
+    "zona": "Comercial",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 13,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 30,
+    "monto_total_usd": 294.0
+  },
+  {
+    "fecha": "2026-04-11",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 8,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 4,
+    "total_multas": 20,
+    "monto_total_usd": 216.0
+  },
+  {
+    "fecha": "2026-04-11",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 15,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 22,
+    "monto_total_usd": 218.0
+  },
+  {
+    "fecha": "2026-04-11",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 3,
+    "total_multas": 18,
+    "monto_total_usd": 183.0
+  },
+  {
+    "fecha": "2026-04-12",
+    "zona": "Centro",
+    "multas_sin_pago": 15,
+    "multas_exceso_tiempo": 11,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 2,
+    "total_multas": 32,
+    "monto_total_usd": 348.0
+  },
+  {
+    "fecha": "2026-04-12",
+    "zona": "Comercial",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 14,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 25,
+    "monto_total_usd": 232.0
+  },
+  {
+    "fecha": "2026-04-12",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 16,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 4,
+    "total_multas": 29,
+    "monto_total_usd": 292.0
+  },
+  {
+    "fecha": "2026-04-12",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 16,
+    "multas_exceso_tiempo": 13,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 3,
+    "total_multas": 33,
+    "monto_total_usd": 329.0
+  },
+  {
+    "fecha": "2026-04-12",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 3,
+    "total_multas": 23,
+    "monto_total_usd": 269.0
+  },
+  {
+    "fecha": "2026-04-13",
+    "zona": "Centro",
+    "multas_sin_pago": 20,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 5,
+    "multas_zona_reservada": 0,
+    "total_multas": 42,
+    "monto_total_usd": 436.0
+  },
+  {
+    "fecha": "2026-04-13",
+    "zona": "Comercial",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 29,
+    "monto_total_usd": 261.0
+  },
+  {
+    "fecha": "2026-04-13",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 6,
+    "total_multas": 28,
+    "monto_total_usd": 300.0
+  },
+  {
+    "fecha": "2026-04-13",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 13,
+    "monto_total_usd": 123.0
+  },
+  {
+    "fecha": "2026-04-13",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 13,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 3,
+    "total_multas": 26,
+    "monto_total_usd": 267.0
+  },
+  {
+    "fecha": "2026-04-14",
+    "zona": "Centro",
+    "multas_sin_pago": 25,
+    "multas_exceso_tiempo": 20,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 2,
+    "total_multas": 50,
+    "monto_total_usd": 500.0
+  },
+  {
+    "fecha": "2026-04-14",
+    "zona": "Comercial",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 12,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 25,
+    "monto_total_usd": 251.0
+  },
+  {
+    "fecha": "2026-04-14",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 15,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 5,
+    "total_multas": 27,
+    "monto_total_usd": 293.0
+  },
+  {
+    "fecha": "2026-04-14",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 15,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 3,
+    "total_multas": 27,
+    "monto_total_usd": 267.0
+  },
+  {
+    "fecha": "2026-04-14",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 1,
+    "total_multas": 14,
+    "monto_total_usd": 149.0
+  },
+  {
+    "fecha": "2026-04-15",
+    "zona": "Centro",
+    "multas_sin_pago": 24,
+    "multas_exceso_tiempo": 15,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 42,
+    "monto_total_usd": 410.0
+  },
+  {
+    "fecha": "2026-04-15",
+    "zona": "Comercial",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 14,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 0,
+    "total_multas": 29,
+    "monto_total_usd": 272.0
+  },
+  {
+    "fecha": "2026-04-15",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 4,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 4,
+    "total_multas": 21,
+    "monto_total_usd": 242.0
+  },
+  {
+    "fecha": "2026-04-15",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 0,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 1,
+    "total_multas": 13,
+    "monto_total_usd": 155.0
+  },
+  {
+    "fecha": "2026-04-15",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 3,
+    "total_multas": 20,
+    "monto_total_usd": 213.0
+  },
+  {
+    "fecha": "2026-04-16",
+    "zona": "Centro",
+    "multas_sin_pago": 20,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 4,
+    "total_multas": 43,
+    "monto_total_usd": 436.0
+  },
+  {
+    "fecha": "2026-04-16",
+    "zona": "Comercial",
+    "multas_sin_pago": 6,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 2,
+    "total_multas": 27,
+    "monto_total_usd": 266.0
+  },
+  {
+    "fecha": "2026-04-16",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 3,
+    "total_multas": 22,
+    "monto_total_usd": 251.0
+  },
+  {
+    "fecha": "2026-04-16",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 4,
+    "total_multas": 19,
+    "monto_total_usd": 210.0
+  },
+  {
+    "fecha": "2026-04-16",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 3,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 1,
+    "total_multas": 15,
+    "monto_total_usd": 149.0
+  },
+  {
+    "fecha": "2026-04-17",
+    "zona": "Centro",
+    "multas_sin_pago": 20,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 2,
+    "multas_zona_reservada": 2,
+    "total_multas": 41,
+    "monto_total_usd": 406.0
+  },
+  {
+    "fecha": "2026-04-17",
+    "zona": "Comercial",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 20,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 1,
+    "total_multas": 30,
+    "monto_total_usd": 305.0
+  },
+  {
+    "fecha": "2026-04-17",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 2,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 4,
+    "total_multas": 11,
+    "monto_total_usd": 126.0
+  },
+  {
+    "fecha": "2026-04-17",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 17,
+    "multas_exceso_tiempo": 5,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 1,
+    "total_multas": 24,
+    "monto_total_usd": 245.0
+  },
+  {
+    "fecha": "2026-04-17",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 15,
+    "monto_total_usd": 156.0
+  },
+  {
+    "fecha": "2026-04-18",
+    "zona": "Centro",
+    "multas_sin_pago": 29,
+    "multas_exceso_tiempo": 14,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 3,
+    "total_multas": 49,
+    "monto_total_usd": 507.0
+  },
+  {
+    "fecha": "2026-04-18",
+    "zona": "Comercial",
+    "multas_sin_pago": 9,
+    "multas_exceso_tiempo": 17,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 1,
+    "total_multas": 28,
+    "monto_total_usd": 261.0
+  },
+  {
+    "fecha": "2026-04-18",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 7,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 7,
+    "total_multas": 28,
+    "monto_total_usd": 341.0
+  },
+  {
+    "fecha": "2026-04-18",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 14,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 5,
+    "total_multas": 28,
+    "monto_total_usd": 323.0
+  },
+  {
+    "fecha": "2026-04-18",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 4,
+    "multas_exceso_tiempo": 10,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 16,
+    "monto_total_usd": 150.0
+  },
+  {
+    "fecha": "2026-04-19",
+    "zona": "Centro",
+    "multas_sin_pago": 21,
+    "multas_exceso_tiempo": 19,
+    "multas_zona_prohibida": 4,
+    "multas_zona_reservada": 0,
+    "total_multas": 44,
+    "monto_total_usd": 442.0
+  },
+  {
+    "fecha": "2026-04-19",
+    "zona": "Comercial",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 13,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 25,
+    "monto_total_usd": 234.0
+  },
+  {
+    "fecha": "2026-04-19",
+    "zona": "Hospitalaria",
+    "multas_sin_pago": 10,
+    "multas_exceso_tiempo": 6,
+    "multas_zona_prohibida": 0,
+    "multas_zona_reservada": 2,
+    "total_multas": 18,
+    "monto_total_usd": 178.0
+  },
+  {
+    "fecha": "2026-04-19",
+    "zona": "Residencial Norte",
+    "multas_sin_pago": 5,
+    "multas_exceso_tiempo": 8,
+    "multas_zona_prohibida": 3,
+    "multas_zona_reservada": 3,
+    "total_multas": 19,
+    "monto_total_usd": 219.0
+  },
+  {
+    "fecha": "2026-04-19",
+    "zona": "Residencial Sur",
+    "multas_sin_pago": 11,
+    "multas_exceso_tiempo": 9,
+    "multas_zona_prohibida": 1,
+    "multas_zona_reservada": 2,
+    "total_multas": 23,
+    "monto_total_usd": 232.0
+  }
+]

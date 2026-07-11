@@ -136,13 +136,21 @@ function AdminSpacesPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-[20px] font-semibold text-primary">Espacios</h1>
-            <p className="text-[12px] text-muted-foreground">Administración de espacios físicos de parqueo.</p>
+            <p className="text-[12px] text-muted-foreground">
+              Administración de espacios físicos de parqueo.
+            </p>
           </div>
           <div className="flex gap-2">
-            <button onClick={openCreate} className="h-8 px-3 rounded-md bg-primary text-primary-foreground text-[12px] hover:bg-primary/90">
+            <button
+              onClick={openCreate}
+              className="h-8 px-3 rounded-md bg-primary text-primary-foreground text-[12px] hover:bg-primary/90"
+            >
               Nuevo Espacio
             </button>
-            <Link to="/admin" className="h-8 px-3 rounded-md border border-border text-[12px] inline-flex items-center hover:bg-secondary">
+            <Link
+              to="/admin"
+              className="h-8 px-3 rounded-md border border-border text-[12px] inline-flex items-center hover:bg-secondary"
+            >
               Volver
             </Link>
           </div>
@@ -151,20 +159,38 @@ function AdminSpacesPage() {
         <Panel title="Filtros">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-2 text-[12px]">
             <Input label="Buscar" value={q} onChange={setQ} />
-            <Select label="Zona" value={zoneFilter} onChange={setZoneFilter} options={[{ v: "all", l: "Todas las zonas" }, ...zones.map((z) => ({ v: z.id, l: z.name }))]} />
-            <Select label="Estado" value={statusFilter} onChange={setStatusFilter} options={[
-              { v: "all", l: "Todos los estados" },
-              { v: "available", l: "Disponible" },
-              { v: "occupied", l: "Ocupado" },
-              { v: "reserved", l: "Reservado" },
-              { v: "out_of_service", l: "Fuera de servicio" },
-            ]} />
-            <Select label="Tipo" value={typeFilter} onChange={setTypeFilter} options={[
-              { v: "all", l: "Todos los tipos" },
-              { v: "vehicle", l: "Vehículo" },
-              { v: "motorcycle", l: "Moto" },
-              { v: "disabled", l: "Discapacidad" },
-            ]} />
+            <Select
+              label="Zona"
+              value={zoneFilter}
+              onChange={setZoneFilter}
+              options={[
+                { v: "all", l: "Todas las zonas" },
+                ...zones.map((z) => ({ v: z.id, l: z.name })),
+              ]}
+            />
+            <Select
+              label="Estado"
+              value={statusFilter}
+              onChange={setStatusFilter}
+              options={[
+                { v: "all", l: "Todos los estados" },
+                { v: "available", l: "Disponible" },
+                { v: "occupied", l: "Ocupado" },
+                { v: "reserved", l: "Reservado" },
+                { v: "out_of_service", l: "Fuera de servicio" },
+              ]}
+            />
+            <Select
+              label="Tipo"
+              value={typeFilter}
+              onChange={setTypeFilter}
+              options={[
+                { v: "all", l: "Todos los tipos" },
+                { v: "vehicle", l: "Vehículo" },
+                { v: "motorcycle", l: "Moto" },
+                { v: "disabled", l: "Discapacidad" },
+              ]}
+            />
             <div className="flex items-end text-[12px] text-muted-foreground">
               {filteredSpaces.length} de {spaces.length} espacios
             </div>
@@ -174,26 +200,67 @@ function AdminSpacesPage() {
         {showForm && (
           <Panel title={editing ? "Editar espacio" : "Nuevo espacio"}>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-2 text-[12px]">
-              <Select label="Zona" value={form.zoneId} onChange={(v) => setForm({ ...form, zoneId: v })} options={zones.map(z => ({ v: z.id, l: z.name }))} />
-              <Input label="Código" value={form.code} onChange={(v) => setForm({ ...form, code: v })} />
-              <Input label="Etiqueta" value={form.label} onChange={(v) => setForm({ ...form, label: v })} />
-              <Select label="Tipo" value={form.type} onChange={(v) => setForm({ ...form, type: v })} options={[
-                { v: "vehicle", l: "Vehículo" },
-                { v: "motorcycle", l: "Moto" },
-                { v: "disabled", l: "Discapacidad" },
-              ]} />
-              <Select label="Estado" value={form.status} onChange={(v) => setForm({ ...form, status: v })} options={[
-                { v: "available", l: "Disponible" },
-                { v: "occupied", l: "Ocupado" },
-                { v: "reserved", l: "Reservado" },
-                { v: "out_of_service", l: "Fuera de servicio" },
-              ]} />
-              <Input label="Latitud" value={form.latitude} onChange={(v) => setForm({ ...form, latitude: v })} />
-              <Input label="Longitud" value={form.longitude} onChange={(v) => setForm({ ...form, longitude: v })} />
+              <Select
+                label="Zona"
+                value={form.zoneId}
+                onChange={(v) => setForm({ ...form, zoneId: v })}
+                options={zones.map((z) => ({ v: z.id, l: z.name }))}
+              />
+              <Input
+                label="Código"
+                value={form.code}
+                onChange={(v) => setForm({ ...form, code: v })}
+              />
+              <Input
+                label="Etiqueta"
+                value={form.label}
+                onChange={(v) => setForm({ ...form, label: v })}
+              />
+              <Select
+                label="Tipo"
+                value={form.type}
+                onChange={(v) => setForm({ ...form, type: v })}
+                options={[
+                  { v: "vehicle", l: "Vehículo" },
+                  { v: "motorcycle", l: "Moto" },
+                  { v: "disabled", l: "Discapacidad" },
+                ]}
+              />
+              <Select
+                label="Estado"
+                value={form.status}
+                onChange={(v) => setForm({ ...form, status: v })}
+                options={[
+                  { v: "available", l: "Disponible" },
+                  { v: "occupied", l: "Ocupado" },
+                  { v: "reserved", l: "Reservado" },
+                  { v: "out_of_service", l: "Fuera de servicio" },
+                ]}
+              />
+              <Input
+                label="Latitud"
+                value={form.latitude}
+                onChange={(v) => setForm({ ...form, latitude: v })}
+              />
+              <Input
+                label="Longitud"
+                value={form.longitude}
+                onChange={(v) => setForm({ ...form, longitude: v })}
+              />
             </div>
             <div className="mt-3 flex justify-end gap-2">
-              <button onClick={() => setShowForm(false)} className="h-8 px-3 rounded-md border border-border text-[12px] hover:bg-secondary">Cancelar</button>
-              <button onClick={save} className="h-8 px-3 rounded-md bg-primary text-primary-foreground text-[12px] hover:bg-primary/90">Guardar</button>
+              <button
+                onClick={() => setShowForm(false)}
+                className="h-8 px-3 rounded-md border border-border text-[12px] hover:bg-secondary"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={save}
+                className="h-8 px-3 rounded-md bg-primary text-primary-foreground text-[12px] hover:bg-primary/90"
+              >
+                Guardar
+              </button>
             </div>
           </Panel>
         )}
@@ -202,7 +269,12 @@ function AdminSpacesPage() {
           <table className="w-full text-[12px]">
             <thead className="bg-surface-2 text-[10px] uppercase tracking-wider text-muted-foreground">
               <tr>
-                <Th>Código</Th><Th>Etiqueta</Th><Th>Zona</Th><Th>Tipo</Th><Th>Estado</Th><Th>Acciones</Th>
+                <Th>Código</Th>
+                <Th>Etiqueta</Th>
+                <Th>Zona</Th>
+                <Th>Tipo</Th>
+                <Th>Estado</Th>
+                <Th>Acciones</Th>
               </tr>
             </thead>
             <tbody>
@@ -212,11 +284,21 @@ function AdminSpacesPage() {
                   <td className="px-3 py-2 font-medium">{s.label ?? "—"}</td>
                   <td className="px-3 py-2">{s.zone?.name ?? s.zoneId}</td>
                   <td className="px-3 py-2">{s.type}</td>
-                  <td className="px-3 py-2"><StatusPill status={statusEs(s.status)} /></td>
+                  <td className="px-3 py-2">
+                    <StatusPill status={statusEs(s.status)} />
+                  </td>
                   <td className="px-3 py-2">
                     <div className="flex gap-2">
-                      <button onClick={() => openEdit(s)} className="h-7 px-2 rounded border border-border hover:bg-secondary">Editar</button>
-                      <button onClick={() => toggleStatus(s)} className="h-7 px-2 rounded border border-border hover:bg-secondary">
+                      <button
+                        onClick={() => openEdit(s)}
+                        className="h-7 px-2 rounded border border-border hover:bg-secondary"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        onClick={() => toggleStatus(s)}
+                        className="h-7 px-2 rounded border border-border hover:bg-secondary"
+                      >
                         {s.status === "available" ? "Deshabilitar" : "Habilitar"}
                       </button>
                     </div>
@@ -245,21 +327,51 @@ function Th({ children }: { children: React.ReactNode }) {
   return <th className="text-left font-medium px-3 py-2">{children}</th>;
 }
 
-function Input({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+function Input({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
   return (
     <label className="block">
       <span className="text-[11px] text-muted-foreground">{label}</span>
-      <input value={value} onChange={(e) => onChange(e.target.value)} className="mt-1 h-8 w-full rounded-md border border-border bg-card px-2 text-[12px]" />
+      <input
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="mt-1 h-8 w-full rounded-md border border-border bg-card px-2 text-[12px]"
+      />
     </label>
   );
 }
 
-function Select({ label, value, onChange, options }: { label: string; value: string; onChange: (v: string) => void; options: { v: string; l: string }[] }) {
+function Select({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  options: { v: string; l: string }[];
+}) {
   return (
     <label className="block">
       <span className="text-[11px] text-muted-foreground">{label}</span>
-      <select value={value} onChange={(e) => onChange(e.target.value)} className="mt-1 h-8 w-full rounded-md border border-border bg-card px-2 text-[12px]">
-        {options.map((o) => <option key={o.v} value={o.v}>{o.l}</option>)}
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="mt-1 h-8 w-full rounded-md border border-border bg-card px-2 text-[12px]"
+      >
+        {options.map((o) => (
+          <option key={o.v} value={o.v}>
+            {o.l}
+          </option>
+        ))}
       </select>
     </label>
   );

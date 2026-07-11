@@ -55,7 +55,7 @@ The platform should evolve progressively without requiring complete rewrites.
 
 The target platform will be composed of several operational layers.
 
-```text
+````text
 Smart City Platform
 │
 ├── Web Admin Platform
@@ -1100,3 +1100,4 @@ The architecture must prioritize:
 - AI readiness
 
 Technology choices should support long-term product evolution rather than short-term implementation convenience.
+````

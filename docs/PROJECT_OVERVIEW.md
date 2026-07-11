@@ -10,13 +10,13 @@ The platform is intended to evolve into an AI-first operational ecosystem capabl
 
 # Business Objectives
 
-* Centralize parking operations.
-* Monitor occupancy in real time.
-* Improve enforcement efficiency.
-* Monitor payments and violations.
-* Analyze operational performance.
-* Enable data-driven decision making.
-* Integrate future AI analytics and automation.
+- Centralize parking operations.
+- Monitor occupancy in real time.
+- Improve enforcement efficiency.
+- Monitor payments and violations.
+- Analyze operational performance.
+- Enable data-driven decision making.
+- Integrate future AI analytics and automation.
 
 ---
 
@@ -60,10 +60,10 @@ System configuration and platform settings.
 
 The current application is:
 
-* frontend-only,
-* powered by React + Vite,
-* using mock JSON datasets,
-* optimized for rapid prototyping.
+- frontend-only,
+- powered by React + Vite,
+- using mock JSON datasets,
+- optimized for rapid prototyping.
 
 No backend APIs or database integrations currently exist.
 
@@ -73,14 +73,14 @@ No backend APIs or database integrations currently exist.
 
 The platform will progressively evolve into:
 
-* Enterprise modular architecture
-* Backend API services
-* PostgreSQL centralized database
-* Dockerized services
-* n8n automation workflows
-* AI-powered analytics
-* Scalable cloud deployment
-* Secure enterprise infrastructure
+- Enterprise modular architecture
+- Backend API services
+- PostgreSQL centralized database
+- Dockerized services
+- n8n automation workflows
+- AI-powered analytics
+- Scalable cloud deployment
+- Secure enterprise infrastructure
 
 ---
 
@@ -96,23 +96,23 @@ Future architecture will migrate operational datasets from Excel sources into Po
 
 Development will leverage AI-assisted engineering using:
 
-* Claude
-* Context Engineering
-* Structured prompting
-* Progressive refactoring
-* AI-assisted architecture design
-* Rapid prototyping workflows
+- Claude
+- Context Engineering
+- Structured prompting
+- Progressive refactoring
+- AI-assisted architecture design
+- Rapid prototyping workflows
 
 ---
 
 # Development Philosophy
 
-* Build fast
-* Refactor progressively
-* Maintain production-quality standards
-* Avoid unnecessary complexity
-* Prioritize modularity and scalability
-* Separate infrastructure, application, and data concerns
+- Build fast
+- Refactor progressively
+- Maintain production-quality standards
+- Avoid unnecessary complexity
+- Prioritize modularity and scalability
+- Separate infrastructure, application, and data concerns
 
 ---
 
@@ -120,12 +120,12 @@ Development will leverage AI-assisted engineering using:
 
 The platform currently runs on:
 
-* Ubuntu Cloud Server
-* Docker
-* PostgreSQL container
-* n8n container
-* GitHub source control
-* VS Code Remote SSH development
+- Ubuntu Cloud Server
+- Docker
+- PostgreSQL container
+- n8n container
+- GitHub source control
+- VS Code Remote SSH development
 
 ---
 
@@ -133,9 +133,9 @@ The platform currently runs on:
 
 Transform Smart City Park into a scalable AI-powered smart city operations platform capable of integrating:
 
-* IoT devices
-* License plate recognition
-* AI operational insights
-* Predictive analytics
-* Automated enforcement workflows
-* Multi-tenant city operations
+- IoT devices
+- License plate recognition
+- AI operational insights
+- Predictive analytics
+- Automated enforcement workflows
+- Multi-tenant city operations

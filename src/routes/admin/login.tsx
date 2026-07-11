@@ -60,7 +60,11 @@ function AdminLoginPage() {
             Correo
             <div className="mt-1 flex items-center gap-2 border border-border rounded-md bg-surface px-3 h-10">
               <Mail className="h-4 w-4 text-muted-foreground" />
-              <input value={email} onChange={(e) => setEmail(e.target.value)} className="bg-transparent outline-none flex-1 text-[13px]" />
+              <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="bg-transparent outline-none flex-1 text-[13px]"
+              />
             </div>
           </label>
 
@@ -68,13 +72,21 @@ function AdminLoginPage() {
             Contraseña
             <div className="mt-1 flex items-center gap-2 border border-border rounded-md bg-surface px-3 h-10">
               <Lock className="h-4 w-4 text-muted-foreground" />
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="bg-transparent outline-none flex-1 text-[13px]" />
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="bg-transparent outline-none flex-1 text-[13px]"
+              />
             </div>
           </label>
 
           {error && <div className="text-[12px] text-destructive">{error}</div>}
 
-          <button disabled={loading} className="w-full h-10 rounded-md bg-primary text-primary-foreground text-[13px] font-medium hover:bg-primary/90 disabled:opacity-60">
+          <button
+            disabled={loading}
+            className="w-full h-10 rounded-md bg-primary text-primary-foreground text-[13px] font-medium hover:bg-primary/90 disabled:opacity-60"
+          >
             {loading ? "Ingresando..." : "Ingresar"}
           </button>
         </form>

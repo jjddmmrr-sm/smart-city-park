@@ -112,7 +112,9 @@ export class RolesService {
   }
 
   async updatePermission(id: string, dto: UpdatePermissionDto) {
-    const permission = await this.prisma.permission.findUnique({ where: { id } });
+    const permission = await this.prisma.permission.findUnique({
+      where: { id },
+    });
 
     if (!permission) {
       throw new NotFoundException('Permission not found');

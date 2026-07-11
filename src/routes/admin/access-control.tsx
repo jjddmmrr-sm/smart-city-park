@@ -80,18 +80,24 @@ function AccessControlPage() {
       .catch((error) => console.error("Error loading user zones", error));
   }, [selectedUserId]);
 
-  const selectedRole = useMemo(() => roles.find((r) => r.id === selectedRoleId), [roles, selectedRoleId]);
-  const selectedUser = useMemo(() => users.find((u) => u.id === selectedUserId), [users, selectedUserId]);
+  const selectedRole = useMemo(
+    () => roles.find((r) => r.id === selectedRoleId),
+    [roles, selectedRoleId],
+  );
+  const selectedUser = useMemo(
+    () => users.find((u) => u.id === selectedUserId),
+    [users, selectedUserId],
+  );
 
   const togglePermission = (code: string) => {
     setSelectedPermissionCodes((current) =>
-      current.includes(code) ? current.filter((x) => x !== code) : [...current, code]
+      current.includes(code) ? current.filter((x) => x !== code) : [...current, code],
     );
   };
 
   const toggleZone = (id: string) => {
     setSelectedZoneIds((current) =>
-      current.includes(id) ? current.filter((x) => x !== id) : [...current, id]
+      current.includes(id) ? current.filter((x) => x !== id) : [...current, id],
     );
   };
 
@@ -110,7 +116,11 @@ function AccessControlPage() {
   };
 
   if (checkingAccess) {
-    return <div className="h-full grid place-items-center bg-surface text-[13px] text-muted-foreground">Validando acceso...</div>;
+    return (
+      <div className="h-full grid place-items-center bg-surface text-[13px] text-muted-foreground">
+        Validando acceso...
+      </div>
+    );
   }
 
   if (!hasPermission(me, "MANAGE_ROLES")) {
@@ -127,7 +137,10 @@ function AccessControlPage() {
               Configuración de permisos por rol y zonas permitidas por usuario.
             </p>
           </div>
-          <Link to="/admin" className="h-8 px-3 rounded-md border border-border text-[12px] inline-flex items-center hover:bg-secondary">
+          <Link
+            to="/admin"
+            className="h-8 px-3 rounded-md border border-border text-[12px] inline-flex items-center hover:bg-secondary"
+          >
             Volver
           </Link>
         </div>
@@ -137,18 +150,30 @@ function AccessControlPage() {
             <div className="space-y-3 text-[12px]">
               <label className="block">
                 <span className="text-[11px] text-muted-foreground">Rol</span>
-                <select value={selectedRoleId} onChange={(e) => setSelectedRoleId(e.target.value)} className="mt-1 h-8 w-full rounded-md border border-border bg-card px-2 text-[12px]">
-                  {roles.map((r) => <option key={r.id} value={r.id}>{r.name} · {r.code}</option>)}
+                <select
+                  value={selectedRoleId}
+                  onChange={(e) => setSelectedRoleId(e.target.value)}
+                  className="mt-1 h-8 w-full rounded-md border border-border bg-card px-2 text-[12px]"
+                >
+                  {roles.map((r) => (
+                    <option key={r.id} value={r.id}>
+                      {r.name} · {r.code}
+                    </option>
+                  ))}
                 </select>
               </label>
 
               <div className="text-[12px] text-muted-foreground">
-                Rol seleccionado: <span className="font-medium text-foreground">{selectedRole?.code ?? "N/A"}</span>
+                Rol seleccionado:{" "}
+                <span className="font-medium text-foreground">{selectedRole?.code ?? "N/A"}</span>
               </div>
 
               <div className="max-h-[480px] overflow-auto border border-border rounded-md">
                 {permissions.map((p) => (
-                  <label key={p.id} className="flex items-start gap-2 px-3 py-2 border-b border-border last:border-b-0 hover:bg-surface-2 cursor-pointer">
+                  <label
+                    key={p.id}
+                    className="flex items-start gap-2 px-3 py-2 border-b border-border last:border-b-0 hover:bg-surface-2 cursor-pointer"
+                  >
                     <input
                       type="checkbox"
                       checked={selectedPermissionCodes.includes(p.code)}
@@ -158,15 +183,22 @@ function AccessControlPage() {
                     <div>
                       <div className="font-mono text-[11px] font-medium">{p.code}</div>
                       <div className="text-[12px]">{p.name}</div>
-                      {p.description && <div className="text-[11px] text-muted-foreground">{p.description}</div>}
+                      {p.description && (
+                        <div className="text-[11px] text-muted-foreground">{p.description}</div>
+                      )}
                     </div>
                   </label>
                 ))}
               </div>
 
               <div className="flex justify-between items-center">
-                <span className="text-[12px] text-muted-foreground">{selectedPermissionCodes.length} permisos seleccionados</span>
-                <button onClick={saveRolePermissions} className="h-8 px-3 rounded-md bg-primary text-primary-foreground text-[12px] hover:bg-primary/90">
+                <span className="text-[12px] text-muted-foreground">
+                  {selectedPermissionCodes.length} permisos seleccionados
+                </span>
+                <button
+                  onClick={saveRolePermissions}
+                  className="h-8 px-3 rounded-md bg-primary text-primary-foreground text-[12px] hover:bg-primary/90"
+                >
                   Guardar permisos
                 </button>
               </div>
@@ -177,18 +209,30 @@ function AccessControlPage() {
             <div className="space-y-3 text-[12px]">
               <label className="block">
                 <span className="text-[11px] text-muted-foreground">Usuario</span>
-                <select value={selectedUserId} onChange={(e) => setSelectedUserId(e.target.value)} className="mt-1 h-8 w-full rounded-md border border-border bg-card px-2 text-[12px]">
-                  {users.map((u) => <option key={u.id} value={u.id}>{u.name} · {u.email}</option>)}
+                <select
+                  value={selectedUserId}
+                  onChange={(e) => setSelectedUserId(e.target.value)}
+                  className="mt-1 h-8 w-full rounded-md border border-border bg-card px-2 text-[12px]"
+                >
+                  {users.map((u) => (
+                    <option key={u.id} value={u.id}>
+                      {u.name} · {u.email}
+                    </option>
+                  ))}
                 </select>
               </label>
 
               <div className="text-[12px] text-muted-foreground">
-                Usuario seleccionado: <span className="font-medium text-foreground">{selectedUser?.name ?? "N/A"}</span>
+                Usuario seleccionado:{" "}
+                <span className="font-medium text-foreground">{selectedUser?.name ?? "N/A"}</span>
               </div>
 
               <div className="max-h-[480px] overflow-auto border border-border rounded-md">
                 {zones.map((z) => (
-                  <label key={z.id} className="flex items-start gap-2 px-3 py-2 border-b border-border last:border-b-0 hover:bg-surface-2 cursor-pointer">
+                  <label
+                    key={z.id}
+                    className="flex items-start gap-2 px-3 py-2 border-b border-border last:border-b-0 hover:bg-surface-2 cursor-pointer"
+                  >
                     <input
                       type="checkbox"
                       checked={selectedZoneIds.includes(z.id)}
@@ -205,8 +249,13 @@ function AccessControlPage() {
               </div>
 
               <div className="flex justify-between items-center">
-                <span className="text-[12px] text-muted-foreground">{selectedZoneIds.length} zonas seleccionadas</span>
-                <button onClick={saveUserZones} className="h-8 px-3 rounded-md bg-primary text-primary-foreground text-[12px] hover:bg-primary/90">
+                <span className="text-[12px] text-muted-foreground">
+                  {selectedZoneIds.length} zonas seleccionadas
+                </span>
+                <button
+                  onClick={saveUserZones}
+                  className="h-8 px-3 rounded-md bg-primary text-primary-foreground text-[12px] hover:bg-primary/90"
+                >
                   Guardar zonas
                 </button>
               </div>

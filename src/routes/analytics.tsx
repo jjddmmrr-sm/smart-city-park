@@ -5,8 +5,17 @@ import { KpiTile, Panel } from "@/components/ui-bits";
 import { apiGet } from "@/lib/api";
 import { fmtInt, fmtUSD } from "@/lib/format";
 import {
-  Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer,
-  Tooltip, XAxis, YAxis, Legend,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+  Legend,
 } from "recharts";
 import { Car, DollarSign, FileWarning, Receipt, ShieldCheck, AlertTriangle } from "lucide-react";
 
@@ -105,12 +114,16 @@ function AnalyticsPage() {
   }, []);
 
   const totals = useMemo(() => {
-    const paidFines = fines.filter(f => f.estado_multa === "paid").length;
+    const paidFines = fines.filter((f) => f.estado_multa === "paid").length;
     const fineAmount = fines.reduce((a, b) => a + b.valor_multa_usd, 0);
-    const paidAmount = fines.filter(f => f.estado_multa === "paid").reduce((a, b) => a + b.valor_multa_usd, 0);
+    const paidAmount = fines
+      .filter((f) => f.estado_multa === "paid")
+      .reduce((a, b) => a + b.valor_multa_usd, 0);
     const paymentAmount = payments.reduce((a, b) => a + b.monto_total_usd, 0);
-    const validVehicles = vehicles.filter(v => v.compliance === "valid").length;
-    const complianceRate = vehicles.length ? Math.round((validVehicles / vehicles.length) * 100) : 0;
+    const validVehicles = vehicles.filter((v) => v.compliance === "valid").length;
+    const complianceRate = vehicles.length
+      ? Math.round((validVehicles / vehicles.length) * 100)
+      : 0;
 
     return {
       vehicles: vehicles.length,
@@ -129,7 +142,10 @@ function AnalyticsPage() {
   const finesByStatus = useMemo(() => {
     const map: Record<string, number> = {};
     for (const f of fines) map[f.estado_multa] = (map[f.estado_multa] || 0) + 1;
-    return Object.entries(map).map(([name, value]) => ({ name: name === "paid" ? "Pagadas" : name, value }));
+    return Object.entries(map).map(([name, value]) => ({
+      name: name === "paid" ? "Pagadas" : name,
+      value,
+    }));
   }, [fines]);
 
   const finesByZone = useMemo(() => {
@@ -139,13 +155,21 @@ function AnalyticsPage() {
       e.count += 1;
       e.amount += f.valor_multa_usd;
     }
-    return Object.entries(map).map(([zona, v]) => ({ zona, multas: v.count, monto: +v.amount.toFixed(2) }));
+    return Object.entries(map).map(([zona, v]) => ({
+      zona,
+      multas: v.count,
+      monto: +v.amount.toFixed(2),
+    }));
   }, [fines]);
 
   const paymentsByMethod = useMemo(() => {
     const map: Record<string, { tx: number; amount: number; label: string }> = {};
     for (const p of payments) {
-      const e = (map[p.metodo_pago_codigo] ??= { tx: 0, amount: 0, label: p.metodo_pago_descripcion });
+      const e = (map[p.metodo_pago_codigo] ??= {
+        tx: 0,
+        amount: 0,
+        label: p.metodo_pago_descripcion,
+      });
       e.tx += p.transacciones;
       e.amount += p.monto_total_usd;
     }
@@ -160,23 +184,36 @@ function AnalyticsPage() {
   const enforcementByPriority = useMemo(() => {
     const map: Record<string, number> = {};
     for (const e of enforcement) map[e.priority] = (map[e.priority] || 0) + 1;
-    return Object.entries(map).map(([name, value]) => ({ name: name === "high" ? "Alta" : name, value }));
+    return Object.entries(map).map(([name, value]) => ({
+      name: name === "high" ? "Alta" : name,
+      value,
+    }));
   }, [enforcement]);
 
   const zoneExecutive = useMemo(() => {
-    const map: Record<string, { vehicles: number; fines: number; payments: number; alerts: number }> = {};
-    for (const v of vehicles) (map[v.zone] ??= { vehicles: 0, fines: 0, payments: 0, alerts: 0 }).vehicles++;
-    for (const f of fines) (map[f.zona] ??= { vehicles: 0, fines: 0, payments: 0, alerts: 0 }).fines++;
-    for (const p of payments) (map[p.zona] ??= { vehicles: 0, fines: 0, payments: 0, alerts: 0 }).payments += p.monto_total_usd;
-    for (const e of enforcement) (map[e.zone] ??= { vehicles: 0, fines: 0, payments: 0, alerts: 0 }).alerts++;
+    const map: Record<
+      string,
+      { vehicles: number; fines: number; payments: number; alerts: number }
+    > = {};
+    for (const v of vehicles)
+      (map[v.zone] ??= { vehicles: 0, fines: 0, payments: 0, alerts: 0 }).vehicles++;
+    for (const f of fines)
+      (map[f.zona] ??= { vehicles: 0, fines: 0, payments: 0, alerts: 0 }).fines++;
+    for (const p of payments)
+      (map[p.zona] ??= { vehicles: 0, fines: 0, payments: 0, alerts: 0 }).payments +=
+        p.monto_total_usd;
+    for (const e of enforcement)
+      (map[e.zone] ??= { vehicles: 0, fines: 0, payments: 0, alerts: 0 }).alerts++;
 
-    return Object.entries(map).map(([zona, v]) => ({
-      zona,
-      vehicles: v.vehicles,
-      fines: v.fines,
-      payments: +v.payments.toFixed(2),
-      alerts: v.alerts,
-    })).sort((a, b) => b.fines + b.alerts - (a.fines + a.alerts));
+    return Object.entries(map)
+      .map(([zona, v]) => ({
+        zona,
+        vehicles: v.vehicles,
+        fines: v.fines,
+        payments: +v.payments.toFixed(2),
+        alerts: v.alerts,
+      }))
+      .sort((a, b) => b.fines + b.alerts - (a.fines + a.alerts));
   }, [vehicles, fines, payments, enforcement]);
 
   return (
@@ -184,16 +221,54 @@ function AnalyticsPage() {
       <div className="px-4 py-4 space-y-4">
         <div>
           <h1 className="text-[20px] font-semibold text-primary">Analítica Ejecutiva</h1>
-          <p className="text-[12px] text-muted-foreground">Indicadores reales integrados desde PostgreSQL · Smart Park Chone</p>
+          <p className="text-[12px] text-muted-foreground">
+            Indicadores reales integrados desde PostgreSQL · Smart Park Chone
+          </p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          <KpiTile label="Vehículos" value={fmtInt(totals.vehicles)} sub="registrados" icon={<Car className="h-4 w-4" />} accent="primary" />
-          <KpiTile label="Multas emitidas" value={fmtInt(totals.fines)} sub={fmtUSD(totals.fineAmount)} icon={<Receipt className="h-4 w-4" />} accent="destructive" />
-          <KpiTile label="Multas pagadas" value={fmtInt(totals.paidFines)} sub={fmtUSD(totals.paidAmount)} icon={<ShieldCheck className="h-4 w-4" />} accent="success" />
-          <KpiTile label="Pagos recibidos" value={fmtUSD(totals.paymentAmount)} sub="recaudación directa" icon={<DollarSign className="h-4 w-4" />} accent="success" />
-          <KpiTile label="Alertas" value={fmtInt(totals.enforcement)} sub="cumplimiento" icon={<AlertTriangle className="h-4 w-4" />} accent="warning" />
-          <KpiTile label="Cumplimiento" value={`${totals.complianceRate}%`} sub={`${totals.availableSpaces} espacios libres`} icon={<FileWarning className="h-4 w-4" />} accent="accent" />
+          <KpiTile
+            label="Vehículos"
+            value={fmtInt(totals.vehicles)}
+            sub="registrados"
+            icon={<Car className="h-4 w-4" />}
+            accent="primary"
+          />
+          <KpiTile
+            label="Multas emitidas"
+            value={fmtInt(totals.fines)}
+            sub={fmtUSD(totals.fineAmount)}
+            icon={<Receipt className="h-4 w-4" />}
+            accent="destructive"
+          />
+          <KpiTile
+            label="Multas pagadas"
+            value={fmtInt(totals.paidFines)}
+            sub={fmtUSD(totals.paidAmount)}
+            icon={<ShieldCheck className="h-4 w-4" />}
+            accent="success"
+          />
+          <KpiTile
+            label="Pagos recibidos"
+            value={fmtUSD(totals.paymentAmount)}
+            sub="recaudación directa"
+            icon={<DollarSign className="h-4 w-4" />}
+            accent="success"
+          />
+          <KpiTile
+            label="Alertas"
+            value={fmtInt(totals.enforcement)}
+            sub="cumplimiento"
+            icon={<AlertTriangle className="h-4 w-4" />}
+            accent="warning"
+          />
+          <KpiTile
+            label="Cumplimiento"
+            value={`${totals.complianceRate}%`}
+            sub={`${totals.availableSpaces} espacios libres`}
+            icon={<FileWarning className="h-4 w-4" />}
+            accent="accent"
+          />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
@@ -213,8 +288,16 @@ function AnalyticsPage() {
           <Panel title="Estado de multas" className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
-                <Pie data={finesByStatus} dataKey="value" nameKey="name" innerRadius={50} outerRadius={90}>
-                  {finesByStatus.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
+                <Pie
+                  data={finesByStatus}
+                  dataKey="value"
+                  nameKey="name"
+                  innerRadius={50}
+                  outerRadius={90}
+                >
+                  {finesByStatus.map((_, i) => (
+                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                  ))}
                 </Pie>
                 <Tooltip contentStyle={{ borderRadius: 6, fontSize: 12 }} />
                 <Legend wrapperStyle={{ fontSize: 11 }} />
@@ -226,11 +309,17 @@ function AnalyticsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           <Panel title="Pagos por método" className="h-72">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={paymentsByMethod} margin={{ top: 6, right: 12, left: -10, bottom: 0 }}>
+              <BarChart
+                data={paymentsByMethod}
+                margin={{ top: 6, right: 12, left: -10, bottom: 0 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                 <XAxis dataKey="metodo" tick={{ fontSize: 10, fill: "#64748b" }} />
                 <YAxis tick={{ fontSize: 11, fill: "#64748b" }} />
-                <Tooltip contentStyle={{ borderRadius: 6, fontSize: 12 }} formatter={(v) => fmtUSD(Number(v))} />
+                <Tooltip
+                  contentStyle={{ borderRadius: 6, fontSize: 12 }}
+                  formatter={(v) => fmtUSD(Number(v))}
+                />
                 <Bar dataKey="monto" fill="#00d4aa" name="Recaudación" radius={[3, 3, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -239,8 +328,16 @@ function AnalyticsPage() {
           <Panel title="Alertas por prioridad" className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
-                <Pie data={enforcementByPriority} dataKey="value" nameKey="name" innerRadius={50} outerRadius={90}>
-                  {enforcementByPriority.map((_, i) => <Cell key={i} fill={COLORS[(i + 2) % COLORS.length]} />)}
+                <Pie
+                  data={enforcementByPriority}
+                  dataKey="value"
+                  nameKey="name"
+                  innerRadius={50}
+                  outerRadius={90}
+                >
+                  {enforcementByPriority.map((_, i) => (
+                    <Cell key={i} fill={COLORS[(i + 2) % COLORS.length]} />
+                  ))}
                 </Pie>
                 <Tooltip contentStyle={{ borderRadius: 6, fontSize: 12 }} />
                 <Legend wrapperStyle={{ fontSize: 11 }} />
@@ -277,7 +374,6 @@ function AnalyticsPage() {
     </div>
   );
 }
-
 
 function AnalyticsPageProtected() {
   return (

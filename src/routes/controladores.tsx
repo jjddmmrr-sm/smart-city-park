@@ -58,11 +58,11 @@ function ControladoresPage() {
   }, []);
 
   const zonas = useMemo(() => {
-    return Array.from(new Set(rows.map(c => c.zona_asignada).filter(Boolean))).sort();
+    return Array.from(new Set(rows.map((c) => c.zona_asignada).filter(Boolean))).sort();
   }, [rows]);
 
   const filtered = useMemo(() => {
-    return rows.filter(c => {
+    return rows.filter((c) => {
       if (zona !== "all" && c.zona_asignada !== zona) return false;
       if (turno !== "all" && c.turno !== turno) return false;
       return true;
@@ -70,9 +70,11 @@ function ControladoresPage() {
   }, [rows, zona, turno]);
 
   const totals = useMemo(() => {
-    const activos = rows.filter(c => estadoEs(c.estado) === "activo").length;
-    const zonasAsignadas = new Set(rows.map(c => c.zona_asignada).filter(z => z && z !== "Sin zona asignada")).size;
-    const dispositivos = rows.filter(c => c.dispositivo_id && c.dispositivo_id !== "N/A").length;
+    const activos = rows.filter((c) => estadoEs(c.estado) === "activo").length;
+    const zonasAsignadas = new Set(
+      rows.map((c) => c.zona_asignada).filter((z) => z && z !== "Sin zona asignada"),
+    ).size;
+    const dispositivos = rows.filter((c) => c.dispositivo_id && c.dispositivo_id !== "N/A").length;
     return {
       total: rows.length,
       activos,
@@ -93,19 +95,55 @@ function ControladoresPage() {
   }, [rows]);
 
   const selectedDetail = useMemo(() => {
-    return rows.find(c => c.controlador_id === selected) || null;
+    return rows.find((c) => c.controlador_id === selected) || null;
   }, [rows, selected]);
 
   return (
     <div className="h-full flex flex-col bg-surface overflow-auto">
       <div className="px-4 py-3 border-b border-border bg-card">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          <KpiTile label="Controladores" value={fmtInt(totals.total)} sub="plantilla total" icon={<UserCog className="h-4 w-4" />} accent="primary" />
-          <KpiTile label="Activos" value={fmtInt(totals.activos)} sub="operativos" icon={<Activity className="h-4 w-4" />} accent="success" />
-          <KpiTile label="Inactivos" value={fmtInt(totals.inactivos)} sub="fuera de operación" icon={<ShieldCheck className="h-4 w-4" />} accent="warning" />
-          <KpiTile label="Zonas asignadas" value={fmtInt(totals.zonasAsignadas)} sub="cobertura territorial" icon={<MapPin className="h-4 w-4" />} accent="accent" />
-          <KpiTile label="Dispositivos" value={fmtInt(totals.dispositivos)} sub="vinculados" icon={<Clock className="h-4 w-4" />} accent="primary" />
-          <KpiTile label="Cobertura activa" value={`${totals.cobertura}%`} sub="activos / total" icon={<ShieldCheck className="h-4 w-4" />} accent="success" />
+          <KpiTile
+            label="Controladores"
+            value={fmtInt(totals.total)}
+            sub="plantilla total"
+            icon={<UserCog className="h-4 w-4" />}
+            accent="primary"
+          />
+          <KpiTile
+            label="Activos"
+            value={fmtInt(totals.activos)}
+            sub="operativos"
+            icon={<Activity className="h-4 w-4" />}
+            accent="success"
+          />
+          <KpiTile
+            label="Inactivos"
+            value={fmtInt(totals.inactivos)}
+            sub="fuera de operación"
+            icon={<ShieldCheck className="h-4 w-4" />}
+            accent="warning"
+          />
+          <KpiTile
+            label="Zonas asignadas"
+            value={fmtInt(totals.zonasAsignadas)}
+            sub="cobertura territorial"
+            icon={<MapPin className="h-4 w-4" />}
+            accent="accent"
+          />
+          <KpiTile
+            label="Dispositivos"
+            value={fmtInt(totals.dispositivos)}
+            sub="vinculados"
+            icon={<Clock className="h-4 w-4" />}
+            accent="primary"
+          />
+          <KpiTile
+            label="Cobertura activa"
+            value={`${totals.cobertura}%`}
+            sub="activos / total"
+            icon={<ShieldCheck className="h-4 w-4" />}
+            accent="success"
+          />
         </div>
       </div>
 
@@ -137,10 +175,25 @@ function ControladoresPage() {
       </div>
 
       <div className="px-4 py-2 border-y border-border bg-card flex items-center gap-2 flex-wrap">
-        <Sel value={zona} onChange={setZona} options={[{ v: "all", l: "Todas las zonas" }, ...zonas.map(z => ({ v: z, l: z }))]} />
-        <Sel value={turno} onChange={setTurno} options={[{ v: "all", l: "Todos los turnos" }, { v: "mañana", l: "Mañana" }, { v: "tarde", l: "Tarde" }, { v: "mixto", l: "Mixto" }]} />
+        <Sel
+          value={zona}
+          onChange={setZona}
+          options={[{ v: "all", l: "Todas las zonas" }, ...zonas.map((z) => ({ v: z, l: z }))]}
+        />
+        <Sel
+          value={turno}
+          onChange={setTurno}
+          options={[
+            { v: "all", l: "Todos los turnos" },
+            { v: "mañana", l: "Mañana" },
+            { v: "tarde", l: "Tarde" },
+            { v: "mixto", l: "Mixto" },
+          ]}
+        />
         <div className="flex-1" />
-        <span className="text-[12px] text-muted-foreground tabular-nums">{filtered.length} controladores</span>
+        <span className="text-[12px] text-muted-foreground tabular-nums">
+          {filtered.length} controladores
+        </span>
       </div>
 
       <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-3 p-3">
@@ -149,19 +202,38 @@ function ControladoresPage() {
             <table className="w-full text-[12px]">
               <thead className="sticky top-0 bg-surface-2 text-[10px] uppercase tracking-wider text-muted-foreground">
                 <tr>
-                  <Th>Código</Th><Th>Controlador</Th><Th>Zona</Th><Th>Turno</Th><Th>Dispositivo</Th><Th>Ingreso</Th><Th>Estado</Th>
+                  <Th>Código</Th>
+                  <Th>Controlador</Th>
+                  <Th>Zona</Th>
+                  <Th>Turno</Th>
+                  <Th>Dispositivo</Th>
+                  <Th>Ingreso</Th>
+                  <Th>Estado</Th>
                 </tr>
               </thead>
               <tbody>
                 {filtered.map((r, i) => (
-                  <tr key={r.controlador_id} onClick={() => setSelected(r.controlador_id)} className={"border-t border-border hover:bg-surface-2 cursor-pointer " + (i % 2 ? "bg-surface-2/40" : "")}>
-                    <td className="px-3 py-1.5 font-mono text-muted-foreground">{friendlyId(r.controlador_id)}</td>
+                  <tr
+                    key={r.controlador_id}
+                    onClick={() => setSelected(r.controlador_id)}
+                    className={
+                      "border-t border-border hover:bg-surface-2 cursor-pointer " +
+                      (i % 2 ? "bg-surface-2/40" : "")
+                    }
+                  >
+                    <td className="px-3 py-1.5 font-mono text-muted-foreground">
+                      {friendlyId(r.controlador_id)}
+                    </td>
                     <td className="px-3 py-1.5 font-medium">{r.nombre}</td>
                     <td className="px-3 py-1.5">{r.zona_asignada}</td>
                     <td className="px-3 py-1.5 capitalize text-muted-foreground">{r.turno}</td>
-                    <td className="px-3 py-1.5 font-mono text-muted-foreground">{r.dispositivo_id}</td>
+                    <td className="px-3 py-1.5 font-mono text-muted-foreground">
+                      {r.dispositivo_id}
+                    </td>
                     <td className="px-3 py-1.5">{fechaEs(r.fecha_ingreso)}</td>
-                    <td className="px-3 py-1.5"><StatusPill status={estadoEs(r.estado)} /></td>
+                    <td className="px-3 py-1.5">
+                      <StatusPill status={estadoEs(r.estado)} />
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -175,9 +247,16 @@ function ControladoresPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-[14px] font-semibold">{selectedDetail.nombre}</div>
-                  <div className="text-[10px] font-mono text-muted-foreground">{friendlyId(selectedDetail.controlador_id)}</div>
+                  <div className="text-[10px] font-mono text-muted-foreground">
+                    {friendlyId(selectedDetail.controlador_id)}
+                  </div>
                 </div>
-                <button onClick={() => setSelected(null)} className="text-muted-foreground hover:text-foreground"><X className="h-4 w-4" /></button>
+                <button
+                  onClick={() => setSelected(null)}
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <X className="h-4 w-4" />
+                </button>
               </div>
               <Row k="Zona asignada" v={selectedDetail.zona_asignada} />
               <Row k="Turno" v={<span className="capitalize">{selectedDetail.turno}</span>} />
@@ -186,11 +265,14 @@ function ControladoresPage() {
               <Row k="Ingreso" v={fechaEs(selectedDetail.fecha_ingreso)} />
               <div className="my-2 border-t border-border" />
               <div className="text-muted-foreground">
-                Próximo incremento: productividad real por controlador cuando el backend exponga inspecciones, multas y tiempos de respuesta por agente.
+                Próximo incremento: productividad real por controlador cuando el backend exponga
+                inspecciones, multas y tiempos de respuesta por agente.
               </div>
             </div>
           ) : (
-            <div className="text-[12px] text-muted-foreground">Haga clic en cualquier controlador para ver su detalle operativo.</div>
+            <div className="text-[12px] text-muted-foreground">
+              Haga clic en cualquier controlador para ver su detalle operativo.
+            </div>
           )}
         </Panel>
       </div>
@@ -202,18 +284,38 @@ function Th({ children, className = "" }: { children: React.ReactNode; className
   return <th className={"text-left font-medium px-3 py-2 " + className}>{children}</th>;
 }
 
-function Sel({ value, onChange, options }: { value: string; onChange: (v: string) => void; options: { v: string; l: string }[] }) {
+function Sel({
+  value,
+  onChange,
+  options,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  options: { v: string; l: string }[];
+}) {
   return (
-    <select value={value} onChange={(e) => onChange(e.target.value)} className="h-8 text-[12px] rounded-md border border-border bg-card px-2">
-      {options.map(o => <option key={o.v} value={o.v}>{o.l}</option>)}
+    <select
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      className="h-8 text-[12px] rounded-md border border-border bg-card px-2"
+    >
+      {options.map((o) => (
+        <option key={o.v} value={o.v}>
+          {o.l}
+        </option>
+      ))}
     </select>
   );
 }
 
 function Row({ k, v }: { k: string; v: React.ReactNode }) {
-  return <div className="flex justify-between gap-2"><span className="text-muted-foreground">{k}</span><span className="font-medium text-right truncate ml-2">{v}</span></div>;
+  return (
+    <div className="flex justify-between gap-2">
+      <span className="text-muted-foreground">{k}</span>
+      <span className="font-medium text-right truncate ml-2">{v}</span>
+    </div>
+  );
 }
-
 
 function ControladoresPageProtected() {
   return (

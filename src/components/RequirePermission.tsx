@@ -28,7 +28,11 @@ export function RequirePermission({
   }, [navigate]);
 
   if (loading) {
-    return <div className="h-full grid place-items-center bg-surface text-[13px] text-muted-foreground">Validando acceso...</div>;
+    return (
+      <div className="h-full grid place-items-center bg-surface text-[13px] text-muted-foreground">
+        Validando acceso...
+      </div>
+    );
   }
 
   if (!hasPermission(me, permission)) {

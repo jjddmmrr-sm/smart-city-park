@@ -4,7 +4,19 @@ import { useEffect, useMemo, useState } from "react";
 import { KpiTile, Panel } from "@/components/ui-bits";
 import { fmtInt, fmtUSD } from "@/lib/format";
 import { apiGet } from "@/lib/api";
-import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { CreditCard, Smartphone, Building, UserRound, DollarSign, Receipt } from "lucide-react";
 
 export const Route = createFileRoute("/medios-pago")({
@@ -71,26 +83,35 @@ function MediosPagoPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const dates = useMemo(() => Array.from(new Set(rows.map(m => m.fecha))).sort(), [rows]);
+  const dates = useMemo(() => Array.from(new Set(rows.map((m) => m.fecha))).sort(), [rows]);
   const windowDates = useMemo(() => dates.slice(-days), [dates, days]);
-  const data = useMemo(() => rows.filter(m => windowDates.includes(m.fecha)), [rows, windowDates]);
+  const data = useMemo(
+    () => rows.filter((m) => windowDates.includes(m.fecha)),
+    [rows, windowDates],
+  );
 
   const byMethod = useMemo(() => {
     const m: Record<string, { tx: number; monto: number; descripcion: string }> = {};
     for (const r of data) {
-      const e = (m[r.metodo_pago_codigo] ??= { tx: 0, monto: 0, descripcion: r.metodo_pago_descripcion || r.metodo_pago_codigo });
+      const e = (m[r.metodo_pago_codigo] ??= {
+        tx: 0,
+        monto: 0,
+        descripcion: r.metodo_pago_descripcion || r.metodo_pago_codigo,
+      });
       e.tx += r.transacciones;
       e.monto += r.monto_total_usd;
     }
     const total = Object.values(m).reduce((a, b) => a + b.monto, 0);
-    return Object.entries(m).map(([k, v]) => ({
-      key: k,
-      name: v.descripcion,
-      tx: v.tx,
-      monto: +v.monto.toFixed(2),
-      ticket: +(v.monto / Math.max(v.tx, 1)).toFixed(2),
-      pct: +((v.monto / Math.max(total, 1)) * 100).toFixed(1),
-    })).sort((a, b) => b.monto - a.monto);
+    return Object.entries(m)
+      .map(([k, v]) => ({
+        key: k,
+        name: v.descripcion,
+        tx: v.tx,
+        monto: +v.monto.toFixed(2),
+        ticket: +(v.monto / Math.max(v.tx, 1)).toFixed(2),
+        pct: +((v.monto / Math.max(total, 1)) * 100).toFixed(1),
+      }))
+      .sort((a, b) => b.monto - a.monto);
   }, [data]);
 
   const totals = useMemo(() => {
@@ -101,13 +122,13 @@ function MediosPagoPage() {
       monto,
       ticket: +(monto / Math.max(tx, 1)).toFixed(2),
       canales: byMethod.length,
-      zonas: new Set(data.map(x => x.zona)).size,
+      zonas: new Set(data.map((x) => x.zona)).size,
     };
   }, [data, byMethod]);
 
   const trend = useMemo(() => {
-    return windowDates.map(d => {
-      const day = data.filter(x => x.fecha === d);
+    return windowDates.map((d) => {
+      const day = data.filter((x) => x.fecha === d);
       return {
         date: d.slice(5),
         transacciones: day.reduce((a, b) => a + b.transacciones, 0),
@@ -140,8 +161,17 @@ function MediosPagoPage() {
           </p>
         </div>
         <div className="inline-flex rounded-md border border-border overflow-hidden text-[12px]">
-          {[30, 60, 90].map(d => (
-            <button key={d} onClick={() => setDays(d as 30 | 60 | 90)} className={"px-3 h-8 " + (days === d ? "bg-primary text-primary-foreground" : "bg-card hover:bg-secondary text-muted-foreground")}>
+          {[30, 60, 90].map((d) => (
+            <button
+              key={d}
+              onClick={() => setDays(d as 30 | 60 | 90)}
+              className={
+                "px-3 h-8 " +
+                (days === d
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-card hover:bg-secondary text-muted-foreground")
+              }
+            >
               {d} días
             </button>
           ))}
@@ -150,12 +180,47 @@ function MediosPagoPage() {
 
       <div className="px-4 py-3">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          <KpiTile label="Transacciones" value={fmtInt(totals.tx)} sub={`${days} días`} icon={<Receipt className="h-4 w-4" />} accent="primary" />
-          <KpiTile label="Recaudación total" value={fmtUSD(totals.monto)} sub="USD" icon={<DollarSign className="h-4 w-4" />} accent="success" />
-          <KpiTile label="Ticket promedio" value={`$${totals.ticket.toFixed(2)}`} sub="por transacción" accent="accent" />
-          <KpiTile label="Canales activos" value={fmtInt(totals.canales)} sub="métodos usados" icon={<CreditCard className="h-4 w-4" />} accent="primary" />
-          <KpiTile label="Zonas con pago" value={fmtInt(totals.zonas)} sub="cobertura" icon={<Building className="h-4 w-4" />} accent="warning" />
-          <KpiTile label="Estado" value={loading ? "..." : "Online"} sub="/frontend/payments" icon={<Smartphone className="h-4 w-4" />} accent="success" />
+          <KpiTile
+            label="Transacciones"
+            value={fmtInt(totals.tx)}
+            sub={`${days} días`}
+            icon={<Receipt className="h-4 w-4" />}
+            accent="primary"
+          />
+          <KpiTile
+            label="Recaudación total"
+            value={fmtUSD(totals.monto)}
+            sub="USD"
+            icon={<DollarSign className="h-4 w-4" />}
+            accent="success"
+          />
+          <KpiTile
+            label="Ticket promedio"
+            value={`$${totals.ticket.toFixed(2)}`}
+            sub="por transacción"
+            accent="accent"
+          />
+          <KpiTile
+            label="Canales activos"
+            value={fmtInt(totals.canales)}
+            sub="métodos usados"
+            icon={<CreditCard className="h-4 w-4" />}
+            accent="primary"
+          />
+          <KpiTile
+            label="Zonas con pago"
+            value={fmtInt(totals.zonas)}
+            sub="cobertura"
+            icon={<Building className="h-4 w-4" />}
+            accent="warning"
+          />
+          <KpiTile
+            label="Estado"
+            value={loading ? "..." : "Online"}
+            sub="/frontend/payments"
+            icon={<Smartphone className="h-4 w-4" />}
+            accent="success"
+          />
         </div>
       </div>
 
@@ -166,7 +231,10 @@ function MediosPagoPage() {
               <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
               <XAxis dataKey="date" tick={{ fontSize: 10, fill: "#64748b" }} />
               <YAxis tick={{ fontSize: 11, fill: "#64748b" }} />
-              <Tooltip contentStyle={{ borderRadius: 6, fontSize: 12 }} formatter={(v) => fmtUSD(Number(v))} />
+              <Tooltip
+                contentStyle={{ borderRadius: 6, fontSize: 12 }}
+                formatter={(v) => fmtUSD(Number(v))}
+              />
               <Bar dataKey="monto" fill="#00d4aa" name="Recaudación" radius={[3, 3, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
@@ -175,10 +243,22 @@ function MediosPagoPage() {
         <Panel title="Participación por canal" className="h-72">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              <Pie data={byMethod} dataKey="monto" nameKey="name" innerRadius={50} outerRadius={90} paddingAngle={2}>
-                {byMethod.map(m => <Cell key={m.key} fill={methodColor(m.key)} />)}
+              <Pie
+                data={byMethod}
+                dataKey="monto"
+                nameKey="name"
+                innerRadius={50}
+                outerRadius={90}
+                paddingAngle={2}
+              >
+                {byMethod.map((m) => (
+                  <Cell key={m.key} fill={methodColor(m.key)} />
+                ))}
               </Pie>
-              <Tooltip contentStyle={{ borderRadius: 6, fontSize: 12 }} formatter={(v) => fmtUSD(Number(v))} />
+              <Tooltip
+                contentStyle={{ borderRadius: 6, fontSize: 12 }}
+                formatter={(v) => fmtUSD(Number(v))}
+              />
               <Legend wrapperStyle={{ fontSize: 11 }} />
             </PieChart>
           </ResponsiveContainer>
@@ -192,7 +272,10 @@ function MediosPagoPage() {
               <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
               <XAxis dataKey="zona" tick={{ fontSize: 10, fill: "#64748b" }} />
               <YAxis tick={{ fontSize: 11, fill: "#64748b" }} />
-              <Tooltip contentStyle={{ borderRadius: 6, fontSize: 12 }} formatter={(v) => fmtUSD(Number(v))} />
+              <Tooltip
+                contentStyle={{ borderRadius: 6, fontSize: 12 }}
+                formatter={(v) => fmtUSD(Number(v))}
+              />
               <Bar dataKey="monto" fill="#0a2540" name="Recaudación" radius={[3, 3, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
@@ -205,7 +288,12 @@ function MediosPagoPage() {
               <XAxis dataKey="zona" tick={{ fontSize: 10, fill: "#64748b" }} />
               <YAxis tick={{ fontSize: 11, fill: "#64748b" }} allowDecimals={false} />
               <Tooltip contentStyle={{ borderRadius: 6, fontSize: 12 }} />
-              <Bar dataKey="transacciones" fill="#3b82f6" name="Transacciones" radius={[3, 3, 0, 0]} />
+              <Bar
+                dataKey="transacciones"
+                fill="#3b82f6"
+                name="Transacciones"
+                radius={[3, 3, 0, 0]}
+              />
             </BarChart>
           </ResponsiveContainer>
         </Panel>
@@ -225,10 +313,15 @@ function MediosPagoPage() {
               </tr>
             </thead>
             <tbody>
-              {byMethod.map(m => (
+              {byMethod.map((m) => (
                 <tr key={m.key} className="border-t border-border">
                   <td className="px-3 py-2 font-medium inline-flex items-center gap-2">
-                    <span className="grid place-items-center h-6 w-6 rounded" style={{ background: methodColor(m.key) + "22", color: methodColor(m.key) }}>{methodIcon(m.key)}</span>
+                    <span
+                      className="grid place-items-center h-6 w-6 rounded"
+                      style={{ background: methodColor(m.key) + "22", color: methodColor(m.key) }}
+                    >
+                      {methodIcon(m.key)}
+                    </span>
                     {m.name}
                   </td>
                   <td className="px-3 py-2 text-right tabular-nums">{fmtInt(m.tx)}</td>
@@ -237,7 +330,10 @@ function MediosPagoPage() {
                   <td className="px-3 py-2 text-right tabular-nums font-medium">{m.pct}%</td>
                   <td className="px-3 py-2">
                     <div className="h-1.5 w-full rounded bg-secondary overflow-hidden">
-                      <div className="h-full" style={{ width: `${m.pct}%`, background: methodColor(m.key) }} />
+                      <div
+                        className="h-full"
+                        style={{ width: `${m.pct}%`, background: methodColor(m.key) }}
+                      />
                     </div>
                   </td>
                 </tr>
@@ -249,7 +345,6 @@ function MediosPagoPage() {
     </div>
   );
 }
-
 
 function MediosPagoPageProtected() {
   return (

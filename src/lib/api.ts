@@ -11,7 +11,6 @@ export async function apiGet<T>(path: string): Promise<T> {
   return response.json();
 }
 
-
 export async function apiPatch<T>(path: string, body: unknown): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${path}`, {
     method: "PATCH",

@@ -34,10 +34,12 @@ Construir el backend completo, base de datos correcta, API administrativa, API o
 ## Capas API
 
 ### Auth
+
 - POST /api/v1/auth/login
 - GET /api/v1/auth/me
 
 ### Admin CRUD
+
 - /api/v1/admin/tenants
 - /api/v1/admin/cities
 - /api/v1/admin/users
@@ -52,6 +54,7 @@ Construir el backend completo, base de datos correcta, API administrativa, API o
 - /api/v1/admin/cameras
 
 ### Operación
+
 - /api/v1/parking/vehicles
 - /api/v1/parking/sessions/start
 - /api/v1/parking/sessions/:id/end
@@ -61,6 +64,7 @@ Construir el backend completo, base de datos correcta, API administrativa, API o
 - /api/v1/cameras/events
 
 ### Frontend Compatibility API
+
 - GET /api/v1/frontend/overview
 - GET /api/v1/frontend/zones
 - GET /api/v1/frontend/spaces

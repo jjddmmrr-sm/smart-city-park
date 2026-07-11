@@ -103,13 +103,21 @@ function AdminPaymentMethodsPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-[20px] font-semibold text-primary">Medios de Pago</h1>
-            <p className="text-[12px] text-muted-foreground">Administración de canales de recaudación.</p>
+            <p className="text-[12px] text-muted-foreground">
+              Administración de canales de recaudación.
+            </p>
           </div>
           <div className="flex gap-2">
-            <button onClick={openCreate} className="h-8 px-3 rounded-md bg-primary text-primary-foreground text-[12px] hover:bg-primary/90">
+            <button
+              onClick={openCreate}
+              className="h-8 px-3 rounded-md bg-primary text-primary-foreground text-[12px] hover:bg-primary/90"
+            >
               Nuevo Medio
             </button>
-            <Link to="/admin" className="h-8 px-3 rounded-md border border-border text-[12px] inline-flex items-center hover:bg-secondary">
+            <Link
+              to="/admin"
+              className="h-8 px-3 rounded-md border border-border text-[12px] inline-flex items-center hover:bg-secondary"
+            >
               Volver
             </Link>
           </div>
@@ -118,11 +126,16 @@ function AdminPaymentMethodsPage() {
         <Panel title="Filtros">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-[12px]">
             <Input label="Buscar" value={q} onChange={setQ} />
-            <Select label="Estado" value={statusFilter} onChange={setStatusFilter} options={[
-              { v: "all", l: "Todos los estados" },
-              { v: "active", l: "Activo" },
-              { v: "inactive", l: "Inactivo" },
-            ]} />
+            <Select
+              label="Estado"
+              value={statusFilter}
+              onChange={setStatusFilter}
+              options={[
+                { v: "all", l: "Todos los estados" },
+                { v: "active", l: "Activo" },
+                { v: "inactive", l: "Inactivo" },
+              ]}
+            />
             <div className="flex items-end text-[12px] text-muted-foreground">
               {filtered.length} de {rows.length} medios
             </div>
@@ -132,19 +145,42 @@ function AdminPaymentMethodsPage() {
         {showForm && (
           <Panel title={editing ? "Editar medio de pago" : "Nuevo medio de pago"}>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-2 text-[12px]">
-              <Input label="Código" value={form.code} onChange={(v) => setForm({ ...form, code: v })} />
-              <Input label="Nombre" value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
-              <Input label="Descripción" value={form.description} onChange={(v) => setForm({ ...form, description: v })} />
-              <Select label="Estado" value={form.status} onChange={(v) => setForm({ ...form, status: v })} options={[
-                { v: "active", l: "Activo" },
-                { v: "inactive", l: "Inactivo" },
-              ]} />
+              <Input
+                label="Código"
+                value={form.code}
+                onChange={(v) => setForm({ ...form, code: v })}
+              />
+              <Input
+                label="Nombre"
+                value={form.name}
+                onChange={(v) => setForm({ ...form, name: v })}
+              />
+              <Input
+                label="Descripción"
+                value={form.description}
+                onChange={(v) => setForm({ ...form, description: v })}
+              />
+              <Select
+                label="Estado"
+                value={form.status}
+                onChange={(v) => setForm({ ...form, status: v })}
+                options={[
+                  { v: "active", l: "Activo" },
+                  { v: "inactive", l: "Inactivo" },
+                ]}
+              />
             </div>
             <div className="mt-3 flex justify-end gap-2">
-              <button onClick={() => setShowForm(false)} className="h-8 px-3 rounded-md border border-border text-[12px] hover:bg-secondary">
+              <button
+                onClick={() => setShowForm(false)}
+                className="h-8 px-3 rounded-md border border-border text-[12px] hover:bg-secondary"
+              >
                 Cancelar
               </button>
-              <button onClick={save} className="h-8 px-3 rounded-md bg-primary text-primary-foreground text-[12px] hover:bg-primary/90">
+              <button
+                onClick={save}
+                className="h-8 px-3 rounded-md bg-primary text-primary-foreground text-[12px] hover:bg-primary/90"
+              >
                 Guardar
               </button>
             </div>
@@ -170,13 +206,21 @@ function AdminPaymentMethodsPage() {
                   <td className="px-3 py-2 font-medium">{r.name}</td>
                   <td className="px-3 py-2 text-muted-foreground">{r.description || "—"}</td>
                   <td className="px-3 py-2">{new Date(r.createdAt).toLocaleString("es-EC")}</td>
-                  <td className="px-3 py-2"><StatusPill status={r.status === "active" ? "activo" : "inactivo"} /></td>
+                  <td className="px-3 py-2">
+                    <StatusPill status={r.status === "active" ? "activo" : "inactivo"} />
+                  </td>
                   <td className="px-3 py-2">
                     <div className="flex gap-2">
-                      <button onClick={() => openEdit(r)} className="h-7 px-2 rounded border border-border hover:bg-secondary">
+                      <button
+                        onClick={() => openEdit(r)}
+                        className="h-7 px-2 rounded border border-border hover:bg-secondary"
+                      >
                         Editar
                       </button>
-                      <button onClick={() => toggleStatus(r)} className="h-7 px-2 rounded border border-border hover:bg-secondary">
+                      <button
+                        onClick={() => toggleStatus(r)}
+                        className="h-7 px-2 rounded border border-border hover:bg-secondary"
+                      >
                         {r.status === "active" ? "Inactivar" : "Activar"}
                       </button>
                     </div>
@@ -195,21 +239,51 @@ function Th({ children }: { children: React.ReactNode }) {
   return <th className="text-left font-medium px-3 py-2">{children}</th>;
 }
 
-function Input({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+function Input({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
   return (
     <label className="block">
       <span className="text-[11px] text-muted-foreground">{label}</span>
-      <input value={value} onChange={(e) => onChange(e.target.value)} className="mt-1 h-8 w-full rounded-md border border-border bg-card px-2 text-[12px]" />
+      <input
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="mt-1 h-8 w-full rounded-md border border-border bg-card px-2 text-[12px]"
+      />
     </label>
   );
 }
 
-function Select({ label, value, onChange, options }: { label: string; value: string; onChange: (v: string) => void; options: { v: string; l: string }[] }) {
+function Select({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  options: { v: string; l: string }[];
+}) {
   return (
     <label className="block">
       <span className="text-[11px] text-muted-foreground">{label}</span>
-      <select value={value} onChange={(e) => onChange(e.target.value)} className="mt-1 h-8 w-full rounded-md border border-border bg-card px-2 text-[12px]">
-        {options.map((o) => <option key={o.v} value={o.v}>{o.l}</option>)}
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="mt-1 h-8 w-full rounded-md border border-border bg-card px-2 text-[12px]"
+      >
+        {options.map((o) => (
+          <option key={o.v} value={o.v}>
+            {o.l}
+          </option>
+        ))}
       </select>
     </label>
   );
