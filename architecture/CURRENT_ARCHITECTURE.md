@@ -10,47 +10,47 @@ Frontend-only smart parking operations platform.
 
 ## Frontend
 
-* React 19
-* TypeScript
-* Vite
+- React 19
+- TypeScript
+- Vite
 
 ## Routing
 
-* TanStack Router
+- TanStack Router
 
 ## State / Data
 
-* React Query
-* Local mock JSON datasets
+- React Query
+- Local mock JSON datasets
 
 ## UI System
 
-* TailwindCSS v4
-* Radix UI
-* Custom UI components
+- TailwindCSS v4
+- Radix UI
+- Custom UI components
 
 ## Maps & Geospatial
 
-* Leaflet
-* React Leaflet
-* leaflet.heat
+- Leaflet
+- React Leaflet
+- leaflet.heat
 
 ## Charts & Analytics
 
-* Recharts
+- Recharts
 
 ## Validation & Forms
 
-* React Hook Form
-* Zod
+- React Hook Form
+- Zod
 
 ## Infrastructure / Tooling
 
-* Docker
-* Ubuntu Cloud Server
-* VS Code Remote SSH
-* GitHub
-* npm
+- Docker
+- Ubuntu Cloud Server
+- VS Code Remote SSH
+- GitHub
+- npm
 
 ---
 
@@ -76,10 +76,10 @@ src/
 
 Contains:
 
-* UI components
-* Layout components
-* Map components
-* Navigation components
+- UI components
+- Layout components
+- Map components
+- Navigation components
 
 ## components/ui/
 
@@ -97,14 +97,14 @@ src/data/*.json
 
 Datasets currently include:
 
-* vehicles
-* spaces
-* zones
-* payments
-* enforcement
-* fines
-* analytics
-* operational metrics
+- vehicles
+- spaces
+- zones
+- payments
+- enforcement
+- fines
+- analytics
+- operational metrics
 
 ---
 
@@ -112,22 +112,22 @@ Datasets currently include:
 
 ## Positive Aspects
 
-* Modern frontend stack
-* Modular route structure
-* Component-based architecture
-* Strong UI foundation
-* Fast development workflow
-* Cloud-ready deployment
+- Modern frontend stack
+- Modular route structure
+- Component-based architecture
+- Strong UI foundation
+- Fast development workflow
+- Cloud-ready deployment
 
 ## Current Limitations
 
-* No backend API layer
-* No authentication
-* No PostgreSQL integration
-* Mock/static datasets only
-* No real-time backend services
-* No role-based access control
-* No centralized business logic
+- No backend API layer
+- No authentication
+- No PostgreSQL integration
+- Mock/static datasets only
+- No real-time backend services
+- No role-based access control
+- No centralized business logic
 
 ---
 
@@ -137,14 +137,14 @@ Datasets currently include:
 
 Current project uses:
 
-* React 19
-* react-leaflet 4.2.1
+- React 19
+- react-leaflet 4.2.1
 
 Potential compatibility issues may require:
 
-* downgrading React
+- downgrading React
   OR
-* upgrading map libraries
+- upgrading map libraries
 
 ---
 
@@ -152,12 +152,12 @@ Potential compatibility issues may require:
 
 ## Current Infrastructure Available
 
-* Ubuntu cloud server
-* Docker installed
-* PostgreSQL container running
-* n8n container running
-* GitHub integration configured
-* SSH remote development configured
+- Ubuntu cloud server
+- Docker installed
+- PostgreSQL container running
+- n8n container running
+- GitHub integration configured
+- SSH remote development configured
 
 ---
 
@@ -165,48 +165,48 @@ Potential compatibility issues may require:
 
 ## Phase 1 — Stabilization
 
-* Audit current frontend
-* Organize documentation
-* Improve architecture visibility
-* Stabilize dependencies
+- Audit current frontend
+- Organize documentation
+- Improve architecture visibility
+- Stabilize dependencies
 
 ## Phase 2 — Backend Foundation
 
-* Create backend service
-* Design APIs
-* Configure PostgreSQL schema
-* Implement data layer
+- Create backend service
+- Design APIs
+- Configure PostgreSQL schema
+- Implement data layer
 
 ## Phase 3 — Data Migration
 
-* Import Excel datasets
-* Normalize operational data
-* Replace mock JSON datasets
+- Import Excel datasets
+- Normalize operational data
+- Replace mock JSON datasets
 
 ## Phase 4 — Enterprise Features
 
-* Authentication
-* RBAC
-* Audit logs
-* Monitoring
-* Observability
+- Authentication
+- RBAC
+- Audit logs
+- Monitoring
+- Observability
 
 ## Phase 5 — AI & Automation
 
-* AI operational insights
-* Predictive analytics
-* n8n automation workflows
-* AI agents
-* Smart alerts
+- AI operational insights
+- Predictive analytics
+- n8n automation workflows
+- AI agents
+- Smart alerts
 
 ---
 
 # Architectural Principles
 
-* Modular architecture
-* Progressive refactoring
-* AI-first development
-* Enterprise scalability
-* Clean separation of concerns
-* Infrastructure as foundation
-* Context Engineering driven development
+- Modular architecture
+- Progressive refactoring
+- AI-first development
+- Enterprise scalability
+- Clean separation of concerns
+- Infrastructure as foundation
+- Context Engineering driven development

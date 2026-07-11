@@ -10,12 +10,12 @@ The project has completed the initial foundation organization phase.
 
 The project currently contains:
 
-* architecture documentation
-* roadmap planning
-* research documentation
-* AI prompt organization
-* frontend prototype application
-* infrastructure foundation
+- architecture documentation
+- roadmap planning
+- research documentation
+- AI prompt organization
+- frontend prototype application
+- infrastructure foundation
 
 ---
 
@@ -25,13 +25,13 @@ Frontend prototype generated initially using Lovable.
 
 Current frontend stack:
 
-* React
-* TypeScript
-* Vite
-* TanStack Router
-* TailwindCSS
-* Leaflet
-* Recharts
+- React
+- TypeScript
+- Vite
+- TanStack Router
+- TailwindCSS
+- Leaflet
+- Recharts
 
 The frontend currently operates using mock JSON datasets.
 
@@ -41,12 +41,12 @@ The frontend currently operates using mock JSON datasets.
 
 Infrastructure already available:
 
-* Ubuntu Cloud Server
-* Docker
-* PostgreSQL container
-* n8n container
-* GitHub repository
-* VS Code Remote SSH environment
+- Ubuntu Cloud Server
+- Docker
+- PostgreSQL container
+- n8n container
+- GitHub repository
+- VS Code Remote SSH environment
 
 ---
 
@@ -54,9 +54,9 @@ Infrastructure already available:
 
 The current product is considered:
 
-* a validated operational prototype,
-* a business demonstration platform,
-* a foundation for enterprise evolution.
+- a validated operational prototype,
+- a business demonstration platform,
+- a foundation for enterprise evolution.
 
 The system is NOT considered production-ready yet.
 
@@ -66,11 +66,11 @@ The system is NOT considered production-ready yet.
 
 The platform will evolve into:
 
-* multi-tenant smart city platform,
-* realtime operational platform,
-* AI-assisted parking operations ecosystem,
-* camera-integrated occupancy platform,
-* municipal operational intelligence system.
+- multi-tenant smart city platform,
+- realtime operational platform,
+- AI-assisted parking operations ecosystem,
+- camera-integrated occupancy platform,
+- municipal operational intelligence system.
 
 ---
 
@@ -80,25 +80,25 @@ The project will evolve using:
 
 ## Frontend
 
-* React
-* TypeScript
-* Vite
+- React
+- TypeScript
+- Vite
 
 ## Backend
 
-* NestJS
+- NestJS
 
 ## Database
 
-* PostgreSQL
+- PostgreSQL
 
 ## ORM
 
-* Prisma
+- Prisma
 
 ## Infrastructure
 
-* Docker-based deployment
+- Docker-based deployment
 
 ---
 
@@ -108,11 +108,11 @@ The current frontend WILL NOT be rebuilt from scratch.
 
 The current strategy is:
 
-* preserve the validated frontend foundation,
-* progressively refactor architecture,
-* replace mock datasets,
-* connect real backend services,
-* evolve toward enterprise-grade architecture.
+- preserve the validated frontend foundation,
+- progressively refactor architecture,
+- replace mock datasets,
+- connect real backend services,
+- evolve toward enterprise-grade architecture.
 
 ---
 
@@ -135,12 +135,12 @@ Upcoming work includes:
 
 The project will prioritize:
 
-* long-term maintainability,
-* scalable architecture,
-* modular design,
-* AI-first development,
-* operational reliability,
-* progressive enterprise evolution.
+- long-term maintainability,
+- scalable architecture,
+- modular design,
+- AI-first development,
+- operational reliability,
+- progressive enterprise evolution.
 
 ---
 
@@ -148,5 +148,5 @@ The project will prioritize:
 
 The platform is being designed as:
 
-* a long-term operational ecosystem,
-* not as a temporary dashboard application.
+- a long-term operational ecosystem,
+- not as a temporary dashboard application.
