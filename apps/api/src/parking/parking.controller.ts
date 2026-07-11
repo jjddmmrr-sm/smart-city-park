@@ -13,6 +13,7 @@ import { ParkingService } from './parking.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
+import type { AuthenticatedRequest } from '../auth/types/jwt-payload.type';
 
 @ApiTags('Parking')
 @ApiBearerAuth()
@@ -23,7 +24,7 @@ export class ParkingController {
 
   @Roles('SUPER_ADMIN', 'ADMIN', 'OPERADOR', 'FINANZAS')
   @Get('zones')
-  findZones(@Req() req: any) {
+  findZones(@Req() req: AuthenticatedRequest) {
     return this.parkingService.findZones(req.user);
   }
 
@@ -41,7 +42,7 @@ export class ParkingController {
 
   @Roles('SUPER_ADMIN', 'ADMIN', 'OPERADOR', 'FINANZAS')
   @Get('spaces')
-  findSpaces(@Req() req: any) {
+  findSpaces(@Req() req: AuthenticatedRequest) {
     return this.parkingService.findSpaces(req.user);
   }
 
@@ -59,7 +60,7 @@ export class ParkingController {
 
   @Roles('SUPER_ADMIN', 'ADMIN', 'OPERADOR', 'FINANZAS')
   @Get('controllers')
-  findControllers(@Req() req: any) {
+  findControllers(@Req() req: AuthenticatedRequest) {
     return this.parkingService.findControllers(req.user);
   }
 

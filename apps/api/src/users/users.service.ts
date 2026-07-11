@@ -81,7 +81,12 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
 
-    const data: any = {};
+    const data: {
+      name?: string;
+      email?: string;
+      status?: string;
+      password?: string;
+    } = {};
 
     if (dto.name !== undefined) data.name = dto.name;
     if (dto.email !== undefined) data.email = dto.email;
