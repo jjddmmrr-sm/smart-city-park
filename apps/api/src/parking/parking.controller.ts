@@ -5,7 +5,6 @@ import {
   Param,
   Patch,
   Post,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -13,7 +12,8 @@ import { ParkingService } from './parking.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
-import type { AuthenticatedRequest } from '../auth/types/jwt-payload.type';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import type { JwtPayload } from '../auth/types/jwt-payload.type';
 
 type CreateZoneBody = Parameters<ParkingService['createZone']>[0];
 type UpdateZoneBody = Parameters<ParkingService['updateZone']>[1];
@@ -43,50 +43,61 @@ export class ParkingController {
 
   @Roles('SUPER_ADMIN', 'ADMIN', 'OPERADOR', 'FINANZAS')
   @Get('zones')
-  findZones(@Req() req: AuthenticatedRequest) {
-    return this.parkingService.findZones(req.user);
+  findZones(@CurrentUser() user: JwtPayload) {
+    return this.parkingService.findZones(user);
   }
 
   @Roles('SUPER_ADMIN')
   @Post('zones')
-  createZone(@Body() body: CreateZoneBody) {
-    return this.parkingService.createZone(body);
+  createZone(@Body() body: CreateZoneBody, @CurrentUser() user: JwtPayload) {
+    return this.parkingService.createZone(body, user);
   }
 
   @Roles('SUPER_ADMIN')
   @Patch('zones/:id')
-  updateZone(@Param('id') id: string, @Body() body: UpdateZoneBody) {
-    return this.parkingService.updateZone(id, body);
+  updateZone(
+    @Param('id') id: string,
+    @Body() body: UpdateZoneBody,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.parkingService.updateZone(id, body, user);
   }
 
   @Roles('SUPER_ADMIN', 'ADMIN', 'OPERADOR', 'FINANZAS')
   @Get('spaces')
-  findSpaces(@Req() req: AuthenticatedRequest) {
-    return this.parkingService.findSpaces(req.user);
+  findSpaces(@CurrentUser() user: JwtPayload) {
+    return this.parkingService.findSpaces(user);
   }
 
   @Roles('SUPER_ADMIN')
   @Post('spaces')
-  createSpace(@Body() body: CreateSpaceBody) {
-    return this.parkingService.createSpace(body);
+  createSpace(@Body() body: CreateSpaceBody, @CurrentUser() user: JwtPayload) {
+    return this.parkingService.createSpace(body, user);
   }
 
   @Roles('SUPER_ADMIN')
   @Patch('spaces/:id')
-  updateSpace(@Param('id') id: string, @Body() body: UpdateSpaceBody) {
-    return this.parkingService.updateSpace(id, body);
+  updateSpace(
+    @Param('id') id: string,
+    @Body() body: UpdateSpaceBody,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.parkingService.updateSpace(id, body, user);
   }
 
   @Roles('SUPER_ADMIN', 'ADMIN', 'OPERADOR', 'FINANZAS')
   @Get('controllers')
-  findControllers(@Req() req: AuthenticatedRequest) {
-    return this.parkingService.findControllers(req.user);
+  findControllers(@CurrentUser() user: JwtPayload) {
+    return this.parkingService.findControllers(user);
   }
 
   @Roles('SUPER_ADMIN')
   @Post('controllers')
-  createController(@Body() body: CreateControllerBody) {
-    return this.parkingService.createController(body);
+  createController(
+    @Body() body: CreateControllerBody,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.parkingService.createController(body, user);
   }
 
   @Roles('SUPER_ADMIN')
@@ -94,50 +105,64 @@ export class ParkingController {
   updateController(
     @Param('id') id: string,
     @Body() body: UpdateControllerBody,
+    @CurrentUser() user: JwtPayload,
   ) {
-    return this.parkingService.updateController(id, body);
+    return this.parkingService.updateController(id, body, user);
   }
 
   @Roles('SUPER_ADMIN')
   @Get('vehicles')
-  findVehicles() {
-    return this.parkingService.findVehicles();
+  findVehicles(@CurrentUser() user: JwtPayload) {
+    return this.parkingService.findVehicles(user);
   }
 
   @Roles('SUPER_ADMIN')
   @Post('vehicles')
-  createVehicle(@Body() body: CreateVehicleBody) {
-    return this.parkingService.createVehicle(body);
+  createVehicle(
+    @Body() body: CreateVehicleBody,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.parkingService.createVehicle(body, user);
   }
 
   @Roles('SUPER_ADMIN')
   @Get('fine-types')
-  findFineTypes() {
-    return this.parkingService.findFineTypes();
+  findFineTypes(@CurrentUser() user: JwtPayload) {
+    return this.parkingService.findFineTypes(user);
   }
 
   @Roles('SUPER_ADMIN')
   @Post('fine-types')
-  createFineType(@Body() body: CreateFineTypeBody) {
-    return this.parkingService.createFineType(body);
+  createFineType(
+    @Body() body: CreateFineTypeBody,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.parkingService.createFineType(body, user);
   }
 
   @Roles('SUPER_ADMIN')
   @Patch('fine-types/:id')
-  updateFineType(@Param('id') id: string, @Body() body: UpdateFineTypeBody) {
-    return this.parkingService.updateFineType(id, body);
+  updateFineType(
+    @Param('id') id: string,
+    @Body() body: UpdateFineTypeBody,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.parkingService.updateFineType(id, body, user);
   }
 
   @Roles('SUPER_ADMIN')
   @Get('payment-methods')
-  findPaymentMethods() {
-    return this.parkingService.findPaymentMethods();
+  findPaymentMethods(@CurrentUser() user: JwtPayload) {
+    return this.parkingService.findPaymentMethods(user);
   }
 
   @Roles('SUPER_ADMIN')
   @Post('payment-methods')
-  createPaymentMethod(@Body() body: CreatePaymentMethodBody) {
-    return this.parkingService.createPaymentMethod(body);
+  createPaymentMethod(
+    @Body() body: CreatePaymentMethodBody,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.parkingService.createPaymentMethod(body, user);
   }
 
   @Roles('SUPER_ADMIN')
@@ -145,43 +170,51 @@ export class ParkingController {
   updatePaymentMethod(
     @Param('id') id: string,
     @Body() body: UpdatePaymentMethodBody,
+    @CurrentUser() user: JwtPayload,
   ) {
-    return this.parkingService.updatePaymentMethod(id, body);
+    return this.parkingService.updatePaymentMethod(id, body, user);
   }
 
   @Roles('SUPER_ADMIN')
   @Get('rates')
-  findRates() {
-    return this.parkingService.findRates();
+  findRates(@CurrentUser() user: JwtPayload) {
+    return this.parkingService.findRates(user);
   }
 
   @Roles('SUPER_ADMIN')
   @Post('rates')
-  createRate(@Body() body: CreateRateBody) {
-    return this.parkingService.createRate(body);
+  createRate(@Body() body: CreateRateBody, @CurrentUser() user: JwtPayload) {
+    return this.parkingService.createRate(body, user);
   }
 
   @Roles('SUPER_ADMIN')
   @Patch('rates/:id')
-  updateRate(@Param('id') id: string, @Body() body: UpdateRateBody) {
-    return this.parkingService.updateRate(id, body);
+  updateRate(
+    @Param('id') id: string,
+    @Body() body: UpdateRateBody,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.parkingService.updateRate(id, body, user);
   }
 
   @Roles('SUPER_ADMIN')
   @Get('sessions')
-  findSessions() {
-    return this.parkingService.findSessions();
+  findSessions(@CurrentUser() user: JwtPayload) {
+    return this.parkingService.findSessions(user);
   }
 
   @Roles('SUPER_ADMIN')
   @Post('sessions/start')
-  startSession(@Body() body: StartSessionBody) {
-    return this.parkingService.startSession(body);
+  startSession(
+    @Body() body: StartSessionBody,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.parkingService.startSession(body, user);
   }
 
   @Roles('SUPER_ADMIN')
   @Post('sessions/:id/end')
-  endSession(@Param('id') id: string) {
-    return this.parkingService.endSession(id);
+  endSession(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
+    return this.parkingService.endSession(id, user);
   }
 }

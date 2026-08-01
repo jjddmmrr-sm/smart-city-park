@@ -1,32 +1,62 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import type { JwtPayload } from '../auth/types/jwt-payload.type';
 
 @Injectable()
 export class FrontendService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getOverview() {
-    const totalSpaces = await this.prisma.parkingSpace.count();
+  private isSuperAdmin(user: JwtPayload): boolean {
+    return user.roles?.includes('SUPER_ADMIN') ?? false;
+  }
+
+  private tenantFilter(user: JwtPayload): { tenantId: string } | undefined {
+    return this.isSuperAdmin(user) ? undefined : { tenantId: user.tenantId };
+  }
+
+  private assertTenantAccess(
+    user: JwtPayload,
+    resourceTenantId: string,
+    notFoundMessage: string,
+  ) {
+    if (!this.isSuperAdmin(user) && user.tenantId !== resourceTenantId) {
+      throw new NotFoundException(notFoundMessage);
+    }
+  }
+
+  async getOverview(user: JwtPayload) {
+    const tenantWhere = this.tenantFilter(user);
+
+    const totalSpaces = await this.prisma.parkingSpace.count({
+      where: tenantWhere,
+    });
     const occupiedSpaces = await this.prisma.parkingSpace.count({
-      where: { status: 'occupied' },
+      where: { ...tenantWhere, status: 'occupied' },
     });
     const availableSpaces = await this.prisma.parkingSpace.count({
-      where: { status: 'available' },
+      where: { ...tenantWhere, status: 'available' },
     });
     const activeSessions = await this.prisma.parkingSession.count({
-      where: { status: 'active' },
+      where: { ...tenantWhere, status: 'active' },
     });
     const completedSessions = await this.prisma.parkingSession.count({
-      where: { status: 'completed' },
+      where: { ...tenantWhere, status: 'completed' },
     });
-    const vehiclesToday = await this.prisma.vehicle.count();
+    const vehiclesToday = await this.prisma.vehicle.count({
+      where: tenantWhere,
+    });
 
     const revenue = await this.prisma.parkingSession.aggregate({
-      where: { status: 'completed' },
+      where: { ...tenantWhere, status: 'completed' },
       _sum: { amount: true },
     });
 
     const fines = await this.prisma.fine.aggregate({
+      where: tenantWhere,
       _sum: { amount: true },
       _count: { id: true },
     });
@@ -44,21 +74,22 @@ export class FrontendService {
       activeSessions,
       completedSessions,
       activeAlerts: await this.prisma.enforcementCase.count({
-        where: { status: 'pending' },
+        where: { ...tenantWhere, status: 'pending' },
       }),
       overstayCases: await this.prisma.enforcementCase.count({
-        where: { issue: 'overstay' },
+        where: { ...tenantWhere, issue: 'overstay' },
       }),
       unpaidCases: await this.prisma.enforcementCase.count({
-        where: { issue: 'no_payment' },
+        where: { ...tenantWhere, issue: 'no_payment' },
       }),
       ticketsIssued: fines._count.id,
       ticketsAmount: fines._sum.amount ?? 0,
     };
   }
 
-  async getControllers() {
+  async getControllers(user: JwtPayload) {
     const inspectors = await this.prisma.inspector.findMany({
+      where: this.tenantFilter(user),
       include: { assignedZone: true },
       orderBy: { createdAt: 'desc' },
     });
@@ -74,8 +105,9 @@ export class FrontendService {
     }));
   }
 
-  async getPayments() {
+  async getPayments(user: JwtPayload) {
     const payments = await this.prisma.payment.findMany({
+      where: this.tenantFilter(user),
       include: { paymentMethod: true, city: true },
       orderBy: { paidAt: 'desc' },
     });
@@ -92,8 +124,9 @@ export class FrontendService {
     }));
   }
 
-  async getFines() {
+  async getFines(user: JwtPayload) {
     const fines = await this.prisma.fine.findMany({
+      where: this.tenantFilter(user),
       include: { fineType: true, inspector: true, city: true },
       orderBy: { issuedAt: 'desc' },
     });
@@ -115,8 +148,9 @@ export class FrontendService {
     }));
   }
 
-  async getEnforcement() {
+  async getEnforcement(user: JwtPayload) {
     const cases = await this.prisma.enforcementCase.findMany({
+      where: this.tenantFilter(user),
       include: { city: true },
       orderBy: { detectedAt: 'desc' },
     });
@@ -135,12 +169,26 @@ export class FrontendService {
     }));
   }
 
-  async updateEnforcementStatus(id: string, status: string) {
+  async updateEnforcementStatus(id: string, status: string, user: JwtPayload) {
     const allowed = ['pending', 'reviewing', 'fined', 'resolved'];
 
     if (!allowed.includes(status)) {
-      throw new Error('Invalid enforcement status');
+      throw new BadRequestException('Invalid enforcement status');
     }
+
+    const enforcementCase = await this.prisma.enforcementCase.findUnique({
+      where: { id },
+    });
+
+    if (!enforcementCase) {
+      throw new NotFoundException('Enforcement case not found');
+    }
+
+    this.assertTenantAccess(
+      user,
+      enforcementCase.tenantId,
+      'Enforcement case not found',
+    );
 
     return this.prisma.enforcementCase.update({
       where: { id },
@@ -151,8 +199,11 @@ export class FrontendService {
     });
   }
 
-  async getZones() {
+  async getZones(user: JwtPayload) {
+    const tenantWhere = this.tenantFilter(user);
+
     const zones = await this.prisma.parkingZone.findMany({
+      where: tenantWhere,
       include: {
         spaces: true,
       },
@@ -160,7 +211,7 @@ export class FrontendService {
     });
 
     const rates = await this.prisma.parkingRate.findMany({
-      where: { status: 'active' },
+      where: { ...tenantWhere, status: 'active' },
     });
 
     return zones.map((z) => {
@@ -179,8 +230,11 @@ export class FrontendService {
     });
   }
 
-  async getSpaces() {
+  async getSpaces(user: JwtPayload) {
+    const tenantWhere = this.tenantFilter(user);
+
     const spaces = await this.prisma.parkingSpace.findMany({
+      where: tenantWhere,
       include: {
         zone: true,
       },
@@ -188,7 +242,7 @@ export class FrontendService {
     });
 
     const rates = await this.prisma.parkingRate.findMany({
-      where: { status: 'active' },
+      where: { ...tenantWhere, status: 'active' },
     });
 
     return spaces.map((s) => {
@@ -207,8 +261,9 @@ export class FrontendService {
     });
   }
 
-  async getLive() {
+  async getLive(user: JwtPayload) {
     const spaces = await this.prisma.parkingSpace.findMany({
+      where: this.tenantFilter(user),
       include: {
         zone: true,
         sessions: {
@@ -239,7 +294,15 @@ export class FrontendService {
     });
   }
 
-  async updateFineStatus(id: string, status: string) {
+  async updateFineStatus(id: string, status: string, user: JwtPayload) {
+    const fine = await this.prisma.fine.findUnique({ where: { id } });
+
+    if (!fine) {
+      throw new NotFoundException('Fine not found');
+    }
+
+    this.assertTenantAccess(user, fine.tenantId, 'Fine not found');
+
     return this.prisma.fine.update({
       where: { id },
       data: {
@@ -249,8 +312,9 @@ export class FrontendService {
     });
   }
 
-  async getVehicles() {
+  async getVehicles(user: JwtPayload) {
     const sessions = await this.prisma.parkingSession.findMany({
+      where: this.tenantFilter(user),
       include: {
         vehicle: true,
         space: {
