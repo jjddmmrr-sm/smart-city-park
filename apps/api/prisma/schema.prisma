@@ -84,6 +84,7 @@ model User {
   auditLogs AuditLog[]
   zoneAccess UserZoneAccess[]
 
+  @@index([tenantId])
   @@map("users")
 }
 
@@ -173,6 +174,7 @@ model ParkingZone {
   userZoneAccess UserZoneAccess[]
 
   @@unique([cityId, code])
+  @@index([tenantId])
   @@map("parking_zones")
 }
 
@@ -196,6 +198,7 @@ model ParkingSpace {
   sessions ParkingSession[]
 
   @@unique([zoneId, code])
+  @@index([tenantId])
   @@map("parking_spaces")
 }
 
@@ -238,6 +241,7 @@ model ParkingRate {
   city   City   @relation(fields: [cityId], references: [id])
 
   @@unique([cityId, code])
+  @@index([tenantId])
   @@map("parking_rates")
 }
 
@@ -261,6 +265,7 @@ model ParkingSession {
   payments Payment[]
   fines    Fine[]
 
+  @@index([tenantId])
   @@map("parking_sessions")
 }
 
@@ -300,6 +305,7 @@ model Payment {
   session       ParkingSession? @relation(fields: [sessionId], references: [id])
   paymentMethod PaymentMethod   @relation(fields: [paymentMethodId], references: [id])
 
+  @@index([tenantId])
   @@map("payments")
 }
 
@@ -323,6 +329,7 @@ model Inspector {
   fines            Fine[]
   enforcementCases EnforcementCase[]
 
+  @@index([tenantId])
   @@map("inspectors")
 }
 
@@ -370,6 +377,7 @@ model Fine {
   inspector Inspector?      @relation(fields: [inspectorId], references: [id])
   fineType  FineType        @relation(fields: [fineTypeId], references: [id])
 
+  @@index([tenantId])
   @@map("fines")
 }
 
@@ -394,6 +402,7 @@ model EnforcementCase {
   inspector Inspector? @relation(fields: [inspectorId], references: [id])
   vehicle   Vehicle?   @relation(fields: [vehicleId], references: [id])
 
+  @@index([tenantId])
   @@map("enforcement_cases")
 }
 
@@ -456,5 +465,6 @@ model AuditLog {
   tenant Tenant? @relation(fields: [tenantId], references: [id])
   user   User?   @relation(fields: [userId], references: [id])
 
+  @@index([tenantId])
   @@map("audit_logs")
 }

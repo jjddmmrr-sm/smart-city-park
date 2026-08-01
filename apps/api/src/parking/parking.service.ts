@@ -4,15 +4,28 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import type { JwtPayload } from '../auth/types/jwt-payload.type';
 
 @Injectable()
 export class ParkingService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findZones(user?: { sub?: string; roles?: string[] }) {
-    const isSuperAdmin = user?.roles?.includes('SUPER_ADMIN');
+  private isSuperAdmin(user: JwtPayload): boolean {
+    return user.roles?.includes('SUPER_ADMIN') ?? false;
+  }
 
-    if (isSuperAdmin) {
+  private assertTenantAccess(
+    user: JwtPayload,
+    resourceTenantId: string,
+    notFoundMessage: string,
+  ) {
+    if (!this.isSuperAdmin(user) && user.tenantId !== resourceTenantId) {
+      throw new NotFoundException(notFoundMessage);
+    }
+  }
+
+  async findZones(user: JwtPayload) {
+    if (this.isSuperAdmin(user)) {
       return this.prisma.parkingZone.findMany({
         include: { spaces: true },
         orderBy: { name: 'asc' },
@@ -20,7 +33,7 @@ export class ParkingService {
     }
 
     const zoneAccess = await this.prisma.userZoneAccess.findMany({
-      where: { userId: user?.sub ?? '' },
+      where: { userId: user.sub },
       select: { zoneId: true },
     });
 
@@ -31,25 +44,26 @@ export class ParkingService {
     }
 
     return this.prisma.parkingZone.findMany({
-      where: { id: { in: zoneIds } },
+      where: { id: { in: zoneIds }, tenantId: user.tenantId },
       include: { spaces: true },
       orderBy: { name: 'asc' },
     });
   }
 
-  async createZone(data: { name: string; code: string; status?: string }) {
-    const admin = await this.prisma.user.findFirst({
-      where: { email: 'admin@smartparking.com' },
-    });
-
-    if (!admin?.tenantId || !admin?.cityId) {
-      throw new BadRequestException('Base admin tenant/city not found');
+  async createZone(
+    data: { name: string; code: string; status?: string },
+    user: JwtPayload,
+  ) {
+    if (!user.cityId) {
+      throw new BadRequestException(
+        'Authenticated user is not associated with a city',
+      );
     }
 
     return this.prisma.parkingZone.create({
       data: {
-        tenantId: admin.tenantId,
-        cityId: admin.cityId,
+        tenantId: user.tenantId,
+        cityId: user.cityId,
         name: data.name,
         code: data.code.toUpperCase(),
         status: data.status ?? 'active',
@@ -61,12 +75,15 @@ export class ParkingService {
   async updateZone(
     id: string,
     data: { name?: string; code?: string; status?: string },
+    user: JwtPayload,
   ) {
     const zone = await this.prisma.parkingZone.findUnique({ where: { id } });
 
     if (!zone) {
       throw new NotFoundException('Parking zone not found');
     }
+
+    this.assertTenantAccess(user, zone.tenantId, 'Parking zone not found');
 
     return this.prisma.parkingZone.update({
       where: { id },
@@ -79,10 +96,8 @@ export class ParkingService {
     });
   }
 
-  async findSpaces(user?: { sub?: string; roles?: string[] }) {
-    const isSuperAdmin = user?.roles?.includes('SUPER_ADMIN');
-
-    if (isSuperAdmin) {
+  async findSpaces(user: JwtPayload) {
+    if (this.isSuperAdmin(user)) {
       return this.prisma.parkingSpace.findMany({
         include: { zone: true, sessions: true },
         orderBy: { code: 'asc' },
@@ -90,7 +105,7 @@ export class ParkingService {
     }
 
     const zoneAccess = await this.prisma.userZoneAccess.findMany({
-      where: { userId: user?.sub ?? '' },
+      where: { userId: user.sub },
       select: { zoneId: true },
     });
 
@@ -102,24 +117,26 @@ export class ParkingService {
 
     return this.prisma.parkingSpace.findMany({
       where: {
-        zoneId: {
-          in: zoneIds,
-        },
+        zoneId: { in: zoneIds },
+        tenantId: user.tenantId,
       },
       include: { zone: true, sessions: true },
       orderBy: { code: 'asc' },
     });
   }
 
-  async createSpace(data: {
-    zoneId: string;
-    code: string;
-    label?: string;
-    type?: string;
-    status?: string;
-    latitude?: number;
-    longitude?: number;
-  }) {
+  async createSpace(
+    data: {
+      zoneId: string;
+      code: string;
+      label?: string;
+      type?: string;
+      status?: string;
+      latitude?: number;
+      longitude?: number;
+    },
+    user: JwtPayload,
+  ) {
     const zone = await this.prisma.parkingZone.findUnique({
       where: { id: data.zoneId },
     });
@@ -127,6 +144,8 @@ export class ParkingService {
     if (!zone) {
       throw new NotFoundException('Parking zone not found');
     }
+
+    this.assertTenantAccess(user, zone.tenantId, 'Parking zone not found');
 
     return this.prisma.parkingSpace.create({
       data: {
@@ -155,11 +174,26 @@ export class ParkingService {
       latitude?: number;
       longitude?: number;
     },
+    user: JwtPayload,
   ) {
     const space = await this.prisma.parkingSpace.findUnique({ where: { id } });
 
     if (!space) {
       throw new NotFoundException('Parking space not found');
+    }
+
+    this.assertTenantAccess(user, space.tenantId, 'Parking space not found');
+
+    if (data.zoneId !== undefined) {
+      const zone = await this.prisma.parkingZone.findUnique({
+        where: { id: data.zoneId },
+      });
+
+      if (!zone) {
+        throw new NotFoundException('Parking zone not found');
+      }
+
+      this.assertTenantAccess(user, zone.tenantId, 'Parking zone not found');
     }
 
     return this.prisma.parkingSpace.update({
@@ -181,10 +215,8 @@ export class ParkingService {
     });
   }
 
-  async findControllers(user?: { sub?: string; roles?: string[] }) {
-    const isSuperAdmin = user?.roles?.includes('SUPER_ADMIN');
-
-    if (isSuperAdmin) {
+  async findControllers(user: JwtPayload) {
+    if (this.isSuperAdmin(user)) {
       return this.prisma.inspector.findMany({
         include: { assignedZone: true },
         orderBy: { createdAt: 'desc' },
@@ -192,7 +224,7 @@ export class ParkingService {
     }
 
     const zoneAccess = await this.prisma.userZoneAccess.findMany({
-      where: { userId: user?.sub ?? '' },
+      where: { userId: user.sub },
       select: { zoneId: true },
     });
 
@@ -204,36 +236,48 @@ export class ParkingService {
 
     return this.prisma.inspector.findMany({
       where: {
-        assignedZoneId: {
-          in: zoneIds,
-        },
+        assignedZoneId: { in: zoneIds },
+        tenantId: user.tenantId,
       },
       include: { assignedZone: true },
       orderBy: { createdAt: 'desc' },
     });
   }
 
-  async createController(data: {
-    name: string;
-    email?: string;
-    phone?: string;
-    assignedZoneId?: string;
-    deviceId?: string;
-    shift?: string;
-    status?: string;
-  }) {
-    const admin = await this.prisma.user.findFirst({
-      where: { email: 'admin@smartparking.com' },
-    });
+  async createController(
+    data: {
+      name: string;
+      email?: string;
+      phone?: string;
+      assignedZoneId?: string;
+      deviceId?: string;
+      shift?: string;
+      status?: string;
+    },
+    user: JwtPayload,
+  ) {
+    if (!user.cityId) {
+      throw new BadRequestException(
+        'Authenticated user is not associated with a city',
+      );
+    }
 
-    if (!admin?.tenantId || !admin?.cityId) {
-      throw new BadRequestException('Base admin tenant/city not found');
+    if (data.assignedZoneId) {
+      const zone = await this.prisma.parkingZone.findUnique({
+        where: { id: data.assignedZoneId },
+      });
+
+      if (!zone) {
+        throw new NotFoundException('Parking zone not found');
+      }
+
+      this.assertTenantAccess(user, zone.tenantId, 'Parking zone not found');
     }
 
     return this.prisma.inspector.create({
       data: {
-        tenantId: admin.tenantId,
-        cityId: admin.cityId,
+        tenantId: user.tenantId,
+        cityId: user.cityId,
         name: data.name,
         email: data.email,
         phone: data.phone,
@@ -257,11 +301,26 @@ export class ParkingService {
       shift?: string;
       status?: string;
     },
+    user: JwtPayload,
   ) {
     const inspector = await this.prisma.inspector.findUnique({ where: { id } });
 
     if (!inspector) {
       throw new NotFoundException('Controller not found');
+    }
+
+    this.assertTenantAccess(user, inspector.tenantId, 'Controller not found');
+
+    if (data.assignedZoneId !== undefined && data.assignedZoneId) {
+      const zone = await this.prisma.parkingZone.findUnique({
+        where: { id: data.assignedZoneId },
+      });
+
+      if (!zone) {
+        throw new NotFoundException('Parking zone not found');
+      }
+
+      this.assertTenantAccess(user, zone.tenantId, 'Parking zone not found');
     }
 
     return this.prisma.inspector.update({
@@ -281,23 +340,38 @@ export class ParkingService {
     });
   }
 
-  findVehicles() {
-    return this.prisma.vehicle.findMany({ orderBy: { createdAt: 'desc' } });
+  findVehicles(user: JwtPayload) {
+    return this.prisma.vehicle.findMany({
+      where: this.isSuperAdmin(user) ? undefined : { tenantId: user.tenantId },
+      orderBy: { createdAt: 'desc' },
+    });
   }
 
-  createVehicle(data: {
-    tenantId: string;
-    cityId: string;
-    plateNumber: string;
-    ownerName?: string;
-    ownerPhone?: string;
-    ownerEmail?: string;
-  }) {
+  async createVehicle(
+    data: {
+      cityId: string;
+      plateNumber: string;
+      ownerName?: string;
+      ownerPhone?: string;
+      ownerEmail?: string;
+    },
+    user: JwtPayload,
+  ) {
+    const city = await this.prisma.city.findUnique({
+      where: { id: data.cityId },
+    });
+
+    if (!city || city.tenantId !== user.tenantId) {
+      throw new BadRequestException('Invalid city for the current tenant');
+    }
+
+    const plateNumber = data.plateNumber.toUpperCase();
+
     return this.prisma.vehicle.upsert({
       where: {
         tenantId_plateNumber: {
-          tenantId: data.tenantId,
-          plateNumber: data.plateNumber.toUpperCase(),
+          tenantId: user.tenantId,
+          plateNumber,
         },
       },
       update: {
@@ -307,38 +381,40 @@ export class ParkingService {
         status: 'active',
       },
       create: {
-        ...data,
-        plateNumber: data.plateNumber.toUpperCase(),
+        tenantId: user.tenantId,
+        cityId: data.cityId,
+        plateNumber,
+        ownerName: data.ownerName,
+        ownerPhone: data.ownerPhone,
+        ownerEmail: data.ownerEmail,
       },
     });
   }
 
-  findFineTypes() {
+  findFineTypes(user: JwtPayload) {
     return this.prisma.fineType.findMany({
+      where: this.isSuperAdmin(user) ? undefined : { tenantId: user.tenantId },
       orderBy: { createdAt: 'desc' },
     });
   }
 
-  async createFineType(data: {
-    code: string;
-    name: string;
-    description?: string;
-    amount: number;
-    status?: string;
-  }) {
-    const admin = await this.prisma.user.findFirst({
-      where: { email: 'admin@smartparking.com' },
-    });
-
-    if (!admin?.tenantId) {
-      throw new BadRequestException('Base admin tenant not found');
-    }
+  async createFineType(
+    data: {
+      code: string;
+      name: string;
+      description?: string;
+      amount: number;
+      status?: string;
+    },
+    user: JwtPayload,
+  ) {
+    const code = data.code.toUpperCase();
 
     return this.prisma.fineType.upsert({
       where: {
         tenantId_code: {
-          tenantId: admin.tenantId,
-          code: data.code.toUpperCase(),
+          tenantId: user.tenantId,
+          code,
         },
       },
       update: {
@@ -348,8 +424,8 @@ export class ParkingService {
         status: data.status ?? 'active',
       },
       create: {
-        tenantId: admin.tenantId,
-        code: data.code.toUpperCase(),
+        tenantId: user.tenantId,
+        code,
         name: data.name,
         description: data.description,
         amount: Number(data.amount),
@@ -367,12 +443,15 @@ export class ParkingService {
       amount?: number;
       status?: string;
     },
+    user: JwtPayload,
   ) {
     const fineType = await this.prisma.fineType.findUnique({ where: { id } });
 
     if (!fineType) {
       throw new NotFoundException('Fine type not found');
     }
+
+    this.assertTenantAccess(user, fineType.tenantId, 'Fine type not found');
 
     return this.prisma.fineType.update({
       where: { id },
@@ -388,31 +467,29 @@ export class ParkingService {
     });
   }
 
-  findPaymentMethods() {
+  findPaymentMethods(user: JwtPayload) {
     return this.prisma.paymentMethod.findMany({
+      where: this.isSuperAdmin(user) ? undefined : { tenantId: user.tenantId },
       orderBy: { createdAt: 'desc' },
     });
   }
 
-  async createPaymentMethod(data: {
-    code: string;
-    name: string;
-    description?: string;
-    status?: string;
-  }) {
-    const admin = await this.prisma.user.findFirst({
-      where: { email: 'admin@smartparking.com' },
-    });
-
-    if (!admin?.tenantId) {
-      throw new BadRequestException('Base admin tenant not found');
-    }
+  async createPaymentMethod(
+    data: {
+      code: string;
+      name: string;
+      description?: string;
+      status?: string;
+    },
+    user: JwtPayload,
+  ) {
+    const code = data.code.toUpperCase();
 
     return this.prisma.paymentMethod.upsert({
       where: {
         tenantId_code: {
-          tenantId: admin.tenantId,
-          code: data.code.toUpperCase(),
+          tenantId: user.tenantId,
+          code,
         },
       },
       update: {
@@ -421,8 +498,8 @@ export class ParkingService {
         status: data.status ?? 'active',
       },
       create: {
-        tenantId: admin.tenantId,
-        code: data.code.toUpperCase(),
+        tenantId: user.tenantId,
+        code,
         name: data.name,
         description: data.description,
         status: data.status ?? 'active',
@@ -438,6 +515,7 @@ export class ParkingService {
       description?: string;
       status?: string;
     },
+    user: JwtPayload,
   ) {
     const method = await this.prisma.paymentMethod.findUnique({
       where: { id },
@@ -446,6 +524,8 @@ export class ParkingService {
     if (!method) {
       throw new NotFoundException('Payment method not found');
     }
+
+    this.assertTenantAccess(user, method.tenantId, 'Payment method not found');
 
     return this.prisma.paymentMethod.update({
       where: { id },
@@ -460,31 +540,37 @@ export class ParkingService {
     });
   }
 
-  findRates() {
-    return this.prisma.parkingRate.findMany({ orderBy: { createdAt: 'desc' } });
+  findRates(user: JwtPayload) {
+    return this.prisma.parkingRate.findMany({
+      where: this.isSuperAdmin(user) ? undefined : { tenantId: user.tenantId },
+      orderBy: { createdAt: 'desc' },
+    });
   }
 
-  async createRate(data: {
-    name: string;
-    code: string;
-    currency?: string;
-    pricePerMinute: number;
-    minimumMinutes?: number;
-    status?: string;
-  }) {
-    const admin = await this.prisma.user.findFirst({
-      where: { email: 'admin@smartparking.com' },
-    });
-
-    if (!admin?.tenantId || !admin?.cityId) {
-      throw new BadRequestException('Base admin tenant/city not found');
+  async createRate(
+    data: {
+      name: string;
+      code: string;
+      currency?: string;
+      pricePerMinute: number;
+      minimumMinutes?: number;
+      status?: string;
+    },
+    user: JwtPayload,
+  ) {
+    if (!user.cityId) {
+      throw new BadRequestException(
+        'Authenticated user is not associated with a city',
+      );
     }
+
+    const code = data.code.toUpperCase();
 
     return this.prisma.parkingRate.upsert({
       where: {
         cityId_code: {
-          cityId: admin.cityId,
-          code: data.code.toUpperCase(),
+          cityId: user.cityId,
+          code,
         },
       },
       update: {
@@ -495,10 +581,10 @@ export class ParkingService {
         status: data.status ?? 'active',
       },
       create: {
-        tenantId: admin.tenantId,
-        cityId: admin.cityId,
+        tenantId: user.tenantId,
+        cityId: user.cityId,
         name: data.name,
-        code: data.code.toUpperCase(),
+        code,
         currency: data.currency ?? 'USD',
         pricePerMinute: Number(data.pricePerMinute),
         minimumMinutes: data.minimumMinutes ?? 15,
@@ -517,12 +603,15 @@ export class ParkingService {
       minimumMinutes?: number;
       status?: string;
     },
+    user: JwtPayload,
   ) {
     const rate = await this.prisma.parkingRate.findUnique({ where: { id } });
 
     if (!rate) {
       throw new NotFoundException('Parking rate not found');
     }
+
+    this.assertTenantAccess(user, rate.tenantId, 'Parking rate not found');
 
     return this.prisma.parkingRate.update({
       where: { id },
@@ -541,8 +630,9 @@ export class ParkingService {
     });
   }
 
-  findSessions() {
+  findSessions(user: JwtPayload) {
     return this.prisma.parkingSession.findMany({
+      where: this.isSuperAdmin(user) ? undefined : { tenantId: user.tenantId },
       include: {
         vehicle: true,
         space: true,
@@ -552,12 +642,30 @@ export class ParkingService {
     });
   }
 
-  async startSession(data: {
-    tenantId: string;
-    cityId: string;
-    spaceId: string;
-    vehicleId: string;
-  }) {
+  async startSession(
+    data: { spaceId: string; vehicleId: string },
+    user: JwtPayload,
+  ) {
+    const space = await this.prisma.parkingSpace.findUnique({
+      where: { id: data.spaceId },
+    });
+
+    if (!space) {
+      throw new NotFoundException('Parking space not found');
+    }
+
+    this.assertTenantAccess(user, space.tenantId, 'Parking space not found');
+
+    const vehicle = await this.prisma.vehicle.findUnique({
+      where: { id: data.vehicleId },
+    });
+
+    if (!vehicle) {
+      throw new NotFoundException('Vehicle not found');
+    }
+
+    this.assertTenantAccess(user, vehicle.tenantId, 'Vehicle not found');
+
     const activeSession = await this.prisma.parkingSession.findFirst({
       where: {
         spaceId: data.spaceId,
@@ -578,8 +686,8 @@ export class ParkingService {
 
     return this.prisma.parkingSession.create({
       data: {
-        tenantId: data.tenantId,
-        cityId: data.cityId,
+        tenantId: space.tenantId,
+        cityId: space.cityId,
         spaceId: data.spaceId,
         vehicleId: data.vehicleId,
         status: 'active',
@@ -591,7 +699,7 @@ export class ParkingService {
     });
   }
 
-  async endSession(sessionId: string) {
+  async endSession(sessionId: string, user: JwtPayload) {
     const session = await this.prisma.parkingSession.findUnique({
       where: { id: sessionId },
       include: { city: true },
@@ -600,6 +708,12 @@ export class ParkingService {
     if (!session) {
       throw new NotFoundException('Parking session not found');
     }
+
+    this.assertTenantAccess(
+      user,
+      session.tenantId,
+      'Parking session not found',
+    );
 
     if (session.status !== 'active') {
       throw new BadRequestException('Parking session is not active');

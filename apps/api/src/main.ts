@@ -8,8 +8,26 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api/v1');
 
+  const configuredOrigins = (process.env.CORS_ORIGINS ?? '')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+  const defaultDevOrigins = ['http://localhost:5173', 'http://localhost:3000'];
+  const corsOrigins =
+    configuredOrigins.length > 0 ? configuredOrigins : defaultDevOrigins;
+
+  if (configuredOrigins.length === 0) {
+    console.warn(
+      'CORS_ORIGINS is not set. Falling back to local dev origins ' +
+        `(${defaultDevOrigins.join(', ')}). Set CORS_ORIGINS in any ` +
+        'deployed environment (comma-separated) or requests from the real ' +
+        'frontend origin will be rejected.',
+    );
+  }
+
   app.enableCors({
-    origin: true,
+    origin: corsOrigins,
     credentials: true,
   });
 

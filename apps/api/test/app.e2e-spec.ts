@@ -24,6 +24,18 @@ describe('AppController (e2e)', () => {
       .expect('Hello World!');
   });
 
+  it('/frontend/overview (GET) rejects requests without a JWT', () => {
+    return request(app.getHttpServer())
+      .get('/api/v1/frontend/overview')
+      .expect(401);
+  });
+
+  it('/parking/zones (GET) rejects requests without a JWT', () => {
+    return request(app.getHttpServer())
+      .get('/api/v1/parking/zones')
+      .expect(401);
+  });
+
   afterEach(async () => {
     await app.close();
   });
