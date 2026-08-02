@@ -1,18 +1,6 @@
 import { createHash } from 'crypto';
 import type { ParkingInfoDto } from './dto/parking-info.dto';
-import type {
-  CameraParkingEvent,
-  DahuaDetectionScope,
-  DahuaOccupancyStatus,
-} from './types';
-
-export interface ResolvedCameraForParkingInfo {
-  id: string;
-  tenantId: string;
-  cityId: string;
-  deviceId: string;
-  channel: number;
-}
+import type { DahuaDetectionScope, DahuaOccupancyStatus } from './types';
 
 const OCCUPANCY_STATUS_BY_CODE: Record<number, DahuaOccupancyStatus> = {
   0: 'OCCUPIED',
@@ -73,53 +61,4 @@ export function computeIdempotencyKey(
     .update(JSON.stringify(rawPayload))
     .digest('hex');
   return createHash('sha256').update(`${base}|${payloadHash}`).digest('hex');
-}
-
-/**
- * Pure Dahua → canonical CameraParkingEvent mapping. No I/O, no Prisma —
- * see DAHUA_IMPLEMENTATION_PLAN.md §3. Image content (Base64) is never
- * read here — out of scope for this commit.
- */
-export function normalizeParkingInfo(
-  dto: ParkingInfoDto,
-  camera: ResolvedCameraForParkingInfo,
-  rawEventId: string,
-  rawPayload: unknown,
-): CameraParkingEvent {
-  const block = dto.Picture.ParkingInfo;
-  const detectionScope = resolveDetectionScope(block.ParkingStallsNo);
-
-  return {
-    source: 'DAHUA_ITSAPI',
-    tenantId: camera.tenantId,
-    cityId: camera.cityId,
-    cameraId: camera.id,
-    deviceId: camera.deviceId,
-    detectionScope,
-    parkingSpaceCode: block.ParkingStallsNo || undefined,
-    occupancyStatus: resolveOccupancyStatus(block.ParkingStatus),
-    illegalAreaName:
-      detectionScope === 'ILLEGAL_AREA'
-        ? block.DetectRegionName || undefined
-        : undefined,
-    detectedAt: block.SnapTime,
-    plate: dto.Picture.Plate
-      ? {
-          exists: dto.Picture.Plate.IsExist,
-          number: dto.Picture.Plate.PlateNumber || undefined,
-          confidence: dto.Picture.Plate.Confidence,
-          color: dto.Picture.Plate.PlateColor || undefined,
-          region: dto.Picture.Plate.Region || undefined,
-        }
-      : undefined,
-    vehicle: dto.Picture.Vehicle
-      ? { type: dto.Picture.Vehicle.VehicleSeries || undefined }
-      : undefined,
-    idempotencyKey: computeIdempotencyKey(dto, rawPayload),
-    rawEventId,
-    channel: block.Channel ?? camera.channel,
-    timezoneOffset: block.TimeZone,
-    allowedUser: block.AllowUser,
-    entryRecordId: block.inRecordId || undefined,
-  };
 }

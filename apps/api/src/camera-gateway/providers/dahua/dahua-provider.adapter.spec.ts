@@ -60,15 +60,6 @@ const illegalAreaPayload = {
   },
 };
 
-const camera = {
-  id: 'cam-1',
-  tenantId: 'tenant-a',
-  cityId: 'city-a',
-  zoneId: 'zone-1',
-  externalDeviceId: '1a85820a-9edf-406a-8338-170689f6099e',
-  channel: 0,
-};
-
 describe('DahuaProviderAdapter', () => {
   let adapter: DahuaProviderAdapter;
 
@@ -169,7 +160,7 @@ describe('DahuaProviderAdapter', () => {
   describe('normalize', () => {
     it('normalizes DeviceInfo into a DEVICE_HANDSHAKE canonical event', () => {
       const rawEvent = adapter.parseEvent(deviceInfoPayload, {}, 'ip');
-      const event = adapter.normalize(rawEvent, camera, 'raw-1');
+      const event = adapter.normalize(rawEvent, 'raw-1');
 
       expect(event.providerCode).toBe('DAHUA_ITSAPI');
       expect(event.eventType).toBe('DEVICE_HANDSHAKE');
@@ -182,7 +173,7 @@ describe('DahuaProviderAdapter', () => {
 
     it('normalizes KeepAlive into a HEARTBEAT canonical event', () => {
       const rawEvent = adapter.parseEvent(keepAlivePayload, {}, 'ip');
-      const event = adapter.normalize(rawEvent, camera, 'raw-2');
+      const event = adapter.normalize(rawEvent, 'raw-2');
 
       expect(event.eventType).toBe('HEARTBEAT');
       expect(event.parkingStatus).toBe('UNKNOWN');
@@ -191,7 +182,7 @@ describe('DahuaProviderAdapter', () => {
 
     it('normalizes a real occupied-space ParkingInfo event', () => {
       const rawEvent = adapter.parseEvent(occupiedPayload, {}, 'ip');
-      const event = adapter.normalize(rawEvent, camera, 'raw-3');
+      const event = adapter.normalize(rawEvent, 'raw-3');
 
       expect(event.eventType).toBe('OCCUPANCY_UPDATE');
       expect(event.externalStallCode).toBe('A004');
@@ -202,7 +193,7 @@ describe('DahuaProviderAdapter', () => {
 
     it('translates Dahua FREE to the canonical AVAILABLE status', () => {
       const rawEvent = adapter.parseEvent(freeSpacePayload, {}, 'ip');
-      const event = adapter.normalize(rawEvent, camera, 'raw-4');
+      const event = adapter.normalize(rawEvent, 'raw-4');
 
       expect(event.parkingStatus).toBe('AVAILABLE');
       expect(event.parkingStatus).not.toBe('FREE');
@@ -210,7 +201,7 @@ describe('DahuaProviderAdapter', () => {
 
     it('normalizes a real illegal-area event without a stall code', () => {
       const rawEvent = adapter.parseEvent(illegalAreaPayload, {}, 'ip');
-      const event = adapter.normalize(rawEvent, camera, 'raw-5');
+      const event = adapter.normalize(rawEvent, 'raw-5');
 
       expect(event.externalStallCode).toBeUndefined();
       expect(event.parkingStatus).toBe('ILLEGAL');

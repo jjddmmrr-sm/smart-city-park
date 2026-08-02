@@ -8,7 +8,6 @@ import type {
   CameraProviderCapability,
   CameraProviderValidationResult,
   ProviderRawEvent,
-  ResolvedCameraContext,
 } from '../../core/contracts/camera-provider-adapter.interface';
 import type { CanonicalCameraEvent } from '../../core/contracts/canonical-camera-event';
 import { isCanonicalParkingStatus } from '../../core/contracts/canonical-camera-event';
@@ -17,8 +16,9 @@ import { KeepAliveDto } from './dto/keep-alive.dto';
 import { ParkingInfoDto } from './dto/parking-info.dto';
 import {
   computeIdempotencyKey as computeDahuaOccupancyIdempotencyKey,
-  normalizeParkingInfo,
   parseSnapTime,
+  resolveDetectionScope,
+  resolveOccupancyStatus,
 } from './normalizer';
 import type { DahuaOccupancyStatus } from './types';
 
@@ -116,11 +116,9 @@ function translateOccupancyStatus(
  * Deliberately does NOT: import Prisma, update ParkingSpace, write
  * ParkingSpaceStatusHistory, resolve tenantId/cityId/zoneId, create
  * CameraEvent, or know anything about business logic or other
- * providers — that all remains in CameraIngestionService today, and
- * moves to CameraIngestionCoreService in a later commit.
- *
- * Not yet wired into the live request flow — DahuaIngestionController
- * still calls CameraIngestionService directly (see commit scope).
+ * providers — all of that lives exclusively in
+ * CameraIngestionCoreService/RawEventCaptureService, which never import
+ * anything from this file.
  */
 @Injectable()
 export class DahuaProviderAdapter implements CameraProviderAdapter {
@@ -217,50 +215,63 @@ export class DahuaProviderAdapter implements CameraProviderAdapter {
   }
 
   /**
-   * Pure — no I/O, no Prisma. `rawEventId` defaults to '' because this
-   * adapter is not wired into the live flow yet (see commit scope);
-   * callers that already have a persisted CameraEventRaw id should pass
-   * it explicitly, as the unit tests below do.
+   * Pure — no I/O, no Prisma, no camera/tenant context. Built exclusively
+   * from the wire payload — device/tenant resolution is exclusively
+   * CameraIngestionCoreService's job, done server-side from
+   * CanonicalCameraEvent.externalDeviceId after this returns.
    */
   normalize(
     rawEvent: ProviderRawEvent,
-    camera: ResolvedCameraContext,
-    rawEventId = '',
+    rawEventId: string,
   ): CanonicalCameraEvent {
     switch (rawEvent.externalEventType as DahuaExternalEventType) {
       case 'ParkingInfo': {
         const dto = this.toParkingInfoDto(rawEvent.payload);
-        const event = normalizeParkingInfo(
-          dto,
-          {
-            id: camera.id,
-            tenantId: camera.tenantId,
-            cityId: camera.cityId,
-            deviceId: camera.externalDeviceId,
-            channel: camera.channel ?? 0,
-          },
-          rawEventId,
-          rawEvent.payload,
-        );
+        const block = dto.Picture.ParkingInfo;
+        const plate = dto.Picture.Plate;
+        const vehicle = dto.Picture.Vehicle;
+        const detectionScope = resolveDetectionScope(block.ParkingStallsNo);
+
         return {
           providerCode: this.code,
-          externalDeviceId: event.deviceId,
+          externalDeviceId: block.DeviceID,
           externalEventType: 'ParkingInfo',
           eventType: 'OCCUPANCY_UPDATE',
-          externalStallCode: event.parkingSpaceCode,
-          parkingStatus: translateOccupancyStatus(event.occupancyStatus),
-          occurredAt: parseSnapTime(event.detectedAt),
-          channel: event.channel,
-          plate: event.plate,
-          vehicle: event.vehicle,
-          rawEventId: event.rawEventId,
+          externalStallCode:
+            detectionScope === 'PARKING_SPACE'
+              ? block.ParkingStallsNo
+              : undefined,
+          parkingStatus: translateOccupancyStatus(
+            resolveOccupancyStatus(block.ParkingStatus),
+          ),
+          occurredAt: parseSnapTime(block.SnapTime),
+          channel: block.Channel,
+          plate: plate
+            ? {
+                exists: plate.IsExist,
+                number: plate.PlateNumber || undefined,
+                confidence: plate.Confidence,
+                color: plate.PlateColor || undefined,
+                region: plate.Region || undefined,
+              }
+            : undefined,
+          vehicle: vehicle
+            ? { type: vehicle.VehicleSeries || undefined }
+            : undefined,
+          rawEventId,
           metadata: {
-            illegalAreaName: event.illegalAreaName ?? null,
-            allowedUser: event.allowedUser ?? null,
-            entryRecordId: event.entryRecordId ?? null,
-            timezoneOffset: event.timezoneOffset ?? null,
+            illegalAreaName:
+              detectionScope === 'ILLEGAL_AREA'
+                ? block.DetectRegionName || null
+                : null,
+            allowedUser: block.AllowUser ?? null,
+            entryRecordId: block.inRecordId || null,
+            timezoneOffset: block.TimeZone ?? null,
           },
-          idempotencyKey: event.idempotencyKey,
+          idempotencyKey: computeDahuaOccupancyIdempotencyKey(
+            dto,
+            rawEvent.payload,
+          ),
         };
       }
       case 'DeviceInfo': {

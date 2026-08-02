@@ -54,21 +54,6 @@ export function isCameraProviderAuthStrategy(
 export type CameraProviderCapability = CanonicalCameraEventType;
 
 /**
- * Minimal camera context an adapter needs to normalize a raw event into
- * a CanonicalCameraEvent. Intentionally small and read-only — resolving
- * this context from Prisma is the core's responsibility, never the
- * adapter's (an adapter never queries the database).
- */
-export interface ResolvedCameraContext {
-  id: string;
-  tenantId: string;
-  cityId: string;
-  zoneId?: string;
-  externalDeviceId: string;
-  channel?: number;
-}
-
-/**
  * Lightweight, tolerant envelope produced by parseEvent() — captured
  * before structural validation, so it must be derivable even from a
  * malformed or partially-invalid payload (RAW-first persistence depends
@@ -130,15 +115,18 @@ export interface CameraProviderAdapter {
   resolveDeviceIdentifier(rawEvent: ProviderRawEvent): string;
 
   /**
-   * Pure function — no I/O, no Prisma. Translates a validated raw event
-   * into the canonical, provider-agnostic event shape. Implementations
-   * are expected to populate CanonicalCameraEvent.idempotencyKey using
-   * the same value computeIdempotencyKey() would produce for the same
-   * input.
+   * Pure function — no I/O, no Prisma, no camera/tenant context. Translates
+   * a validated raw event into the canonical, provider-agnostic event
+   * shape using only what the wire payload itself carries — device/tenant
+   * resolution is exclusively CameraIngestionCoreService's job, done
+   * server-side from CanonicalCameraEvent.externalDeviceId, never passed
+   * into the adapter. Implementations are expected to populate
+   * CanonicalCameraEvent.idempotencyKey using the same value
+   * computeIdempotencyKey() would produce for the same input.
    */
   normalize(
     rawEvent: ProviderRawEvent,
-    camera: ResolvedCameraContext,
+    rawEventId: string,
   ): CanonicalCameraEvent;
 
   /** Provider-specific idempotency formula (see CanonicalCameraEvent.idempotencyKey). */
