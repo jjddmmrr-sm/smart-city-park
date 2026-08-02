@@ -217,6 +217,8 @@ Cada commit se valida individualmente (lint + build + test de raíz y de `apps/a
 - BackOffice de administración de dispositivos IoT (todas las pantallas y módulos ya diseñados funcionalmente en documentos previos).
 - Extensión del modelo a actuadores (barreras, paneles LED, semáforos) — requiere diseño de comandos bidireccionales, fuera del alcance de la ingesta pura actual.
 - Reconciliación de nomenclatura en `architecture/BACKEND_ARCHITECTURE.md`/`TARGET_ARCHITECTURE.md` (`occupancy_detections` → `ParkingSpaceStatusHistory`).
+- `CameraProvider.capabilities` (Commit 5) hoy es un único campo `Json` libre — evaluar modelar como columnas/tablas estructuradas las capacidades reales de un proveedor (LPR, snapshots, occupancy, etc.) y la versión de protocolo/firmware, en vez de depender exclusivamente de JSON sin forma. Diferido deliberadamente: con un solo fabricante real (Dahua) no hay evidencia todavía de qué campos varían genuinamente entre proveedores — comprometerse a una estructura ahora sería diseñar contra un caso único.
+- `CameraProvider.healthCheckEndpoint` (o cualquier mecanismo activo/pull de salud) — no existe en el modelo (Commit 5). Dahua ITSAPI es puramente *push* (la cámara llama al gateway, nunca al revés), así que la salud se deriva pasivamente de `KeepAlive`/`Camera.lastSeenAt`. Evaluar agregarlo (como columna dedicada o como una clave más dentro de `endpointTemplates`) recién cuando exista un proveedor *pull*-based real (ej. ONVIF) que lo requiera — ver riesgo arquitectónico ya documentado sobre adaptadores no-push en la revisión de arquitectura previa.
 
 ---
 

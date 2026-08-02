@@ -19,26 +19,28 @@ model Tenant {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  cities           City[]
-  users            User[]
-  parkingZones     ParkingZone[]
-  parkingSpaces    ParkingSpace[]
-  vehicles         Vehicle[]
-  parkingRates     ParkingRate[]
-  parkingSessions  ParkingSession[]
-  paymentMethods   PaymentMethod[]
-  payments         Payment[]
-  inspectors       Inspector[]
-  fineTypes        FineType[]
-  fines            Fine[]
-  enforcementCases EnforcementCase[]
-  cameras          Camera[]
-  cameraEvents     CameraEvent[]
-  cameraEventsRaw  CameraEventRaw[]
-  cameraSnapshots  CameraSnapshot[]
+  cities                    City[]
+  users                     User[]
+  parkingZones              ParkingZone[]
+  parkingSpaces             ParkingSpace[]
+  vehicles                  Vehicle[]
+  parkingRates              ParkingRate[]
+  parkingSessions           ParkingSession[]
+  paymentMethods            PaymentMethod[]
+  payments                  Payment[]
+  inspectors                Inspector[]
+  fineTypes                 FineType[]
+  fines                     Fine[]
+  enforcementCases          EnforcementCase[]
+  cameras                   Camera[]
+  cameraEvents              CameraEvent[]
+  cameraEventsRaw           CameraEventRaw[]
+  cameraSnapshots           CameraSnapshot[]
   parkingSpaceStatusHistory ParkingSpaceStatusHistory[]
-  alerts           Alert[]
-  auditLogs        AuditLog[]
+  alerts                    Alert[]
+  auditLogs                 AuditLog[]
+  cameraGroups              CameraGroup[]
+  cameraStallMappings       CameraStallMapping[]
 
   @@map("tenants")
 }
@@ -52,21 +54,23 @@ model City {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  tenant           Tenant            @relation(fields: [tenantId], references: [id])
-  users            User[]
-  parkingZones     ParkingZone[]
-  parkingSpaces    ParkingSpace[]
-  vehicles         Vehicle[]
-  parkingRates     ParkingRate[]
-  parkingSessions  ParkingSession[]
-  payments         Payment[]
-  inspectors       Inspector[]
-  fines            Fine[]
-  enforcementCases EnforcementCase[]
-  cameras          Camera[]
-  cameraEvents     CameraEvent[]
+  tenant                    Tenant                      @relation(fields: [tenantId], references: [id])
+  users                     User[]
+  parkingZones              ParkingZone[]
+  parkingSpaces             ParkingSpace[]
+  vehicles                  Vehicle[]
+  parkingRates              ParkingRate[]
+  parkingSessions           ParkingSession[]
+  payments                  Payment[]
+  inspectors                Inspector[]
+  fines                     Fine[]
+  enforcementCases          EnforcementCase[]
+  cameras                   Camera[]
+  cameraEvents              CameraEvent[]
   parkingSpaceStatusHistory ParkingSpaceStatusHistory[]
-  alerts           Alert[]
+  alerts                    Alert[]
+  cameraGroups              CameraGroup[]
+  cameraStallMappings       CameraStallMapping[]
 
   @@unique([tenantId, code])
   @@map("cities")
@@ -86,8 +90,8 @@ model User {
   tenant Tenant @relation(fields: [tenantId], references: [id])
   city   City?  @relation(fields: [cityId], references: [id])
 
-  userRoles UserRole[]
-  auditLogs AuditLog[]
+  userRoles  UserRole[]
+  auditLogs  AuditLog[]
   zoneAccess UserZoneAccess[]
 
   @@index([tenantId])
@@ -147,14 +151,13 @@ model RolePermission {
   @@map("role_permissions")
 }
 
-
 model UserZoneAccess {
   id        String   @id @default(uuid())
   userId    String
   zoneId    String
   createdAt DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id])
+  user User        @relation(fields: [userId], references: [id])
   zone ParkingZone @relation(fields: [zoneId], references: [id])
 
   @@unique([userId, zoneId])
@@ -174,10 +177,12 @@ model ParkingZone {
   tenant Tenant @relation(fields: [tenantId], references: [id])
   city   City   @relation(fields: [cityId], references: [id])
 
-  spaces     ParkingSpace[]
-  inspectors Inspector[]
-  cameras    Camera[]
-  userZoneAccess UserZoneAccess[]
+  spaces              ParkingSpace[]
+  inspectors          Inspector[]
+  cameras             Camera[]
+  userZoneAccess      UserZoneAccess[]
+  cameraGroups        CameraGroup[]
+  cameraStallMappings CameraStallMapping[]
 
   @@unique([cityId, code])
   @@index([tenantId])
@@ -198,13 +203,14 @@ model ParkingSpace {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  tenant   Tenant           @relation(fields: [tenantId], references: [id])
-  city     City             @relation(fields: [cityId], references: [id])
-  zone     ParkingZone      @relation(fields: [zoneId], references: [id])
-  sessions ParkingSession[]
-  cameraEvents  CameraEvent[]
-  statusHistory ParkingSpaceStatusHistory[]
-  alerts        Alert[]
+  tenant              Tenant                      @relation(fields: [tenantId], references: [id])
+  city                City                        @relation(fields: [cityId], references: [id])
+  zone                ParkingZone                 @relation(fields: [zoneId], references: [id])
+  sessions            ParkingSession[]
+  cameraEvents        CameraEvent[]
+  statusHistory       ParkingSpaceStatusHistory[]
+  alerts              Alert[]
+  cameraStallMappings CameraStallMapping[]
 
   @@unique([zoneId, code])
   @@index([tenantId])
@@ -415,6 +421,106 @@ model EnforcementCase {
   @@map("enforcement_cases")
 }
 
+/// Catalog of supported camera manufacturers/protocols — platform-level,
+/// not tenant-scoped. One row per provider adapter actually implemented
+/// in code (e.g. DAHUA_ITSAPI). Seeded in a later commit, not this one.
+///
+/// Deliberately has no healthCheckEndpoint (or any active/pull health
+/// mechanism): Dahua ITSAPI is push-only — the camera calls the gateway,
+/// never the other way around — so health is derived passively from
+/// KeepAlive traffic and Camera.lastSeenAt, never polled. A future
+/// pull-based provider (e.g. ONVIF) may need one; see
+/// docs/architecture/iot-device-management-foundation.md §15.
+model CameraProvider {
+  id                String   @id @default(uuid())
+  code              String   @unique
+  name              String
+  protocol          String
+  /// TODO (deuda técnica, no implementar ahora): hoy las capacidades del
+  /// proveedor (LPR, snapshots, occupancy, etc.) y la versión de
+  /// protocolo/firmware quedan libres dentro de este JSON. Evaluar
+  /// modelarlas como columnas/tablas estructuradas cuando exista un
+  /// segundo fabricante real y se sepa qué campos realmente varían entre
+  /// proveedores — evita comprometerse hoy a una estructura basada en
+  /// un solo caso (Dahua) sin evidencia de un segundo caso.
+  capabilities      Json
+  defaultAuthMode   String
+  /// Relative path templates per canonical event type (see
+  /// core/contracts/canonical-camera-event.ts CanonicalCameraEventType),
+  /// not per manufacturer-specific name — composed by the future
+  /// BackOffice as gateway.publicBaseUrl + gateway.basePath +
+  /// provider.endpointTemplates[eventType]. Only canonical event types
+  /// with a real, implemented route belong here — never list an event
+  /// type as if it were operative before its controller route and
+  /// business treatment actually exist (see AlarmInfo, still pending).
+  endpointTemplates Json
+  /// Manufacturer protocol documentation — informational only, no
+  /// behavior depends on it.
+  documentationUrl  String?
+  /// Manufacturer support/contact — informational only, no behavior
+  /// depends on it.
+  supportUrl        String?
+  active            Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  gateways CameraGateway[]
+  cameras  Camera[]
+
+  @@map("camera_providers")
+}
+
+/// Technical entry point for a provider's traffic. Deliberately separate
+/// from CameraProvider so a provider could have more than one gateway in
+/// the future without a redesign — see
+/// docs/architecture/iot-device-management-foundation.md §6-7.
+model CameraGateway {
+  id             String   @id @default(uuid())
+  providerId     String
+  code           String
+  name           String
+  protocol       String
+  publicBaseUrl  String
+  privateBaseUrl String?
+  basePath       String
+  active         Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  provider CameraProvider @relation(fields: [providerId], references: [id])
+  cameras  Camera[]
+  groups   CameraGroup[]
+
+  @@index([providerId])
+  @@map("camera_gateways")
+}
+
+/// Operational grouping of cameras by business criteria (site, install
+/// batch) — distinct from ParkingZone (a geographic/business concept).
+/// Structure only in this commit; no consumers in code yet.
+model CameraGroup {
+  id          String   @id @default(uuid())
+  tenantId    String
+  cityId      String
+  zoneId      String?
+  gatewayId   String?
+  name        String
+  description String?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant  Tenant         @relation(fields: [tenantId], references: [id])
+  city    City           @relation(fields: [cityId], references: [id])
+  zone    ParkingZone?   @relation(fields: [zoneId], references: [id])
+  gateway CameraGateway? @relation(fields: [gatewayId], references: [id])
+  cameras Camera[]
+
+  @@index([tenantId])
+  @@index([cityId])
+  @@map("camera_groups")
+}
+
 model Camera {
   id        String   @id @default(uuid())
   tenantId  String?
@@ -440,16 +546,70 @@ model Camera {
   registrationStatus String    @default("pending_review")
   authMode           String    @default("ip_allowlist")
 
-  tenant    Tenant?          @relation(fields: [tenantId], references: [id])
-  city      City?            @relation(fields: [cityId], references: [id])
-  zone      ParkingZone?     @relation(fields: [zoneId], references: [id])
-  events    CameraEvent[]
-  rawEvents CameraEventRaw[]
-  alerts    Alert[]
+  /// Nullable in this commit — backfilled in a later commit once
+  /// CameraProvider is seeded (Commit 6). deviceId stays globally
+  /// @unique for now; migrating to @@unique([providerId, deviceId])
+  /// is deferred to the same later commit, once providerId is
+  /// guaranteed populated. See
+  /// docs/architecture/iot-device-management-foundation.md §14.
+  providerId String?
+  gatewayId  String?
+  groupId    String?
+
+  tenant        Tenant?              @relation(fields: [tenantId], references: [id])
+  city          City?                @relation(fields: [cityId], references: [id])
+  zone          ParkingZone?         @relation(fields: [zoneId], references: [id])
+  provider      CameraProvider?      @relation(fields: [providerId], references: [id])
+  gateway       CameraGateway?       @relation(fields: [gatewayId], references: [id])
+  group         CameraGroup?         @relation(fields: [groupId], references: [id])
+  events        CameraEvent[]
+  rawEvents     CameraEventRaw[]
+  alerts        Alert[]
+  stallMappings CameraStallMapping[]
 
   @@index([tenantId])
   @@index([tenantId, cityId])
+  @@index([providerId])
+  @@index([gatewayId])
+  @@index([groupId])
   @@map("cameras")
+}
+
+/// Explicit, administrable link between what a camera reports
+/// (externalStallCode, in the manufacturer's own vocabulary) and the real
+/// ParkingSpace — never the internal ParkingSpace UUID inside the camera.
+/// Created in this commit but NOT wired into the occupancy resolution
+/// flow yet — CameraIngestionCoreService keeps using the direct
+/// (zoneId, code) lookup unchanged. See
+/// docs/architecture/iot-device-management-foundation.md §9, §14.
+model CameraStallMapping {
+  id                String   @id @default(uuid())
+  tenantId          String
+  cityId            String
+  zoneId            String
+  cameraId          String
+  externalStallCode String
+  parkingSpaceId    String?
+  /// DISCOVERED | MAPPED | ACTIVE | DISABLED | CONFLICT
+  mappingStatus     String   @default("DISCOVERED")
+  firstReportedAt   DateTime @default(now())
+  lastReportedAt    DateTime @default(now())
+  active            Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  tenant       Tenant        @relation(fields: [tenantId], references: [id])
+  city         City          @relation(fields: [cityId], references: [id])
+  zone         ParkingZone   @relation(fields: [zoneId], references: [id])
+  camera       Camera        @relation(fields: [cameraId], references: [id])
+  parkingSpace ParkingSpace? @relation(fields: [parkingSpaceId], references: [id])
+
+  @@unique([cameraId, externalStallCode])
+  @@index([parkingSpaceId])
+  @@index([mappingStatus])
+  @@index([tenantId])
+  @@index([cityId])
+  @@map("camera_stall_mappings")
 }
 
 model CameraEvent {
