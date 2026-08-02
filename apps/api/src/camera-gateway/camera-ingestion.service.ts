@@ -5,14 +5,14 @@ import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CameraGatewayConfigService } from './config/camera-gateway.config';
 import { CameraGatewayLogger } from './logging/camera-gateway-logger.service';
-import { DeviceInfoDto } from './dahua/dto/device-info.dto';
-import { KeepAliveDto } from './dahua/dto/keep-alive.dto';
-import { ParkingInfoDto } from './dahua/dto/parking-info.dto';
+import { DeviceInfoDto } from './providers/dahua/dto/device-info.dto';
+import { KeepAliveDto } from './providers/dahua/dto/keep-alive.dto';
+import { ParkingInfoDto } from './providers/dahua/dto/parking-info.dto';
 import {
   normalizeParkingInfo,
   parseSnapTime,
   resolveDetectionScope,
-} from './dahua/normalizer';
+} from './providers/dahua/normalizer';
 
 function isUniqueConstraintViolation(error: unknown): boolean {
   return (

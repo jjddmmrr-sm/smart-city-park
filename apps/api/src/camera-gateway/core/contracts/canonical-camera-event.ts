@@ -12,7 +12,7 @@
  * AVAILABLE is the canonical "free space" state.
  *
  * Dahua's own runtime vocabulary uses `FREE` internally (see
- * camera-gateway/dahua/types.ts, DahuaOccupancyStatus) — that
+ * camera-gateway/providers/dahua/types.ts, DahuaOccupancyStatus) — that
  * translation from FREE (or any other manufacturer's wording) to
  * AVAILABLE belongs exclusively to the provider adapter's `normalize()`.
  * The core must never see a manufacturer-specific status word, and it

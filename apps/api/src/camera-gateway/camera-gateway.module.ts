@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { CameraGatewayConfigService } from './config/camera-gateway.config';
 import { CameraGatewayLogger } from './logging/camera-gateway-logger.service';
 import { CameraIngestionService } from './camera-ingestion.service';
-import { DahuaIngestionController } from './dahua/dahua-ingestion.controller';
+import { DahuaIngestionController } from './providers/dahua/dahua-ingestion.controller';
 
 /**
  * Camera Integration Gateway — Dahua ITSAPI.
