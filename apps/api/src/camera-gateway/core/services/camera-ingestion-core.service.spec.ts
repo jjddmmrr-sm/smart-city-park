@@ -33,6 +33,8 @@ describe('CameraIngestionCoreService', () => {
   let prisma: {
     cameraEventRaw: { create: jest.Mock; update: jest.Mock };
     camera: { findUnique: jest.Mock; create: jest.Mock; update: jest.Mock };
+    cameraProvider: { findUnique: jest.Mock };
+    cameraGateway: { findMany: jest.Mock };
     parkingSpace: { findUnique: jest.Mock };
     $transaction: jest.Mock;
   };
@@ -54,6 +56,12 @@ describe('CameraIngestionCoreService', () => {
         create: jest.fn(),
         update: jest.fn(),
       },
+      cameraProvider: {
+        findUnique: jest
+          .fn()
+          .mockResolvedValue({ id: 'provider-1', code: 'DAHUA_ITSAPI' }),
+      },
+      cameraGateway: { findMany: jest.fn().mockResolvedValue([]) },
       parkingSpace: { findUnique: jest.fn() },
       $transaction: jest.fn(
         async (cb: (txArg: typeof tx) => Promise<unknown>) => cb(tx),
@@ -164,6 +172,9 @@ describe('CameraIngestionCoreService', () => {
       config.pilotAutoRegisterEnabled = true;
       prisma.camera.findUnique.mockResolvedValue(null);
       prisma.camera.create.mockResolvedValue({ id: 'cam-2', tenantId: null });
+      prisma.cameraGateway.findMany.mockResolvedValue([
+        { id: 'gateway-1', providerId: 'provider-1', active: true },
+      ]);
 
       await service.process(
         buildEvent({ externalDeviceId: 'device-2', rawEventId: 'raw-2' }),
@@ -174,6 +185,41 @@ describe('CameraIngestionCoreService', () => {
       ];
       expect(createArgs.data.deviceId).toBe('device-2');
       expect(createArgs.data.registrationStatus).toBe('pending_review');
+      expect(createArgs.data.providerId).toBe('provider-1');
+      expect(createArgs.data.gatewayId).toBe('gateway-1');
+    });
+
+    it('leaves gatewayId NULL when auto-registering with zero or multiple active gateways', async () => {
+      config.pilotAutoRegisterEnabled = true;
+      prisma.camera.findUnique.mockResolvedValue(null);
+      prisma.camera.create.mockResolvedValue({ id: 'cam-2', tenantId: null });
+
+      await service.process(
+        buildEvent({ externalDeviceId: 'device-2', rawEventId: 'raw-2' }),
+      );
+
+      const [createArgs] = prisma.camera.create.mock.calls[0] as [
+        { data: Record<string, unknown> },
+      ];
+      expect(createArgs.data.gatewayId).toBeNull();
+    });
+
+    it('discards the event when providerCode is unknown, without ever touching Camera', async () => {
+      prisma.cameraProvider.findUnique.mockResolvedValue(null);
+
+      const result = await service.process(
+        buildEvent({ providerCode: 'UNKNOWN_PROVIDER' }),
+      );
+
+      expect(prisma.camera.findUnique).not.toHaveBeenCalled();
+      expect(prisma.camera.create).not.toHaveBeenCalled();
+      expect(result).toEqual({ status: 'ok' });
+
+      const lastUpdate = prisma.cameraEventRaw.update.mock.calls.at(-1) as [
+        { data: Record<string, unknown> },
+      ];
+      expect(lastUpdate[0].data.processingStatus).toBe('FAILED');
+      expect(lastUpdate[0].data.processedAt).toBeUndefined();
     });
 
     it('silently discards an unknown device when auto-register is disabled, without setting processedAt', async () => {

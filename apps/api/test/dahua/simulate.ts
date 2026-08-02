@@ -32,6 +32,7 @@ const config = {
   deviceId: process.env.DAHUA_SIM_DEVICE_ID ?? 'SIMULATOR-DAHUA-0001',
   unknownDeviceId:
     process.env.DAHUA_SIM_UNKNOWN_DEVICE_ID ?? 'SIMULATOR-DAHUA-UNKNOWN',
+  providerCode: process.env.DAHUA_SIM_PROVIDER_CODE ?? 'DAHUA_ITSAPI',
   parkingSpaceCode: process.env.DAHUA_SIM_PARKING_SPACE_CODE ?? 'CENTRO-005',
   tenantCode: process.env.DAHUA_SIM_TENANT_CODE ?? 'MUNI_DEMO',
   cityCode: process.env.DAHUA_SIM_CITY_CODE ?? 'SMART_CITY',
@@ -276,9 +277,19 @@ async function main() {
   deviceInfoPayload.DeviceID = config.deviceId;
   const deviceInfoRes = await postEvent('DeviceInfo', deviceInfoPayload);
 
-  const cameraAfterDeviceInfo = await prisma.camera.findUnique({
-    where: { deviceId: config.deviceId },
+  const dahuaProvider = await prisma.cameraProvider.findUnique({
+    where: { code: config.providerCode },
   });
+  const cameraAfterDeviceInfo = dahuaProvider
+    ? await prisma.camera.findUnique({
+        where: {
+          providerId_deviceId: {
+            providerId: dahuaProvider.id,
+            deviceId: config.deviceId,
+          },
+        },
+      })
+    : null;
 
   check(
     'DeviceInfo → 200',

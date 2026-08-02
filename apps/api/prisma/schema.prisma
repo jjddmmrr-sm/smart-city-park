@@ -535,7 +535,7 @@ model Camera {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  deviceId           String    @unique
+  deviceId           String
   channel            Int       @default(0)
   manufacturer       String?
   model              String?
@@ -546,20 +546,14 @@ model Camera {
   registrationStatus String    @default("pending_review")
   authMode           String    @default("ip_allowlist")
 
-  /// Nullable in this commit — backfilled in a later commit once
-  /// CameraProvider is seeded (Commit 6). deviceId stays globally
-  /// @unique for now; migrating to @@unique([providerId, deviceId])
-  /// is deferred to the same later commit, once providerId is
-  /// guaranteed populated. See
-  /// docs/architecture/iot-device-management-foundation.md §14.
-  providerId String?
+  providerId String
   gatewayId  String?
   groupId    String?
 
   tenant        Tenant?              @relation(fields: [tenantId], references: [id])
   city          City?                @relation(fields: [cityId], references: [id])
   zone          ParkingZone?         @relation(fields: [zoneId], references: [id])
-  provider      CameraProvider?      @relation(fields: [providerId], references: [id])
+  provider      CameraProvider       @relation(fields: [providerId], references: [id])
   gateway       CameraGateway?       @relation(fields: [gatewayId], references: [id])
   group         CameraGroup?         @relation(fields: [groupId], references: [id])
   events        CameraEvent[]
@@ -567,6 +561,7 @@ model Camera {
   alerts        Alert[]
   stallMappings CameraStallMapping[]
 
+  @@unique([providerId, deviceId])
   @@index([tenantId])
   @@index([tenantId, cityId])
   @@index([providerId])

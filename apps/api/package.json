@@ -20,8 +20,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "test:dahua": "tsx test/dahua/simulate.ts",
-    "seed": "tsx prisma/seed/seed.ts",
-    "camera:backfill-provider": "tsx prisma/scripts/backfill-camera-provider.ts"
+    "seed": "tsx prisma/seed/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

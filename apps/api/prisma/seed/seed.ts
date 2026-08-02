@@ -363,7 +363,12 @@ async function main() {
 
     const seedCameraDeviceId = `DAHUA-SEED-${tenant.code}-${zone.code}`;
     await prisma.camera.upsert({
-      where: { deviceId: seedCameraDeviceId },
+      where: {
+        providerId_deviceId: {
+          providerId: dahuaProvider.id,
+          deviceId: seedCameraDeviceId,
+        },
+      },
       update: {
         name: `Cámara ${zone.name}`,
         location: zone.streets[0],
@@ -373,6 +378,7 @@ async function main() {
         tenantId: tenant.id,
         cityId: city.id,
         zoneId: zone.id,
+        providerId: dahuaProvider.id,
         code: `CAM-${zone.code}`,
         name: `Cámara ${zone.name}`,
         location: zone.streets[0],

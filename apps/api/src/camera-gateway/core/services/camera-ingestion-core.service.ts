@@ -103,12 +103,53 @@ export class CameraIngestionCoreService {
     });
   }
 
+  private async resolveProvider(providerCode: string) {
+    return this.prisma.cameraProvider.findUnique({
+      where: { code: providerCode },
+    });
+  }
+
+  private async resolveCamera(providerId: string, externalDeviceId: string) {
+    return this.prisma.camera.findUnique({
+      where: {
+        providerId_deviceId: { providerId, deviceId: externalDeviceId },
+      },
+    });
+  }
+
+  /**
+   * Same "exactly one active gateway, else NULL" rule used by the
+   * camera:backfill-provider domain command — never guess a gateway when
+   * more than one (or none) is active for the provider.
+   */
+  private async resolveSoleActiveGateway(
+    providerId: string,
+  ): Promise<string | null> {
+    const activeGateways = await this.prisma.cameraGateway.findMany({
+      where: { providerId, active: true },
+    });
+    return activeGateways.length === 1 ? activeGateways[0].id : null;
+  }
+
   private async processDeviceHandshake(
     event: CanonicalCameraEvent,
   ): Promise<IngestionAck> {
-    const existingCamera = await this.prisma.camera.findUnique({
-      where: { deviceId: event.externalDeviceId },
-    });
+    const provider = await this.resolveProvider(event.providerCode);
+    if (!provider) {
+      await this.finalizeRaw(event.rawEventId, {
+        status: 'FAILED',
+        error: `providerCode desconocido: ${event.providerCode}`,
+      });
+      this.logger.warn(
+        `DeviceInfo descartado: providerCode desconocido=${event.providerCode}`,
+      );
+      return { status: 'ok' };
+    }
+
+    const existingCamera = await this.resolveCamera(
+      provider.id,
+      event.externalDeviceId,
+    );
 
     const ipAddress = (event.metadata.ipAddress as string | null) ?? null;
     const macAddress = (event.metadata.macAddress as string | null) ?? null;
@@ -142,9 +183,12 @@ export class CameraIngestionCoreService {
       );
       return { status: 'ok' };
     } else {
+      const gatewayId = await this.resolveSoleActiveGateway(provider.id);
       camera = await this.prisma.camera.create({
         data: {
           deviceId: event.externalDeviceId,
+          providerId: provider.id,
+          gatewayId,
           ipAddress,
           macAddress,
           manufacturer,
@@ -169,9 +213,10 @@ export class CameraIngestionCoreService {
   private async processHeartbeat(
     event: CanonicalCameraEvent,
   ): Promise<IngestionAck> {
-    const camera = await this.prisma.camera.findUnique({
-      where: { deviceId: event.externalDeviceId },
-    });
+    const provider = await this.resolveProvider(event.providerCode);
+    const camera = provider
+      ? await this.resolveCamera(provider.id, event.externalDeviceId)
+      : null;
 
     if (!camera) {
       await this.finalizeRaw(event.rawEventId, {
@@ -203,9 +248,10 @@ export class CameraIngestionCoreService {
   private async processOccupancyUpdate(
     event: CanonicalCameraEvent,
   ): Promise<IngestionAck> {
-    const camera = await this.prisma.camera.findUnique({
-      where: { deviceId: event.externalDeviceId },
-    });
+    const provider = await this.resolveProvider(event.providerCode);
+    const camera = provider
+      ? await this.resolveCamera(provider.id, event.externalDeviceId)
+      : null;
 
     if (!camera || !camera.tenantId || !camera.cityId) {
       await this.finalizeRaw(event.rawEventId, {
