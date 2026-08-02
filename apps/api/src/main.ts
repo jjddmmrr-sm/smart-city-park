@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import { RequestMethod, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
@@ -6,7 +6,13 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix('api/v1');
+  // Dahua ITSAPI ingestion routes stay outside /api/v1: the camera firmware
+  // only lets you configure a base server URL, and appends fixed ITSAPI
+  // suffixes (/NotificationInfo/...) that are not versionable like the rest
+  // of the administrative API — see DAHUA_IMPLEMENTATION_PLAN.md §0/§1.
+  app.setGlobalPrefix('api/v1', {
+    exclude: [{ path: 'integrations/dahua/(.*)', method: RequestMethod.ALL }],
+  });
 
   const configuredOrigins = (process.env.CORS_ORIGINS ?? '')
     .split(',')
