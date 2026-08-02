@@ -1,0 +1,10 @@
+{
+  "Picture": {
+    "ParkingInfo": {
+      "DeviceID": "SIMULATOR-DAHUA-UNKNOWN",
+      "ParkingStallsNo": "CENTRO-005",
+      "ParkingStatus": 0,
+      "SnapTime": "__DYNAMIC__"
+    }
+  }
+}
