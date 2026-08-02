@@ -477,7 +477,7 @@ model CameraProvider {
 model CameraGateway {
   id             String   @id @default(uuid())
   providerId     String
-  code           String
+  code           String   @unique
   name           String
   protocol       String
   publicBaseUrl  String
