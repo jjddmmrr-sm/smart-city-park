@@ -11,6 +11,7 @@ import { ParkingModule } from './parking/parking.module';
 import { FrontendModule } from './frontend/frontend.module';
 import { AuditModule } from './audit/audit.module';
 import { RolesModule } from './roles/roles.module';
+import { CameraGatewayModule } from './camera-gateway/camera-gateway.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { RolesModule } from './roles/roles.module';
     FrontendModule,
     AuditModule,
     RolesModule,
+    CameraGatewayModule,
   ],
   controllers: [AppController],
   providers: [AppService],

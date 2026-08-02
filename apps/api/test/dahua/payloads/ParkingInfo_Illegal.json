@@ -1,0 +1,18 @@
+{
+  "Picture": {
+    "ParkingInfo": {
+      "DeviceID": "SIMULATOR-DAHUA-0001",
+      "ParkingStallsNo": "",
+      "ParkingStatus": 7,
+      "DetectRegionName": "Área de detección ilegal 0",
+      "SnapTime": "__DYNAMIC__"
+    },
+    "Plate": {
+      "IsExist": true,
+      "PlateNumber": "47012",
+      "Confidence": 36,
+      "PlateColor": "Yellow",
+      "Region": "COL"
+    }
+  }
+}

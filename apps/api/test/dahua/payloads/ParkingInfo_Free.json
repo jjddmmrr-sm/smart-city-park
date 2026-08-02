@@ -1,0 +1,35 @@
+{
+  "Picture": {
+    "NormalPic": {
+      "Content": "[BASE64_PLACEHOLDER_SIMULATOR]",
+      "Height": 1584,
+      "PicName": "noplate-simulated.jpg",
+      "Width": 2688
+    },
+    "ParkingInfo": {
+      "AllowUser": false,
+      "Channel": 0,
+      "DetectRegionName": "",
+      "DeviceID": "SIMULATOR-DAHUA-0001",
+      "ParkingStallsNo": "CENTRO-005",
+      "ParkingStatus": 1,
+      "Relationship": null,
+      "SnapTime": "__DYNAMIC__",
+      "TimeZone": 25,
+      "inRecordId": ""
+    },
+    "Plate": {
+      "BoundingBox": [0, 0, 0, 0],
+      "Confidence": 0,
+      "IsExist": false,
+      "PlateColor": "",
+      "PlateNumber": "",
+      "PlateType": "",
+      "Region": ""
+    },
+    "Vehicle": {
+      "VehicleBoundingBox": [0, 0, 0, 0],
+      "VehicleSeries": ""
+    }
+  }
+}

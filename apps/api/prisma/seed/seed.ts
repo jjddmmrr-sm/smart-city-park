@@ -296,6 +296,8 @@ async function main() {
         name: `Cámara ${zone.name}`,
         location: zone.streets[0],
         status: 'active',
+        deviceId: `DAHUA-SEED-${tenant.code}-${zone.code}`,
+        registrationStatus: 'active',
       },
     });
   }
@@ -445,6 +447,21 @@ async function main() {
     const camera = cameras[i % cameras.length];
     const vehicle = vehicles[i % vehicles.length];
 
+    const rawEvent = await prisma.cameraEventRaw.create({
+      data: {
+        tenantId: tenant.id,
+        cameraId: camera.id,
+        deviceIdRaw: camera.deviceId,
+        eventType: 'ParkingInfo',
+        payload: { source: 'demo_seed' },
+        contextIp: '127.0.0.1',
+        contextHeaders: {},
+        validationStatus: 'VALID',
+        processingStatus: 'PROCESSED',
+        processedAt: minutesAgo(5 + i * 6),
+      },
+    });
+
     await prisma.cameraEvent.create({
       data: {
         tenantId: tenant.id,
@@ -454,6 +471,9 @@ async function main() {
         eventType: i % 4 === 0 ? 'violation_detected' : 'plate_detected',
         confidence: 0.86 + (i % 10) / 100,
         occurredAt: minutesAgo(5 + i * 6),
+        detectionScope: 'PLAZA',
+        idempotencyKey: `seed-${tenant.id}-${camera.id}-${i}`,
+        rawEventId: rawEvent.id,
         metadata: {
           source: 'demo_seed',
           zone: camera.name,

@@ -1,0 +1,10 @@
+{
+  "DeviceID": "SIMULATOR-DAHUA-0001",
+  "DeviceModel": "ITC413-PW4D-IZ1",
+  "DeviceName": "BM0F879PAJ5D7B6",
+  "DeviceType": "Tollgate",
+  "IPAddress": "192.168.10.155",
+  "IPv6Address": "",
+  "MACAddress": "40:7a:a4:c8:92:04",
+  "Manufacturer": "Dahua"
+}
