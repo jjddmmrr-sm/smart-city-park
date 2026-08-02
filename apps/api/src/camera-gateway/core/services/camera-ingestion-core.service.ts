@@ -245,6 +245,90 @@ export class CameraIngestionCoreService {
     return { status: 'ok' };
   }
 
+  /**
+   * Resolves the CameraStallMapping for (cameraId, externalStallCode),
+   * creating it as DISCOVERED on first sight — see
+   * docs/architecture/iot-device-management-foundation.md §9. Never
+   * updates ParkingSpace itself; that only happens once an operator (or
+   * the temporary fallback below) sets the mapping to ACTIVE.
+   *
+   * TEMPORARY FALLBACK: if the reported code already matches a real
+   * ParkingSpace.code in the camera's own zone — the old, pre-mapping
+   * resolution rule this replaces — the mapping is created already
+   * ACTIVE instead of DISCOVERED, so pilot cameras whose stall codes
+   * happen to equal existing ParkingSpace codes (including
+   * SIMULATOR-DAHUA-0001 and test/dahua/simulate.ts's fixtures) keep
+   * working without a manual activation step. Remove this fallback once
+   * every camera's stall codes are mapped explicitly from the
+   * /admin/iot/mappings screen instead of relying on a naming
+   * coincidence with ParkingSpace.code.
+   */
+  private async resolveOrCreateStallMapping(
+    camera: {
+      id: string;
+      tenantId: string;
+      cityId: string;
+      zoneId: string | null;
+    },
+    externalStallCode: string,
+  ) {
+    const existing = await this.prisma.cameraStallMapping.findUnique({
+      where: {
+        cameraId_externalStallCode: {
+          cameraId: camera.id,
+          externalStallCode,
+        },
+      },
+    });
+
+    if (existing) {
+      return this.prisma.cameraStallMapping.update({
+        where: { id: existing.id },
+        data: { lastReportedAt: new Date() },
+      });
+    }
+
+    // CameraStallMapping.zoneId is mandatory — a camera not yet assigned
+    // to a zone (tenant/city set, zone still pending) cannot have a
+    // mapping row at all. The event still gets recorded via the raw log
+    // and a spaceless CameraEvent; there is simply nothing to map yet.
+    if (!camera.zoneId) {
+      return null;
+    }
+
+    const legacySpace = await this.prisma.parkingSpace.findUnique({
+      where: {
+        zoneId_code: { zoneId: camera.zoneId, code: externalStallCode },
+      },
+    });
+
+    try {
+      return await this.prisma.cameraStallMapping.create({
+        data: {
+          tenantId: camera.tenantId,
+          cityId: camera.cityId,
+          zoneId: camera.zoneId,
+          cameraId: camera.id,
+          externalStallCode,
+          parkingSpaceId: legacySpace?.id ?? null,
+          mappingStatus: legacySpace ? 'ACTIVE' : 'DISCOVERED',
+        },
+      });
+    } catch (error) {
+      if (this.isUniqueConstraintViolation(error)) {
+        return this.prisma.cameraStallMapping.findUnique({
+          where: {
+            cameraId_externalStallCode: {
+              cameraId: camera.id,
+              externalStallCode,
+            },
+          },
+        });
+      }
+      throw error;
+    }
+  }
+
   private async processOccupancyUpdate(
     event: CanonicalCameraEvent,
   ): Promise<IngestionAck> {
@@ -274,12 +358,20 @@ export class CameraIngestionCoreService {
       cityId: string;
     } | null = null;
 
-    if (event.externalStallCode && camera.zoneId) {
-      parkingSpace = await this.prisma.parkingSpace.findUnique({
-        where: {
-          zoneId_code: { zoneId: camera.zoneId, code: event.externalStallCode },
-        },
-      });
+    if (event.externalStallCode) {
+      const stallMapping = await this.resolveOrCreateStallMapping(
+        { id: camera.id, tenantId, cityId, zoneId: camera.zoneId },
+        event.externalStallCode,
+      );
+
+      if (
+        stallMapping?.mappingStatus === 'ACTIVE' &&
+        stallMapping.parkingSpaceId
+      ) {
+        parkingSpace = await this.prisma.parkingSpace.findUnique({
+          where: { id: stallMapping.parkingSpaceId },
+        });
+      }
     }
 
     const newSpaceStatus =

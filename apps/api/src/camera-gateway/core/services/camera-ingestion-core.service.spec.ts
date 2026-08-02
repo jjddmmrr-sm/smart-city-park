@@ -35,6 +35,11 @@ describe('CameraIngestionCoreService', () => {
     camera: { findUnique: jest.Mock; create: jest.Mock; update: jest.Mock };
     cameraProvider: { findUnique: jest.Mock };
     cameraGateway: { findMany: jest.Mock };
+    cameraStallMapping: {
+      findUnique: jest.Mock;
+      create: jest.Mock;
+      update: jest.Mock;
+    };
     parkingSpace: { findUnique: jest.Mock };
     $transaction: jest.Mock;
   };
@@ -62,6 +67,11 @@ describe('CameraIngestionCoreService', () => {
           .mockResolvedValue({ id: 'provider-1', code: 'DAHUA_ITSAPI' }),
       },
       cameraGateway: { findMany: jest.fn().mockResolvedValue([]) },
+      cameraStallMapping: {
+        findUnique: jest.fn().mockResolvedValue(null),
+        create: jest.fn(),
+        update: jest.fn(),
+      },
       parkingSpace: { findUnique: jest.fn() },
       $transaction: jest.fn(
         async (cb: (txArg: typeof tx) => Promise<unknown>) => cb(tx),
@@ -305,6 +315,14 @@ describe('CameraIngestionCoreService', () => {
       deviceId: 'device-1',
     };
 
+    const resolvedSpace = {
+      id: 'space-1',
+      zoneId: 'zone-1',
+      status: 'available',
+      tenantId: 'tenant-a',
+      cityId: 'city-a',
+    };
+
     function occupancyEvent(overrides: Partial<CanonicalCameraEvent> = {}) {
       return buildEvent({
         externalEventType: 'ParkingInfo',
@@ -338,20 +356,32 @@ describe('CameraIngestionCoreService', () => {
       expect(prisma.$transaction).not.toHaveBeenCalled();
     });
 
-    it('resolves the ParkingSpace and updates its status + writes history for an occupied event', async () => {
+    it('uses the ParkingSpace from an already-ACTIVE mapping without touching the legacy zoneId+code lookup', async () => {
       prisma.camera.findUnique.mockResolvedValue(resolvedCamera);
-      prisma.parkingSpace.findUnique.mockResolvedValue({
-        id: 'space-1',
-        status: 'available',
-        tenantId: 'tenant-a',
-        cityId: 'city-a',
+      prisma.cameraStallMapping.findUnique.mockResolvedValue({
+        id: 'mapping-1',
+        mappingStatus: 'ACTIVE',
+        parkingSpaceId: 'space-1',
       });
+      prisma.cameraStallMapping.update.mockResolvedValue({
+        id: 'mapping-1',
+        mappingStatus: 'ACTIVE',
+        parkingSpaceId: 'space-1',
+      });
+      prisma.parkingSpace.findUnique.mockResolvedValue(resolvedSpace);
 
       const result = await service.process(occupancyEvent());
 
+      const [mappingUpdateArgs] = prisma.cameraStallMapping.update.mock
+        .calls[0] as [
+        { where: { id: string }; data: { lastReportedAt: Date } },
+      ];
+      expect(mappingUpdateArgs.where).toEqual({ id: 'mapping-1' });
+      expect(mappingUpdateArgs.data.lastReportedAt).toBeInstanceOf(Date);
       expect(prisma.parkingSpace.findUnique).toHaveBeenCalledWith({
-        where: { zoneId_code: { zoneId: 'zone-1', code: 'A004' } },
+        where: { id: 'space-1' },
       });
+      expect(prisma.cameraStallMapping.create).not.toHaveBeenCalled();
 
       const [createArgs] = tx.cameraEvent.create.mock.calls[0] as [
         { data: Record<string, unknown> },
@@ -375,13 +405,103 @@ describe('CameraIngestionCoreService', () => {
       expect(result).toEqual({ status: 'ok' });
     });
 
+    it('bumps lastReportedAt but never touches ParkingSpace for a DISCOVERED mapping', async () => {
+      prisma.camera.findUnique.mockResolvedValue(resolvedCamera);
+      prisma.cameraStallMapping.findUnique.mockResolvedValue({
+        id: 'mapping-1',
+        mappingStatus: 'DISCOVERED',
+        parkingSpaceId: null,
+      });
+      prisma.cameraStallMapping.update.mockResolvedValue({
+        id: 'mapping-1',
+        mappingStatus: 'DISCOVERED',
+        parkingSpaceId: null,
+      });
+
+      await service.process(occupancyEvent());
+
+      const [mappingUpdateArgs] = prisma.cameraStallMapping.update.mock
+        .calls[0] as [
+        { where: { id: string }; data: { lastReportedAt: Date } },
+      ];
+      expect(mappingUpdateArgs.where).toEqual({ id: 'mapping-1' });
+      expect(mappingUpdateArgs.data.lastReportedAt).toBeInstanceOf(Date);
+      expect(prisma.parkingSpace.findUnique).not.toHaveBeenCalled();
+
+      const [createArgs] = tx.cameraEvent.create.mock.calls[0] as [
+        { data: Record<string, unknown> },
+      ];
+      expect(createArgs.data.parkingSpaceId).toBeNull();
+      expect(tx.parkingSpace.update).not.toHaveBeenCalled();
+    });
+
+    it('creates a new mapping as DISCOVERED (and never touches ParkingSpace) when the code matches nothing', async () => {
+      prisma.camera.findUnique.mockResolvedValue(resolvedCamera);
+      prisma.cameraStallMapping.findUnique.mockResolvedValue(null);
+      prisma.parkingSpace.findUnique.mockResolvedValue(null);
+      prisma.cameraStallMapping.create.mockResolvedValue({
+        id: 'mapping-2',
+        mappingStatus: 'DISCOVERED',
+        parkingSpaceId: null,
+      });
+
+      await service.process(occupancyEvent());
+
+      expect(prisma.parkingSpace.findUnique).toHaveBeenCalledWith({
+        where: { zoneId_code: { zoneId: 'zone-1', code: 'A004' } },
+      });
+      const [createMappingArgs] = prisma.cameraStallMapping.create.mock
+        .calls[0] as [{ data: Record<string, unknown> }];
+      expect(createMappingArgs.data.mappingStatus).toBe('DISCOVERED');
+      expect(createMappingArgs.data.parkingSpaceId).toBeNull();
+
+      const [createArgs] = tx.cameraEvent.create.mock.calls[0] as [
+        { data: Record<string, unknown> },
+      ];
+      expect(createArgs.data.parkingSpaceId).toBeNull();
+      expect(tx.parkingSpace.update).not.toHaveBeenCalled();
+    });
+
+    it('TEMPORARY fallback: auto-activates a new mapping when the code matches an existing ParkingSpace.code in the zone', async () => {
+      prisma.camera.findUnique.mockResolvedValue(resolvedCamera);
+      prisma.cameraStallMapping.findUnique.mockResolvedValue(null);
+      prisma.parkingSpace.findUnique.mockResolvedValue(resolvedSpace);
+      prisma.cameraStallMapping.create.mockResolvedValue({
+        id: 'mapping-3',
+        mappingStatus: 'ACTIVE',
+        parkingSpaceId: 'space-1',
+      });
+
+      const result = await service.process(occupancyEvent());
+
+      const [createMappingArgs] = prisma.cameraStallMapping.create.mock
+        .calls[0] as [{ data: Record<string, unknown> }];
+      expect(createMappingArgs.data.mappingStatus).toBe('ACTIVE');
+      expect(createMappingArgs.data.parkingSpaceId).toBe('space-1');
+
+      const [updateArgs] = tx.parkingSpace.update.mock.calls[0] as [
+        { where: { id: string }; data: { status: string } },
+      ];
+      expect(updateArgs.where).toEqual({ id: 'space-1' });
+      expect(updateArgs.data.status).toBe('occupied');
+      expect(result).toEqual({ status: 'ok' });
+    });
+
     it('translates the canonical AVAILABLE status to the "available" ParkingSpace status', async () => {
       prisma.camera.findUnique.mockResolvedValue(resolvedCamera);
+      prisma.cameraStallMapping.findUnique.mockResolvedValue({
+        id: 'mapping-1',
+        mappingStatus: 'ACTIVE',
+        parkingSpaceId: 'space-1',
+      });
+      prisma.cameraStallMapping.update.mockResolvedValue({
+        id: 'mapping-1',
+        mappingStatus: 'ACTIVE',
+        parkingSpaceId: 'space-1',
+      });
       prisma.parkingSpace.findUnique.mockResolvedValue({
-        id: 'space-1',
+        ...resolvedSpace,
         status: 'occupied',
-        tenantId: 'tenant-a',
-        cityId: 'city-a',
       });
 
       await service.process(occupancyEvent({ parkingStatus: 'AVAILABLE' }));
@@ -394,11 +514,19 @@ describe('CameraIngestionCoreService', () => {
 
     it('does not touch ParkingSpace or history when the status is unchanged', async () => {
       prisma.camera.findUnique.mockResolvedValue(resolvedCamera);
+      prisma.cameraStallMapping.findUnique.mockResolvedValue({
+        id: 'mapping-1',
+        mappingStatus: 'ACTIVE',
+        parkingSpaceId: 'space-1',
+      });
+      prisma.cameraStallMapping.update.mockResolvedValue({
+        id: 'mapping-1',
+        mappingStatus: 'ACTIVE',
+        parkingSpaceId: 'space-1',
+      });
       prisma.parkingSpace.findUnique.mockResolvedValue({
-        id: 'space-1',
+        ...resolvedSpace,
         status: 'occupied',
-        tenantId: 'tenant-a',
-        cityId: 'city-a',
       });
 
       await service.process(occupancyEvent());
@@ -408,7 +536,7 @@ describe('CameraIngestionCoreService', () => {
       expect(tx.parkingSpaceStatusHistory.create).not.toHaveBeenCalled();
     });
 
-    it('records an illegal-area event without resolving or touching any ParkingSpace', async () => {
+    it('records an illegal-area event without resolving any mapping or ParkingSpace', async () => {
       prisma.camera.findUnique.mockResolvedValue(resolvedCamera);
 
       await service.process(
@@ -419,6 +547,7 @@ describe('CameraIngestionCoreService', () => {
         }),
       );
 
+      expect(prisma.cameraStallMapping.findUnique).not.toHaveBeenCalled();
       expect(prisma.parkingSpace.findUnique).not.toHaveBeenCalled();
       const [createArgs] = tx.cameraEvent.create.mock.calls[0] as [
         { data: Record<string, unknown> },
@@ -428,27 +557,19 @@ describe('CameraIngestionCoreService', () => {
       expect(tx.parkingSpace.update).not.toHaveBeenCalled();
     });
 
-    it('creates the event without a space when the stall code does not resolve', async () => {
-      prisma.camera.findUnique.mockResolvedValue(resolvedCamera);
-      prisma.parkingSpace.findUnique.mockResolvedValue(null);
-
-      await service.process(occupancyEvent());
-
-      const [createArgs] = tx.cameraEvent.create.mock.calls[0] as [
-        { data: Record<string, unknown> },
-      ];
-      expect(createArgs.data.parkingSpaceId).toBeNull();
-      expect(tx.parkingSpace.update).not.toHaveBeenCalled();
-    });
-
     it('treats a duplicate idempotencyKey as already processed (stored as PROCESSED), without rethrowing', async () => {
       prisma.camera.findUnique.mockResolvedValue(resolvedCamera);
-      prisma.parkingSpace.findUnique.mockResolvedValue({
-        id: 'space-1',
-        status: 'available',
-        tenantId: 'tenant-a',
-        cityId: 'city-a',
+      prisma.cameraStallMapping.findUnique.mockResolvedValue({
+        id: 'mapping-1',
+        mappingStatus: 'ACTIVE',
+        parkingSpaceId: 'space-1',
       });
+      prisma.cameraStallMapping.update.mockResolvedValue({
+        id: 'mapping-1',
+        mappingStatus: 'ACTIVE',
+        parkingSpaceId: 'space-1',
+      });
+      prisma.parkingSpace.findUnique.mockResolvedValue(resolvedSpace);
       prisma.$transaction.mockRejectedValueOnce(
         new Prisma.PrismaClientKnownRequestError('Unique constraint failed', {
           code: 'P2002',
@@ -467,12 +588,17 @@ describe('CameraIngestionCoreService', () => {
 
     it('rethrows a non-duplicate transaction error', async () => {
       prisma.camera.findUnique.mockResolvedValue(resolvedCamera);
-      prisma.parkingSpace.findUnique.mockResolvedValue({
-        id: 'space-1',
-        status: 'available',
-        tenantId: 'tenant-a',
-        cityId: 'city-a',
+      prisma.cameraStallMapping.findUnique.mockResolvedValue({
+        id: 'mapping-1',
+        mappingStatus: 'ACTIVE',
+        parkingSpaceId: 'space-1',
       });
+      prisma.cameraStallMapping.update.mockResolvedValue({
+        id: 'mapping-1',
+        mappingStatus: 'ACTIVE',
+        parkingSpaceId: 'space-1',
+      });
+      prisma.parkingSpace.findUnique.mockResolvedValue(resolvedSpace);
       prisma.$transaction.mockRejectedValueOnce(new Error('boom'));
 
       await expect(service.process(occupancyEvent())).rejects.toThrow('boom');

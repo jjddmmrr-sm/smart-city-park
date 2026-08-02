@@ -29,6 +29,15 @@ import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminFineTypesRouteImport } from './routes/admin/fine-types'
 import { Route as AdminControllersRouteImport } from './routes/admin/controllers'
 import { Route as AdminAccessControlRouteImport } from './routes/admin/access-control'
+import { Route as AdminIotIndexRouteImport } from './routes/admin/iot/index'
+import { Route as AdminIotProvidersRouteImport } from './routes/admin/iot/providers'
+import { Route as AdminIotMonitorRouteImport } from './routes/admin/iot/monitor'
+import { Route as AdminIotMappingsRouteImport } from './routes/admin/iot/mappings'
+import { Route as AdminIotGroupsRouteImport } from './routes/admin/iot/groups'
+import { Route as AdminIotGatewaysRouteImport } from './routes/admin/iot/gateways'
+import { Route as AdminIotDiagnosticsRouteImport } from './routes/admin/iot/diagnostics'
+import { Route as AdminIotConfigurationRouteImport } from './routes/admin/iot/configuration'
+import { Route as AdminIotCamerasRouteImport } from './routes/admin/iot/cameras'
 
 const VehiclesRoute = VehiclesRouteImport.update({
   id: '/vehicles',
@@ -130,6 +139,51 @@ const AdminAccessControlRoute = AdminAccessControlRouteImport.update({
   path: '/admin/access-control',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIotIndexRoute = AdminIotIndexRouteImport.update({
+  id: '/admin/iot/',
+  path: '/admin/iot/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIotProvidersRoute = AdminIotProvidersRouteImport.update({
+  id: '/admin/iot/providers',
+  path: '/admin/iot/providers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIotMonitorRoute = AdminIotMonitorRouteImport.update({
+  id: '/admin/iot/monitor',
+  path: '/admin/iot/monitor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIotMappingsRoute = AdminIotMappingsRouteImport.update({
+  id: '/admin/iot/mappings',
+  path: '/admin/iot/mappings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIotGroupsRoute = AdminIotGroupsRouteImport.update({
+  id: '/admin/iot/groups',
+  path: '/admin/iot/groups',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIotGatewaysRoute = AdminIotGatewaysRouteImport.update({
+  id: '/admin/iot/gateways',
+  path: '/admin/iot/gateways',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIotDiagnosticsRoute = AdminIotDiagnosticsRouteImport.update({
+  id: '/admin/iot/diagnostics',
+  path: '/admin/iot/diagnostics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIotConfigurationRoute = AdminIotConfigurationRouteImport.update({
+  id: '/admin/iot/configuration',
+  path: '/admin/iot/configuration',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIotCamerasRoute = AdminIotCamerasRouteImport.update({
+  id: '/admin/iot/cameras',
+  path: '/admin/iot/cameras',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -152,6 +206,15 @@ export interface FileRoutesByFullPath {
   '/admin/users': typeof AdminUsersRoute
   '/admin/zones': typeof AdminZonesRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/iot/cameras': typeof AdminIotCamerasRoute
+  '/admin/iot/configuration': typeof AdminIotConfigurationRoute
+  '/admin/iot/diagnostics': typeof AdminIotDiagnosticsRoute
+  '/admin/iot/gateways': typeof AdminIotGatewaysRoute
+  '/admin/iot/groups': typeof AdminIotGroupsRoute
+  '/admin/iot/mappings': typeof AdminIotMappingsRoute
+  '/admin/iot/monitor': typeof AdminIotMonitorRoute
+  '/admin/iot/providers': typeof AdminIotProvidersRoute
+  '/admin/iot/': typeof AdminIotIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -174,6 +237,15 @@ export interface FileRoutesByTo {
   '/admin/users': typeof AdminUsersRoute
   '/admin/zones': typeof AdminZonesRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/iot/cameras': typeof AdminIotCamerasRoute
+  '/admin/iot/configuration': typeof AdminIotConfigurationRoute
+  '/admin/iot/diagnostics': typeof AdminIotDiagnosticsRoute
+  '/admin/iot/gateways': typeof AdminIotGatewaysRoute
+  '/admin/iot/groups': typeof AdminIotGroupsRoute
+  '/admin/iot/mappings': typeof AdminIotMappingsRoute
+  '/admin/iot/monitor': typeof AdminIotMonitorRoute
+  '/admin/iot/providers': typeof AdminIotProvidersRoute
+  '/admin/iot': typeof AdminIotIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -197,6 +269,15 @@ export interface FileRoutesById {
   '/admin/users': typeof AdminUsersRoute
   '/admin/zones': typeof AdminZonesRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/iot/cameras': typeof AdminIotCamerasRoute
+  '/admin/iot/configuration': typeof AdminIotConfigurationRoute
+  '/admin/iot/diagnostics': typeof AdminIotDiagnosticsRoute
+  '/admin/iot/gateways': typeof AdminIotGatewaysRoute
+  '/admin/iot/groups': typeof AdminIotGroupsRoute
+  '/admin/iot/mappings': typeof AdminIotMappingsRoute
+  '/admin/iot/monitor': typeof AdminIotMonitorRoute
+  '/admin/iot/providers': typeof AdminIotProvidersRoute
+  '/admin/iot/': typeof AdminIotIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -221,6 +302,15 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/zones'
     | '/admin/'
+    | '/admin/iot/cameras'
+    | '/admin/iot/configuration'
+    | '/admin/iot/diagnostics'
+    | '/admin/iot/gateways'
+    | '/admin/iot/groups'
+    | '/admin/iot/mappings'
+    | '/admin/iot/monitor'
+    | '/admin/iot/providers'
+    | '/admin/iot/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -243,6 +333,15 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/zones'
     | '/admin'
+    | '/admin/iot/cameras'
+    | '/admin/iot/configuration'
+    | '/admin/iot/diagnostics'
+    | '/admin/iot/gateways'
+    | '/admin/iot/groups'
+    | '/admin/iot/mappings'
+    | '/admin/iot/monitor'
+    | '/admin/iot/providers'
+    | '/admin/iot'
   id:
     | '__root__'
     | '/'
@@ -265,6 +364,15 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/zones'
     | '/admin/'
+    | '/admin/iot/cameras'
+    | '/admin/iot/configuration'
+    | '/admin/iot/diagnostics'
+    | '/admin/iot/gateways'
+    | '/admin/iot/groups'
+    | '/admin/iot/mappings'
+    | '/admin/iot/monitor'
+    | '/admin/iot/providers'
+    | '/admin/iot/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -288,6 +396,15 @@ export interface RootRouteChildren {
   AdminUsersRoute: typeof AdminUsersRoute
   AdminZonesRoute: typeof AdminZonesRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminIotCamerasRoute: typeof AdminIotCamerasRoute
+  AdminIotConfigurationRoute: typeof AdminIotConfigurationRoute
+  AdminIotDiagnosticsRoute: typeof AdminIotDiagnosticsRoute
+  AdminIotGatewaysRoute: typeof AdminIotGatewaysRoute
+  AdminIotGroupsRoute: typeof AdminIotGroupsRoute
+  AdminIotMappingsRoute: typeof AdminIotMappingsRoute
+  AdminIotMonitorRoute: typeof AdminIotMonitorRoute
+  AdminIotProvidersRoute: typeof AdminIotProvidersRoute
+  AdminIotIndexRoute: typeof AdminIotIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -432,6 +549,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAccessControlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/iot/': {
+      id: '/admin/iot/'
+      path: '/admin/iot'
+      fullPath: '/admin/iot/'
+      preLoaderRoute: typeof AdminIotIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/iot/providers': {
+      id: '/admin/iot/providers'
+      path: '/admin/iot/providers'
+      fullPath: '/admin/iot/providers'
+      preLoaderRoute: typeof AdminIotProvidersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/iot/monitor': {
+      id: '/admin/iot/monitor'
+      path: '/admin/iot/monitor'
+      fullPath: '/admin/iot/monitor'
+      preLoaderRoute: typeof AdminIotMonitorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/iot/mappings': {
+      id: '/admin/iot/mappings'
+      path: '/admin/iot/mappings'
+      fullPath: '/admin/iot/mappings'
+      preLoaderRoute: typeof AdminIotMappingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/iot/groups': {
+      id: '/admin/iot/groups'
+      path: '/admin/iot/groups'
+      fullPath: '/admin/iot/groups'
+      preLoaderRoute: typeof AdminIotGroupsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/iot/gateways': {
+      id: '/admin/iot/gateways'
+      path: '/admin/iot/gateways'
+      fullPath: '/admin/iot/gateways'
+      preLoaderRoute: typeof AdminIotGatewaysRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/iot/diagnostics': {
+      id: '/admin/iot/diagnostics'
+      path: '/admin/iot/diagnostics'
+      fullPath: '/admin/iot/diagnostics'
+      preLoaderRoute: typeof AdminIotDiagnosticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/iot/configuration': {
+      id: '/admin/iot/configuration'
+      path: '/admin/iot/configuration'
+      fullPath: '/admin/iot/configuration'
+      preLoaderRoute: typeof AdminIotConfigurationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/iot/cameras': {
+      id: '/admin/iot/cameras'
+      path: '/admin/iot/cameras'
+      fullPath: '/admin/iot/cameras'
+      preLoaderRoute: typeof AdminIotCamerasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -456,6 +636,15 @@ const rootRouteChildren: RootRouteChildren = {
   AdminUsersRoute: AdminUsersRoute,
   AdminZonesRoute: AdminZonesRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminIotCamerasRoute: AdminIotCamerasRoute,
+  AdminIotConfigurationRoute: AdminIotConfigurationRoute,
+  AdminIotDiagnosticsRoute: AdminIotDiagnosticsRoute,
+  AdminIotGatewaysRoute: AdminIotGatewaysRoute,
+  AdminIotGroupsRoute: AdminIotGroupsRoute,
+  AdminIotMappingsRoute: AdminIotMappingsRoute,
+  AdminIotMonitorRoute: AdminIotMonitorRoute,
+  AdminIotProvidersRoute: AdminIotProvidersRoute,
+  AdminIotIndexRoute: AdminIotIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -12,6 +12,7 @@ import { FrontendModule } from './frontend/frontend.module';
 import { AuditModule } from './audit/audit.module';
 import { RolesModule } from './roles/roles.module';
 import { CameraGatewayModule } from './camera-gateway/camera-gateway.module';
+import { IotDeviceManagementModule } from './iot-device-management/iot-device-management.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { CameraGatewayModule } from './camera-gateway/camera-gateway.module';
     AuditModule,
     RolesModule,
     CameraGatewayModule,
+    IotDeviceManagementModule,
   ],
   controllers: [AppController],
   providers: [AppService],

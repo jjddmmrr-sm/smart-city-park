@@ -22,6 +22,7 @@ import {
   UserCog,
   CreditCard,
   FileWarning,
+  Camera as CameraIcon,
 } from "lucide-react";
 
 export const Route = createFileRoute("/admin/")({
@@ -106,6 +107,12 @@ function AdminHomePage() {
             title="Controladores"
             desc="Equipo operativo de campo"
             icon={<UserCog className="h-5 w-5" />}
+          />
+          <AdminCard
+            to="/admin/iot"
+            title="IoT Device Management"
+            desc="Cámaras, gateways, providers y grupos"
+            icon={<CameraIcon className="h-5 w-5" />}
           />
           <AdminCard
             to="/settings"
