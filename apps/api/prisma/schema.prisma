@@ -34,6 +34,10 @@ model Tenant {
   enforcementCases EnforcementCase[]
   cameras          Camera[]
   cameraEvents     CameraEvent[]
+  cameraEventsRaw  CameraEventRaw[]
+  cameraSnapshots  CameraSnapshot[]
+  parkingSpaceStatusHistory ParkingSpaceStatusHistory[]
+  alerts           Alert[]
   auditLogs        AuditLog[]
 
   @@map("tenants")
@@ -61,6 +65,8 @@ model City {
   enforcementCases EnforcementCase[]
   cameras          Camera[]
   cameraEvents     CameraEvent[]
+  parkingSpaceStatusHistory ParkingSpaceStatusHistory[]
+  alerts           Alert[]
 
   @@unique([tenantId, code])
   @@map("cities")
@@ -196,6 +202,9 @@ model ParkingSpace {
   city     City             @relation(fields: [cityId], references: [id])
   zone     ParkingZone      @relation(fields: [zoneId], references: [id])
   sessions ParkingSession[]
+  cameraEvents  CameraEvent[]
+  statusHistory ParkingSpaceStatusHistory[]
+  alerts        Alert[]
 
   @@unique([zoneId, code])
   @@index([tenantId])
@@ -408,11 +417,11 @@ model EnforcementCase {
 
 model Camera {
   id        String   @id @default(uuid())
-  tenantId  String
-  cityId    String
+  tenantId  String?
+  cityId    String?
   zoneId    String?
-  code      String
-  name      String
+  code      String?
+  name      String?
   location  String?
   latitude  Float?
   longitude Float?
@@ -420,12 +429,26 @@ model Camera {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  tenant Tenant        @relation(fields: [tenantId], references: [id])
-  city   City          @relation(fields: [cityId], references: [id])
-  zone   ParkingZone?  @relation(fields: [zoneId], references: [id])
-  events CameraEvent[]
+  deviceId           String    @unique
+  channel            Int       @default(0)
+  manufacturer       String?
+  model              String?
+  firmwareVersion    String?
+  ipAddress          String?
+  macAddress         String?
+  lastSeenAt         DateTime?
+  registrationStatus String    @default("pending_review")
+  authMode           String    @default("ip_allowlist")
 
-  @@unique([tenantId, code])
+  tenant    Tenant?          @relation(fields: [tenantId], references: [id])
+  city      City?            @relation(fields: [cityId], references: [id])
+  zone      ParkingZone?     @relation(fields: [zoneId], references: [id])
+  events    CameraEvent[]
+  rawEvents CameraEventRaw[]
+  alerts    Alert[]
+
+  @@index([tenantId])
+  @@index([tenantId, cityId])
   @@map("cameras")
 }
 
@@ -437,16 +460,110 @@ model CameraEvent {
   plateNumber String?
   eventType   String
   confidence  Float?
-  imageUrl    String?
   metadata    Json?
   occurredAt  DateTime @default(now())
   createdAt   DateTime @default(now())
 
-  tenant Tenant @relation(fields: [tenantId], references: [id])
-  city   City   @relation(fields: [cityId], references: [id])
-  camera Camera @relation(fields: [cameraId], references: [id])
+  parkingSpaceId String?
+  detectionScope String
+  idempotencyKey String  @unique
+  rawEventId     String
 
+  tenant       Tenant           @relation(fields: [tenantId], references: [id])
+  city         City             @relation(fields: [cityId], references: [id])
+  camera       Camera           @relation(fields: [cameraId], references: [id])
+  parkingSpace ParkingSpace?    @relation(fields: [parkingSpaceId], references: [id])
+  rawEvent     CameraEventRaw   @relation(fields: [rawEventId], references: [id])
+  snapshots    CameraSnapshot[]
+
+  @@index([tenantId, cityId, occurredAt])
+  @@index([parkingSpaceId])
   @@map("camera_events")
+}
+
+model CameraEventRaw {
+  id               String    @id @default(uuid())
+  tenantId         String?
+  cameraId         String?
+  deviceIdRaw      String
+  eventType        String
+  payload          Json
+  contextIp        String
+  contextHeaders   Json
+  receivedAt       DateTime  @default(now())
+  validationStatus String
+  processingStatus String    @default("PENDING")
+  processedAt      DateTime?
+  error            String?
+
+  tenant Tenant?       @relation(fields: [tenantId], references: [id])
+  camera Camera?       @relation(fields: [cameraId], references: [id])
+  events CameraEvent[]
+
+  @@index([processingStatus, receivedAt])
+  @@index([tenantId])
+  @@map("camera_events_raw")
+}
+
+model CameraSnapshot {
+  id            String   @id @default(uuid())
+  tenantId      String
+  cameraEventId String
+  kind          String
+  storageUrl    String?
+  width         Int?
+  height        Int?
+  contentType   String   @default("image/jpeg")
+  capturedAt    DateTime @default(now())
+
+  tenant      Tenant      @relation(fields: [tenantId], references: [id])
+  cameraEvent CameraEvent @relation(fields: [cameraEventId], references: [id])
+
+  @@index([cameraEventId])
+  @@index([tenantId])
+  @@map("camera_snapshots")
+}
+
+model ParkingSpaceStatusHistory {
+  id             String   @id @default(uuid())
+  tenantId       String
+  cityId         String
+  spaceId        String
+  previousStatus String
+  newStatus      String
+  source         String
+  sourceEventId  String?
+  changedAt      DateTime @default(now())
+
+  tenant Tenant       @relation(fields: [tenantId], references: [id])
+  city   City         @relation(fields: [cityId], references: [id])
+  space  ParkingSpace @relation(fields: [spaceId], references: [id])
+
+  @@index([spaceId, changedAt])
+  @@index([tenantId])
+  @@map("parking_space_status_history")
+}
+
+model Alert {
+  id             String    @id @default(uuid())
+  tenantId       String
+  cityId         String
+  type           String
+  cameraId       String?
+  parkingSpaceId String?
+  status         String    @default("OPEN")
+  payload        Json
+  createdAt      DateTime  @default(now())
+  acknowledgedAt DateTime?
+  closedAt       DateTime?
+
+  tenant       Tenant        @relation(fields: [tenantId], references: [id])
+  city         City          @relation(fields: [cityId], references: [id])
+  camera       Camera?       @relation(fields: [cameraId], references: [id])
+  parkingSpace ParkingSpace? @relation(fields: [parkingSpaceId], references: [id])
+
+  @@index([tenantId, status])
+  @@map("alerts")
 }
 
 model AuditLog {
