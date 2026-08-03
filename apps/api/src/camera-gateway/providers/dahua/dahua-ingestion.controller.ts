@@ -8,7 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { ApiExcludeController } from '@nestjs/swagger';
-import { CameraIngestionService } from '../camera-ingestion.service';
+import { CameraIngestionService } from '../../camera-ingestion.service';
 
 /**
  * Dahua ITSAPI ingestion — never behind JwtAuthGuard. Cameras cannot present

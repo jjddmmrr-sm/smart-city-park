@@ -92,3 +92,20 @@ export async function apiPatchAuth<T>(path: string, body: unknown): Promise<T> {
 
   return response.json();
 }
+
+export async function apiDeleteAuth<T>(path: string): Promise<T> {
+  const token = localStorage.getItem("smartpark_token");
+
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    method: "DELETE",
+    headers: {
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`API error ${response.status}`);
+  }
+
+  return response.json();
+}

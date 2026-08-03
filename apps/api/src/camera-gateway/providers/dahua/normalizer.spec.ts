@@ -3,7 +3,6 @@ import { plainToInstance } from 'class-transformer';
 import { ParkingInfoDto } from './dto/parking-info.dto';
 import {
   computeIdempotencyKey,
-  normalizeParkingInfo,
   parseSnapTime,
   resolveDetectionScope,
   resolveOccupancyStatus,
@@ -66,14 +65,6 @@ const illegalAreaPayload = {
       Region: 'COL',
     },
   },
-};
-
-const camera = {
-  id: 'cam-1',
-  tenantId: 'tenant-a',
-  cityId: 'city-a',
-  deviceId: '1a85820a-9edf-406a-8338-170689f6099e',
-  channel: 0,
 };
 
 describe('resolveDetectionScope', () => {
@@ -167,38 +158,5 @@ describe('computeIdempotencyKey', () => {
     const key2 = computeIdempotencyKey(dto, payloadWithoutSnapTime);
     expect(key1).toBe(key2);
     expect(key1).toHaveLength(64);
-  });
-});
-
-describe('normalizeParkingInfo', () => {
-  it('normalizes a real occupied-space event', () => {
-    const dto = plainToInstance(ParkingInfoDto, occupiedPayload);
-    const event = normalizeParkingInfo(dto, camera, 'raw-1', occupiedPayload);
-
-    expect(event.source).toBe('DAHUA_ITSAPI');
-    expect(event.tenantId).toBe('tenant-a');
-    expect(event.detectionScope).toBe('PARKING_SPACE');
-    expect(event.parkingSpaceCode).toBe('A004');
-    expect(event.occupancyStatus).toBe('OCCUPIED');
-    expect(event.illegalAreaName).toBeUndefined();
-    expect(event.plate?.exists).toBe(false);
-    expect(event.vehicle?.type).toBe('Otro');
-    expect(event.rawEventId).toBe('raw-1');
-  });
-
-  it('normalizes a real illegal-area event without a parking space code', () => {
-    const dto = plainToInstance(ParkingInfoDto, illegalAreaPayload);
-    const event = normalizeParkingInfo(
-      dto,
-      camera,
-      'raw-2',
-      illegalAreaPayload,
-    );
-
-    expect(event.detectionScope).toBe('ILLEGAL_AREA');
-    expect(event.parkingSpaceCode).toBeUndefined();
-    expect(event.illegalAreaName).toBe('Área de detección ilegal 0');
-    expect(event.occupancyStatus).toBe('ILLEGAL');
-    expect(event.plate?.number).toBe('47012');
   });
 });

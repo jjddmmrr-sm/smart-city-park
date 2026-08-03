@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GUARDS_METADATA } from '@nestjs/common/constants';
 import { DahuaIngestionController } from './dahua-ingestion.controller';
-import { CameraIngestionService } from '../camera-ingestion.service';
+import { CameraIngestionService } from '../../camera-ingestion.service';
 
 describe('DahuaIngestionController', () => {
   let controller: DahuaIngestionController;
