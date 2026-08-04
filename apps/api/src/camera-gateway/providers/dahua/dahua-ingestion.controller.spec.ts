@@ -23,7 +23,11 @@ describe('DahuaIngestionController', () => {
         DeviceID: 'device-1',
       }),
       handleKeepAlive: jest.fn().mockResolvedValue({ status: 'ok' }),
-      handleParkingInfo: jest.fn().mockResolvedValue({ status: 'ok' }),
+      handleParkingInfo: jest.fn().mockResolvedValue({
+        Result: true,
+        Message: 'ParkingInfo recibido y procesado',
+        DeviceID: 'device-1',
+      }),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -91,18 +95,29 @@ describe('DahuaIngestionController', () => {
     );
   });
 
-  it('does not add Cache-Control to KeepAlive/ParkingInfo — scope stays limited to DeviceInfo', () => {
+  it('ParkingInfo responds HTTP 200 with Cache-Control: no-store (ITSAPI ack contract)', () => {
+    const httpCode = Reflect.getMetadata(
+      HTTP_CODE_METADATA,
+      methodOf('handleParkingInfo'),
+    ) as number | undefined;
+    expect(httpCode).toBe(200);
+
+    const headersMeta = Reflect.getMetadata(
+      HEADERS_METADATA,
+      methodOf('handleParkingInfo'),
+    ) as { name: string; value: string }[] | undefined;
+    expect(headersMeta).toEqual(
+      expect.arrayContaining([{ name: 'Cache-Control', value: 'no-store' }]),
+    );
+  });
+
+  it('does not add Cache-Control to KeepAlive — scope stays limited to DeviceInfo/ParkingInfo', () => {
     const keepAliveHeaders = Reflect.getMetadata(
       HEADERS_METADATA,
       methodOf('handleKeepAlive'),
     ) as unknown[] | undefined;
-    const parkingInfoHeaders = Reflect.getMetadata(
-      HEADERS_METADATA,
-      methodOf('handleParkingInfo'),
-    ) as unknown[] | undefined;
 
     expect(keepAliveHeaders ?? []).toHaveLength(0);
-    expect(parkingInfoHeaders ?? []).toHaveLength(0);
   });
 
   it('delegates KeepAlive to CameraIngestionService.handleKeepAlive', async () => {
@@ -138,6 +153,10 @@ describe('DahuaIngestionController', () => {
       '192.168.10.155',
       headers,
     );
-    expect(result).toEqual({ status: 'ok' });
+    expect(result).toEqual({
+      Result: true,
+      Message: 'ParkingInfo recibido y procesado',
+      DeviceID: 'device-1',
+    });
   });
 });

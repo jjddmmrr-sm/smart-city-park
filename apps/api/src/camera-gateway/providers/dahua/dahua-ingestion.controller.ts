@@ -44,6 +44,7 @@ export class DahuaIngestionController {
 
   @Post('ParkingInfo')
   @HttpCode(HttpStatus.OK)
+  @Header('Cache-Control', 'no-store')
   handleParkingInfo(
     @Body() body: Record<string, unknown>,
     @Ip() ip: string,

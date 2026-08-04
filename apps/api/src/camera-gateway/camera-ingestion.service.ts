@@ -21,6 +21,17 @@ export interface DeviceInfoAckResponse {
 }
 
 /**
+ * Same ITSAPI Result/Message/DeviceID contract as DeviceInfoAckResponse,
+ * now also used for ParkingInfo — see
+ * smartpark-dahua-reference/docs/payloads-reales.md. The generic
+ * IngestionAck ({status:'ok'}) wasn't recognized by the camera's firmware,
+ * which kept resubmitting the same SnapTime/snapshot every ~1.2s instead
+ * of advancing. KeepAlive is untouched — no retry behavior was observed
+ * there.
+ */
+export type ParkingInfoAckResponse = DeviceInfoAckResponse;
+
+/**
  * Thin orchestrator — see
  * docs/architecture/iot-device-management-foundation.md §4. Temporary
  * facade standing in for what will become each provider's own thin
@@ -72,9 +83,18 @@ export class CameraIngestionService {
     rawBody: Record<string, unknown>,
     ip: string,
     headers: Record<string, unknown>,
-  ): Promise<IngestionAck> {
-    const { ack } = await this.ingest(rawBody, ip, headers, 'ParkingInfo');
-    return ack;
+  ): Promise<ParkingInfoAckResponse> {
+    const { externalDeviceId } = await this.ingest(
+      rawBody,
+      ip,
+      headers,
+      'ParkingInfo',
+    );
+    return {
+      Result: true,
+      Message: 'ParkingInfo recibido y procesado',
+      DeviceID: externalDeviceId,
+    };
   }
 
   private async ingest(

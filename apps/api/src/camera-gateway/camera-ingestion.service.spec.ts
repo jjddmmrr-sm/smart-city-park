@@ -143,5 +143,19 @@ describe('CameraIngestionService (orchestration only)', () => {
         expect.objectContaining({ externalEventType: 'ParkingInfo' }),
       );
     });
+
+    it('responds with the Result/Message/DeviceID ITSAPI ack contract, echoing the received DeviceID', async () => {
+      const result = await service.handleParkingInfo(
+        { Picture: { ParkingInfo: { DeviceID: 'device-1' } } },
+        'ip',
+        {},
+      );
+
+      expect(result).toEqual({
+        Result: true,
+        Message: 'ParkingInfo recibido y procesado',
+        DeviceID: 'device-1',
+      });
+    });
   });
 });
