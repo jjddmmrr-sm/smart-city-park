@@ -6,6 +6,21 @@ import { DahuaProviderAdapter } from './providers/dahua/dahua-provider.adapter';
 export type { IngestionAck };
 
 /**
+ * ITSAPI handshake ack for DeviceInfo — Dahua hardware (see
+ * smartpark-dahua-reference/docs/payloads-reales.md) expects its own
+ * Result/Message/DeviceID vocabulary here, not the generic IngestionAck
+ * used by KeepAlive/ParkingInfo. Result is always true: this only
+ * reports that the handshake was received, the same "always ok"
+ * contract the generic ack already had — it does not encode
+ * registrationStatus/tenant approval.
+ */
+export interface DeviceInfoAckResponse {
+  Result: boolean;
+  Message: string;
+  DeviceID: string;
+}
+
+/**
  * Thin orchestrator — see
  * docs/architecture/iot-device-management-foundation.md §4. Temporary
  * facade standing in for what will become each provider's own thin
@@ -26,28 +41,40 @@ export class CameraIngestionService {
     private readonly dahuaAdapter: DahuaProviderAdapter,
   ) {}
 
-  handleDeviceInfo(
+  async handleDeviceInfo(
     rawBody: Record<string, unknown>,
     ip: string,
     headers: Record<string, unknown>,
-  ): Promise<IngestionAck> {
-    return this.ingest(rawBody, ip, headers, 'DeviceInfo');
+  ): Promise<DeviceInfoAckResponse> {
+    const { externalDeviceId } = await this.ingest(
+      rawBody,
+      ip,
+      headers,
+      'DeviceInfo',
+    );
+    return {
+      Result: true,
+      Message: 'DeviceInfo recibido y autorizado',
+      DeviceID: externalDeviceId,
+    };
   }
 
-  handleKeepAlive(
+  async handleKeepAlive(
     rawBody: Record<string, unknown>,
     ip: string,
     headers: Record<string, unknown>,
   ): Promise<IngestionAck> {
-    return this.ingest(rawBody, ip, headers, 'KeepAlive');
+    const { ack } = await this.ingest(rawBody, ip, headers, 'KeepAlive');
+    return ack;
   }
 
-  handleParkingInfo(
+  async handleParkingInfo(
     rawBody: Record<string, unknown>,
     ip: string,
     headers: Record<string, unknown>,
   ): Promise<IngestionAck> {
-    return this.ingest(rawBody, ip, headers, 'ParkingInfo');
+    const { ack } = await this.ingest(rawBody, ip, headers, 'ParkingInfo');
+    return ack;
   }
 
   private async ingest(
@@ -55,7 +82,7 @@ export class CameraIngestionService {
     ip: string,
     headers: Record<string, unknown>,
     expectedEventType: string,
-  ): Promise<IngestionAck> {
+  ): Promise<{ ack: IngestionAck; externalDeviceId: string }> {
     const rawEvent = {
       ...this.dahuaAdapter.parseEvent(rawBody, headers, ip),
       externalEventType: expectedEventType,
@@ -72,10 +99,14 @@ export class CameraIngestionService {
     const validation = this.dahuaAdapter.validate(rawEvent);
     if (!validation.valid) {
       await this.core.markRawInvalid(rawEventId, validation.errors);
-      return { status: 'ok' };
+      return {
+        ack: { status: 'ok' },
+        externalDeviceId: rawEvent.externalDeviceId,
+      };
     }
 
     const canonicalEvent = this.dahuaAdapter.normalize(rawEvent, rawEventId);
-    return this.core.process(canonicalEvent);
+    const ack = await this.core.process(canonicalEvent);
+    return { ack, externalDeviceId: rawEvent.externalDeviceId };
   }
 }

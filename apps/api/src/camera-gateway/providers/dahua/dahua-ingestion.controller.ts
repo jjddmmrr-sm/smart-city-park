@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Header,
   Headers,
   HttpCode,
   HttpStatus,
@@ -22,6 +23,7 @@ export class DahuaIngestionController {
 
   @Post('DeviceInfo')
   @HttpCode(HttpStatus.OK)
+  @Header('Cache-Control', 'no-store')
   handleDeviceInfo(
     @Body() body: Record<string, unknown>,
     @Ip() ip: string,

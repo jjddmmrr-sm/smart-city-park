@@ -79,7 +79,11 @@ describe('CameraIngestionService (orchestration only)', () => {
       expect(core.process).toHaveBeenCalledWith(
         expect.objectContaining({ eventType: 'DEVICE_HANDSHAKE' }),
       );
-      expect(result).toEqual({ status: 'ok' });
+      expect(result).toEqual({
+        Result: true,
+        Message: 'DeviceInfo recibido y autorizado',
+        DeviceID: 'device-1',
+      });
     });
 
     it('applies the DeviceInfo hint even though the adapter classified it as KeepAlive', async () => {
@@ -103,7 +107,11 @@ describe('CameraIngestionService (orchestration only)', () => {
       ]);
       expect(adapter.normalize).not.toHaveBeenCalled();
       expect(core.process).not.toHaveBeenCalled();
-      expect(result).toEqual({ status: 'ok' });
+      expect(result).toEqual({
+        Result: true,
+        Message: 'DeviceInfo recibido y autorizado',
+        DeviceID: 'device-1',
+      });
     });
   });
 

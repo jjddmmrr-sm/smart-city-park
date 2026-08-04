@@ -1,5 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { GUARDS_METADATA } from '@nestjs/common/constants';
+import {
+  GUARDS_METADATA,
+  HEADERS_METADATA,
+  HTTP_CODE_METADATA,
+} from '@nestjs/common/constants';
 import { DahuaIngestionController } from './dahua-ingestion.controller';
 import { CameraIngestionService } from '../../camera-ingestion.service';
 
@@ -13,7 +17,11 @@ describe('DahuaIngestionController', () => {
 
   beforeEach(async () => {
     service = {
-      handleDeviceInfo: jest.fn().mockResolvedValue({ status: 'ok' }),
+      handleDeviceInfo: jest.fn().mockResolvedValue({
+        Result: true,
+        Message: 'DeviceInfo recibido y autorizado',
+        DeviceID: 'device-1',
+      }),
       handleKeepAlive: jest.fn().mockResolvedValue({ status: 'ok' }),
       handleParkingInfo: jest.fn().mockResolvedValue({ status: 'ok' }),
     };
@@ -53,7 +61,48 @@ describe('DahuaIngestionController', () => {
       '192.168.10.155',
       headers,
     );
-    expect(result).toEqual({ status: 'ok' });
+    expect(result).toEqual({
+      Result: true,
+      Message: 'DeviceInfo recibido y autorizado',
+      DeviceID: 'device-1',
+    });
+  });
+
+  function methodOf(name: string): unknown {
+    return Object.getOwnPropertyDescriptor(
+      DahuaIngestionController.prototype,
+      name,
+    )?.value;
+  }
+
+  it('DeviceInfo responds HTTP 200 with Cache-Control: no-store (ITSAPI ack contract)', () => {
+    const httpCode = Reflect.getMetadata(
+      HTTP_CODE_METADATA,
+      methodOf('handleDeviceInfo'),
+    ) as number | undefined;
+    expect(httpCode).toBe(200);
+
+    const headersMeta = Reflect.getMetadata(
+      HEADERS_METADATA,
+      methodOf('handleDeviceInfo'),
+    ) as { name: string; value: string }[] | undefined;
+    expect(headersMeta).toEqual(
+      expect.arrayContaining([{ name: 'Cache-Control', value: 'no-store' }]),
+    );
+  });
+
+  it('does not add Cache-Control to KeepAlive/ParkingInfo — scope stays limited to DeviceInfo', () => {
+    const keepAliveHeaders = Reflect.getMetadata(
+      HEADERS_METADATA,
+      methodOf('handleKeepAlive'),
+    ) as unknown[] | undefined;
+    const parkingInfoHeaders = Reflect.getMetadata(
+      HEADERS_METADATA,
+      methodOf('handleParkingInfo'),
+    ) as unknown[] | undefined;
+
+    expect(keepAliveHeaders ?? []).toHaveLength(0);
+    expect(parkingInfoHeaders ?? []).toHaveLength(0);
   });
 
   it('delegates KeepAlive to CameraIngestionService.handleKeepAlive', async () => {
