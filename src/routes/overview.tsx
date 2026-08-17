@@ -235,7 +235,7 @@ function OverviewPage() {
           <KpiTile
             label="Ocupados ahora"
             value={fmtInt(overview?.occupiedSpaces ?? 0)}
-            sub={`${fmtPct(overview?.occupancyRate ?? 0, 1)} ocupación`}
+            sub={`${fmtPct((overview?.occupancyRate ?? 0) / 100, 1)} ocupación`}
             icon={<Car className="h-4 w-4" />}
             accent="destructive"
           />

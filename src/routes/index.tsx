@@ -2,10 +2,10 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { RequirePermission } from "@/components/RequirePermission";
 import { createFileRoute } from "@tanstack/react-router";
 import { useSim, useLiveStats } from "@/lib/sim";
-import { ZONES, type LiveSpace } from "@/lib/data";
+import { type LiveSpace, type Zone } from "@/lib/data";
 import { fmtInt, fmtPct, fmtUSD, STATUS_LABEL, ISSUE_LABEL } from "@/lib/format";
 import { Panel, StatusPill } from "@/components/ui-bits";
-import { apiGet } from "@/lib/api";
+import { apiGetAuth } from "@/lib/api";
 import {
   Activity,
   AlertTriangle,
@@ -60,12 +60,18 @@ function LiveMapPage() {
   const [selected, setSelected] = useState<LiveSpace | null>(null);
   const [liveData, setLiveData] = useState<LiveSpace[] | null>(null);
   const [overview, setOverview] = useState<OverviewApi | null>(null);
+  const [zones, setZones] = useState<Zone[]>([]);
 
   useEffect(() => {
-    Promise.all([apiGet<LiveSpace[]>("/frontend/live"), apiGet<OverviewApi>("/frontend/overview")])
-      .then(([live, overviewData]) => {
+    Promise.all([
+      apiGetAuth<LiveSpace[]>("/frontend/live"),
+      apiGetAuth<OverviewApi>("/frontend/overview"),
+      apiGetAuth<Zone[]>("/frontend/zones"),
+    ])
+      .then(([live, overviewData, zonesData]) => {
         setLiveData(live);
         setOverview(overviewData);
+        setZones(zonesData);
       })
       .catch((error) => console.error("Error loading live map", error));
   }, []);
@@ -91,7 +97,7 @@ function LiveMapPage() {
         <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-px bg-border">
           <KpiBare
             label="Ocupación"
-            value={fmtPct(realOccupancy, 1)}
+            value={fmtPct(realOccupancy / 100, 1)}
             sub={`${realOccupied}/${realTotal}`}
             icon={<Activity className="h-4 w-4 text-accent" />}
           />
@@ -155,7 +161,7 @@ function LiveMapPage() {
               onChange={setZone}
               options={[
                 { v: "all", l: "Todas las zonas" },
-                ...ZONES.map((z) => ({ v: z.zone_id, l: z.zone_name })),
+                ...zones.map((z) => ({ v: z.zone_id, l: z.zone_name })),
               ]}
             />
             <Select
@@ -203,7 +209,8 @@ function LiveMapPage() {
           </div>
 
           <div className="hidden md:inline-flex absolute bottom-2 right-2 z-[400] bg-card/95 backdrop-blur border border-border rounded shadow-sm px-2 py-1 text-[10px] text-muted-foreground items-center gap-1">
-            <Layers className="h-3 w-3" /> {liveData ? 1 : ZONES.length} zona · {realTotal} espacios
+            <Layers className="h-3 w-3" /> {new Set(currentLive.map((s) => s.zone_id)).size} zona ·{" "}
+            {realTotal} espacios
           </div>
         </div>
 
@@ -316,7 +323,7 @@ function SpaceDetail({ s }: { s: LiveSpace }) {
         <div className="text-[14px] font-semibold tabular-nums">{s.id}</div>
         <StatusPill status={s.status} />
       </div>
-      <Row k="Zona" v={`${s.zone_id} · ${s.zone}`} />
+      <Row k="Zona" v={s.zone} />
       <Row k="Calle" v={s.street} />
       <Row k="Tipo" v={s.type.replace("_", " ")} />
       <Row k="Sensor" v={s.sensor ? "Habilitado" : "Manual"} />
