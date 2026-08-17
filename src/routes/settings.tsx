@@ -1,7 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Panel, StatusPill } from "@/components/ui-bits";
-import { apiGet } from "@/lib/api";
+import { apiGetAuth } from "@/lib/api";
+import { isAuthenticated } from "@/lib/auth";
 import { fmtInt, fmtUSD2 } from "@/lib/format";
 import { Bell, Building2, Coins, ParkingSquare, ShieldAlert, UsersRound } from "lucide-react";
 
@@ -62,17 +63,22 @@ function estadoEs(value: string) {
 }
 
 function SettingsPage() {
+  const navigate = useNavigate();
   const [zones, setZones] = useState<Zone[]>([]);
   const [spaces, setSpaces] = useState<Space[]>([]);
   const [controllers, setControllers] = useState<Controller[]>([]);
   const [overview, setOverview] = useState<Overview | null>(null);
 
   useEffect(() => {
+    if (!isAuthenticated()) {
+      navigate({ to: "/admin/login" });
+      return;
+    }
     Promise.all([
-      apiGet<Zone[]>("/frontend/zones"),
-      apiGet<Space[]>("/frontend/spaces"),
-      apiGet<Controller[]>("/frontend/controllers"),
-      apiGet<Overview>("/frontend/overview"),
+      apiGetAuth<Zone[]>("/frontend/zones"),
+      apiGetAuth<Space[]>("/frontend/spaces"),
+      apiGetAuth<Controller[]>("/frontend/controllers"),
+      apiGetAuth<Overview>("/frontend/overview"),
     ])
       .then(([z, s, c, o]) => {
         setZones(z);
@@ -81,7 +87,7 @@ function SettingsPage() {
         setOverview(o);
       })
       .catch((error) => console.error("Error loading settings", error));
-  }, []);
+  }, [navigate]);
 
   const inventory = useMemo(() => {
     const m: Record<string, Record<string, number>> = {};
@@ -106,11 +112,19 @@ function SettingsPage() {
   return (
     <div className="h-full overflow-auto bg-surface">
       <div className="px-4 py-4 space-y-4">
-        <div>
-          <h1 className="text-[20px] font-semibold text-primary">Configuración Operativa</h1>
-          <p className="text-[12px] text-muted-foreground">
-            Estado real de parámetros, inventario y módulos conectados a PostgreSQL.
-          </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-[20px] font-semibold text-primary">Configuración Operativa</h1>
+            <p className="text-[12px] text-muted-foreground">
+              Estado real de parámetros, inventario y módulos conectados a PostgreSQL.
+            </p>
+          </div>
+          <Link
+            to="/admin"
+            className="h-8 px-3 rounded-md border border-border text-[12px] inline-flex items-center hover:bg-secondary"
+          >
+            Volver
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">

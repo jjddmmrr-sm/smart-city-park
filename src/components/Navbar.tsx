@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { apiGetAuth } from "@/lib/api";
-import { getAuthUser, isAuthenticated } from "@/lib/auth";
+import { getAuthUser, useAuthState } from "@/lib/auth";
 
 const NAV = [
   {
@@ -73,6 +73,7 @@ const NAV = [
 
 export function Navbar() {
   const { location } = useRouterState();
+  const authenticated = useAuthState();
   const [now, setNow] = useState<Date | null>(null);
   const [open, setOpen] = useState(false);
   const [permissions, setPermissions] = useState<string[]>([]);
@@ -85,7 +86,11 @@ export function Navbar() {
   }, []);
 
   useEffect(() => {
-    if (!isAuthenticated()) return;
+    if (!authenticated) {
+      setPermissions([]);
+      setRoles([]);
+      return;
+    }
 
     apiGetAuth<{ permissions: string[]; roles: string[] }>("/auth/me")
       .then((me) => {
@@ -96,7 +101,7 @@ export function Navbar() {
         setPermissions([]);
         setRoles([]);
       });
-  }, []);
+  }, [authenticated]);
 
   useEffect(() => {
     setOpen(false);

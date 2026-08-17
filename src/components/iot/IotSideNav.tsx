@@ -9,6 +9,7 @@ import {
   Settings2,
   Activity,
   Stethoscope,
+  ArrowLeft,
 } from "lucide-react";
 
 const IOT_NAV = [
@@ -80,17 +81,31 @@ export function IotPageShell({
   actions?: React.ReactNode;
   children: React.ReactNode;
 }) {
+  const { location } = useRouterState();
+  const isIotRoot = location.pathname === "/admin/iot";
+  const backTo = isIotRoot ? "/admin" : "/admin/iot";
+  const backLabel = isIotRoot ? "Volver a Administración" : "Volver a IoT Devices";
+
   return (
     <div className="h-full flex overflow-hidden bg-surface">
       <IotSideNav />
       <div className="flex-1 overflow-auto">
         <div className="px-4 py-4 space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-[20px] font-semibold text-primary">{title}</h1>
-              {description && <p className="text-[12px] text-muted-foreground">{description}</p>}
+          <div>
+            <Link
+              to={backTo}
+              className="text-[12px] text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              {backLabel}
+            </Link>
+            <div className="flex items-center justify-between mt-1">
+              <div>
+                <h1 className="text-[20px] font-semibold text-primary">{title}</h1>
+                {description && <p className="text-[12px] text-muted-foreground">{description}</p>}
+              </div>
+              {actions && <div className="flex gap-2">{actions}</div>}
             </div>
-            {actions && <div className="flex gap-2">{actions}</div>}
           </div>
           {children}
         </div>
