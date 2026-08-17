@@ -62,3 +62,24 @@ export function computeIdempotencyKey(
     .digest('hex');
   return createHash('sha256').update(`${base}|${payloadHash}`).digest('hex');
 }
+
+/**
+ * Per-stall idempotency formula for TimedParkingSpaceInfo — mirrors
+ * computeIdempotencyKey's shape (DeviceID|code|status|time) so the same
+ * (device, stall, reported state, timestamp) tuple always yields the same
+ * key, letting CameraEvent.idempotencyKey's unique constraint reject a
+ * true duplicate exactly like it already does for ParkingInfo. Deliberately
+ * keyed by `used` (not the full SpaceModeInfo item) and `time` (request-
+ * level Time, not per-stall) — those are the only two fields that can
+ * legitimately differ between two otherwise-identical reports of the same
+ * stall.
+ */
+export function computeSpaceModeIdempotencyKey(
+  deviceId: string,
+  parkNo: string,
+  used: boolean,
+  time: string | undefined,
+): string {
+  const base = `${deviceId}|${parkNo}|${used}|${time ?? ''}`;
+  return createHash('sha256').update(base).digest('hex');
+}

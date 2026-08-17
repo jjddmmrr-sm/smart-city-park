@@ -60,6 +60,34 @@ const illegalAreaPayload = {
   },
 };
 
+// Real payload observed post-firmware-update — see
+// test/dahua/payloads/TimedParkingSpaceInfo_Initial.json.
+const timedParkingSpaceInfoPayload = {
+  DSTTune: 0,
+  DeviceID: '1a85820a-9edf-406a-8338-170689f6099e',
+  EventID: 134218921,
+  ParkingSpacePic: {
+    Content: '[BASE64 OMITIDO]',
+    PicName: 'noplate-20260815112129.jpg',
+  },
+  SpaceModeInfo: [
+    { ParkNo: 'C01', SpaceType: 0, Used: true },
+    { ParkNo: 'C02', SpaceType: 0, Used: true },
+    { ParkNo: 'C03', SpaceType: 0, Used: true },
+    { ParkNo: 'C04', SpaceType: 0, Used: false },
+    { ParkNo: 'C05', SpaceType: 0, Used: false },
+    { ParkNo: 'C06', SpaceType: 0, Used: false },
+    { ParkNo: 'C07', SpaceType: 0, Used: false },
+    { ParkNo: 'C08', SpaceType: 0, Used: false },
+    { ParkNo: 'C09', SpaceType: 0, Used: false },
+  ],
+  StatisticsMode: 'SpaceMode',
+  Time: '2026-08-15 11:21:29',
+  TimeZone: 25,
+  TimingPeriod: 0,
+  ViolationSnapSource: 3,
+};
+
 describe('DahuaProviderAdapter', () => {
   let adapter: DahuaProviderAdapter;
 
@@ -101,6 +129,18 @@ describe('DahuaProviderAdapter', () => {
       expect(event.externalDeviceId).toBe('');
       expect(event.externalEventType).toBe('KeepAlive');
     });
+
+    it('classifies a real TimedParkingSpaceInfo payload (root-level DeviceID)', () => {
+      const event = adapter.parseEvent(
+        timedParkingSpaceInfoPayload,
+        {},
+        '192.168.10.155',
+      );
+      expect(event.externalEventType).toBe('TimedParkingSpaceInfo');
+      expect(event.externalDeviceId).toBe(
+        '1a85820a-9edf-406a-8338-170689f6099e',
+      );
+    });
   });
 
   describe('validate', () => {
@@ -139,6 +179,61 @@ describe('DahuaProviderAdapter', () => {
       expect(result.valid).toBe(false);
       expect(result.errors).toContain('DeviceID or ParkingStatus missing');
     });
+
+    it('accepts a valid TimedParkingSpaceInfo payload (9 stalls)', () => {
+      const rawEvent = adapter.parseEvent(
+        timedParkingSpaceInfoPayload,
+        {},
+        'ip',
+      );
+      expect(adapter.validate(rawEvent)).toEqual({ valid: true, errors: [] });
+    });
+
+    it('rejects a TimedParkingSpaceInfo payload missing DeviceID', () => {
+      const rawEvent = adapter.parseEvent(
+        { SpaceModeInfo: [{ ParkNo: 'C01', Used: true }] },
+        {},
+        'ip',
+      );
+      const result = adapter.validate({
+        ...rawEvent,
+        externalEventType: 'TimedParkingSpaceInfo',
+      });
+      expect(result.valid).toBe(false);
+      expect(result.errors.length).toBeGreaterThan(0);
+    });
+
+    it('rejects a TimedParkingSpaceInfo payload whose SpaceModeInfo is not an array', () => {
+      const rawEvent = adapter.parseEvent(
+        { DeviceID: 'device-1', SpaceModeInfo: 'not-an-array' },
+        {},
+        'ip',
+      );
+      const result = adapter.validate({
+        ...rawEvent,
+        externalEventType: 'TimedParkingSpaceInfo',
+      });
+      expect(result.valid).toBe(false);
+    });
+
+    it('still validates when individual SpaceModeInfo entries are malformed (tolerant, per Caso 6)', () => {
+      const rawEvent = adapter.parseEvent(
+        {
+          DeviceID: 'device-1',
+          SpaceModeInfo: [
+            { ParkNo: 'C01', Used: true },
+            { SpaceType: 0 }, // missing ParkNo/Used — must not sink the batch
+          ],
+        },
+        {},
+        'ip',
+      );
+      const result = adapter.validate({
+        ...rawEvent,
+        externalEventType: 'TimedParkingSpaceInfo',
+      });
+      expect(result.valid).toBe(true);
+    });
   });
 
   describe('resolveDeviceIdentifier', () => {
@@ -151,6 +246,17 @@ describe('DahuaProviderAdapter', () => {
 
     it('resolves from the validated ParkingInfo payload (nested)', () => {
       const rawEvent = adapter.parseEvent(occupiedPayload, {}, 'ip');
+      expect(adapter.resolveDeviceIdentifier(rawEvent)).toBe(
+        '1a85820a-9edf-406a-8338-170689f6099e',
+      );
+    });
+
+    it('resolves from the validated TimedParkingSpaceInfo payload (root-level)', () => {
+      const rawEvent = adapter.parseEvent(
+        timedParkingSpaceInfoPayload,
+        {},
+        'ip',
+      );
       expect(adapter.resolveDeviceIdentifier(rawEvent)).toBe(
         '1a85820a-9edf-406a-8338-170689f6099e',
       );
@@ -207,6 +313,78 @@ describe('DahuaProviderAdapter', () => {
       expect(event.parkingStatus).toBe('ILLEGAL');
       expect(event.metadata.illegalAreaName).toBe('Área de detección ilegal 0');
     });
+
+    it('normalizes a real TimedParkingSpaceInfo event into OCCUPANCY_SNAPSHOT with all 9 stalls, dynamic count', () => {
+      const rawEvent = adapter.parseEvent(
+        timedParkingSpaceInfoPayload,
+        {},
+        'ip',
+      );
+      const event = adapter.normalize(rawEvent, 'raw-6');
+
+      expect(event.eventType).toBe('OCCUPANCY_SNAPSHOT');
+      expect(event.externalEventType).toBe('TimedParkingSpaceInfo');
+      expect(event.spaces).toHaveLength(9);
+      expect(event.spaces?.[0]).toMatchObject({
+        externalStallCode: 'C01',
+        parkingStatus: 'OCCUPIED',
+      });
+      expect(typeof event.spaces?.[0]?.idempotencyKey).toBe('string');
+      expect(event.spaces?.[3]).toMatchObject({
+        externalStallCode: 'C04',
+        parkingStatus: 'AVAILABLE',
+      });
+      expect(typeof event.spaces?.[3]?.idempotencyKey).toBe('string');
+      expect(event.metadata.reportedCount).toBe(9);
+      expect(event.metadata.invalidItemCount).toBe(0);
+      expect(
+        (event.metadata.picture as { base64Length: number }).base64Length,
+      ).toBeGreaterThan(0);
+    });
+
+    it('handles a payload larger than any historical stall limit (Caso 13 — no hardcoded maximum)', () => {
+      const manySpaces = Array.from({ length: 50 }, (_, i) => ({
+        ParkNo: `C${String(i + 1).padStart(2, '0')}`,
+        SpaceType: 0,
+        Used: i % 2 === 0,
+      }));
+      const rawEvent = adapter.parseEvent(
+        {
+          DeviceID: 'device-1',
+          SpaceModeInfo: manySpaces,
+          Time: '2026-08-15 11:21:29',
+        },
+        {},
+        'ip',
+      );
+      const event = adapter.normalize(rawEvent, 'raw-7');
+      expect(event.spaces).toHaveLength(50);
+    });
+
+    it('drops malformed SpaceModeInfo entries instead of throwing (Caso 6)', () => {
+      const rawEvent = adapter.parseEvent(
+        {
+          DeviceID: 'device-1',
+          Time: '2026-08-15 11:21:29',
+          SpaceModeInfo: [
+            { ParkNo: 'C01', Used: true },
+            { SpaceType: 0 }, // no ParkNo/Used
+            { ParkNo: '', Used: false }, // empty ParkNo
+            { ParkNo: 'C02', Used: false },
+          ],
+        },
+        {},
+        'ip',
+      );
+      const event = adapter.normalize(rawEvent, 'raw-8');
+      expect(event.spaces).toHaveLength(2);
+      expect(event.spaces?.map((s) => s.externalStallCode)).toEqual([
+        'C01',
+        'C02',
+      ]);
+      expect(event.metadata.reportedCount).toBe(4);
+      expect(event.metadata.invalidItemCount).toBe(2);
+    });
   });
 
   describe('computeIdempotencyKey', () => {
@@ -227,11 +405,12 @@ describe('DahuaProviderAdapter', () => {
   });
 
   describe('capabilities and auth strategy', () => {
-    it('declares exactly the 3 implemented event types as capabilities', () => {
+    it('declares exactly the 4 implemented event types as capabilities', () => {
       expect(adapter.getCapabilities()).toEqual([
         'DEVICE_HANDSHAKE',
         'HEARTBEAT',
         'OCCUPANCY_UPDATE',
+        'OCCUPANCY_SNAPSHOT',
       ]);
     });
 

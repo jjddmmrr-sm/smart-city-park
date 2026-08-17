@@ -90,6 +90,8 @@ export class CameraIngestionCoreService {
         return this.processHeartbeat(event);
       case 'OCCUPANCY_UPDATE':
         return this.processOccupancyUpdate(event);
+      case 'OCCUPANCY_SNAPSHOT':
+        return this.processOccupancySnapshot(event);
       default:
         await this.finalizeRaw(event.rawEventId, { status: 'PROCESSED' });
         return { status: 'ok' };
@@ -469,6 +471,177 @@ export class CameraIngestionCoreService {
         `ParkingInfo procesado sin cambio de estado spaceId=${parkingSpace.id} status=${event.parkingStatus} deviceId=${event.externalDeviceId}`,
       );
     }
+
+    return { status: 'ok' };
+  }
+
+  /**
+   * TimedParkingSpaceInfo (post-firmware-update Dahua cameras): the camera
+   * resends every configured stall's state on each change, not just the
+   * one that changed — see docs/architecture/iot-device-management-foundation.md
+   * §5 and DAHUA_IMPLEMENTATION_PLAN.md. `event.spaces` is dynamic-length,
+   * never assumed to have a maximum.
+   *
+   * Per stall: resolve/create its CameraStallMapping exactly like
+   * ParkingInfo already does (reuses resolveOrCreateStallMapping
+   * unchanged), then only create a CameraEvent + update ParkingSpace +
+   * write history for stalls whose reported status actually differs from
+   * the currently known ParkingSpace.status. Stalls with no active mapping
+   * (DISCOVERED, no ParkingSpace yet) are counted but never touch
+   * ParkingSpace — same "record RAW, nothing to compare yet" behavior as
+   * an unmapped ParkingInfo stall.
+   */
+  private async processOccupancySnapshot(
+    event: CanonicalCameraEvent,
+  ): Promise<IngestionAck> {
+    const provider = await this.resolveProvider(event.providerCode);
+    const camera = provider
+      ? await this.resolveCamera(provider.id, event.externalDeviceId)
+      : null;
+
+    if (!camera || !camera.tenantId || !camera.cityId) {
+      await this.finalizeRaw(event.rawEventId, {
+        status: 'FAILED',
+        error: 'Cámara no resuelta o sin tenant/city asignado',
+      });
+      this.logger.warn(
+        `TimedParkingSpaceInfo descartado: cámara no resuelta/activa deviceId=${event.externalDeviceId}`,
+      );
+      return { status: 'ok' };
+    }
+
+    const tenantId = camera.tenantId;
+    const cityId = camera.cityId;
+    const reported = event.spaces ?? [];
+
+    if (reported.length === 0) {
+      await this.finalizeRaw(event.rawEventId, {
+        status: 'PROCESSED',
+        cameraId: camera.id,
+        tenantId,
+      });
+      this.logger.warn(
+        `TimedParkingSpaceInfo sin plazas válidas deviceId=${event.externalDeviceId}`,
+      );
+      return { status: 'ok' };
+    }
+
+    // One mapping lookup/creation per reported stall, exactly like a
+    // single ParkingInfo request already does — deliberately not batched
+    // further (createMany can't report which rows already existed) since
+    // new-mapping creation is a one-time cost per stall, not steady state.
+    const mappingByCode = new Map<
+      string,
+      Awaited<ReturnType<typeof this.resolveOrCreateStallMapping>>
+    >();
+    for (const space of reported) {
+      const mapping = await this.resolveOrCreateStallMapping(
+        { id: camera.id, tenantId, cityId, zoneId: camera.zoneId },
+        space.externalStallCode,
+      );
+      mappingByCode.set(space.externalStallCode, mapping);
+    }
+
+    // Batch-fetch every actively-mapped ParkingSpace in one query instead
+    // of one round trip per stall — the actual comparison target for the
+    // diff below.
+    const activeSpaceIds = [...mappingByCode.values()]
+      .filter(
+        (m): m is NonNullable<typeof m> =>
+          !!m && m.mappingStatus === 'ACTIVE' && !!m.parkingSpaceId,
+      )
+      .map((m) => m.parkingSpaceId!);
+
+    const currentSpaces = activeSpaceIds.length
+      ? await this.prisma.parkingSpace.findMany({
+          where: { id: { in: activeSpaceIds } },
+        })
+      : [];
+    const currentSpaceById = new Map(currentSpaces.map((s) => [s.id, s]));
+
+    let changedCount = 0;
+    let unchangedCount = 0;
+    let unmappedCount = 0;
+    let duplicateCount = 0;
+
+    for (const space of reported) {
+      const mapping = mappingByCode.get(space.externalStallCode);
+      const newStatus =
+        space.parkingStatus === 'OCCUPIED'
+          ? 'occupied'
+          : space.parkingStatus === 'AVAILABLE'
+            ? 'available'
+            : null;
+
+      if (!mapping?.parkingSpaceId || mapping.mappingStatus !== 'ACTIVE') {
+        unmappedCount++;
+        continue;
+      }
+      const current = currentSpaceById.get(mapping.parkingSpaceId);
+      if (!current || !newStatus || current.status === newStatus) {
+        unchangedCount++;
+        continue;
+      }
+
+      try {
+        await this.prisma.$transaction(async (tx) => {
+          const createdEvent = await tx.cameraEvent.create({
+            data: {
+              tenantId,
+              cityId,
+              cameraId: camera.id,
+              eventType: 'TimedParkingSpaceInfo',
+              occurredAt: event.occurredAt,
+              detectionScope: 'PLAZA',
+              idempotencyKey: space.idempotencyKey,
+              rawEventId: event.rawEventId,
+              parkingSpaceId: current.id,
+              metadata: { externalStallCode: space.externalStallCode },
+            },
+          });
+
+          await tx.parkingSpace.update({
+            where: { id: current.id },
+            data: { status: newStatus },
+          });
+          await tx.parkingSpaceStatusHistory.create({
+            data: {
+              tenantId: current.tenantId,
+              cityId: current.cityId,
+              spaceId: current.id,
+              previousStatus: current.status,
+              newStatus,
+              source: 'CAMERA',
+              sourceEventId: createdEvent.id,
+            },
+          });
+        });
+        // Keep the in-memory snapshot consistent in case the same stall
+        // code appears more than once in the same batch (not expected from
+        // real hardware, but keeps the diff correct either way).
+        currentSpaceById.set(current.id, { ...current, status: newStatus });
+        changedCount++;
+      } catch (error) {
+        if (this.isUniqueConstraintViolation(error)) {
+          duplicateCount++;
+          continue;
+        }
+        throw error;
+      }
+    }
+
+    await this.finalizeRaw(event.rawEventId, {
+      status: 'PROCESSED',
+      cameraId: camera.id,
+      tenantId,
+    });
+
+    this.logger.log(
+      `[TimedParkingSpaceInfo] deviceId=${event.externalDeviceId} ` +
+        `plazasRecibidas=${reported.length} plazasConCambio=${changedCount} ` +
+        `plazasSinCambio=${unchangedCount} plazasSinMapear=${unmappedCount} ` +
+        `duplicados=${duplicateCount}`,
+    );
 
     return { status: 'ok' };
   }

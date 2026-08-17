@@ -43,11 +43,12 @@ describe('isCanonicalParkingStatus', () => {
 });
 
 describe('CANONICAL_CAMERA_EVENT_TYPES', () => {
-  it('contains exactly the 4 minimum canonical event types, no duplicates', () => {
+  it('contains exactly the 5 minimum canonical event types, no duplicates', () => {
     expect(CANONICAL_CAMERA_EVENT_TYPES).toEqual([
       'DEVICE_HANDSHAKE',
       'HEARTBEAT',
       'OCCUPANCY_UPDATE',
+      'OCCUPANCY_SNAPSHOT',
       'UNCLASSIFIED',
     ]);
     expect(new Set(CANONICAL_CAMERA_EVENT_TYPES).size).toBe(

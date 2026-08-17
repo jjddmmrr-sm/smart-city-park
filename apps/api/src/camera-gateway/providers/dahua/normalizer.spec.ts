@@ -3,6 +3,7 @@ import { plainToInstance } from 'class-transformer';
 import { ParkingInfoDto } from './dto/parking-info.dto';
 import {
   computeIdempotencyKey,
+  computeSpaceModeIdempotencyKey,
   parseSnapTime,
   resolveDetectionScope,
   resolveOccupancyStatus,
@@ -158,5 +159,74 @@ describe('computeIdempotencyKey', () => {
     const key2 = computeIdempotencyKey(dto, payloadWithoutSnapTime);
     expect(key1).toBe(key2);
     expect(key1).toHaveLength(64);
+  });
+});
+
+describe('computeSpaceModeIdempotencyKey', () => {
+  const deviceId = '1a85820a-9edf-406a-8338-170689f6099e';
+
+  it('is deterministic for the same (device, stall, used, time) tuple', () => {
+    const key1 = computeSpaceModeIdempotencyKey(
+      deviceId,
+      'C01',
+      true,
+      '2026-08-15 11:21:29',
+    );
+    const key2 = computeSpaceModeIdempotencyKey(
+      deviceId,
+      'C01',
+      true,
+      '2026-08-15 11:21:29',
+    );
+    expect(key1).toBe(key2);
+    expect(key1).toHaveLength(64);
+  });
+
+  it('differs when Used differs (same stall, same time)', () => {
+    const occupied = computeSpaceModeIdempotencyKey(
+      deviceId,
+      'C01',
+      true,
+      '2026-08-15 11:21:29',
+    );
+    const free = computeSpaceModeIdempotencyKey(
+      deviceId,
+      'C01',
+      false,
+      '2026-08-15 11:21:29',
+    );
+    expect(occupied).not.toBe(free);
+  });
+
+  it('differs per stall code within the same request', () => {
+    const c01 = computeSpaceModeIdempotencyKey(
+      deviceId,
+      'C01',
+      true,
+      '2026-08-15 11:21:29',
+    );
+    const c02 = computeSpaceModeIdempotencyKey(
+      deviceId,
+      'C02',
+      true,
+      '2026-08-15 11:21:29',
+    );
+    expect(c01).not.toBe(c02);
+  });
+
+  it('is deterministic even when time is absent', () => {
+    const key1 = computeSpaceModeIdempotencyKey(
+      deviceId,
+      'C01',
+      true,
+      undefined,
+    );
+    const key2 = computeSpaceModeIdempotencyKey(
+      deviceId,
+      'C01',
+      true,
+      undefined,
+    );
+    expect(key1).toBe(key2);
   });
 });

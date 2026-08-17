@@ -822,6 +822,25 @@ No negociable desde el commit 1 (checklist final de V2, sin cambios): persistenc
 
 ---
 
+## 17. Actualización de firmware (agosto 2026) — `TimedParkingSpaceInfo`
+
+La cámara ITC413-PW4D-IZ1 recibió una actualización de firmware del fabricante que amplió el límite de plazas configurables (antes 6) y cambió cómo se reportan los cambios de estado. Este PR de firmware **no modifica el modelo Prisma** — reutiliza `CameraEvent`, `ParkingSpaceStatusHistory`, `ParkingSpace` y `CameraStallMapping` tal cual ya existían.
+
+### Responsabilidad de cada endpoint, post-firmware
+
+- **`POST /integrations/dahua/NotificationInfo/TimedParkingSpaceInfo`** (nuevo) — fuente principal de ocupación/liberación de plazas. La cámara reenvía el estado de **todas** las plazas configuradas (`SpaceModeInfo[]`, longitud dinámica, sin máximo asumido) cada vez que una sola cambia — nunca asumir que un request representa un único cambio.
+- **`POST /integrations/dahua/NotificationInfo/ParkingInfo`** (sin cambios de código) — deja de ser, en la práctica, la fuente normal de ocupación de una plaza individual (la cámara ya no lo usa así con el nuevo firmware), y su rol pasa a ser principalmente estacionamiento ilegal / zona prohibida (`ParkingStatus=7`, `DetectRegionName`). El soporte a `ParkingStatus=7` y a `ParkingStallsNo` vacío **ya existía** desde la integración original — no fue necesario tocar `dahua-provider.adapter.ts` en su rama `ParkingInfo` ni `camera-ingestion-core.service.ts` en `processOccupancyUpdate`. Se conserva por compatibilidad — si algún firmware/cámara todavía reporta ocupación vía `ParkingInfo`, sigue funcionando exactamente igual que antes.
+- **`DeviceInfo`/`KeepAlive`** — sin cambios.
+
+### Diseño de `TimedParkingSpaceInfo`
+
+- Nuevo tipo de evento canónico `OCCUPANCY_SNAPSHOT` (`core/contracts/canonical-camera-event.ts`), con un campo `spaces: CanonicalCameraEventStallState[]` — cada entrada trae su propia `idempotencyKey` precomputada en el adapter (fórmula `DeviceID|ParkNo|Used|Time`, misma familia que la fórmula ya existente de `ParkingInfo`).
+- `CameraIngestionCoreService.processOccupancySnapshot` reutiliza `resolveOrCreateStallMapping` (mismo mecanismo DISCOVERED/ACTIVE que `ParkingInfo`) por cada plaza reportada, compara contra el `ParkingSpace.status` actual (batch-fetch con `findMany`) y **solo** crea `CameraEvent` + actualiza `ParkingSpace` + escribe `ParkingSpaceStatusHistory` para las plazas cuyo estado realmente cambió. Plazas sin mapeo `ACTIVE` no rompen el resto del batch (quedan como DISCOVERED, contadas en el log de observabilidad).
+- Ack de respuesta: mismo contrato ITSAPI `{Result, Message, DeviceID}` que `ParkingInfo` (no el genérico `{status:'ok'}`) — aplicado preventivamente por el mismo riesgo de reintentos de firmware ya documentado para `ParkingInfo`.
+- `ParkingSpacePic.Content` (Base64, raíz del payload, no anidado bajo `Picture` como en `ParkingInfo`) nunca se loguea completo — solo `PicName`/longitud, tanto en `CanonicalCameraEvent.metadata.picture` como en el summarizer de captura de tráfico de `main.ts`.
+
+---
+
 ## Criterios de aceptación (heredados de V1 §O, vigentes sin cambios)
 
 - Un `ParkingInfo` real produce un `CameraEvent` con `tenantId`/`cityId` derivados exclusivamente de la `Camera` registrada, nunca del payload.

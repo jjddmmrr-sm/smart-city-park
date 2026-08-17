@@ -40,7 +40,7 @@ describe('CameraIngestionCoreService', () => {
       create: jest.Mock;
       update: jest.Mock;
     };
-    parkingSpace: { findUnique: jest.Mock };
+    parkingSpace: { findUnique: jest.Mock; findMany: jest.Mock };
     $transaction: jest.Mock;
   };
   let config: { pilotAutoRegisterEnabled: boolean };
@@ -72,7 +72,7 @@ describe('CameraIngestionCoreService', () => {
         create: jest.fn(),
         update: jest.fn(),
       },
-      parkingSpace: { findUnique: jest.fn() },
+      parkingSpace: { findUnique: jest.fn(), findMany: jest.fn() },
       $transaction: jest.fn(
         async (cb: (txArg: typeof tx) => Promise<unknown>) => cb(tx),
       ),
@@ -602,6 +602,296 @@ describe('CameraIngestionCoreService', () => {
       prisma.$transaction.mockRejectedValueOnce(new Error('boom'));
 
       await expect(service.process(occupancyEvent())).rejects.toThrow('boom');
+    });
+  });
+
+  describe('process — OCCUPANCY_SNAPSHOT', () => {
+    const resolvedCamera = {
+      id: 'cam-1',
+      tenantId: 'tenant-a',
+      cityId: 'city-a',
+      zoneId: 'zone-1',
+      deviceId: 'device-1',
+    };
+
+    function stall(
+      code: string,
+      status: 'OCCUPIED' | 'AVAILABLE',
+    ): {
+      externalStallCode: string;
+      parkingStatus: 'OCCUPIED' | 'AVAILABLE';
+      idempotencyKey: string;
+    } {
+      return {
+        externalStallCode: code,
+        parkingStatus: status,
+        idempotencyKey: `key-${code}-${status}`,
+      };
+    }
+
+    function snapshotEvent(overrides: Partial<CanonicalCameraEvent> = {}) {
+      return buildEvent({
+        externalEventType: 'TimedParkingSpaceInfo',
+        eventType: 'OCCUPANCY_SNAPSHOT',
+        parkingStatus: 'UNKNOWN',
+        metadata: {},
+        ...overrides,
+      });
+    }
+
+    /** Wires cameraStallMapping.findUnique to answer per externalStallCode. */
+    function mockMappings(
+      byCode: Record<
+        string,
+        {
+          id: string;
+          mappingStatus: string;
+          parkingSpaceId: string | null;
+        } | null
+      >,
+    ) {
+      prisma.cameraStallMapping.findUnique.mockImplementation(
+        ({
+          where,
+        }: {
+          where: {
+            cameraId_externalStallCode: { externalStallCode: string };
+          };
+        }) =>
+          Promise.resolve(
+            byCode[where.cameraId_externalStallCode.externalStallCode] ?? null,
+          ),
+      );
+      prisma.cameraStallMapping.update.mockImplementation(
+        ({ where }: { where: { id: string } }) => {
+          const found = Object.values(byCode).find((m) => m?.id === where.id);
+          return Promise.resolve(found ?? null);
+        },
+      );
+    }
+
+    it('discards the whole event when the camera is unresolved (Caso 7 — DeviceID desconocido)', async () => {
+      prisma.camera.findUnique.mockResolvedValue(null);
+
+      const result = await service.process(
+        snapshotEvent({ spaces: [stall('C01', 'OCCUPIED')] }),
+      );
+
+      expect(prisma.$transaction).not.toHaveBeenCalled();
+      const lastUpdate = prisma.cameraEventRaw.update.mock.calls.at(-1) as [
+        { data: Record<string, unknown> },
+      ];
+      expect(lastUpdate[0].data.processingStatus).toBe('FAILED');
+      expect(result).toEqual({ status: 'ok' });
+    });
+
+    it('does nothing (still PROCESSED) when no valid stalls were reported', async () => {
+      prisma.camera.findUnique.mockResolvedValue(resolvedCamera);
+
+      await service.process(snapshotEvent({ spaces: [] }));
+
+      expect(prisma.$transaction).not.toHaveBeenCalled();
+      const lastUpdate = prisma.cameraEventRaw.update.mock.calls.at(-1) as [
+        { data: Record<string, unknown> },
+      ];
+      expect(lastUpdate[0].data.processingStatus).toBe('PROCESSED');
+    });
+
+    it('updates only the stalls whose status actually changed (Casos 2, 3, 4)', async () => {
+      prisma.camera.findUnique.mockResolvedValue(resolvedCamera);
+      mockMappings({
+        C01: {
+          id: 'map-1',
+          mappingStatus: 'ACTIVE',
+          parkingSpaceId: 'space-1',
+        },
+        C02: {
+          id: 'map-2',
+          mappingStatus: 'ACTIVE',
+          parkingSpaceId: 'space-2',
+        },
+        C03: {
+          id: 'map-3',
+          mappingStatus: 'ACTIVE',
+          parkingSpaceId: 'space-3',
+        },
+      });
+      prisma.parkingSpace.findMany.mockResolvedValue([
+        {
+          id: 'space-1',
+          tenantId: 'tenant-a',
+          cityId: 'city-a',
+          status: 'available',
+        },
+        {
+          id: 'space-2',
+          tenantId: 'tenant-a',
+          cityId: 'city-a',
+          status: 'occupied',
+        },
+        {
+          id: 'space-3',
+          tenantId: 'tenant-a',
+          cityId: 'city-a',
+          status: 'available',
+        },
+      ]);
+
+      const result = await service.process(
+        snapshotEvent({
+          spaces: [
+            stall('C01', 'OCCUPIED'), // available → occupied: CHANGE
+            stall('C02', 'OCCUPIED'), // occupied → occupied: no change
+            stall('C03', 'AVAILABLE'), // available → available: no change
+          ],
+        }),
+      );
+
+      expect(prisma.$transaction).toHaveBeenCalledTimes(1);
+      expect(tx.cameraEvent.create).toHaveBeenCalledTimes(1);
+      const [createArgs] = tx.cameraEvent.create.mock.calls[0] as [
+        { data: Record<string, unknown> },
+      ];
+      expect(createArgs.data.parkingSpaceId).toBe('space-1');
+      expect(createArgs.data.idempotencyKey).toBe('key-C01-OCCUPIED');
+      expect(createArgs.data.eventType).toBe('TimedParkingSpaceInfo');
+      expect(createArgs.data.detectionScope).toBe('PLAZA');
+
+      const [updateArgs] = tx.parkingSpace.update.mock.calls[0] as [
+        { where: { id: string }; data: { status: string } },
+      ];
+      expect(updateArgs.where).toEqual({ id: 'space-1' });
+      expect(updateArgs.data.status).toBe('occupied');
+
+      const [historyArgs] = tx.parkingSpaceStatusHistory.create.mock
+        .calls[0] as [{ data: Record<string, unknown> }];
+      expect(historyArgs.data.previousStatus).toBe('available');
+      expect(historyArgs.data.newStatus).toBe('occupied');
+      expect(historyArgs.data.source).toBe('CAMERA');
+
+      expect(result).toEqual({ status: 'ok' });
+    });
+
+    it('processes 9 stalls (Caso 1) without assuming a maximum, updating only the ones with a real change', async () => {
+      prisma.camera.findUnique.mockResolvedValue(resolvedCamera);
+      const codes = Array.from({ length: 9 }, (_, i) => `C0${i + 1}`);
+      mockMappings(
+        Object.fromEntries(
+          codes.map((code, i) => [
+            code,
+            {
+              id: `map-${i}`,
+              mappingStatus: 'ACTIVE',
+              parkingSpaceId: `space-${i}`,
+            },
+          ]),
+        ),
+      );
+      prisma.parkingSpace.findMany.mockResolvedValue(
+        codes.map((_, i) => ({
+          id: `space-${i}`,
+          tenantId: 'tenant-a',
+          cityId: 'city-a',
+          status: 'available',
+        })),
+      );
+
+      // Only C02 actually changes (available → occupied); the rest stay available.
+      await service.process(
+        snapshotEvent({
+          spaces: codes.map((code, i) =>
+            stall(code, i === 1 ? 'OCCUPIED' : 'AVAILABLE'),
+          ),
+        }),
+      );
+
+      expect(tx.cameraEvent.create).toHaveBeenCalledTimes(1);
+      const [createArgs] = tx.cameraEvent.create.mock.calls[0] as [
+        { data: Record<string, unknown> },
+      ];
+      expect(createArgs.data.parkingSpaceId).toBe('space-1');
+    });
+
+    it('skips stalls without an ACTIVE mapping without breaking the rest of the batch (Caso 6)', async () => {
+      prisma.camera.findUnique.mockResolvedValue(resolvedCamera);
+      mockMappings({
+        C01: { id: 'map-1', mappingStatus: 'DISCOVERED', parkingSpaceId: null },
+        C02: {
+          id: 'map-2',
+          mappingStatus: 'ACTIVE',
+          parkingSpaceId: 'space-2',
+        },
+      });
+      prisma.parkingSpace.findMany.mockResolvedValue([
+        {
+          id: 'space-2',
+          tenantId: 'tenant-a',
+          cityId: 'city-a',
+          status: 'available',
+        },
+      ]);
+
+      await service.process(
+        snapshotEvent({
+          spaces: [stall('C01', 'OCCUPIED'), stall('C02', 'OCCUPIED')],
+        }),
+      );
+
+      expect(tx.cameraEvent.create).toHaveBeenCalledTimes(1);
+      const [createArgs] = tx.cameraEvent.create.mock.calls[0] as [
+        { data: Record<string, unknown> },
+      ];
+      expect(createArgs.data.parkingSpaceId).toBe('space-2');
+    });
+
+    it('treats a per-stall duplicate idempotencyKey as already processed and continues with the rest (Caso 12)', async () => {
+      prisma.camera.findUnique.mockResolvedValue(resolvedCamera);
+      mockMappings({
+        C01: {
+          id: 'map-1',
+          mappingStatus: 'ACTIVE',
+          parkingSpaceId: 'space-1',
+        },
+        C02: {
+          id: 'map-2',
+          mappingStatus: 'ACTIVE',
+          parkingSpaceId: 'space-2',
+        },
+      });
+      prisma.parkingSpace.findMany.mockResolvedValue([
+        {
+          id: 'space-1',
+          tenantId: 'tenant-a',
+          cityId: 'city-a',
+          status: 'available',
+        },
+        {
+          id: 'space-2',
+          tenantId: 'tenant-a',
+          cityId: 'city-a',
+          status: 'available',
+        },
+      ]);
+      prisma.$transaction
+        .mockRejectedValueOnce(
+          new Prisma.PrismaClientKnownRequestError('Unique constraint failed', {
+            code: 'P2002',
+            clientVersion: '7.8.0',
+          }),
+        )
+        .mockImplementationOnce(
+          async (cb: (txArg: typeof tx) => Promise<unknown>) => cb(tx),
+        );
+
+      const result = await service.process(
+        snapshotEvent({
+          spaces: [stall('C01', 'OCCUPIED'), stall('C02', 'OCCUPIED')],
+        }),
+      );
+
+      expect(prisma.$transaction).toHaveBeenCalledTimes(2);
+      expect(tx.cameraEvent.create).toHaveBeenCalledTimes(1);
+      expect(result).toEqual({ status: 'ok' });
     });
   });
 });

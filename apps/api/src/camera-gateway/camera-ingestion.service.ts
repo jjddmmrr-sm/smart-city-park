@@ -97,6 +97,31 @@ export class CameraIngestionService {
     };
   }
 
+  /**
+   * Same Result/Message/DeviceID ITSAPI ack contract as ParkingInfo —
+   * applied preventively here too, since the generic {status:'ok'} ack was
+   * the exact cause of ParkingInfo's firmware retry-storm bug (see
+   * ParkingInfoAckResponse above) and both endpoints belong to the same
+   * ITSAPI firmware family.
+   */
+  async handleTimedParkingSpaceInfo(
+    rawBody: Record<string, unknown>,
+    ip: string,
+    headers: Record<string, unknown>,
+  ): Promise<ParkingInfoAckResponse> {
+    const { externalDeviceId } = await this.ingest(
+      rawBody,
+      ip,
+      headers,
+      'TimedParkingSpaceInfo',
+    );
+    return {
+      Result: true,
+      Message: 'TimedParkingSpaceInfo recibido y procesado',
+      DeviceID: externalDeviceId,
+    };
+  }
+
   private async ingest(
     rawBody: Record<string, unknown>,
     ip: string,

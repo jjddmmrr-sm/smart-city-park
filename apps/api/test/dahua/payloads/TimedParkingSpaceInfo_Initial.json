@@ -1,0 +1,25 @@
+{
+  "DSTTune": 0,
+  "DeviceID": "1a85820a-9edf-406a-8338-170689f6099e",
+  "EventID": 134218921,
+  "ParkingSpacePic": {
+    "Content": "[BASE64 OMITIDO]",
+    "PicName": "noplate-20260815112129.jpg"
+  },
+  "SpaceModeInfo": [
+    { "ParkNo": "C01", "SpaceType": 0, "Used": true },
+    { "ParkNo": "C02", "SpaceType": 0, "Used": true },
+    { "ParkNo": "C03", "SpaceType": 0, "Used": true },
+    { "ParkNo": "C04", "SpaceType": 0, "Used": false },
+    { "ParkNo": "C05", "SpaceType": 0, "Used": false },
+    { "ParkNo": "C06", "SpaceType": 0, "Used": false },
+    { "ParkNo": "C07", "SpaceType": 0, "Used": false },
+    { "ParkNo": "C08", "SpaceType": 0, "Used": false },
+    { "ParkNo": "C09", "SpaceType": 0, "Used": false }
+  ],
+  "StatisticsMode": "SpaceMode",
+  "Time": "2026-08-15 11:21:29",
+  "TimeZone": 25,
+  "TimingPeriod": 0,
+  "ViolationSnapSource": 3
+}

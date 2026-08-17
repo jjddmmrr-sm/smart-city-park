@@ -9,20 +9,29 @@ import type {
   CameraProviderValidationResult,
   ProviderRawEvent,
 } from '../../core/contracts/camera-provider-adapter.interface';
-import type { CanonicalCameraEvent } from '../../core/contracts/canonical-camera-event';
+import type {
+  CanonicalCameraEvent,
+  CanonicalCameraEventStallState,
+} from '../../core/contracts/canonical-camera-event';
 import { isCanonicalParkingStatus } from '../../core/contracts/canonical-camera-event';
 import { DeviceInfoDto } from './dto/device-info.dto';
 import { KeepAliveDto } from './dto/keep-alive.dto';
 import { ParkingInfoDto } from './dto/parking-info.dto';
+import { TimedParkingSpaceInfoDto } from './dto/timed-parking-space-info.dto';
 import {
   computeIdempotencyKey as computeDahuaOccupancyIdempotencyKey,
+  computeSpaceModeIdempotencyKey,
   parseSnapTime,
   resolveDetectionScope,
   resolveOccupancyStatus,
 } from './normalizer';
 import type { DahuaOccupancyStatus } from './types';
 
-type DahuaExternalEventType = 'DeviceInfo' | 'KeepAlive' | 'ParkingInfo';
+type DahuaExternalEventType =
+  | 'DeviceInfo'
+  | 'KeepAlive'
+  | 'ParkingInfo'
+  | 'TimedParkingSpaceInfo';
 
 const DEVICE_IDENTITY_FIELDS = [
   'DeviceModel',
@@ -49,6 +58,9 @@ const DEVICE_IDENTITY_FIELDS = [
 function classifyDahuaEvent(
   body: Record<string, unknown>,
 ): DahuaExternalEventType {
+  if (Array.isArray(body.SpaceModeInfo)) {
+    return 'TimedParkingSpaceInfo';
+  }
   const picture = body.Picture as Record<string, unknown> | undefined;
   if (picture && typeof picture === 'object' && 'ParkingInfo' in picture) {
     return 'ParkingInfo';
@@ -190,6 +202,26 @@ export class DahuaProviderAdapter implements CameraProviderAdapter {
           ),
         };
       }
+      case 'TimedParkingSpaceInfo': {
+        // ParkNo/Used are @IsOptional() on SpaceModeInfoDto by design: an
+        // individual malformed entry must never sink the whole batch (see
+        // Caso 6 — ParkNo desconocido no debe romper el procesamiento del
+        // resto). Per-item tolerance is enforced here at the envelope
+        // level; normalize() drops the entries that end up incomplete.
+        const dto = this.toTimedParkingSpaceInfoDto(rawEvent.payload);
+        const errors = validateSync(dto);
+        const missingRequired =
+          !dto.DeviceID || !Array.isArray(dto.SpaceModeInfo);
+        return {
+          valid: errors.length === 0 && !missingRequired,
+          errors: flattenValidationErrors(
+            errors,
+            missingRequired
+              ? 'DeviceID or SpaceModeInfo missing/invalid'
+              : undefined,
+          ),
+        };
+      }
       default:
         return {
           valid: false,
@@ -209,6 +241,8 @@ export class DahuaProviderAdapter implements CameraProviderAdapter {
         return this.toDeviceInfoDto(rawEvent.payload).DeviceID ?? '';
       case 'KeepAlive':
         return this.toKeepAliveDto(rawEvent.payload).DeviceID ?? '';
+      case 'TimedParkingSpaceInfo':
+        return this.toTimedParkingSpaceInfoDto(rawEvent.payload).DeviceID ?? '';
       default:
         return rawEvent.externalDeviceId;
     }
@@ -309,6 +343,61 @@ export class DahuaProviderAdapter implements CameraProviderAdapter {
           idempotencyKey: this.computeIdempotencyKey(rawEvent),
         };
       }
+      case 'TimedParkingSpaceInfo': {
+        const dto = this.toTimedParkingSpaceInfoDto(rawEvent.payload);
+        const occurredAt = parseSnapTime(dto.Time);
+        const reported = dto.SpaceModeInfo ?? [];
+
+        // Dynamic count, no assumed maximum — tolerant of individual
+        // malformed entries (missing ParkNo / non-boolean Used): they are
+        // dropped here, never thrown, so the rest of the batch still
+        // processes (Caso 6). SpaceType travels in metadata per stall
+        // even though it doesn't govern occupancy today.
+        const spaces = reported
+          .filter(
+            (
+              item,
+            ): item is { ParkNo: string; Used: boolean; SpaceType?: number } =>
+              typeof item?.ParkNo === 'string' &&
+              item.ParkNo.length > 0 &&
+              typeof item?.Used === 'boolean',
+          )
+          .map(
+            (item): CanonicalCameraEventStallState => ({
+              externalStallCode: item.ParkNo,
+              parkingStatus: item.Used ? 'OCCUPIED' : 'AVAILABLE',
+              idempotencyKey: computeSpaceModeIdempotencyKey(
+                dto.DeviceID,
+                item.ParkNo,
+                item.Used,
+                dto.Time,
+              ),
+            }),
+          );
+
+        return {
+          providerCode: this.code,
+          externalDeviceId: dto.DeviceID || rawEvent.externalDeviceId,
+          externalEventType: 'TimedParkingSpaceInfo',
+          eventType: 'OCCUPANCY_SNAPSHOT',
+          parkingStatus: 'UNKNOWN',
+          occurredAt,
+          spaces,
+          rawEventId,
+          metadata: {
+            eventId: dto.EventID ?? null,
+            reportedCount: reported.length,
+            invalidItemCount: reported.length - spaces.length,
+            picture: dto.ParkingSpacePic
+              ? {
+                  picName: dto.ParkingSpacePic.PicName ?? null,
+                  base64Length: dto.ParkingSpacePic.Content?.length ?? 0,
+                }
+              : null,
+          },
+          idempotencyKey: this.computeIdempotencyKey(rawEvent),
+        };
+      }
       default:
         return {
           providerCode: this.code,
@@ -332,11 +421,24 @@ export class DahuaProviderAdapter implements CameraProviderAdapter {
    * CameraEvent.idempotencyKey is unique, and CameraEvent is only ever
    * created from ParkingInfo) — this branch is still deterministic to
    * satisfy the adapter contract, even though nothing consumes it yet.
+   * TimedParkingSpaceInfo's "whole snapshot" key below is the same kind of
+   * deterministic fallback — it is not what the core uses to deduplicate
+   * per-stall CameraEvent rows (each stall gets its own key from
+   * computeSpaceModeIdempotencyKey, precomputed in normalize() and carried
+   * on CanonicalCameraEvent.spaces[i]).
    */
   computeIdempotencyKey(rawEvent: ProviderRawEvent): string {
     if (rawEvent.externalEventType === 'ParkingInfo') {
       const dto = this.toParkingInfoDto(rawEvent.payload);
       return computeDahuaOccupancyIdempotencyKey(dto, rawEvent.payload);
+    }
+    if (rawEvent.externalEventType === 'TimedParkingSpaceInfo') {
+      const dto = this.toTimedParkingSpaceInfoDto(rawEvent.payload);
+      return createHash('sha256')
+        .update(
+          `${dto.DeviceID}|${dto.Time ?? ''}|${JSON.stringify(dto.SpaceModeInfo ?? [])}`,
+        )
+        .digest('hex');
     }
     return createHash('sha256')
       .update(
@@ -346,7 +448,12 @@ export class DahuaProviderAdapter implements CameraProviderAdapter {
   }
 
   getCapabilities(): CameraProviderCapability[] {
-    return ['DEVICE_HANDSHAKE', 'HEARTBEAT', 'OCCUPANCY_UPDATE'];
+    return [
+      'DEVICE_HANDSHAKE',
+      'HEARTBEAT',
+      'OCCUPANCY_UPDATE',
+      'OCCUPANCY_SNAPSHOT',
+    ];
   }
 
   getAuthStrategy(): CameraProviderAuthStrategy {
@@ -363,5 +470,11 @@ export class DahuaProviderAdapter implements CameraProviderAdapter {
 
   private toParkingInfoDto(payload: unknown): ParkingInfoDto {
     return plainToInstance(ParkingInfoDto, payload);
+  }
+
+  private toTimedParkingSpaceInfoDto(
+    payload: unknown,
+  ): TimedParkingSpaceInfoDto {
+    return plainToInstance(TimedParkingSpaceInfoDto, payload);
   }
 }

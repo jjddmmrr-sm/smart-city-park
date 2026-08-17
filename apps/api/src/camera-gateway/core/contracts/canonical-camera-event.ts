@@ -41,18 +41,22 @@ export function isCanonicalParkingStatus(
 
 /**
  * Canonical event kinds, independent of how each manufacturer names its
- * own endpoints/messages (Dahua: DeviceInfo/KeepAlive/ParkingInfo; other
- * providers will name theirs differently).
+ * own endpoints/messages (Dahua: DeviceInfo/KeepAlive/ParkingInfo/
+ * TimedParkingSpaceInfo; other providers will name theirs differently).
  *
- * - DEVICE_HANDSHAKE — device identity/registration event (Dahua: DeviceInfo)
- * - HEARTBEAT        — liveness signal only (Dahua: KeepAlive)
- * - OCCUPANCY_UPDATE — occupancy/detection event carrying parkingStatus (Dahua: ParkingInfo)
- * - UNCLASSIFIED      — anything captured as RAW without normalized business meaning yet
+ * - DEVICE_HANDSHAKE   — device identity/registration event (Dahua: DeviceInfo)
+ * - HEARTBEAT          — liveness signal only (Dahua: KeepAlive)
+ * - OCCUPANCY_UPDATE   — single-stall occupancy/detection event carrying parkingStatus (Dahua: ParkingInfo)
+ * - OCCUPANCY_SNAPSHOT — full-report occupancy event carrying N stalls at once, see `spaces` below
+ *                        (Dahua: TimedParkingSpaceInfo — post-firmware-update cameras resend every
+ *                        configured stall's state on each change, not just the one that changed)
+ * - UNCLASSIFIED       — anything captured as RAW without normalized business meaning yet
  */
 export const CANONICAL_CAMERA_EVENT_TYPES = [
   'DEVICE_HANDSHAKE',
   'HEARTBEAT',
   'OCCUPANCY_UPDATE',
+  'OCCUPANCY_SNAPSHOT',
   'UNCLASSIFIED',
 ] as const;
 
@@ -80,6 +84,20 @@ export interface CanonicalCameraEventVehicle {
   type?: string;
   color?: string;
   brand?: string;
+}
+
+/**
+ * One stall's reported state inside an OCCUPANCY_SNAPSHOT event (Dahua:
+ * one entry of SpaceModeInfo[]). `idempotencyKey` is precomputed by the
+ * adapter (provider-specific formula) so the core can use it opaquely
+ * when it decides — after comparing against the currently known
+ * ParkingSpace status — that this particular stall actually changed and
+ * a CameraEvent row must be created for it.
+ */
+export interface CanonicalCameraEventStallState {
+  externalStallCode: string;
+  parkingStatus: CanonicalParkingStatus;
+  idempotencyKey: string;
 }
 
 /**
@@ -121,6 +139,13 @@ export interface CanonicalCameraEvent {
   channel?: number;
   plate?: CanonicalCameraEventPlate;
   vehicle?: CanonicalCameraEventVehicle;
+
+  /**
+   * Present only for OCCUPANCY_SNAPSHOT — every stall reported in this
+   * request, dynamic length (never assume a maximum). Absent (or empty)
+   * for every other event type.
+   */
+  spaces?: CanonicalCameraEventStallState[];
 
   /**
    * Evidence metadata (image dimensions, kind, etc.) — never decoded

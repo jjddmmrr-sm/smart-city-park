@@ -52,4 +52,20 @@ export class DahuaIngestionController {
   ) {
     return this.ingestionService.handleParkingInfo(body, ip, headers);
   }
+
+  /**
+   * Post-firmware-update source of truth for parking-space occupancy —
+   * see DAHUA_IMPLEMENTATION_PLAN.md. Carries every configured stall's
+   * state on each change, not just the one that changed.
+   */
+  @Post('TimedParkingSpaceInfo')
+  @HttpCode(HttpStatus.OK)
+  @Header('Cache-Control', 'no-store')
+  handleTimedParkingSpaceInfo(
+    @Body() body: Record<string, unknown>,
+    @Ip() ip: string,
+    @Headers() headers: Record<string, unknown>,
+  ) {
+    return this.ingestionService.handleTimedParkingSpaceInfo(body, ip, headers);
+  }
 }
