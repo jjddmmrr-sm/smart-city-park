@@ -31,6 +31,12 @@ export class FrontendService {
   async getOverview(user: JwtPayload) {
     const tenantWhere = this.tenantFilter(user);
 
+    // "Hoy" se calcula en UTC porque Tenant/City no tienen columna de zona
+    // horaria todavía (deuda: mover a la zona horaria real de la ciudad/tenant
+    // cuando exista esa columna; el servidor mismo corre en Etc/UTC).
+    const startOfToday = new Date();
+    startOfToday.setUTCHours(0, 0, 0, 0);
+
     const totalSpaces = await this.prisma.parkingSpace.count({
       where: tenantWhere,
     });
@@ -47,11 +53,15 @@ export class FrontendService {
       where: { ...tenantWhere, status: 'completed' },
     });
     const vehiclesToday = await this.prisma.vehicle.count({
-      where: tenantWhere,
+      where: { ...tenantWhere, createdAt: { gte: startOfToday } },
     });
 
     const revenue = await this.prisma.parkingSession.aggregate({
-      where: { ...tenantWhere, status: 'completed' },
+      where: {
+        ...tenantWhere,
+        status: 'completed',
+        startedAt: { gte: startOfToday },
+      },
       _sum: { amount: true },
     });
 
@@ -77,10 +87,18 @@ export class FrontendService {
         where: { ...tenantWhere, status: 'pending' },
       }),
       overstayCases: await this.prisma.enforcementCase.count({
-        where: { ...tenantWhere, issue: 'overstay' },
+        where: {
+          ...tenantWhere,
+          issue: 'overstay',
+          detectedAt: { gte: startOfToday },
+        },
       }),
       unpaidCases: await this.prisma.enforcementCase.count({
-        where: { ...tenantWhere, issue: 'no_payment' },
+        where: {
+          ...tenantWhere,
+          issue: 'no_payment',
+          detectedAt: { gte: startOfToday },
+        },
       }),
       ticketsIssued: fines._count.id,
       ticketsAmount: fines._sum.amount ?? 0,

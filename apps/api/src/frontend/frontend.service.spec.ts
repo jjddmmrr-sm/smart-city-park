@@ -78,7 +78,9 @@ describe('FrontendService', () => {
         expect.objectContaining({ where: { tenantId: 'tenant-a' } }),
       );
       expect(prisma.vehicle.count).toHaveBeenCalledWith(
-        expect.objectContaining({ where: { tenantId: 'tenant-a' } }),
+        expect.objectContaining({
+          where: expect.objectContaining({ tenantId: 'tenant-a' }),
+        }),
       );
       expect(prisma.fine.aggregate).toHaveBeenCalledWith(
         expect.objectContaining({ where: { tenantId: 'tenant-a' } }),
