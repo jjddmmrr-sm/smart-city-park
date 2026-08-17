@@ -16,6 +16,8 @@ import type { UpdateCameraGroupDto } from './dto/update-camera-group.dto';
 import type { UpdateCameraDto } from './dto/update-camera.dto';
 import type { CreateCameraStallMappingDto } from './dto/create-camera-stall-mapping.dto';
 import type { UpdateCameraStallMappingDto } from './dto/update-camera-stall-mapping.dto';
+import { resolveOccupancyStatus } from '../camera-gateway/providers/dahua/normalizer';
+import { translateOccupancyStatus } from '../camera-gateway/providers/dahua/dahua-provider.adapter';
 
 export interface CameraFilters {
   q?: string;
@@ -807,16 +809,99 @@ export class IotDeviceManagementService {
     }
   }
 
-  private extractExternalStallCode(payload: unknown): string | null {
-    if (
-      payload &&
-      typeof payload === 'object' &&
-      'ParkingStallsNo' in payload
-    ) {
-      const value = (payload as Record<string, unknown>).ParkingStallsNo;
-      return typeof value === 'string' ? value : null;
+  /**
+   * Dahua's real wire shape nests the stall/status fields under
+   * Picture.ParkingInfo (see
+   * smartpark-dahua-reference/docs/payloads-reales.md and
+   * test/dahua/payloads/ParkingInfo_*.json) — never at the payload root.
+   * Monitor display only; CameraIngestionCoreService/DahuaProviderAdapter
+   * already read this correctly for actual ingestion.
+   */
+  private extractParkingInfoBlock(
+    payload: unknown,
+  ): Record<string, unknown> | null {
+    if (!payload || typeof payload !== 'object') {
+      return null;
     }
-    return null;
+    const picture = (payload as Record<string, unknown>).Picture;
+    if (!picture || typeof picture !== 'object') {
+      return null;
+    }
+    const parkingInfo = (picture as Record<string, unknown>).ParkingInfo;
+    return parkingInfo && typeof parkingInfo === 'object'
+      ? (parkingInfo as Record<string, unknown>)
+      : null;
+  }
+
+  private extractExternalStallCode(payload: unknown): string | null {
+    const block = this.extractParkingInfoBlock(payload);
+    const value = block?.ParkingStallsNo;
+    return typeof value === 'string' && value.length > 0 ? value : null;
+  }
+
+  private extractExternalParkingStatus(payload: unknown): number | null {
+    const block = this.extractParkingInfoBlock(payload);
+    const value = block?.ParkingStatus;
+    return typeof value === 'number' ? value : null;
+  }
+
+  /**
+   * Reuses the Dahua adapter's own code→status resolution
+   * (resolveOccupancyStatus + translateOccupancyStatus) instead of
+   * redefining the 0-4 mapping table here — single source of truth stays
+   * in providers/dahua/normalizer.ts. Same "Monitor hardcodes Dahua
+   * vocabulary for display" trade-off already documented on
+   * canonicalEventType() above.
+   */
+  private normalizeParkingStatus(
+    externalParkingStatus: number | null,
+  ): string | null {
+    if (externalParkingStatus === null) {
+      return null;
+    }
+    return translateOccupancyStatus(
+      resolveOccupancyStatus(externalParkingStatus),
+    );
+  }
+
+  /**
+   * Picture.NormalPic/VehiclePic/CutoutPic/CombinPic (see
+   * dto/parking-info.dto.ts) carry a Base64 Content field — never sent to
+   * the BackOffice. Keeps PicName/Width/Height, replaces Content with its
+   * length only.
+   */
+  private redactMonitorPayload(payload: unknown): unknown {
+    if (!payload || typeof payload !== 'object') {
+      return payload;
+    }
+    const picture = (payload as Record<string, unknown>).Picture;
+    if (!picture || typeof picture !== 'object') {
+      return payload;
+    }
+    const redactedPicture: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(
+      picture as Record<string, unknown>,
+    )) {
+      if (
+        value &&
+        typeof value === 'object' &&
+        'Content' in (value as Record<string, unknown>)
+      ) {
+        const block = value as Record<string, unknown>;
+        redactedPicture[key] = {
+          ...block,
+          Content: undefined,
+          contentBase64Length:
+            typeof block.Content === 'string' ? block.Content.length : 0,
+        };
+      } else {
+        redactedPicture[key] = value;
+      }
+    }
+    return {
+      ...(payload as Record<string, unknown>),
+      Picture: redactedPicture,
+    };
   }
 
   async findMonitorEvents(user: JwtPayload, filters: MonitorFilters) {
@@ -848,28 +933,63 @@ export class IotDeviceManagementService {
         filters.limit && filters.limit > 0 ? Math.min(filters.limit, 200) : 50,
     });
 
-    return rows.map((row) => ({
-      id: row.id,
-      receivedAt: row.receivedAt,
-      providerCode: row.camera?.provider?.code ?? null,
-      cameraId: row.cameraId,
-      cameraName: row.camera?.name ?? null,
-      deviceIdRaw: row.deviceIdRaw,
-      externalEventType: row.eventType,
-      canonicalEventType: this.canonicalEventType(row.eventType),
-      externalStallCode: this.extractExternalStallCode(row.payload),
-      parkingSpace: row.events[0]?.parkingSpace
-        ? {
-            id: row.events[0].parkingSpace.id,
-            code: row.events[0].parkingSpace.code,
-          }
-        : null,
-      validationStatus: row.validationStatus,
-      processingStatus: row.processingStatus,
-      error: row.error,
-      contextIp: row.contextIp,
-      idempotencyKey: row.events[0]?.idempotencyKey ?? null,
-    }));
+    // Single batch lookup instead of one query per row: a ParkingInfo raw
+    // event only actually changed a ParkingSpace if its CameraEvent id is
+    // referenced by a ParkingSpaceStatusHistory row (see
+    // processOccupancyUpdate — history is only written when
+    // newSpaceStatus !== parkingSpace.status).
+    const occupancyEventIds = rows
+      .map((row) => row.events[0]?.id)
+      .filter((id): id is string => !!id);
+    const changedEventIds = occupancyEventIds.length
+      ? new Set(
+          (
+            await this.prisma.parkingSpaceStatusHistory.findMany({
+              where: { sourceEventId: { in: occupancyEventIds } },
+              select: { sourceEventId: true },
+            })
+          ).map((h) => h.sourceEventId),
+        )
+      : new Set<string | null>();
+
+    return rows.map((row) => {
+      const externalParkingStatus = this.extractExternalParkingStatus(
+        row.payload,
+      );
+      const cameraEvent = row.events[0] ?? null;
+      return {
+        id: row.id,
+        receivedAt: row.receivedAt,
+        providerCode: row.camera?.provider?.code ?? null,
+        cameraId: row.cameraId,
+        cameraName: row.camera?.name ?? null,
+        deviceIdRaw: row.deviceIdRaw,
+        externalEventType: row.eventType,
+        canonicalEventType: this.canonicalEventType(row.eventType),
+        externalStallCode: this.extractExternalStallCode(row.payload),
+        externalParkingStatus,
+        normalizedParkingStatus: this.normalizeParkingStatus(
+          externalParkingStatus,
+        ),
+        parkingSpace: cameraEvent?.parkingSpace
+          ? {
+              id: cameraEvent.parkingSpace.id,
+              code: cameraEvent.parkingSpace.code,
+            }
+          : null,
+        parkingSpaceCode: cameraEvent?.parkingSpace?.code ?? null,
+        parkingSpaceCurrentStatus: cameraEvent?.parkingSpace?.status ?? null,
+        statusChanged: cameraEvent
+          ? changedEventIds.has(cameraEvent.id)
+          : false,
+        duplicate: row.processingStatus === 'DUPLICATE',
+        validationStatus: row.validationStatus,
+        processingStatus: row.processingStatus,
+        error: row.error,
+        contextIp: row.contextIp,
+        idempotencyKey: cameraEvent?.idempotencyKey ?? null,
+      };
+    });
   }
 
   async findMonitorEvent(id: string, user: JwtPayload) {
@@ -889,6 +1009,26 @@ export class IotDeviceManagementService {
       throw new NotFoundException('Event not found');
     }
 
+    const externalStallCode = this.extractExternalStallCode(row.payload);
+    const externalParkingStatus = this.extractExternalParkingStatus(
+      row.payload,
+    );
+    const cameraEvent = row.events[0] ?? null;
+
+    const [mappingUsed, statusHistory] = await Promise.all([
+      row.cameraId && externalStallCode
+        ? this.prisma.cameraStallMapping.findFirst({
+            where: { cameraId: row.cameraId, externalStallCode },
+            include: { parkingSpace: true },
+          })
+        : Promise.resolve(null),
+      cameraEvent
+        ? this.prisma.parkingSpaceStatusHistory.findFirst({
+            where: { sourceEventId: cameraEvent.id },
+          })
+        : Promise.resolve(null),
+    ]);
+
     return {
       id: row.id,
       receivedAt: row.receivedAt,
@@ -896,12 +1036,36 @@ export class IotDeviceManagementService {
       deviceIdRaw: row.deviceIdRaw,
       externalEventType: row.eventType,
       canonicalEventType: this.canonicalEventType(row.eventType),
+      externalStallCode,
+      externalParkingStatus,
+      normalizedParkingStatus: this.normalizeParkingStatus(
+        externalParkingStatus,
+      ),
+      parkingSpaceCode: cameraEvent?.parkingSpace?.code ?? null,
+      parkingSpaceCurrentStatus: cameraEvent?.parkingSpace?.status ?? null,
+      statusChanged: !!statusHistory,
+      duplicate: row.processingStatus === 'DUPLICATE',
       validationStatus: row.validationStatus,
       processingStatus: row.processingStatus,
       error: row.error,
       contextIp: row.contextIp,
-      payload: row.payload,
-      normalizedEvent: row.events[0] ?? null,
+      payload: this.redactMonitorPayload(row.payload),
+      normalizedEvent: cameraEvent,
+      mappingUsed: mappingUsed
+        ? {
+            id: mappingUsed.id,
+            externalStallCode: mappingUsed.externalStallCode,
+            mappingStatus: mappingUsed.mappingStatus,
+            parkingSpaceCode: mappingUsed.parkingSpace?.code ?? null,
+          }
+        : null,
+      statusHistory: statusHistory
+        ? {
+            previousStatus: statusHistory.previousStatus,
+            newStatus: statusHistory.newStatus,
+            changedAt: statusHistory.changedAt,
+          }
+        : null,
     };
   }
 

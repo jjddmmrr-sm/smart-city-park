@@ -63,9 +63,11 @@ describe('IotDeviceManagementService', () => {
       count: jest.Mock;
       findFirst: jest.Mock;
     };
-    cameraStallMapping: { findMany: jest.Mock };
+    cameraStallMapping: { findMany: jest.Mock; findFirst: jest.Mock };
     parkingSpace: { count: jest.Mock };
     cameraEvent: { count: jest.Mock };
+    cameraEventRaw: { findMany: jest.Mock; findUnique: jest.Mock };
+    parkingSpaceStatusHistory: { findMany: jest.Mock; findFirst: jest.Mock };
     alert: { count: jest.Mock };
   };
 
@@ -99,9 +101,11 @@ describe('IotDeviceManagementService', () => {
         count: jest.fn(),
         findFirst: jest.fn(),
       },
-      cameraStallMapping: { findMany: jest.fn() },
+      cameraStallMapping: { findMany: jest.fn(), findFirst: jest.fn() },
       parkingSpace: { count: jest.fn() },
       cameraEvent: { count: jest.fn() },
+      cameraEventRaw: { findMany: jest.fn(), findUnique: jest.fn() },
+      parkingSpaceStatusHistory: { findMany: jest.fn(), findFirst: jest.fn() },
       alert: { count: jest.fn() },
     };
 
@@ -279,6 +283,150 @@ describe('IotDeviceManagementService', () => {
         lastKeepAliveAt: new Date('2026-08-02T21:50:00Z'),
         alertsOpen: 3,
       });
+    });
+  });
+
+  describe('monitor', () => {
+    const parkingInfoPayload = {
+      Picture: {
+        NormalPic: {
+          Content: 'QUJDREVGRw==REALLYLONGBASE64STRING',
+          PicName: 'noplate-20260803.jpg',
+          Width: 2688,
+          Height: 1584,
+        },
+        ParkingInfo: {
+          DeviceID: '1a85820a-9edf-406a-8338-170689f6099e',
+          ParkingStallsNo: 'A001',
+          ParkingStatus: 0,
+        },
+      },
+    };
+
+    function parkingInfoRow(overrides: Record<string, unknown> = {}) {
+      return {
+        id: 'raw-1',
+        tenantId: 'tenant-a',
+        cameraId: 'camera-1',
+        deviceIdRaw: '1a85820a-9edf-406a-8338-170689f6099e',
+        eventType: 'ParkingInfo',
+        payload: parkingInfoPayload,
+        validationStatus: 'VALID',
+        processingStatus: 'PROCESSED',
+        error: null,
+        contextIp: '191.100.93.71',
+        receivedAt: new Date('2026-08-04T02:05:00.716Z'),
+        camera: { name: 'Cámara Piloto', provider: { code: 'DAHUA_ITSAPI' } },
+        events: [
+          {
+            id: 'event-1',
+            idempotencyKey: 'key-1',
+            parkingSpace: {
+              id: 'space-1',
+              code: 'CENTRO-006',
+              status: 'occupied',
+            },
+          },
+        ],
+        ...overrides,
+      };
+    }
+
+    it('extracts stall/status from Picture.ParkingInfo (never the payload root) and flags a real status change', async () => {
+      prisma.cameraEventRaw.findMany.mockResolvedValue([parkingInfoRow()]);
+      prisma.parkingSpaceStatusHistory.findMany.mockResolvedValue([
+        { sourceEventId: 'event-1' },
+      ]);
+
+      const [result] = await service.findMonitorEvents(tenantAAdmin, {});
+
+      expect(result.externalStallCode).toBe('A001');
+      expect(result.externalParkingStatus).toBe(0);
+      expect(result.normalizedParkingStatus).toBe('OCCUPIED');
+      expect(result.parkingSpaceCode).toBe('CENTRO-006');
+      expect(result.parkingSpaceCurrentStatus).toBe('occupied');
+      expect(result.statusChanged).toBe(true);
+      expect(result.duplicate).toBe(false);
+    });
+
+    it('reports statusChanged=false when no ParkingSpaceStatusHistory references this event (idempotent no-op)', async () => {
+      prisma.cameraEventRaw.findMany.mockResolvedValue([parkingInfoRow()]);
+      prisma.parkingSpaceStatusHistory.findMany.mockResolvedValue([]);
+
+      const [result] = await service.findMonitorEvents(tenantAAdmin, {});
+
+      expect(result.statusChanged).toBe(false);
+    });
+
+    it('flags duplicate when processingStatus is DUPLICATE', async () => {
+      prisma.cameraEventRaw.findMany.mockResolvedValue([
+        parkingInfoRow({ processingStatus: 'DUPLICATE' }),
+      ]);
+      prisma.parkingSpaceStatusHistory.findMany.mockResolvedValue([]);
+
+      const [result] = await service.findMonitorEvents(tenantAAdmin, {});
+
+      expect(result.duplicate).toBe(true);
+    });
+
+    it('returns nulls/false for non-ParkingInfo events (e.g. KeepAlive) instead of misreading the payload', async () => {
+      prisma.cameraEventRaw.findMany.mockResolvedValue([
+        parkingInfoRow({
+          eventType: 'KeepAlive',
+          payload: { DeviceID: '1a85820a-9edf-406a-8338-170689f6099e' },
+          events: [],
+        }),
+      ]);
+      prisma.parkingSpaceStatusHistory.findMany.mockResolvedValue([]);
+
+      const [result] = await service.findMonitorEvents(tenantAAdmin, {});
+
+      expect(result.externalStallCode).toBeNull();
+      expect(result.externalParkingStatus).toBeNull();
+      expect(result.normalizedParkingStatus).toBeNull();
+      expect(result.parkingSpaceCode).toBeNull();
+      expect(result.statusChanged).toBe(false);
+    });
+
+    it('findMonitorEvent redacts Picture.NormalPic.Content but keeps PicName/Width/Height, and includes mapping + history', async () => {
+      prisma.cameraEventRaw.findUnique.mockResolvedValue(parkingInfoRow());
+      prisma.cameraStallMapping.findFirst.mockResolvedValue({
+        id: 'mapping-1',
+        externalStallCode: 'A001',
+        mappingStatus: 'ACTIVE',
+        parkingSpace: { code: 'CENTRO-006' },
+      });
+      prisma.parkingSpaceStatusHistory.findFirst.mockResolvedValue({
+        previousStatus: 'available',
+        newStatus: 'occupied',
+        changedAt: new Date('2026-08-04T02:05:00.778Z'),
+      });
+
+      const result = await service.findMonitorEvent('raw-1', tenantAAdmin);
+
+      const picture = (
+        result.payload as { Picture: { NormalPic: Record<string, unknown> } }
+      ).Picture;
+      expect(picture.NormalPic.Content).toBeUndefined();
+      expect(picture.NormalPic.contentBase64Length).toBe(
+        parkingInfoPayload.Picture.NormalPic.Content.length,
+      );
+      expect(picture.NormalPic.PicName).toBe('noplate-20260803.jpg');
+      expect(picture.NormalPic.Width).toBe(2688);
+      expect(picture.NormalPic.Height).toBe(1584);
+
+      expect(result.mappingUsed).toEqual({
+        id: 'mapping-1',
+        externalStallCode: 'A001',
+        mappingStatus: 'ACTIVE',
+        parkingSpaceCode: 'CENTRO-006',
+      });
+      expect(result.statusHistory).toEqual({
+        previousStatus: 'available',
+        newStatus: 'occupied',
+        changedAt: new Date('2026-08-04T02:05:00.778Z'),
+      });
+      expect(result.statusChanged).toBe(true);
     });
   });
 });

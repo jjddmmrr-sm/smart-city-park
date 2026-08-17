@@ -25,7 +25,13 @@ type EventRow = {
   externalEventType: string;
   canonicalEventType: string;
   externalStallCode: string | null;
+  externalParkingStatus: number | null;
+  normalizedParkingStatus: string | null;
   parkingSpace: { id: string; code: string } | null;
+  parkingSpaceCode: string | null;
+  parkingSpaceCurrentStatus: string | null;
+  statusChanged: boolean;
+  duplicate: boolean;
   validationStatus: string;
   processingStatus: string;
   error: string | null;
@@ -33,10 +39,192 @@ type EventRow = {
   idempotencyKey: string | null;
 };
 
+type MappingUsed = {
+  id: string;
+  externalStallCode: string;
+  mappingStatus: string;
+  parkingSpaceCode: string | null;
+} | null;
+
+type StatusHistoryEntry = {
+  previousStatus: string;
+  newStatus: string;
+  changedAt: string;
+} | null;
+
 type EventDetail = EventRow & {
   payload: unknown;
   normalizedEvent: unknown;
+  mappingUsed: MappingUsed;
+  statusHistory: StatusHistoryEntry;
 };
+
+const PARKING_STATUS_LABEL: Record<number, string> = {
+  0: "Ocupada",
+  1: "Disponible",
+  2: "Desconocida",
+  3: "Ilegal",
+  4: "Detección",
+};
+
+const NORMALIZED_STATUS_BADGE: Record<string, { es: string; cls: string }> = {
+  OCCUPIED: { es: "Ocupada", cls: "bg-destructive/10 text-destructive" },
+  AVAILABLE: { es: "Disponible", cls: "bg-success/10 text-success" },
+  UNKNOWN: { es: "Desconocida", cls: "bg-muted text-muted-foreground" },
+  ILLEGAL: { es: "Ilegal", cls: "bg-destructive/10 text-destructive" },
+  DETECTION: { es: "Detección", cls: "bg-info/10 text-info" },
+};
+
+const SPACE_STATUS_BADGE: Record<string, { label: string; cls: string }> = {
+  occupied: { label: "Ocupada", cls: "bg-destructive/10 text-destructive" },
+  available: { label: "Disponible", cls: "bg-success/10 text-success" },
+};
+
+function Badge({ text, className }: { text: string; className: string }) {
+  return (
+    <span
+      className={
+        "inline-flex items-center px-2 h-5 rounded text-[11px] font-medium whitespace-nowrap " +
+        className
+      }
+    >
+      {text}
+    </span>
+  );
+}
+
+function ReceivedStatusCell({ event }: { event: EventRow }) {
+  if (event.externalEventType !== "ParkingInfo" || event.externalParkingStatus === null) {
+    return <span className="text-muted-foreground">—</span>;
+  }
+  const label = PARKING_STATUS_LABEL[event.externalParkingStatus] ?? "Desconocida";
+  return (
+    <Badge
+      text={`${event.externalParkingStatus} · ${label}`}
+      className="bg-muted text-foreground"
+    />
+  );
+}
+
+function NormalizedStatusCell({ event }: { event: EventRow }) {
+  if (event.externalEventType !== "ParkingInfo" || !event.normalizedParkingStatus) {
+    return <span className="text-muted-foreground">—</span>;
+  }
+  const cfg = NORMALIZED_STATUS_BADGE[event.normalizedParkingStatus] ?? {
+    es: event.normalizedParkingStatus,
+    cls: "bg-muted text-muted-foreground",
+  };
+  return <Badge text={`${event.normalizedParkingStatus} / ${cfg.es}`} className={cfg.cls} />;
+}
+
+function FinalSpaceStatusCell({ event }: { event: EventRow }) {
+  if (event.externalEventType !== "ParkingInfo") {
+    return <span className="text-muted-foreground">—</span>;
+  }
+  if (!event.parkingSpaceCurrentStatus) {
+    return <Badge text="Desconocida" className="bg-muted text-muted-foreground" />;
+  }
+  const cfg = SPACE_STATUS_BADGE[event.parkingSpaceCurrentStatus] ?? {
+    label: "Desconocida",
+    cls: "bg-muted text-muted-foreground",
+  };
+  return <Badge text={cfg.label} className={cfg.cls} />;
+}
+
+function extractParkingInfoBlock(payload: unknown): Record<string, unknown> | null {
+  if (!payload || typeof payload !== "object") return null;
+  const picture = (payload as Record<string, unknown>).Picture;
+  if (!picture || typeof picture !== "object") return null;
+  const parkingInfo = (picture as Record<string, unknown>).ParkingInfo;
+  return parkingInfo && typeof parkingInfo === "object"
+    ? (parkingInfo as Record<string, unknown>)
+    : null;
+}
+
+function SummaryRow({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <div className="flex items-center justify-between gap-4 py-1 border-b border-border last:border-0">
+      <span className="text-muted-foreground">{label}</span>
+      <span className="font-mono text-right">{value}</span>
+    </div>
+  );
+}
+
+function ParkingInfoSummary({ detail }: { detail: EventDetail }) {
+  const block = extractParkingInfoBlock(detail.payload);
+  return (
+    <div className="text-[12px] space-y-3">
+      <div>
+        <p className="text-[11px] uppercase tracking-wider text-muted-foreground mb-1">
+          Payload Picture.ParkingInfo
+        </p>
+        <SummaryRow label="DeviceID" value={String(block?.DeviceID ?? "—")} />
+        <SummaryRow label="ParkingStallsNo" value={String(block?.ParkingStallsNo ?? "—")} />
+        <SummaryRow
+          label="ParkingStatus"
+          value={
+            detail.externalParkingStatus !== null
+              ? `${detail.externalParkingStatus} (${PARKING_STATUS_LABEL[detail.externalParkingStatus] ?? "?"})`
+              : "—"
+          }
+        />
+        <SummaryRow label="SnapTime" value={String(block?.SnapTime ?? "—")} />
+      </div>
+
+      <div>
+        <p className="text-[11px] uppercase tracking-wider text-muted-foreground mb-1">
+          Mapping utilizado
+        </p>
+        {detail.mappingUsed ? (
+          <>
+            <SummaryRow label="mappingId" value={detail.mappingUsed.id} />
+            <SummaryRow label="externalStallCode" value={detail.mappingUsed.externalStallCode} />
+            <SummaryRow label="mappingStatus" value={detail.mappingUsed.mappingStatus} />
+            <SummaryRow label="ParkingSpace" value={detail.mappingUsed.parkingSpaceCode ?? "—"} />
+          </>
+        ) : (
+          <p className="text-muted-foreground">Sin mapping resuelto para este código.</p>
+        )}
+      </div>
+
+      <div>
+        <p className="text-[11px] uppercase tracking-wider text-muted-foreground mb-1">
+          Cambio de estado de la plaza
+        </p>
+        {detail.statusHistory ? (
+          <>
+            <SummaryRow label="Estado anterior" value={detail.statusHistory.previousStatus} />
+            <SummaryRow label="Estado nuevo" value={detail.statusHistory.newStatus} />
+            <SummaryRow
+              label="Cambiado el"
+              value={new Date(detail.statusHistory.changedAt).toLocaleString("es-EC")}
+            />
+            <SummaryRow label="¿Creó ParkingSpaceStatusHistory?" value="Sí" />
+          </>
+        ) : (
+          <SummaryRow
+            label="¿Creó ParkingSpaceStatusHistory?"
+            value={detail.duplicate ? "No (duplicado/idempotente)" : "No (sin cambio de estado)"}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ChangedCell({ event }: { event: EventRow }) {
+  if (event.externalEventType !== "ParkingInfo") {
+    return <span className="text-muted-foreground">—</span>;
+  }
+  if (event.duplicate) {
+    return <Badge text="Duplicado" className="bg-warning/10 text-warning" />;
+  }
+  return event.statusChanged ? (
+    <Badge text="Sí" className="bg-success/10 text-success" />
+  ) : (
+    <Badge text="No" className="bg-muted text-muted-foreground" />
+  );
+}
 
 type Filters = {
   cameraId: string;
@@ -73,7 +261,9 @@ function IotMonitorPage() {
   });
   const [events, setEvents] = useState<EventRow[]>([]);
   const [viewing, setViewing] = useState<EventDetail | null>(null);
-  const [viewMode, setViewMode] = useState<"payload" | "normalized" | "error" | null>(null);
+  const [viewMode, setViewMode] = useState<"summary" | "payload" | "normalized" | "error" | null>(
+    null,
+  );
   const filtersRef = useRef(filters);
   filtersRef.current = filters;
 
@@ -114,7 +304,7 @@ function IotMonitorPage() {
     return () => clearInterval(interval);
   }, [filters]);
 
-  const openDetail = (event: EventRow, mode: "payload" | "normalized" | "error") => {
+  const openDetail = (event: EventRow, mode: "summary" | "payload" | "normalized" | "error") => {
     apiGetAuth<EventDetail>(`/iot-device-management/monitor/events/${event.id}`)
       .then((detail) => {
         setViewing(detail);
@@ -212,11 +402,13 @@ function IotMonitorPage() {
       {viewing && viewMode && (
         <Panel
           title={
-            viewMode === "payload"
-              ? "Payload RAW"
-              : viewMode === "normalized"
-                ? "Evento normalizado"
-                : "Error"
+            viewMode === "summary"
+              ? "Resumen ParkingInfo"
+              : viewMode === "payload"
+                ? "Payload RAW"
+                : viewMode === "normalized"
+                  ? "Evento normalizado"
+                  : "Error"
           }
           action={
             <button
@@ -234,6 +426,8 @@ function IotMonitorPage() {
             <p className="text-[12px] text-destructive">
               {viewing.error ?? "Sin error registrado."}
             </p>
+          ) : viewMode === "summary" ? (
+            <ParkingInfoSummary detail={viewing} />
           ) : (
             <pre className="bg-surface-2 rounded p-2 text-[11px] overflow-auto max-h-80">
               {JSON.stringify(
@@ -259,6 +453,10 @@ function IotMonitorPage() {
                 <Th>Tipo canónico</Th>
                 <Th>Stall</Th>
                 <Th>Space</Th>
+                <Th>Estado recibido</Th>
+                <Th>Estado normalizado</Th>
+                <Th>Estado final</Th>
+                <Th>Cambió</Th>
                 <Th>Validación</Th>
                 <Th>Procesamiento</Th>
                 <Th>IP origen</Th>
@@ -277,7 +475,19 @@ function IotMonitorPage() {
                   <td className="px-3 py-2">{e.externalEventType}</td>
                   <td className="px-3 py-2">{e.canonicalEventType}</td>
                   <td className="px-3 py-2">{e.externalStallCode ?? "—"}</td>
-                  <td className="px-3 py-2">{e.parkingSpace?.code ?? "—"}</td>
+                  <td className="px-3 py-2">{e.parkingSpaceCode ?? e.parkingSpace?.code ?? "—"}</td>
+                  <td className="px-3 py-2">
+                    <ReceivedStatusCell event={e} />
+                  </td>
+                  <td className="px-3 py-2">
+                    <NormalizedStatusCell event={e} />
+                  </td>
+                  <td className="px-3 py-2">
+                    <FinalSpaceStatusCell event={e} />
+                  </td>
+                  <td className="px-3 py-2">
+                    <ChangedCell event={e} />
+                  </td>
                   <td className="px-3 py-2">
                     <StatusPill
                       status={
@@ -303,6 +513,14 @@ function IotMonitorPage() {
                   <td className="px-3 py-2 font-mono text-muted-foreground">{e.contextIp}</td>
                   <td className="px-3 py-2">
                     <div className="flex flex-wrap gap-1">
+                      {e.externalEventType === "ParkingInfo" && (
+                        <button
+                          onClick={() => openDetail(e, "summary")}
+                          className="h-7 px-2 rounded border border-border hover:bg-secondary"
+                        >
+                          Resumen
+                        </button>
+                      )}
                       <button
                         onClick={() => openDetail(e, "payload")}
                         className="h-7 px-2 rounded border border-border hover:bg-secondary"
@@ -345,7 +563,7 @@ function IotMonitorPage() {
               ))}
               {events.length === 0 && (
                 <tr>
-                  <td colSpan={12} className="px-3 py-6 text-center text-muted-foreground">
+                  <td colSpan={16} className="px-3 py-6 text-center text-muted-foreground">
                     Sin eventos para los filtros actuales.
                   </td>
                 </tr>

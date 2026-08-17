@@ -105,7 +105,7 @@ function flattenValidationErrors(
  * This is the single place that translation happens — see
  * core/contracts/canonical-camera-event.ts.
  */
-function translateOccupancyStatus(
+export function translateOccupancyStatus(
   status: DahuaOccupancyStatus | undefined,
 ): CanonicalCameraEvent['parkingStatus'] {
   if (!status) {
