@@ -11,6 +11,18 @@ Diseño aprobado en `DAHUA_IMPLEMENTATION_PLAN.md` (Fase 0) y refinado en la
 conversación de Fase 0.9 — antes de conectar cualquier cámara física, este
 simulador debe quedar completamente en verde.
 
+Cubre los 3 tipos de evento productivos del gateway Dahua:
+
+- **`DeviceInfo`** — handshake y auto-registro de cámara.
+- **`ParkingInfo`** — ocupación de una sola plaza (`ParkingStatus=0/1`) y
+  estacionamiento ilegal (`ParkingStatus=7`, sin `ParkingStallsNo`).
+- **`TimedParkingSpaceInfo`** — snapshot de N plazas por request (fuente de
+  ocupación post-firmware-update, ver `DAHUA_IMPLEMENTATION_PLAN.md` §17):
+  snapshot inicial de múltiples plazas, idempotencia, cambio real de una
+  sola plaza, cambio inverso, plazas sin mapear/desconocidas, tolerancia a
+  items malformados, cantidad dinámica de plazas (sin límite de 6/9
+  hardcodeado) y evidencia Base64 grande sin exponerla en el reporte.
+
 ## Cómo ejecutarlo
 
 Prerrequisito: el servidor de `apps/api` tiene que estar corriendo.
@@ -76,8 +88,35 @@ ParkingSpaceStatusHistory, AuditLogs (debe quedar sin cambios)
   ↓
 Validación de logs (automática si DAHUA_SIM_SERVER_LOG está seteada, si no MANUAL)
   ↓
+TimedParkingSpaceInfo — Occupancy Snapshot (T1-T9, ver abajo) — auto-contenida,
+corre después de calcular los deltas de arriba, no los altera
+  ↓
 simulation-report.json + resultado PASS/FAIL
 ```
+
+### TimedParkingSpaceInfo — Occupancy Snapshot (T1-T9)
+
+Sección independiente y auto-contenida: crea su propio `ParkingSpace`
+(`SIM-TPS-C04`) y su propio `CameraStallMapping` (`C04 → SIM-TPS-C04`) sobre
+la misma cámara simulada ya aprobada arriba, nunca asume mappings dejados por
+una prueba manual anterior (`C01-C09`, `CENTRO-008`), y limpia todo lo que
+crea al finalizar — incluso si un caso falla — dentro de un `finally`.
+
+| Caso | Qué valida |
+|---|---|
+| T1 | Snapshot inicial de 9 plazas (`C01-C09`); solo `C04` está mapeada; `Used=false` coincide con el `available` por defecto → sin `CameraEvent`/historial; el resto queda `DISCOVERED`. |
+| T2 | Mismo snapshot reenviado sin modificar — idempotencia: 0 filas nuevas. |
+| T3 | Cambio real, únicamente `C04` `false→true` — exactamente 1 `CameraEvent` + 1 `ParkingSpaceStatusHistory` (`available→occupied`, `source=CAMERA`). |
+| T4 | Mismo snapshot ocupado reenviado — 0 filas nuevas. |
+| T5 | Cambio inverso, únicamente `C04` `true→false` — exactamente 1 `CameraEvent` + 1 historial adicionales (`occupied→available`). |
+| T6 | 50 plazas sintéticas (`SIM-TPS-BULK-*`) en un solo request — confirma que no hay límite de 6/9 hardcodeado; todas quedan `DISCOVERED`, ningún `ParkingSpace` se crea automáticamente. |
+| T7 | `ParkNo` desconocido (`SIM-TPS-UNKNOWN-999`) mezclado en el batch — no rompe el resto del procesamiento, queda `DISCOVERED` sin `ParkingSpace`. |
+| T8 | Item de `SpaceModeInfo` sin `ParkNo` — valida el comportamiento real ya implementado (se descarta silenciosamente en `normalize()`), sin inventar una expectativa distinta. |
+| T9 | Payload con `ParkingSpacePic.Content` de ~600KB — se acepta (no falla por límite de body), y el contenido Base64 nunca se imprime en el reporte, solo su longitud. |
+
+Al final de la sección se verifica explícitamente que el `ParkingSpace` y
+todos los `CameraStallMapping` creados por esta suite fueron eliminados —
+`TimedParkingSpaceInfo cleanup leaves no simulator-owned rows behind`.
 
 **Paso 0 — aprobación de cámara.** No existe todavía un endpoint administrativo
 para aprobar cámaras (`Camera.tenantId/cityId/zoneId` solo se asignan hoy por
@@ -113,6 +152,7 @@ documentados en `smartpark-dahua-reference/docs/payloads-reales.md`.
 | `ParkingInfo_Illegal.json` | Área ilegal (`ParkingStatus=7`, sin `ParkingStallsNo`) — nunca debe tocar una `ParkingSpace`. |
 | `ParkingInfo_Duplicate.json` | **Referencia documental únicamente** — `simulate.ts` no lo lee. El paso de duplicado reenvía el objeto en memoria de `Occupied` ya con el `SnapTime` inyectado en ese run. |
 | `ParkingInfo_InvalidDevice.json` | `DeviceID` desconocido — debe descartarse sin crear `Camera`. |
+| `TimedParkingSpaceInfo_Initial.json` | Snapshot real post-firmware de 9 plazas (`C01-C09`) — base de los casos T1-T9. `simulate.ts` clona este payload en memoria por caso (`withStallUsed()`), nunca lo modifica en disco. Los casos T6/T7/T8/T9 generan su propio `SpaceModeInfo` adicional en memoria (plazas sintéticas, `ParkNo` desconocido, item malformado, Base64 grande) — no requieren un fixture nuevo. |
 
 ## Cómo interpretar `simulation-report.json`
 
