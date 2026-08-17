@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { LiveSpace, EnforcementCase } from "./data";
-import { apiGet } from "./api";
+import { apiGetAuth } from "./api";
 
 type Ctx = {
   live: LiveSpace[];
@@ -18,8 +18,8 @@ export function SimProvider({ children }: { children: React.ReactNode }) {
   async function loadData() {
     try {
       const [liveData, enforcementData] = await Promise.all([
-        apiGet<LiveSpace[]>("/frontend/live"),
-        apiGet<EnforcementCase[]>("/frontend/enforcement"),
+        apiGetAuth<LiveSpace[]>("/frontend/live"),
+        apiGetAuth<EnforcementCase[]>("/frontend/enforcement"),
       ]);
 
       setLive(liveData);

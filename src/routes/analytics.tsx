@@ -2,7 +2,7 @@ import { RequirePermission } from "@/components/RequirePermission";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { KpiTile, Panel } from "@/components/ui-bits";
-import { apiGet } from "@/lib/api";
+import { apiGetAuth } from "@/lib/api";
 import { fmtInt, fmtUSD } from "@/lib/format";
 import {
   Bar,
@@ -97,11 +97,11 @@ function AnalyticsPage() {
 
   useEffect(() => {
     Promise.all([
-      apiGet<Overview>("/frontend/overview"),
-      apiGet<Vehicle[]>("/frontend/vehicles"),
-      apiGet<Fine[]>("/frontend/fines"),
-      apiGet<Payment[]>("/frontend/payments"),
-      apiGet<Enforcement[]>("/frontend/enforcement"),
+      apiGetAuth<Overview>("/frontend/overview"),
+      apiGetAuth<Vehicle[]>("/frontend/vehicles"),
+      apiGetAuth<Fine[]>("/frontend/fines"),
+      apiGetAuth<Payment[]>("/frontend/payments"),
+      apiGetAuth<Enforcement[]>("/frontend/enforcement"),
     ])
       .then(([o, v, f, p, e]) => {
         setOverview(o);

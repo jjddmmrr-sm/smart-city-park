@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { KpiTile, Panel } from "@/components/ui-bits";
 import { fmtInt, fmtUSD } from "@/lib/format";
-import { apiGet } from "@/lib/api";
+import { apiGetAuth } from "@/lib/api";
 import {
   Bar,
   BarChart,
@@ -77,7 +77,7 @@ function MediosPagoPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    apiGet<PaymentRow[]>("/frontend/payments")
+    apiGetAuth<PaymentRow[]>("/frontend/payments")
       .then(setRows)
       .catch((error) => console.error("Error loading payments", error))
       .finally(() => setLoading(false));

@@ -2,7 +2,7 @@ import { RequirePermission } from "@/components/RequirePermission";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Panel, StatusPill, KpiTile } from "@/components/ui-bits";
-import { apiGet, apiPatch } from "@/lib/api";
+import { apiGetAuth, apiPatchAuth } from "@/lib/api";
 import { fmtInt, ISSUE_LABEL } from "@/lib/format";
 import { AlertTriangle, ShieldCheck, Timer, X, FileWarning } from "lucide-react";
 
@@ -63,7 +63,7 @@ function EnforcementPage() {
 
   const loadEnforcement = () => {
     setLoading(true);
-    apiGet<EnforcementCase[]>("/frontend/enforcement")
+    apiGetAuth<EnforcementCase[]>("/frontend/enforcement")
       .then(setFeed)
       .catch((error) => console.error("Error loading enforcement", error))
       .finally(() => setLoading(false));
@@ -75,8 +75,8 @@ function EnforcementPage() {
 
   const updateStatus = async (id: string, nextStatus: string) => {
     try {
-      await apiPatch(`/frontend/enforcement/${id}/status`, { status: nextStatus });
-      const updated = await apiGet<EnforcementCase[]>("/frontend/enforcement");
+      await apiPatchAuth(`/frontend/enforcement/${id}/status`, { status: nextStatus });
+      const updated = await apiGetAuth<EnforcementCase[]>("/frontend/enforcement");
       setFeed(updated);
       setSelected(updated.find((item) => item.id === id) ?? null);
     } catch (error) {

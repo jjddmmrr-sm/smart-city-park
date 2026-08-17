@@ -11,7 +11,7 @@ import {
   FilterBtn,
 } from "@/components/FilterBar";
 import { type Vehicle, type Zone } from "@/lib/data";
-import { apiGet } from "@/lib/api";
+import { apiGetAuth } from "@/lib/api";
 import { fmtInt } from "@/lib/format";
 import { Download, Search, X, RotateCcw } from "lucide-react";
 
@@ -75,7 +75,10 @@ function VehiclesPage() {
   const [zones, setZones] = useState<Zone[]>([]);
 
   useEffect(() => {
-    Promise.all([apiGet<Vehicle[]>("/frontend/vehicles"), apiGet<Zone[]>("/frontend/zones")])
+    Promise.all([
+      apiGetAuth<Vehicle[]>("/frontend/vehicles"),
+      apiGetAuth<Zone[]>("/frontend/zones"),
+    ])
       .then(([vehiclesData, zonesData]) => {
         setVehicles(vehiclesData);
         setZones(zonesData);

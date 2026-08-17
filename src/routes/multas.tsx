@@ -11,7 +11,7 @@ import {
   FilterBtn,
 } from "@/components/FilterBar";
 import { type Multa, type Zone } from "@/lib/data";
-import { apiGet, apiPatch } from "@/lib/api";
+import { apiGetAuth, apiPatchAuth } from "@/lib/api";
 import { fmtInt, fmtUSD, ISSUE_LABEL } from "@/lib/format";
 import {
   Receipt,
@@ -130,8 +130,8 @@ function MultasPage() {
 
   async function loadFines() {
     const [multasData, zonesData] = await Promise.all([
-      apiGet<Multa[]>("/frontend/fines"),
-      apiGet<Zone[]>("/frontend/zones"),
+      apiGetAuth<Multa[]>("/frontend/fines"),
+      apiGetAuth<Zone[]>("/frontend/zones"),
     ]);
 
     const normalized = multasData.map(normalizeMulta);
@@ -240,7 +240,7 @@ function MultasPage() {
   async function markSelectedPaid() {
     if (!selected) return;
 
-    await apiPatch(`/frontend/fines/${selected.multa_id}/status`, {
+    await apiPatchAuth(`/frontend/fines/${selected.multa_id}/status`, {
       status: "paid",
     });
 

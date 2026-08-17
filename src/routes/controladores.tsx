@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { KpiTile, Panel, StatusPill } from "@/components/ui-bits";
 import { fmtInt } from "@/lib/format";
-import { apiGet } from "@/lib/api";
+import { apiGetAuth } from "@/lib/api";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { UserCog, Activity, ShieldCheck, MapPin, Clock, X } from "lucide-react";
 
@@ -51,7 +51,7 @@ function ControladoresPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    apiGet<ControllerRow[]>("/frontend/controllers")
+    apiGetAuth<ControllerRow[]>("/frontend/controllers")
       .then(setRows)
       .catch((error) => console.error("Error loading controllers", error))
       .finally(() => setLoading(false));

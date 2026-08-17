@@ -2,7 +2,7 @@ import { RequirePermission } from "@/components/RequirePermission";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Panel, KpiTile, StatusPill } from "@/components/ui-bits";
-import { apiGet } from "@/lib/api";
+import { apiGetAuth } from "@/lib/api";
 import { fmtInt, fmtUSD, fmtPct, ISSUE_LABEL } from "@/lib/format";
 import {
   Activity,
@@ -123,11 +123,11 @@ function OverviewPage() {
 
   useEffect(() => {
     Promise.all([
-      apiGet<OverviewApi>("/frontend/overview"),
-      apiGet<Enforcement[]>("/frontend/enforcement"),
-      apiGet<Payment[]>("/frontend/payments"),
-      apiGet<Fine[]>("/frontend/fines"),
-      apiGet<Vehicle[]>("/frontend/vehicles"),
+      apiGetAuth<OverviewApi>("/frontend/overview"),
+      apiGetAuth<Enforcement[]>("/frontend/enforcement"),
+      apiGetAuth<Payment[]>("/frontend/payments"),
+      apiGetAuth<Fine[]>("/frontend/fines"),
+      apiGetAuth<Vehicle[]>("/frontend/vehicles"),
     ])
       .then(([o, e, p, f, v]) => {
         setOverview(o);
