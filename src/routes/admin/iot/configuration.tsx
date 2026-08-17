@@ -41,12 +41,24 @@ type LastEvent = { receivedAt: string; externalEventType: string; processingStat
  * Labels match the Dahua ITSAPI wire vocabulary — see
  * docs/architecture/iot-device-management-foundation.md. Composed as
  * gateway.publicBaseUrl + gateway.basePath + provider.endpointTemplates[key],
- * same rule already implemented by the real ingestion routes.
+ * same rule already implemented by the real ingestion routes. OCCUPANCY_SNAPSHOT
+ * has no seeded endpointTemplates entry yet, so it falls back to `/${label}`
+ * below — which already resolves to the correct real route
+ * (.../NotificationInfo/TimedParkingSpaceInfo).
  */
-const CANONICAL_EVENTS: Array<{ key: string; label: string }> = [
+const CANONICAL_EVENTS: Array<{ key: string; label: string; description?: string }> = [
   { key: "DEVICE_HANDSHAKE", label: "DeviceInfo" },
   { key: "HEARTBEAT", label: "KeepAlive" },
-  { key: "OCCUPANCY_UPDATE", label: "ParkingInfo" },
+  {
+    key: "OCCUPANCY_SNAPSHOT",
+    label: "TimedParkingSpaceInfo",
+    description: "Estado de plazas — ocupación/liberación.",
+  },
+  {
+    key: "OCCUPANCY_UPDATE",
+    label: "ParkingInfo",
+    description: "Eventos especiales — principalmente estacionamiento ilegal/zona prohibida.",
+  },
 ];
 
 function getQueryCameraId(): string {
@@ -108,9 +120,10 @@ function IotConfigurationPage() {
 
   const endpoints = useMemo(() => {
     if (!selected) return [];
-    return CANONICAL_EVENTS.map(({ key, label }) => ({
+    return CANONICAL_EVENTS.map(({ key, label, description }) => ({
       key,
       label,
+      description,
       url:
         selected.publicBaseUrl.replace(/\/$/, "") +
         selected.basePath +
@@ -174,7 +187,7 @@ function IotConfigurationPage() {
   return (
     <IotPageShell
       title="Configuration"
-      description="Configuración lista para copiar en el equipo físico — DeviceInfo, KeepAlive y ParkingInfo, compuestos a partir del Provider y Gateway."
+      description="Configuración lista para copiar en el equipo físico — DeviceInfo, KeepAlive, TimedParkingSpaceInfo y ParkingInfo, compuestos a partir del Provider y Gateway."
     >
       <Panel title="Selección">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-[12px]">
@@ -285,12 +298,13 @@ function IotConfigurationPage() {
                   <DetailRow label="IP registrada" value={selectedCamera.ipAddress ?? "—"} />
                 )}
               </div>
-              <div className="border-t border-border pt-3 space-y-1.5">
+              <div className="border-t border-border pt-3 space-y-3">
                 {endpoints.map((e) => (
                   <CopyRow
                     key={e.key}
                     label={e.label}
                     value={e.url}
+                    description={e.description}
                     mono
                     copied={copiedKey === e.key}
                     onCopy={() => copy(e.key, e.url)}
@@ -323,34 +337,45 @@ function DetailRow({ label, value }: { label: string; value: string }) {
   );
 }
 
+/**
+ * Fixed 3-line structure — label / optional description / URL+copy — so all
+ * rows share the same columns regardless of whether a row has a
+ * description. The URL+copy line never varies in height, keeping the copy
+ * button vertically centered the same way on every row.
+ */
 function CopyRow({
   label,
   value,
+  description,
   mono,
   copied,
   onCopy,
 }: {
   label: string;
   value: string;
+  description?: string;
   mono?: boolean;
   copied: boolean;
   onCopy: () => void;
 }) {
   return (
-    <div className="flex gap-2 items-center">
-      <span className="text-muted-foreground min-w-[100px] font-medium">{label}:</span>
-      <code
-        className={`flex-1 ${mono ? "font-mono" : ""} text-[11px] bg-surface-2 rounded px-1.5 py-0.5 truncate`}
-      >
-        {value}
-      </code>
-      <button
-        onClick={onCopy}
-        className="h-6 w-6 shrink-0 rounded border border-border grid place-items-center hover:bg-secondary"
-        title={`Copiar ${label}`}
-      >
-        {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
-      </button>
+    <div>
+      <div className="text-muted-foreground font-medium">{label}</div>
+      {description && <p className="mt-0.5 text-[11px] text-muted-foreground/80">{description}</p>}
+      <div className="mt-1 flex items-center gap-2">
+        <code
+          className={`flex-1 ${mono ? "font-mono" : ""} text-[11px] bg-surface-2 rounded px-1.5 py-0.5 truncate`}
+        >
+          {value}
+        </code>
+        <button
+          onClick={onCopy}
+          className="h-6 w-6 shrink-0 rounded border border-border grid place-items-center hover:bg-secondary"
+          title={`Copiar ${label}`}
+        >
+          {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+        </button>
+      </div>
     </div>
   );
 }
