@@ -15,6 +15,31 @@ const POLL_MS = 5000;
 type CameraOption = { id: string; name: string | null; deviceId: string; code: string | null };
 type ProviderOption = { id: string; name: string | null };
 
+type OccupancySnapshotSummary = {
+  totalSpaces: number;
+  mappedCount: number;
+  unmappedCount: number;
+  occupiedReceived: number;
+  freeReceived: number;
+  changedCount: number;
+};
+
+type OccupancySnapshotSpaceDetail = {
+  externalStallCode: string | null;
+  spaceType: number | null;
+  receivedUsed: boolean | null;
+  normalizedStatus: string | null;
+  parkingSpaceCode: string | null;
+  mappingStatus: string | null;
+  previousStatus: string | null;
+  finalStatus: string | null;
+  changed: boolean;
+};
+
+type OccupancySnapshotDetail = OccupancySnapshotSummary & {
+  spaces: OccupancySnapshotSpaceDetail[];
+};
+
 type EventRow = {
   id: string;
   receivedAt: string;
@@ -37,6 +62,7 @@ type EventRow = {
   error: string | null;
   contextIp: string;
   idempotencyKey: string | null;
+  occupancySnapshot: OccupancySnapshotSummary | null;
 };
 
 type MappingUsed = {
@@ -52,11 +78,12 @@ type StatusHistoryEntry = {
   changedAt: string;
 } | null;
 
-type EventDetail = EventRow & {
+type EventDetail = Omit<EventRow, "occupancySnapshot"> & {
   payload: unknown;
   normalizedEvent: unknown;
   mappingUsed: MappingUsed;
   statusHistory: StatusHistoryEntry;
+  occupancySnapshot: OccupancySnapshotDetail | null;
 };
 
 const PARKING_STATUS_LABEL: Record<number, string> = {
@@ -65,6 +92,7 @@ const PARKING_STATUS_LABEL: Record<number, string> = {
   2: "Desconocida",
   3: "Ilegal",
   4: "Detección",
+  7: "Ilegal",
 };
 
 const NORMALIZED_STATUS_BADGE: Record<string, { es: string; cls: string }> = {
@@ -93,7 +121,35 @@ function Badge({ text, className }: { text: string; className: string }) {
   );
 }
 
+function StallCell({ event }: { event: EventRow }) {
+  if (event.occupancySnapshot) {
+    return <span>{event.occupancySnapshot.totalSpaces} plazas</span>;
+  }
+  return <span>{event.externalStallCode ?? "—"}</span>;
+}
+
+function SpaceCell({ event }: { event: EventRow }) {
+  if (event.occupancySnapshot) {
+    const { mappedCount, unmappedCount } = event.occupancySnapshot;
+    return (
+      <span>
+        {mappedCount} mapeada{mappedCount === 1 ? "" : "s"} / {unmappedCount} sin mapear
+      </span>
+    );
+  }
+  return <span>{event.parkingSpaceCode ?? event.parkingSpace?.code ?? "—"}</span>;
+}
+
 function ReceivedStatusCell({ event }: { event: EventRow }) {
+  if (event.occupancySnapshot) {
+    const { occupiedReceived, freeReceived } = event.occupancySnapshot;
+    return (
+      <Badge
+        text={`${occupiedReceived} ocupadas / ${freeReceived} libres`}
+        className="bg-muted text-foreground"
+      />
+    );
+  }
   if (event.externalEventType !== "ParkingInfo" || event.externalParkingStatus === null) {
     return <span className="text-muted-foreground">—</span>;
   }
@@ -107,6 +163,15 @@ function ReceivedStatusCell({ event }: { event: EventRow }) {
 }
 
 function NormalizedStatusCell({ event }: { event: EventRow }) {
+  if (event.occupancySnapshot) {
+    const { occupiedReceived, freeReceived } = event.occupancySnapshot;
+    return (
+      <Badge
+        text={`${occupiedReceived} OCCUPIED / ${freeReceived} AVAILABLE`}
+        className="bg-muted text-muted-foreground"
+      />
+    );
+  }
   if (event.externalEventType !== "ParkingInfo" || !event.normalizedParkingStatus) {
     return <span className="text-muted-foreground">—</span>;
   }
@@ -118,6 +183,21 @@ function NormalizedStatusCell({ event }: { event: EventRow }) {
 }
 
 function FinalSpaceStatusCell({ event }: { event: EventRow }) {
+  if (event.occupancySnapshot) {
+    const { changedCount, mappedCount, unmappedCount } = event.occupancySnapshot;
+    const unchangedMapped = mappedCount - changedCount;
+    const parts = [`${changedCount} cambio${changedCount === 1 ? "" : "s"}`];
+    if (unchangedMapped > 0) parts.push(`${unchangedMapped} sin cambio`);
+    if (unmappedCount > 0) parts.push(`${unmappedCount} sin mapear`);
+    return (
+      <Badge
+        text={parts.join(" / ")}
+        className={
+          changedCount > 0 ? "bg-success/10 text-success" : "bg-muted text-muted-foreground"
+        }
+      />
+    );
+  }
   if (event.externalEventType !== "ParkingInfo") {
     return <span className="text-muted-foreground">—</span>;
   }
@@ -169,6 +249,9 @@ function ParkingInfoSummary({ detail }: { detail: EventDetail }) {
           }
         />
         <SummaryRow label="SnapTime" value={String(block?.SnapTime ?? "—")} />
+        {!block?.ParkingStallsNo && (
+          <SummaryRow label="DetectRegionName" value={String(block?.DetectRegionName ?? "—")} />
+        )}
       </div>
 
       <div>
@@ -213,6 +296,14 @@ function ParkingInfoSummary({ detail }: { detail: EventDetail }) {
 }
 
 function ChangedCell({ event }: { event: EventRow }) {
+  if (event.occupancySnapshot) {
+    const { changedCount } = event.occupancySnapshot;
+    return changedCount > 0 ? (
+      <Badge text={`Sí (${changedCount})`} className="bg-success/10 text-success" />
+    ) : (
+      <Badge text="No" className="bg-muted text-muted-foreground" />
+    );
+  }
   if (event.externalEventType !== "ParkingInfo") {
     return <span className="text-muted-foreground">—</span>;
   }
@@ -223,6 +314,67 @@ function ChangedCell({ event }: { event: EventRow }) {
     <Badge text="Sí" className="bg-success/10 text-success" />
   ) : (
     <Badge text="No" className="bg-muted text-muted-foreground" />
+  );
+}
+
+function OccupancySnapshotTable({ snapshot }: { snapshot: OccupancySnapshotDetail }) {
+  return (
+    <div className="text-[12px]">
+      <div className="mb-2 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-muted-foreground">
+        <span>{snapshot.totalSpaces} plazas</span>
+        <span>
+          {snapshot.mappedCount} mapeada{snapshot.mappedCount === 1 ? "" : "s"} /{" "}
+          {snapshot.unmappedCount} sin mapear
+        </span>
+        <span>
+          {snapshot.occupiedReceived} ocupadas / {snapshot.freeReceived} libres
+        </span>
+        <span>
+          {snapshot.changedCount} cambio{snapshot.changedCount === 1 ? "" : "s"}
+        </span>
+      </div>
+      <div className="overflow-auto max-h-80 border border-border rounded">
+        <table className="w-full text-[11px]">
+          <thead className="bg-surface-2 sticky top-0">
+            <tr>
+              <Th>Código</Th>
+              <Th>Recibido</Th>
+              <Th>Normalizado</Th>
+              <Th>ParkingSpace</Th>
+              <Th>Estado anterior</Th>
+              <Th>Estado final</Th>
+              <Th>Cambió</Th>
+            </tr>
+          </thead>
+          <tbody>
+            {snapshot.spaces.map((s, i) => (
+              <tr key={`${s.externalStallCode ?? "?"}-${i}`} className="border-t border-border">
+                <td className="px-2 py-1 font-mono whitespace-nowrap">
+                  {s.externalStallCode ?? "—"}
+                </td>
+                <td className="px-2 py-1 whitespace-nowrap">
+                  {s.receivedUsed === null ? "—" : `Used=${s.receivedUsed}`}
+                </td>
+                <td className="px-2 py-1 whitespace-nowrap">{s.normalizedStatus ?? "—"}</td>
+                <td className="px-2 py-1 whitespace-nowrap">
+                  {s.parkingSpaceCode ?? "Sin mapear"}
+                </td>
+                <td className="px-2 py-1 whitespace-nowrap">{s.previousStatus ?? "—"}</td>
+                <td className="px-2 py-1 whitespace-nowrap">{s.finalStatus ?? "—"}</td>
+                <td className="px-2 py-1 whitespace-nowrap">{s.changed ? "Sí" : "No"}</td>
+              </tr>
+            ))}
+            {snapshot.spaces.length === 0 && (
+              <tr>
+                <td colSpan={7} className="px-2 py-4 text-center text-muted-foreground">
+                  Sin plazas en este snapshot.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 }
 
@@ -347,6 +499,7 @@ function IotMonitorPage() {
             options={[
               { value: "DeviceInfo", label: "DeviceInfo" },
               { value: "KeepAlive", label: "KeepAlive" },
+              { value: "TimedParkingSpaceInfo", label: "TimedParkingSpaceInfo" },
               { value: "ParkingInfo", label: "ParkingInfo" },
             ]}
           />
@@ -428,6 +581,8 @@ function IotMonitorPage() {
             </p>
           ) : viewMode === "summary" ? (
             <ParkingInfoSummary detail={viewing} />
+          ) : viewMode === "normalized" && viewing.occupancySnapshot ? (
+            <OccupancySnapshotTable snapshot={viewing.occupancySnapshot} />
           ) : (
             <pre className="bg-surface-2 rounded p-2 text-[11px] overflow-auto max-h-80">
               {JSON.stringify(
@@ -441,41 +596,58 @@ function IotMonitorPage() {
       )}
 
       <Panel title={`Eventos (${events.length})`} padded={false}>
-        <div className="overflow-x-auto">
-          <table className="w-full text-[12px]">
-            <thead className="bg-surface-2 text-[10px] uppercase tracking-wider text-muted-foreground">
+        {/* Scroll (horizontal + vertical) is scoped to this block only — never the page. */}
+        <div className="overflow-auto max-h-[70vh]">
+          <table className="w-full min-w-[2000px] text-[12px]">
+            <thead className="bg-surface-2 text-[10px] uppercase tracking-wider text-muted-foreground sticky top-0 z-20">
               <tr>
-                <Th>Fecha</Th>
-                <Th>Provider</Th>
-                <Th>Cámara</Th>
-                <Th>DeviceID</Th>
-                <Th>Tipo externo</Th>
-                <Th>Tipo canónico</Th>
-                <Th>Stall</Th>
-                <Th>Space</Th>
-                <Th>Estado recibido</Th>
-                <Th>Estado normalizado</Th>
-                <Th>Estado final</Th>
-                <Th>Cambió</Th>
-                <Th>Validación</Th>
-                <Th>Procesamiento</Th>
-                <Th>IP origen</Th>
-                <Th>Acciones</Th>
+                <Th className="sticky left-0 z-30 min-w-[150px] border-r border-border bg-surface-2">
+                  Fecha
+                </Th>
+                <Th className="min-w-[110px]">Provider</Th>
+                <Th className="min-w-[140px]">Cámara</Th>
+                <Th className="min-w-[130px]">DeviceID</Th>
+                <Th className="min-w-[140px]">Tipo externo</Th>
+                <Th className="min-w-[150px]">Tipo canónico</Th>
+                <Th className="min-w-[110px]">Stall</Th>
+                <Th className="min-w-[170px]">Space</Th>
+                <Th className="min-w-[160px]">Estado recibido</Th>
+                <Th className="min-w-[180px]">Estado normalizado</Th>
+                <Th className="min-w-[180px]">Estado final</Th>
+                <Th className="min-w-[110px]">Cambió</Th>
+                <Th className="min-w-[110px]">Validación</Th>
+                <Th className="min-w-[130px]">Procesamiento</Th>
+                <Th className="min-w-[120px]">IP origen</Th>
+                <Th className="sticky right-0 z-30 min-w-[230px] border-l border-border bg-surface-2">
+                  Acciones
+                </Th>
               </tr>
             </thead>
             <tbody>
               {events.map((e) => (
-                <tr key={e.id} className="border-t border-border hover:bg-surface-2">
-                  <td className="px-3 py-2 tabular-nums whitespace-nowrap">
+                <tr key={e.id} className="group border-t border-border hover:bg-surface-2">
+                  <td className="sticky left-0 z-10 border-r border-border bg-card px-3 py-2 tabular-nums whitespace-nowrap group-hover:bg-surface-2">
                     {new Date(e.receivedAt).toLocaleString("es-EC")}
                   </td>
                   <td className="px-3 py-2">{e.providerCode ?? "—"}</td>
-                  <td className="px-3 py-2">{e.cameraName ?? "—"}</td>
-                  <td className="px-3 py-2 font-mono text-muted-foreground">{e.deviceIdRaw}</td>
-                  <td className="px-3 py-2">{e.externalEventType}</td>
+                  <td className="px-3 py-2 max-w-[140px] truncate" title={e.cameraName ?? "—"}>
+                    {e.cameraName ?? "—"}
+                  </td>
+                  <td className="px-3 py-2 font-mono text-muted-foreground" title={e.deviceIdRaw}>
+                    {e.deviceIdRaw.length > 18
+                      ? `${e.deviceIdRaw.slice(0, 8)}…${e.deviceIdRaw.slice(-5)}`
+                      : e.deviceIdRaw}
+                  </td>
+                  <td className="px-3 py-2 max-w-[110px] truncate" title={e.externalEventType}>
+                    {e.externalEventType}
+                  </td>
                   <td className="px-3 py-2">{e.canonicalEventType}</td>
-                  <td className="px-3 py-2">{e.externalStallCode ?? "—"}</td>
-                  <td className="px-3 py-2">{e.parkingSpaceCode ?? e.parkingSpace?.code ?? "—"}</td>
+                  <td className="px-3 py-2 whitespace-nowrap">
+                    <StallCell event={e} />
+                  </td>
+                  <td className="px-3 py-2 whitespace-nowrap">
+                    <SpaceCell event={e} />
+                  </td>
                   <td className="px-3 py-2">
                     <ReceivedStatusCell event={e} />
                   </td>
@@ -511,7 +683,7 @@ function IotMonitorPage() {
                     />
                   </td>
                   <td className="px-3 py-2 font-mono text-muted-foreground">{e.contextIp}</td>
-                  <td className="px-3 py-2">
+                  <td className="sticky right-0 z-10 border-l border-border bg-card px-3 py-2 group-hover:bg-surface-2">
                     <div className="flex flex-wrap gap-1">
                       {e.externalEventType === "ParkingInfo" && (
                         <button
@@ -576,8 +748,10 @@ function IotMonitorPage() {
   );
 }
 
-function Th({ children }: { children: React.ReactNode }) {
-  return <th className="text-left font-medium px-3 py-2 whitespace-nowrap">{children}</th>;
+function Th({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <th className={"text-left font-medium px-3 py-2 whitespace-nowrap " + className}>{children}</th>
+  );
 }
 
 function FilterSelect({

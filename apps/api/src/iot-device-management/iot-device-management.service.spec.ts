@@ -428,5 +428,159 @@ describe('IotDeviceManagementService', () => {
       });
       expect(result.statusChanged).toBe(true);
     });
+
+    const timedParkingSpaceInfoPayload = {
+      DeviceID: '1a85820a-9edf-406a-8338-170689f6099e',
+      Time: '2026-08-10 10:00:00',
+      SpaceModeInfo: [
+        { ParkNo: 'C01', Used: true, SpaceType: 0 },
+        { ParkNo: 'C02', Used: false, SpaceType: 0 },
+        { ParkNo: 'C03', Used: true, SpaceType: 0 },
+      ],
+      ParkingSpacePic: {
+        Content: 'QUJDREVGRw==REALLYLONGBASE64STRING',
+        PicName: 'snap-20260810.jpg',
+      },
+    };
+
+    function timedParkingSpaceInfoRow(overrides: Record<string, unknown> = {}) {
+      return {
+        id: 'raw-tps-1',
+        tenantId: 'tenant-a',
+        cameraId: 'camera-1',
+        deviceIdRaw: '1a85820a-9edf-406a-8338-170689f6099e',
+        eventType: 'TimedParkingSpaceInfo',
+        payload: timedParkingSpaceInfoPayload,
+        validationStatus: 'VALID',
+        processingStatus: 'PROCESSED',
+        error: null,
+        contextIp: '191.100.93.71',
+        receivedAt: new Date('2026-08-10T10:00:05.000Z'),
+        camera: { name: 'Cámara Piloto', provider: { code: 'DAHUA_ITSAPI' } },
+        events: [
+          {
+            id: 'event-tps-1',
+            idempotencyKey: 'key-tps-1',
+            metadata: { externalStallCode: 'C01' },
+            parkingSpace: {
+              id: 'space-c01',
+              code: 'CENTRO-020',
+              status: 'occupied',
+            },
+          },
+        ],
+        ...overrides,
+      };
+    }
+
+    it('classifies TimedParkingSpaceInfo as OCCUPANCY_SNAPSHOT (not UNCLASSIFIED) and summarizes N stalls without picking one arbitrarily', async () => {
+      prisma.cameraEventRaw.findMany.mockResolvedValue([
+        timedParkingSpaceInfoRow(),
+      ]);
+      prisma.parkingSpaceStatusHistory.findMany.mockResolvedValue([
+        { sourceEventId: 'event-tps-1' },
+      ]);
+      prisma.cameraStallMapping.findMany.mockResolvedValue([
+        {
+          cameraId: 'camera-1',
+          externalStallCode: 'C01',
+          mappingStatus: 'ACTIVE',
+          parkingSpaceId: 'space-c01',
+        },
+        {
+          cameraId: 'camera-1',
+          externalStallCode: 'C02',
+          mappingStatus: 'ACTIVE',
+          parkingSpaceId: 'space-c02',
+        },
+      ]);
+
+      const [result] = await service.findMonitorEvents(tenantAAdmin, {});
+
+      expect(result.canonicalEventType).toBe('OCCUPANCY_SNAPSHOT');
+      expect(result.externalStallCode).toBeNull();
+      expect(result.parkingSpaceCode).toBeNull();
+      expect(result.occupancySnapshot).toEqual({
+        totalSpaces: 3,
+        mappedCount: 2,
+        unmappedCount: 1,
+        occupiedReceived: 2,
+        freeReceived: 1,
+        changedCount: 1,
+      });
+      expect(result.statusChanged).toBe(true);
+    });
+
+    it('findMonitorEvent returns a per-stall breakdown for TimedParkingSpaceInfo, never a single ParkingSpace/mapping like ParkingInfo', async () => {
+      prisma.cameraEventRaw.findUnique.mockResolvedValue(
+        timedParkingSpaceInfoRow(),
+      );
+      prisma.cameraStallMapping.findMany.mockResolvedValue([
+        {
+          externalStallCode: 'C01',
+          mappingStatus: 'ACTIVE',
+          parkingSpace: { code: 'CENTRO-020', status: 'occupied' },
+        },
+      ]);
+      prisma.parkingSpaceStatusHistory.findMany.mockResolvedValue([
+        {
+          sourceEventId: 'event-tps-1',
+          previousStatus: 'available',
+          newStatus: 'occupied',
+        },
+      ]);
+
+      const result = await service.findMonitorEvent('raw-tps-1', tenantAAdmin);
+
+      expect(result.canonicalEventType).toBe('OCCUPANCY_SNAPSHOT');
+      expect(result.mappingUsed).toBeNull();
+      expect(result.occupancySnapshot).not.toBeNull();
+      expect(result.occupancySnapshot?.totalSpaces).toBe(3);
+      expect(result.occupancySnapshot?.mappedCount).toBe(1);
+      expect(result.occupancySnapshot?.changedCount).toBe(1);
+      expect(result.occupancySnapshot?.spaces).toEqual([
+        {
+          externalStallCode: 'C01',
+          spaceType: 0,
+          receivedUsed: true,
+          normalizedStatus: 'OCCUPIED',
+          parkingSpaceCode: 'CENTRO-020',
+          mappingStatus: 'ACTIVE',
+          previousStatus: 'available',
+          finalStatus: 'occupied',
+          changed: true,
+        },
+        {
+          externalStallCode: 'C02',
+          spaceType: 0,
+          receivedUsed: false,
+          normalizedStatus: 'AVAILABLE',
+          parkingSpaceCode: null,
+          mappingStatus: null,
+          previousStatus: null,
+          finalStatus: null,
+          changed: false,
+        },
+        {
+          externalStallCode: 'C03',
+          spaceType: 0,
+          receivedUsed: true,
+          normalizedStatus: 'OCCUPIED',
+          parkingSpaceCode: null,
+          mappingStatus: null,
+          previousStatus: null,
+          finalStatus: null,
+          changed: false,
+        },
+      ]);
+
+      const parkingSpacePic = (
+        result.payload as { ParkingSpacePic: Record<string, unknown> }
+      ).ParkingSpacePic;
+      expect(parkingSpacePic.Content).toBe(
+        `[BASE64 OMITIDO - ${timedParkingSpaceInfoPayload.ParkingSpacePic.Content.length} caracteres]`,
+      );
+      expect(parkingSpacePic.PicName).toBe('snap-20260810.jpg');
+    });
   });
 });

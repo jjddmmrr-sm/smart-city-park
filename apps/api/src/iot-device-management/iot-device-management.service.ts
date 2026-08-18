@@ -804,6 +804,8 @@ export class IotDeviceManagementService {
         return 'HEARTBEAT';
       case 'ParkingInfo':
         return 'OCCUPANCY_UPDATE';
+      case 'TimedParkingSpaceInfo':
+        return 'OCCUPANCY_SNAPSHOT';
       default:
         return 'UNCLASSIFIED';
     }
@@ -830,6 +832,29 @@ export class IotDeviceManagementService {
     const parkingInfo = (picture as Record<string, unknown>).ParkingInfo;
     return parkingInfo && typeof parkingInfo === 'object'
       ? (parkingInfo as Record<string, unknown>)
+      : null;
+  }
+
+  /**
+   * TimedParkingSpaceInfo's SpaceModeInfo[] lives at the payload root
+   * (never nested under Picture, unlike ParkingInfo) — see
+   * dto/timed-parking-space-info.dto.ts. Monitor display only.
+   */
+  private extractSpaceModeInfo(payload: unknown): Array<{
+    ParkNo?: unknown;
+    Used?: unknown;
+    SpaceType?: unknown;
+  }> | null {
+    if (!payload || typeof payload !== 'object') {
+      return null;
+    }
+    const value = (payload as Record<string, unknown>).SpaceModeInfo;
+    return Array.isArray(value)
+      ? (value as Array<{
+          ParkNo?: unknown;
+          Used?: unknown;
+          SpaceType?: unknown;
+        }>)
       : null;
   }
 
@@ -874,34 +899,56 @@ export class IotDeviceManagementService {
     if (!payload || typeof payload !== 'object') {
       return payload;
     }
-    const picture = (payload as Record<string, unknown>).Picture;
-    if (!picture || typeof picture !== 'object') {
-      return payload;
-    }
-    const redactedPicture: Record<string, unknown> = {};
-    for (const [key, value] of Object.entries(
-      picture as Record<string, unknown>,
-    )) {
-      if (
-        value &&
-        typeof value === 'object' &&
-        'Content' in (value as Record<string, unknown>)
-      ) {
-        const block = value as Record<string, unknown>;
-        redactedPicture[key] = {
-          ...block,
-          Content: undefined,
-          contentBase64Length:
-            typeof block.Content === 'string' ? block.Content.length : 0,
-        };
-      } else {
-        redactedPicture[key] = value;
+    let result = payload as Record<string, unknown>;
+
+    const picture = result.Picture;
+    if (picture && typeof picture === 'object') {
+      const redactedPicture: Record<string, unknown> = {};
+      for (const [key, value] of Object.entries(
+        picture as Record<string, unknown>,
+      )) {
+        if (
+          value &&
+          typeof value === 'object' &&
+          'Content' in (value as Record<string, unknown>)
+        ) {
+          const block = value as Record<string, unknown>;
+          redactedPicture[key] = {
+            ...block,
+            Content: undefined,
+            contentBase64Length:
+              typeof block.Content === 'string' ? block.Content.length : 0,
+          };
+        } else {
+          redactedPicture[key] = value;
+        }
       }
+      result = { ...result, Picture: redactedPicture };
     }
-    return {
-      ...(payload as Record<string, unknown>),
-      Picture: redactedPicture,
-    };
+
+    // TimedParkingSpaceInfo's ParkingSpacePic.Content lives at the payload
+    // root (never nested under Picture) — see
+    // dto/timed-parking-space-info.dto.ts. Replaced inline (not stripped)
+    // so the redacted payload stays a self-describing, copiable JSON blob.
+    const parkingSpacePic = result.ParkingSpacePic;
+    if (
+      parkingSpacePic &&
+      typeof parkingSpacePic === 'object' &&
+      'Content' in (parkingSpacePic as Record<string, unknown>)
+    ) {
+      const block = parkingSpacePic as Record<string, unknown>;
+      const length =
+        typeof block.Content === 'string' ? block.Content.length : 0;
+      result = {
+        ...result,
+        ParkingSpacePic: {
+          ...block,
+          Content: `[BASE64 OMITIDO - ${length} caracteres]`,
+        },
+      };
+    }
+
+    return result;
   }
 
   async findMonitorEvents(user: JwtPayload, filters: MonitorFilters) {
@@ -933,14 +980,17 @@ export class IotDeviceManagementService {
         filters.limit && filters.limit > 0 ? Math.min(filters.limit, 200) : 50,
     });
 
-    // Single batch lookup instead of one query per row: a ParkingInfo raw
-    // event only actually changed a ParkingSpace if its CameraEvent id is
-    // referenced by a ParkingSpaceStatusHistory row (see
-    // processOccupancyUpdate — history is only written when
-    // newSpaceStatus !== parkingSpace.status).
-    const occupancyEventIds = rows
-      .map((row) => row.events[0]?.id)
-      .filter((id): id is string => !!id);
+    // Single batch lookup instead of one query per row: a raw event only
+    // actually changed a ParkingSpace if its CameraEvent id is referenced
+    // by a ParkingSpaceStatusHistory row (see processOccupancyUpdate /
+    // processOccupancySnapshot — history is only written when the reported
+    // status differs from the currently known ParkingSpace.status).
+    // flatMap (not row.events[0]) because a TimedParkingSpaceInfo raw row
+    // can carry 0..N CameraEvent rows — one per changed+mapped stall — not
+    // just one.
+    const occupancyEventIds = rows.flatMap((row) =>
+      row.events.map((e) => e.id),
+    );
     const changedEventIds = occupancyEventIds.length
       ? new Set(
           (
@@ -952,7 +1002,35 @@ export class IotDeviceManagementService {
         )
       : new Set<string | null>();
 
+    // Batched CameraStallMapping lookup for every camera that reported a
+    // TimedParkingSpaceInfo row in this page — used only to compute the
+    // mapped/unmapped counts in each row's occupancySnapshot summary.
+    const snapshotCameraIds = [
+      ...new Set(
+        rows
+          .filter((row) => row.eventType === 'TimedParkingSpaceInfo')
+          .map((row) => row.cameraId)
+          .filter((id): id is string => !!id),
+      ),
+    ];
+    const snapshotMappings = snapshotCameraIds.length
+      ? await this.prisma.cameraStallMapping.findMany({
+          where: { cameraId: { in: snapshotCameraIds } },
+        })
+      : [];
+    const mappingByCameraCode = new Map(
+      snapshotMappings.map((m) => [`${m.cameraId}|${m.externalStallCode}`, m]),
+    );
+
     return rows.map((row) => {
+      if (row.eventType === 'TimedParkingSpaceInfo') {
+        return this.buildOccupancySnapshotRow(
+          row,
+          mappingByCameraCode,
+          changedEventIds,
+        );
+      }
+
       const externalParkingStatus = this.extractExternalParkingStatus(
         row.payload,
       );
@@ -988,8 +1066,91 @@ export class IotDeviceManagementService {
         error: row.error,
         contextIp: row.contextIp,
         idempotencyKey: cameraEvent?.idempotencyKey ?? null,
+        occupancySnapshot: null,
       };
     });
+  }
+
+  /**
+   * TimedParkingSpaceInfo carries N stalls per request — never one. This
+   * builds the Monitor list row's aggregate summary (counts only; the
+   * per-stall breakdown is only computed in findMonitorEvent's detail view,
+   * see buildOccupancySnapshotDetail) instead of misreading the row as if
+   * it were a single-stall ParkingInfo event.
+   */
+  private buildOccupancySnapshotRow(
+    row: {
+      id: string;
+      receivedAt: Date;
+      cameraId: string | null;
+      camera: { name: string | null; provider: { code: string } | null } | null;
+      deviceIdRaw: string;
+      eventType: string;
+      payload: unknown;
+      validationStatus: string;
+      processingStatus: string;
+      error: string | null;
+      contextIp: string;
+      events: Array<{ id: string }>;
+    },
+    mappingByCameraCode: Map<
+      string,
+      { mappingStatus: string; parkingSpaceId: string | null }
+    >,
+    changedEventIds: Set<string | null>,
+  ) {
+    const spaceModeInfo = this.extractSpaceModeInfo(row.payload) ?? [];
+    let mappedCount = 0;
+    let occupiedReceived = 0;
+    let freeReceived = 0;
+    for (const item of spaceModeInfo) {
+      const parkNo = typeof item?.ParkNo === 'string' ? item.ParkNo : null;
+      const used = typeof item?.Used === 'boolean' ? item.Used : null;
+      if (used === true) occupiedReceived++;
+      else if (used === false) freeReceived++;
+      const mapping =
+        row.cameraId && parkNo
+          ? mappingByCameraCode.get(`${row.cameraId}|${parkNo}`)
+          : undefined;
+      if (mapping?.mappingStatus === 'ACTIVE' && mapping.parkingSpaceId) {
+        mappedCount++;
+      }
+    }
+    const changedCount = row.events.filter((e) =>
+      changedEventIds.has(e.id),
+    ).length;
+
+    return {
+      id: row.id,
+      receivedAt: row.receivedAt,
+      providerCode: row.camera?.provider?.code ?? null,
+      cameraId: row.cameraId,
+      cameraName: row.camera?.name ?? null,
+      deviceIdRaw: row.deviceIdRaw,
+      externalEventType: row.eventType,
+      canonicalEventType: this.canonicalEventType(row.eventType),
+      externalStallCode: null,
+      externalParkingStatus: null,
+      normalizedParkingStatus: null,
+      parkingSpace: null,
+      parkingSpaceCode: null,
+      parkingSpaceCurrentStatus: null,
+      statusChanged: changedCount > 0,
+      duplicate: false,
+      validationStatus: row.validationStatus,
+      processingStatus: row.processingStatus,
+      error: row.error,
+      contextIp: row.contextIp,
+      idempotencyKey: null,
+      occupancySnapshot: {
+        totalSpaces: spaceModeInfo.length,
+        mappedCount,
+        unmappedCount: spaceModeInfo.length - mappedCount,
+        occupiedReceived,
+        freeReceived,
+        changedCount,
+      },
+    };
   }
 
   async findMonitorEvent(id: string, user: JwtPayload) {
@@ -1007,6 +1168,10 @@ export class IotDeviceManagementService {
       this.assertTenantAccess(user, row.tenantId, 'Event not found');
     } else if (!this.isSuperAdmin(user)) {
       throw new NotFoundException('Event not found');
+    }
+
+    if (row.eventType === 'TimedParkingSpaceInfo') {
+      return this.buildOccupancySnapshotDetail(row);
     }
 
     const externalStallCode = this.extractExternalStallCode(row.payload);
@@ -1066,6 +1231,134 @@ export class IotDeviceManagementService {
             changedAt: statusHistory.changedAt,
           }
         : null,
+      occupancySnapshot: null,
+    };
+  }
+
+  /**
+   * Per-stall breakdown for a TimedParkingSpaceInfo raw event — never picks
+   * "the" ParkingSpace/mapping/status like the ParkingInfo branch does,
+   * since a snapshot always carries N stalls. Each CameraEvent created by
+   * processOccupancySnapshot carries its own stall code in
+   * metadata.externalStallCode (see camera-ingestion-core.service.ts), used
+   * here to line a SpaceModeInfo entry back up with the CameraEvent (if
+   * any) and ParkingSpaceStatusHistory (if any) it produced.
+   */
+  private async buildOccupancySnapshotDetail(row: {
+    id: string;
+    receivedAt: Date;
+    tenantId: string | null;
+    cameraId: string | null;
+    deviceIdRaw: string;
+    eventType: string;
+    payload: unknown;
+    validationStatus: string;
+    processingStatus: string;
+    error: string | null;
+    contextIp: string;
+    events: Array<{
+      id: string;
+      metadata: Prisma.JsonValue;
+      parkingSpace: { code: string; status: string } | null;
+    }>;
+  }) {
+    const spaceModeInfo = this.extractSpaceModeInfo(row.payload) ?? [];
+    const codes = spaceModeInfo
+      .map((item) => (typeof item?.ParkNo === 'string' ? item.ParkNo : null))
+      .filter((code): code is string => !!code);
+
+    const mappings: Prisma.CameraStallMappingGetPayload<{
+      include: { parkingSpace: true };
+    }>[] =
+      row.cameraId && codes.length
+        ? await this.prisma.cameraStallMapping.findMany({
+            where: {
+              cameraId: row.cameraId,
+              externalStallCode: { in: codes },
+            },
+            include: { parkingSpace: true },
+          })
+        : [];
+    const statusHistories: Prisma.ParkingSpaceStatusHistoryGetPayload<object>[] =
+      row.events.length
+        ? await this.prisma.parkingSpaceStatusHistory.findMany({
+            where: { sourceEventId: { in: row.events.map((e) => e.id) } },
+          })
+        : [];
+
+    const mappingByCode = new Map(
+      mappings.map((m) => [m.externalStallCode, m]),
+    );
+    const historyByEventId = new Map(
+      statusHistories
+        .filter((h) => h.sourceEventId)
+        .map((h) => [h.sourceEventId as string, h]),
+    );
+    const eventByCode = new Map<string, (typeof row.events)[number]>();
+    for (const event of row.events) {
+      const meta = event.metadata as Record<string, unknown> | null;
+      const code = meta?.externalStallCode;
+      if (typeof code === 'string') {
+        eventByCode.set(code, event);
+      }
+    }
+
+    const spaces = spaceModeInfo.map((item) => {
+      const parkNo = typeof item?.ParkNo === 'string' ? item.ParkNo : null;
+      const used = typeof item?.Used === 'boolean' ? item.Used : null;
+      const mapping = parkNo ? mappingByCode.get(parkNo) : undefined;
+      const event = parkNo ? eventByCode.get(parkNo) : undefined;
+      const history = event ? historyByEventId.get(event.id) : undefined;
+
+      return {
+        externalStallCode: parkNo,
+        spaceType: typeof item?.SpaceType === 'number' ? item.SpaceType : null,
+        receivedUsed: used,
+        normalizedStatus:
+          used === null ? null : used ? 'OCCUPIED' : 'AVAILABLE',
+        parkingSpaceCode: mapping?.parkingSpace?.code ?? null,
+        mappingStatus: mapping?.mappingStatus ?? null,
+        previousStatus: history?.previousStatus ?? null,
+        finalStatus:
+          history?.newStatus ?? mapping?.parkingSpace?.status ?? null,
+        changed: !!history,
+      };
+    });
+
+    const mappedCount = spaces.filter((s) => s.parkingSpaceCode).length;
+    const changedCount = spaces.filter((s) => s.changed).length;
+
+    return {
+      id: row.id,
+      receivedAt: row.receivedAt,
+      cameraId: row.cameraId,
+      deviceIdRaw: row.deviceIdRaw,
+      externalEventType: row.eventType,
+      canonicalEventType: this.canonicalEventType(row.eventType),
+      externalStallCode: null,
+      externalParkingStatus: null,
+      normalizedParkingStatus: null,
+      parkingSpaceCode: null,
+      parkingSpaceCurrentStatus: null,
+      statusChanged: changedCount > 0,
+      duplicate: false,
+      validationStatus: row.validationStatus,
+      processingStatus: row.processingStatus,
+      error: row.error,
+      contextIp: row.contextIp,
+      payload: this.redactMonitorPayload(row.payload),
+      normalizedEvent: row.events,
+      mappingUsed: null,
+      statusHistory: null,
+      occupancySnapshot: {
+        totalSpaces: spaces.length,
+        mappedCount,
+        unmappedCount: spaces.length - mappedCount,
+        occupiedReceived: spaces.filter((s) => s.receivedUsed === true).length,
+        freeReceived: spaces.filter((s) => s.receivedUsed === false).length,
+        changedCount,
+        spaces,
+      },
     };
   }
 
